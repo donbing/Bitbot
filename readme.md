@@ -1,7 +1,7 @@
 # bit bot
 **A Raspberry Pi powered e-ink screen with crypto price chart**
 
-![](candle2.png)
+![screenshot](candle2.png)
 
  - hilights the current price
  - shows instrument details (e,g, ```(XBTUSD, hi:200, lo: 2)```)
@@ -13,6 +13,7 @@
     ```sh
     curl https://get.pimoroni.com/inky | bash
     ```
+
 2. Enable SPI and I2C in the pi's boot config and give our user permissions
     ```sh
     sudo apt-get update
@@ -27,6 +28,7 @@
     sudo usermod -aG i2c $USER
     sudo usermod -aG kmem $USER
     ```   
+
 3. Apt get python and all the other packages we need
     ```sh
     # this's from some heavy fuckery on the arm6 chip, probs not needed now
@@ -37,6 +39,7 @@
     sudo apt-get install libopenjp2-7-devy
     sudo apt-get install libatlas-base-dev
     ```
+
 4. Pip install python packages
     ```sh
     sudo apt install python-numpy
@@ -46,9 +49,11 @@
     sudo pip install ccxt
     sudo pip install inky
     ```
+
 5. Configure your account
     - Currently this is just bitmex, but ccxt supports many more
-    - butnex api key;pass have to be added to the python code in [bitmex_ccxt.py](bitmex_ccxt.py)
+    - bitmex api key/pass must to be added to the python code in [bitmex_ccxt.py](bitmex_ccxt.py)
+
 6. Run the app
     ```sh
     python -m update_chart.PY
