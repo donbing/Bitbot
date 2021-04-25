@@ -38,7 +38,7 @@ with io.BytesIO() as file_stream:
     chartdata.fig.savefig(file_stream, dpi=chartdata.fig.dpi)
     file_stream.seek(0)
     # open image from stream and limit to 3 colors
-    plot_image = Image.open(file_stream).quantize(3, method=3)
+    plot_image = Image.open(file_stream)
     
     title_positions = [(40, 20), (40, 220), (210, 20), (210, 220)]
     selectedArea = BestTextPositionFor(plot_image, title_positions)
@@ -59,7 +59,7 @@ with io.BytesIO() as file_stream:
    
     # turn the image upside down for display
     inky_display = InkyWHAT("yellow")
-    inky_display.set_image(plot_image) #plot_image.rotate(180)
+    inky_display.set_image(plot_image.convert('P', palette=Image.ADAPTIVE, colors=3)) #plot_image.rotate(180)
     inky_display.show()
     print("saving image")
     plot_image.save("candle2.png")

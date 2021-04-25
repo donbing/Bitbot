@@ -8,8 +8,8 @@ import matplotlib.dates as mdates
 import random
 
 exchange = ccxt.bitmex({
-    'apiKey': '<YOUR API KEY HERE>',
-    'secret': '<YOUR API SECRET HERE>',
+    #'apiKey': '<YOUR API KEY HERE>',
+    #'secret': '<YOUR API SECRET HERE>',
     'enableRateLimit': True,
 })
 

@@ -1,13 +1,16 @@
 # bit bot
 **A Raspberry Pi powered e-ink screen with crypto price chart**
 
+![device](bit-bot.jpg)
 ![screenshot](candle2.png)
 
  - hilights the current price
  - shows instrument details (e,g, ```(XBTUSD, hi:200, lo: 2)```)
  - displays some AI text comment/message depending on input data
  - libs are capable of reading and trading on many different crypto-exchanges
- 
+ - reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) 
+
+
 # setup
 1. Install the inky libs & configure pi for the inky display
     ```sh
@@ -32,31 +35,26 @@
 3. Apt get python and all the other packages we need
     ```sh
     # this's from some heavy fuckery on the arm6 chip, probs not needed now
-    sudo apt install python-dev
-    sudo apt install libffi-dev
-    sudo apt-get install build-essential
-    sudo apt-get install libjpeg62
-    sudo apt-get install libopenjp2-7-devy
-    sudo apt-get install libatlas-base-dev
+    apt install python-dev
+    apt install libffi-dev
+    apt-get install build-essential
+    apt-get install libjpeg62
+    apt-get install libopenjp2-7-devy
+    apt-get install libatlas-base-dev
     ```
 
 4. Pip install python packages
     ```sh
-    sudo apt install python-numpy
-    sudo pip install cffi
-    sudo pip install mpl_finance
-    # ccxt for crypto data, inkky for displaysudp
-    sudo pip install ccxt
-    sudo pip install inky
+    pip3 -install requirements.txt
     ```
 
-5. Configure your account
+5. Configure a bitmex api account (if you want to buy/sell)
     - Currently this is just bitmex, but ccxt supports many more
     - bitmex api key/pass must to be added to the python code in [bitmex_ccxt.py](bitmex_ccxt.py)
 
 6. Run the app
     ```sh
-    python -m update_chart.PY
+    python -m update_chart.py
     ```
 
 # future plans
@@ -66,7 +64,3 @@
  - display max/min for today
  - buy button
  - timespan slider pot
- 
-
-
-
