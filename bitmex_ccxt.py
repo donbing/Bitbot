@@ -66,7 +66,7 @@ class chart_data:
         self.candle_width = self.layout[0]
         self.fig, ax = get_plot()
         self.candleData = bitmexOHLCV(self.layout[0], self.layout[1])
-        mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], alpha=1, colorup='black', colordown='red') 
+        mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
         configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])
 
     def last_close(self):

@@ -34,33 +34,41 @@ chartdata = bitmex_ccxt.chart_data()
 
 with io.BytesIO() as file_stream:
     print('Formatting image for display')
-    # write mathplot fig to stream
+
+    # write mathplot fig to stream and open as a PIL image
     chartdata.fig.savefig(file_stream, dpi=chartdata.fig.dpi)
     file_stream.seek(0)
-    # open image from stream and limit to 3 colors
     plot_image = Image.open(file_stream)
     
+    # find some empty graph space to place our text
     title_positions = [(40, 20), (40, 220), (210, 20), (210, 220)]
     selectedArea = BestTextPositionFor(plot_image, title_positions)
     
+    # write our text to the image
     price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
     title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
     draw_plot_image = ImageDraw.Draw(plot_image)
     width = chartdata.candle_width
-    draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', 2, title_font)
-    draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'{:.2f}'.format(chartdata.last_close() / 1000) + 'K', 1, price_font)
+    draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', (0,0,0), title_font)
+    draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'{:.2f}'.format(chartdata.last_close() / 1000) + 'K', (0,0,0), price_font)
 
+    # select some random comment depending on price action
     if random.random() < .5:
         if chartdata.start_price() < chartdata.end_price():
             messages=["moon", "yolo", "pump it", ""]
         else:
             messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), 2, title_font)
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
    
+    print("displaying image")
+    # create a limited pallete image for converting our chart image to.
+    pal_img = Image.new("P", (1, 1))
+    pal_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
+
     # turn the image upside down for display
-    inky_display = InkyWHAT("yellow")
-    inky_display.set_image(plot_image.convert('P', palette=Image.ADAPTIVE, colors=3)) #plot_image.rotate(180)
+    inky_display = InkyWHAT("red")
+    inky_display.set_image(plot_image.rotate(180).convert('RGB').quantize(palette=pal_img)) #plot_image
     inky_display.show()
-    print("saving image")
-    plot_image.save("candle2.png")
     # display
+
+
