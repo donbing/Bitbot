@@ -43,9 +43,9 @@ def get_plot():
     return (fig, ax)
 
 def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
-    ax.set_yticklabels(['{:,.0f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
-    ax.yaxis.set_tick_params(pad=-22, direction="in", width=1, labelsize='8', color='black', which='both', labelcolor='black')
-    ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='8', color='black', which='both', labelcolor='black')
+    ax.set_yticklabels(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
+    ax.yaxis.set_tick_params(pad=-26, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
+    ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
     ax.xaxis.set_minor_locator(minor_format)
     ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
@@ -58,8 +58,8 @@ class chart_data:
         # 1h 1d 5m 1m
         layouts = [
             ('1d', timedelta(days=80), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('')),
-            ('1h', timedelta(hours=80), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter('%H'), mdates.DayLocator(), mdates.DateFormatter('')),
-            ('5m', timedelta(minutes=5*80), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%H:%M'))
+            ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+            ('5m', timedelta(minutes=5*80), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I:%M'))
         ]
         #bitmex_ccxt.make_order()
         self.layout = layouts[random.randrange(3)]
