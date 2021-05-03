@@ -41,20 +41,26 @@ with io.BytesIO() as file_stream:
     plot_image = Image.open(file_stream)
     
     # find some empty graph space to place our text
-    title_positions = [(40, 20), (40, 220), (210, 20), (210, 220)]
+    title_positions = [(40, 20), (40, 220), (210, 20), (210, 220), (125,20), (125,220), (40,120), (210,120)]
     selectedArea = BestTextPositionFor(plot_image, title_positions)
     
     # write our text to the image
-    price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
+    price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 40)
     title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
     draw_plot_image = ImageDraw.Draw(plot_image)
     width = chartdata.candle_width
+    change = ((chartdata.last_close()-chartdata.start_price())/chartdata.last_close())*100
     draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', (0,0,0), title_font)
-    draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'{:.2f}'.format(chartdata.last_close() / 1000) + 'K', (0,0,0), price_font)
+    if change < 0:
+        draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255,0,0), title_font)
+    else:
+        draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (0,0,0), title_font)
+        
+    draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'$' + '{:,.0f}'.format(chartdata.last_close()), (0,0,0), price_font)
 
     # select some random comment depending on price action
     if random.random() < .5:
-        if chartdata.start_price() < chartdata.end_price():
+        if chartdata.start_price() < chartdata.last_close():
             messages=["moon", "yolo", "pump it", ""]
         else:
             messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
