@@ -41,7 +41,7 @@ with io.BytesIO() as file_stream:
     plot_image = Image.open(file_stream)
     
     # find some empty graph space to place our text
-    title_positions = [(40, 20), (40, 220), (210, 20), (210, 220), (125,20), (125,220), (40,120), (210,120)]
+    title_positions = [(40, 20), (40, 220), (210, 20), (210, 220), (125,20), (125,220)]
     selectedArea = BestTextPositionFor(plot_image, title_positions)
     
     # write our text to the image
