@@ -52,9 +52,19 @@
     - Currently this is just bitmex, but ccxt supports many more
     - bitmex api key/pass must to be added to the python code in [bitmex_ccxt.py](bitmex_ccxt.py)
 
-6. Run the app
+6. Set the graph to auto refresh
+   ```sh
+   crontab -e
+   ```
+   At the end of the file, add the following commands with your correct file path and save
+   ```sh
+   @reboot sleep 30 && python3 /'file'/'path'/update_chart.py
+   */10 * * * * python3 /'file'/'path'/update_chart.py
+   ```
+   
+7. Run the app
     ```sh
-    python -m update_chart.py
+    python3 -m update_chart
     ```
 
 # future plans
