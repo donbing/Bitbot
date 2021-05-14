@@ -11,7 +11,7 @@
  - reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) 
 
 
-# setup
+# app setup
 1. Install the inky libs & configure pi for the inky display
     ```sh
     curl https://get.pimoroni.com/inky | bash
@@ -67,10 +67,25 @@
     python3 -m update_chart
     ```
 
-# future plans
+# device setup
+ - In order that buyers leave positive reviews and have a frictionless setup experience
+ - As a seller of crypto watchers
+ - I want the crypto-watcher to expose a wifi AP hotspot for first-time configuration when there is no usable wifi connection
+
+
+
+
+# dumb ideas
  - alert & refresh on spikes
  - maybe an indicator light too
  - noises?
  - display max/min for today
  - buy button
  - timespan slider pot
+
+
+# todo
+ - display a message if the app cannot connect to the internet
+ - configuration captive hotspot
+ - easily changeable exchange/instrument
+ 

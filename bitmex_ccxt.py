@@ -7,6 +7,9 @@ import mpl_finance
 import matplotlib.dates as mdates
 import random
 
+exchange_name = "bitmex"
+instrument_name = 'BTC/USD'
+
 exchange = ccxt.bitmex({
     #'apiKey': '<YOUR API KEY HERE>',
     #'secret': '<YOUR API SECRET HERE>',
@@ -16,7 +19,7 @@ exchange = ccxt.bitmex({
 def bitmexOHLCV(candleFreq, chartDuration):
     startdate = datetime.utcnow() - chartDuration
     print('fetching bitmex data')
-    mexData = exchange.fetchOHLCV('BTC/USD', candleFreq, limit=1000, params={'startTime':startdate})
+    mexData = exchange.fetchOHLCV(instrument_name, candleFreq, limit=1000, params={'startTime':startdate})
     # clean up dates in data
     return list(map(lambda x: replace_at_index(x, 0, mdates.date2num(datetime.utcfromtimestamp(x[0]/1000))), mexData))
 
@@ -26,7 +29,7 @@ def replace_at_index(tup, ix, val):
    return tuple(lst)
 
 def make_order():
-    order = exchange.create_order('BTC/USD', 'Market', 'sell', 2.0, None)
+    order = exchange.create_order(instrument_name, 'Market', 'sell', 2.0, None)
     print(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
 
 #DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
