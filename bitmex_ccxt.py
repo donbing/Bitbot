@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import ccxt
 from datetime import datetime, timedelta
 import matplotlib
