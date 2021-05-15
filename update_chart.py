@@ -57,9 +57,9 @@ with io.BytesIO() as file_stream:
     draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', (0,0,0), title_font)
 
     if change < 0:
-        draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255,0,0), title_font)
+        draw_plot_image.text((selectedArea[0]+90, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255,0,0), title_font)
     else:
-        draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (0,0,0), title_font)
+        draw_plot_image.text((selectedArea[0]+90, selectedArea[1]), '{:+.2f}'.format(change) + '%', (0,0,0), title_font)
     
     draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'$' + '{:,.0f}'.format(chartdata.last_close()), (0,0,0), price_font)
 

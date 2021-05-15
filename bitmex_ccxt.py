@@ -7,9 +7,6 @@ import mpl_finance
 import matplotlib.dates as mdates
 import random
 
-exchange_name = "bitmex"
-instrument_name = 'BTC/USD'
-
 def bitmexOHLCV(candleFreq, chartDuration, config):
     startdate = datetime.utcnow() - chartDuration
     print('fetching bitmex data')
