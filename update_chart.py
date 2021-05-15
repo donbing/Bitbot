@@ -7,8 +7,11 @@ from pprint import pprint
 import random
 from inky import InkyWHAT
 import RPi.GPIO as GPIO
+import configparser
 
 filePath = pathlib.Path(__file__).parent.absolute()
+config = configparser.ConfigParser()
+config.read('./config.ini')
 
 # sort positions by average colour and then by random
 def BestTextPositionFor(img, possibleTextPositions):
@@ -30,13 +33,13 @@ def get_average_color(x, y, n, image):
 
 print('starting..')
 
-chartdata = bitmex_ccxt.chart_data()
+chartdata = bitmex_ccxt.chart_data(config)
 
 with io.BytesIO() as file_stream:
     print('Formatting image for display')
 
     # write mathplot fig to stream and open as a PIL image
-    chartdata.fig.savefig(file_stream, dpi=chartdata.fig.dpi)
+    chartdata.write_to_stream(file_stream)
     file_stream.seek(0)
     plot_image = Image.open(file_stream)
     
@@ -47,15 +50,17 @@ with io.BytesIO() as file_stream:
     # write our text to the image
     price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 40)
     title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
+
     draw_plot_image = ImageDraw.Draw(plot_image)
     width = chartdata.candle_width
     change = ((chartdata.last_close()-chartdata.start_price())/chartdata.last_close())*100
     draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', (0,0,0), title_font)
+
     if change < 0:
         draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255,0,0), title_font)
     else:
         draw_plot_image.text((selectedArea[0]+80, selectedArea[1]), '{:+.2f}'.format(change) + '%', (0,0,0), title_font)
-        
+    
     draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'$' + '{:,.0f}'.format(chartdata.last_close()), (0,0,0), price_font)
 
     # select some random comment depending on price action
@@ -64,17 +69,23 @@ with io.BytesIO() as file_stream:
             messages=["moon", "yolo", "pump it", ""]
         else:
             messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
+    
+    draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
    
     print("displaying image")
+
     # create a limited pallete image for converting our chart image to.
     pal_img = Image.new("P", (1, 1))
     pal_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
 
-    # turn the image upside down for display
-    inky_display = InkyWHAT("red")
-    inky_display.set_image(plot_image.rotate(180).convert('RGB').quantize(palette=pal_img)) #plot_image
+    # rotate the image and set 3 colour palette
+    display_config = config["display"]
+    image_rotation = display_config.getint("rotation")
+    display_image = plot_image.rotate(image_rotation).convert('RGB').quantize(palette=pal_img)
+    display_image.save('last_display.png')
+    # create the display and show the image
+    inky_display = InkyWHAT(display_config["colour"])
+    inky_display.set_image(display_image) 
     inky_display.show()
-    # display
 
 
