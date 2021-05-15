@@ -9,15 +9,19 @@ import random
 
 def bitmexOHLCV(candleFreq, chartDuration, config):
     startdate = datetime.utcnow() - chartDuration
-    print('fetching bitmex data')
     exchange = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
+    print('fetching data from ' + exchange)
     # create exchange wrapper based on user exchange config
     exchange = getattr(ccxt, exchange)({ 
         #'apiKey': '<YOUR API KEY HERE>',
         #'secret': '<YOUR API SECRET HERE>',
         'enableRateLimit': True,
     })
+    exchange.loadMarkets()
+    print(" supported time frames: " + str(exchange.timeframes))
+    print(" supported markets: " + " ".join(exchange.markets.keys()))
+
     mexData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
     # clean up dates in data
     return list(map(lambda x: replace_at_index(x, 0, mdates.date2num(datetime.utcfromtimestamp(x[0]/1000))), mexData))
