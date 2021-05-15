@@ -2,9 +2,9 @@
 **A Raspberry Pi powered e-ink screen with crypto price chart**
 
 ![device](bit-bot.jpg)
-![screenshot](candle2.png)
+![screenshot](last_display.png)
 
- - hilights the current price
+ - shows the current price
  - shows instrument details (e,g, ```(XBTUSD, hi:200, lo: 2)```)
  - displays some AI text comment/message depending on input data
  - libs are capable of reading and trading on many different crypto-exchanges
