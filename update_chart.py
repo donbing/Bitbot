@@ -69,8 +69,7 @@ with io.BytesIO() as file_stream:
             messages=["moon", "yolo", "pump it", ""]
         else:
             messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
-    
-    draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
    
     print("displaying image")
 
