@@ -35,9 +35,7 @@
 3. Apt get python and all the other packages we need
     ```sh
     # this's from some heavy fuckery on the arm6 chip, probs not needed now
-    apt install python-dev
-    apt install libffi-dev
-    sudo apt-get install -y  build-essential libjpeg62 libopenjp2-7-dev libatlas-base-dev
+    sudo apt-get install -y python-dev libffi-dev build-essential libjpeg62 libopenjp2-7-dev libatlas-base-dev python3-pip
     ```
 
 4. Pip install python packages
