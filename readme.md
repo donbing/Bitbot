@@ -37,10 +37,7 @@
     # this's from some heavy fuckery on the arm6 chip, probs not needed now
     apt install python-dev
     apt install libffi-dev
-    apt-get install build-essential
-    apt-get install libjpeg62
-    apt-get install libopenjp2-7-devy
-    apt-get install libatlas-base-dev
+    sudo apt-get install -y  build-essential libjpeg62 libopenjp2-7-dev libatlas-base-dev
     ```
 
 4. Pip install python packages
