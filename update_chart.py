@@ -52,21 +52,22 @@ with io.BytesIO() as file_stream:
     title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
 
     draw_plot_image = ImageDraw.Draw(plot_image)
-    width = chartdata.candle_width
-    change = ((chartdata.last_close()-chartdata.start_price())/chartdata.last_close())*100
-    draw_plot_image.text(selectedArea, 'BTC/$ (' + width + ')', (0,0,0), title_font)
 
-    if change < 0:
-        draw_plot_image.text((selectedArea[0]+90, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255,0,0), title_font)
-    else:
-        draw_plot_image.text((selectedArea[0]+90, selectedArea[1]), '{:+.2f}'.format(change) + '%', (0,0,0), title_font)
     
+    # instrument / time text
+    draw_plot_image.text(selectedArea, 'BTC/$ (' + chartdata.candle_width + ')', (0,0,0), title_font)
+
+    # % change text
+    change = ((chartdata.last_close()-chartdata.start_price())/chartdata.last_close())*100
+    draw_plot_image.text((selectedArea[0]+90, selectedArea[1]), '{:+.2f}'.format(change) + '%', (255 if change > 0 else 0,0,0), title_font)
+    
+    # current price text
     draw_plot_image.text((selectedArea[0], selectedArea[1]+11),'$' + '{:,.0f}'.format(chartdata.last_close()), (0,0,0), price_font)
 
     # select some random comment depending on price action
     if random.random() < .5:
         if chartdata.start_price() < chartdata.last_close():
-            messages=["moon", "yolo", "pump it", ""]
+            messages=["moon", "yolo", "pump it", "gentlemen"]
         else:
             messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
