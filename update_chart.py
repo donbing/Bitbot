@@ -32,7 +32,6 @@ def get_average_color(x, y, n, image):
     return ((r/count), (g/count), (b/count))
 
 print('starting..')
-
 chartdata = bitmex_ccxt.chart_data(config)
 
 with io.BytesIO() as file_stream:
@@ -67,9 +66,9 @@ with io.BytesIO() as file_stream:
     # select some random comment depending on price action
     if random.random() < .5:
         if chartdata.start_price() < chartdata.last_close():
-            messages=["moon", "yolo", "pump it", "gentlemen"]
+            messages=config.get('comments', 'up').split(',')
         else:
-            messages=["short the corn!", "goblin town", "blood in the streets", "dooom", "sell!!"]
+            messages=config.get('comments', 'down').split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), (0,0,0), title_font)
    
     print("displaying image")
@@ -87,5 +86,3 @@ with io.BytesIO() as file_stream:
     inky_display = InkyWHAT(display_config["colour"])
     inky_display.set_image(display_image) 
     inky_display.show()
-
-
