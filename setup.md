@@ -1,7 +1,7 @@
 # How to configure your new crypto-watcher
 1. connect a micro-usb cable to the raspberry pi nano on your crypto-watcher
 2. wait a minute or so for it to boot up
-3. from another device, connect to the `RaspiWiFi[xxxx] Setup` access point 
+3. from another device, connect to the `RaspiWiFiSetup` access point 
 4. navigate to 10.0.0.1 in the browser on your device
 5. select your internet-connected wifi access point name
 6. enter your wifi password
