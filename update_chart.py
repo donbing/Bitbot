@@ -18,6 +18,7 @@ config.read('./config.ini')
 display_config = config["display"]
 
 inky_display = InkyWHAT(display_config["colour"])
+
 price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
 title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
 
@@ -135,6 +136,7 @@ with io.BytesIO() as file_stream:
             messages=config.get('comments', 'down').split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), inky_display.BLACK, title_font)
    
+    draw_plot_image.rectangle([(0, 0), (inky_display.WIDTH -1, inky_display.HEIGHT-1)], outline=inky_display.BLACK)
     print("displaying image")
 
     # create a limited pallete image for converting our chart image to.
