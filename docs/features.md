@@ -16,7 +16,7 @@
  - *Scenario:* `Bitbot is configured to show an ETH/USD chart.`
 
 >**As** Marketing  
-**In order that** bitbot looks **aesthetically pleasing ** 
+**In order that** bitbot looks **aesthetically pleasing** 
 **I want** the price display to **avoid overlapping** the chart  
 **So that** users can **clearly see** both chart and current price
  - *Scenario:* `Current price is displayed in a large font, and avoids covering the chart.`

@@ -58,7 +58,7 @@ NO INTERNET LINK
 Please check your connection
 ----------------------------
 Connect to the RaspPiSetup WiFi 
-And Enter '10.0.0.1' into your browser"""
+Then visit raspiwifisetup.com"""
     img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
     draw = ImageDraw.Draw(img)
     # calculate space needed for message    
@@ -129,21 +129,21 @@ with io.BytesIO() as file_stream:
     draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, inky_display.RED, price_font)
 
     # select some random comment depending on price action
-    if random.random() < .5:
+    if random.random() < 0.5:
         if chartdata.start_price() < chartdata.last_close():
             messages=config.get('comments', 'up').split(',')
         else:
             messages=config.get('comments', 'down').split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), inky_display.BLACK, title_font)
    
-    draw_plot_image.rectangle([(0, 0), (inky_display.WIDTH -1, inky_display.HEIGHT-1)], outline=inky_display.BLACK)
+    draw_plot_image.rectangle([(0, 0), (inky_display.WIDTH -1, inky_display.HEIGHT-1)], outline=inky_display.RED)
     print("displaying image")
 
     # create a limited pallete image for converting our chart image to.
     palette_img = Image.new("P", (1, 1))
     palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
 
-    # rotate the image and set 3 colour palette
+    # rotate the image and set 3 colour palettep
     image_rotation = display_config.getint("rotation")
     display_image = plot_image.rotate(image_rotation).convert('RGB').quantize(palette=palette_img)
     
