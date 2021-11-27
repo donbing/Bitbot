@@ -17,37 +17,21 @@
     curl https://get.pimoroni.com/inky | bash
     ```
 
-2. Enable SPI and I2C in the pi's boot config and give our user permissions
+2. Apt get python and all the other packages we need
     ```sh
-    sudo apt-get update
-    # spi comms have to be enabled
-    sudo bash -c 'echo dtparam=spi=on >> /boot/config.txt'
-    sudo bash -c 'echo dtparam=i2c_arm=on >> /boot/config.txt'
-    # user must be in i2c group
-    sudo groupadd i2c 
-    # own the /dev/i2c
-    sudo chown :i2c /dev/i2c-1
-    sudo chmod g+rw /dev/i2c-1
-    sudo usermod -aG i2c $USER
-    sudo usermod -aG kmem $USER
-    ```   
-
-3. Apt get python and all the other packages we need
-    ```sh
-    # this's from some heavy fuckery on the arm6 chip, probs not needed now
     sudo apt-get install -y python-dev libffi-dev build-essential libjpeg62 libopenjp2-7-dev libatlas-base-dev python3-pip
     ```
 
-4. Pip install python packages
+3. Pip install python packages
     ```sh
     pip3 -install requirements.txt
     ```
 
-5. Configure a bitmex api account (if you want to buy/sell)
+4. Configure a bitmex api account (if you want to buy/sell)
     - Currently this is just bitmex, but ccxt supports many more
     - bitmex api key/pass must to be added to the python code in [bitmex_ccxt.py](bitmex_ccxt.py)
 
-6. Set the graph to auto refresh
+5. Set the graph to auto refresh
     ```sh
     crontab -e
     ```
