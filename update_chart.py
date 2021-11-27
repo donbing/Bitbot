@@ -18,7 +18,7 @@ config.read('./config.ini')
 display_config = config["display"]
 
 inky_display = InkyWHAT(display_config["colour"])
-price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 40)
+price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
 title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
 
 def network_connected(hostname="google.com"):
@@ -49,32 +49,49 @@ def get_average_color(x, y, n, image):
             count += 1
     return ((r/count), (g/count), (b/count))
 
-#
+# message to tell you that there's no internet
 def draw_connection_error():
     connection_error_message = """ 
-    NO INTERNET LINK
-    -----------
-    Please check your connection
-    ----------------------------
-    Connect to the RaspPiSetup WiFi 
-    Then browse to 10.0.0.1 to configure"""
-    padding = 10
+NO INTERNET LINK
+-----------
+Please check your connection
+----------------------------
+Connect to the RaspPiSetup WiFi 
+And Enter '10.0.0.1' into your browser"""
     img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
     draw = ImageDraw.Draw(img)
+    # calculate space needed for message    
     message_width, message_height = draw.textsize(connection_error_message, title_font)
+    # where to position the message
     message_y = (inky_display.HEIGHT - message_height) / 2
     message_x = (inky_display.WIDTH - message_width) / 2
+    # draw the message at position
     draw.multiline_text((message_x, message_y), connection_error_message, fill=inky_display.BLACK, font=title_font, align="center")
+    # position  for surrounding box
+    padding = 10
+    x0 = message_x - padding
+    y0 = message_y - padding
+    x1 = message_x + message_width + padding
+    y1 = message_y + message_height + padding
+    # draw box at position
+    draw.rectangle([(x0, y0), (x1, y1)], outline=inky_display.RED)
+    # show the image
     inky_display.set_image(img)
     inky_display.show()
-
+    
 # wait for network connection
-while network_connected() == False:
+def wait_for_internet_connection():
+    connection_error_shown = False
+    while network_connected() == False:
     # draw error message if not already drawn
-    if connection_error_shown == False:
-        connection_error_shown = True
-        draw_connection_error()
-    time.sleep(10)
+        if connection_error_shown == False:
+            connection_error_shown = True
+            draw_connection_error()
+        time.sleep(10)
+
+# check internet connection
+print('await network')
+wait_for_internet_connection()
 
 print('starting..')
 # fetch the chart data
@@ -131,4 +148,4 @@ with io.BytesIO() as file_stream:
     # create the display and show the image
     inky_display.set_image(display_image) 
     inky_display.show()
-    display_image.save('last_display.png')
+    # display_image.save('last_display.png')
