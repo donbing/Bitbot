@@ -92,7 +92,7 @@ with io.BytesIO() as file_stream:
     draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', display.price_font)
     
     # select some random comment depending on price action
-    if random.random() < 1.5:
+    if random.random() < 0.5:
         direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
         messages=config.get('comments', direction).split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', display.title_font)
