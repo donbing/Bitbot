@@ -53,16 +53,23 @@ def get_plot():
 
 def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
     ax.set_yticklabels(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
-    #ax.yaxis.set_tick_params(pad=-26, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
+    print(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
+    print(ax.get_yticks())
+    ax.yaxis.set_tick_params(labelsize='8', color='black', which='both', labelcolor='black', colors='red')
     #ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
-    ax.xaxis.set_tick_params(width=1, labelsize='7', color='black', which='both', labelcolor='red')
- 
+    ax.xaxis.set_tick_params(labelsize='8', color='black', which='both', labelcolor='black', colors='red')
+    # hide the top/right border
+    ax.spines['bottom'].set_color('red')
+    ax.spines['top'].set_color('white') 
+    ax.spines['right'].set_color('white')
+    ax.spines['left'].set_color('red')
+    # format/locate axis labels
     ax.xaxis.set_minor_locator(minor_format)
     ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
     ax.xaxis.set_major_formatter(major_locator)
     ax.xaxis_date()
-    ax.autoscale_view()
+    #ax.autoscale_view()
 
 class chart_data:
     def __init__(self, config):   
@@ -91,4 +98,4 @@ class chart_data:
         return self.candleData[0][4]
 
     def write_to_stream(self, stream):
-        self.fig.savefig(stream, dpi=self.fig.dpi)
+        self.fig.savefig(stream, dpi=self.fig.dpi, pad_inches=0)

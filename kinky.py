@@ -22,8 +22,6 @@ class disker:
     def show(self, display_image):
         display_image.save('last_display.png')
 
-
-
 class inker:
     def __init__(self, config):
         self.display_config = config["display"]
