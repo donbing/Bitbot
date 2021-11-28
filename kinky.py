@@ -27,11 +27,11 @@ class disker:
 class inker:
     def __init__(self, config):
         self.display_config = config["display"]
-        self.inky_display = InkyWHAT(display_config["colour"])
-        self.WIDTH = inky_display.WIDTH
-        self.HEIGHT = inky_display.HEIGHT
-        self.BLACK = inky_display.BLACK
-        self.RED = inky_display.RED
+        self.inky_display = InkyWHAT(self.display_config["colour"])
+        self.WIDTH = self.inky_display.WIDTH
+        self.HEIGHT = self.inky_display.HEIGHT
+        self.BLACK = self.inky_display.BLACK
+        self.RED = self.inky_display.RED
         self.title_font = title_font
         self.price_font = price_font
     

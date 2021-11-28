@@ -14,8 +14,8 @@ import kinky
 config = configparser.ConfigParser()
 config.read('./config.ini')
 
-#display = kinky.inker(config)
-display = kinky.disker()
+display = kinky.inker(config)
+#display = kinky.disker()
 
 def network_connected(hostname="google.com"):
     try:
