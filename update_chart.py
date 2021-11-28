@@ -12,8 +12,8 @@ import kinky
 config = configparser.ConfigParser()
 config.read('./config.ini')
 
-display = kinky.inker(config)
-#display = kinky.disker()
+#display = kinky.inker(config)
+display = kinky.disker()
 
 def network_connected(hostname="google.com"):
     try:
@@ -70,7 +70,7 @@ with io.BytesIO() as file_stream:
     plot_image = Image.open(file_stream)
     
     # find some empty graph space to place our text
-    title_positions = [(40, 20), (40, 220), (210, 20), (210, 220), (125,20), (125,220)]
+    title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
     selectedArea = BestTextPositionFor(plot_image, title_positions)
     
     # write our text to the image
@@ -95,7 +95,7 @@ with io.BytesIO() as file_stream:
     if random.random() < 1.5:
         direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
         messages=config.get('comments', direction).split(',')
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+50), random.choice(messages), 'red', display.title_font)
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', display.title_font)
    
     draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline='red')
     
