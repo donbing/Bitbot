@@ -49,22 +49,29 @@ def get_plot():
     plt.rcParams['patch.antialiased'] = False
     return (fig, ax)
 
+def human_format(num, pos):
+    num = float('{:.3g}'.format(num))
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+
 def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
-    # format price labels to 'K'
-    ax.set_yticklabels(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
-    # style tick labels
-    ax.yaxis.set_tick_params(labelsize='8', color='red', which='both', labelcolor='black')
-    ax.xaxis.set_tick_params(labelsize='8', color='red', which='both', labelcolor='black')
+    # style axis ticks
+    ax.tick_params(labelsize='8', color='red', which='both', labelcolor='black')
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
+    ax.spines['left'].set_color('red')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color('red')
     # format/locate x axis labels
     ax.xaxis.set_minor_locator(minor_format)
-    ax.xaxis.set_minor_formatter(minor_locator)
+    #ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
     ax.xaxis.set_major_formatter(major_locator)
+    # human readable short-foprmat y-axis currency amount
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(human_format))
     ax.xaxis_date()
     # this will hide the axis/labels
     ax.autoscale_view(tight=False)
@@ -72,10 +79,10 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
 class chart_data:
     def __init__(self, config):   
         layouts = [
-            #('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('')),
-           # ('1h', timedelta(hours=60), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter('%H'), mdates.DayLocator(), mdates.DateFormatter('')),
+            ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+            ('1h', timedelta(hours=60), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%D')),
             ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            #('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I:%M'))
+            ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I:%M'))
         ]
         
         self.layout = layouts[random.randrange(len(layouts))]
