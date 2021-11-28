@@ -62,7 +62,7 @@ class inker:
         # show the image
         self.show(img)
     
-    def show(self, image, draw_plot_image):
+    def show(self, image):
         # create a limited pallete image for converting our chart image to.
         palette_img = Image.new("P", (1, 1))
         palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
