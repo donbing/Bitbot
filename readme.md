@@ -34,13 +34,13 @@ curl https://get.pimoroni.com/inky | bash
 git clone https://github.com/donbing/bitbot
 cd bitbot
 pip3 install -r requirements.txt
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/update_chart.py")| crontab -
-(crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/update_chart.py")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py")| crontab -
+(crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/run.py")| crontab -
 ```
    
 >Run the app (or wait for cron)
 ```sh
-python3 -m update_chart
+python3 -m run
 ```
 
 # Requested Features

@@ -3,6 +3,11 @@ from inky import InkyWHAT
 import pathlib
 from PIL import Image, ImageFont, ImageDraw
 
+filePath = pathlib.Path(__file__).parent.absolute()
+fontPath = str(filePath)+'/resources/04B_03__.TTF'
+price_font = ImageFont.truetype(fontPath, 48)
+title_font = ImageFont.truetype(fontPath, 16)
+
 connection_error_message = """ 
 NO INTERNET LINK
 ----------------------------
@@ -11,16 +16,10 @@ Please check your connection
 Connect to the RaspPiSetup WiFi 
 Then visit raspiwifisetup.com"""
 
-filePath = pathlib.Path(__file__).parent.absolute()
-price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
-title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
-
 class disker:
     def __init__(self):
         self.WIDTH = 400
         self.HEIGHT = 300
-        self.BLACK = 1
-        self.RED = 2
         self.title_font = title_font
         self.price_font = price_font
     
@@ -36,8 +35,6 @@ class inker:
         self.inky_display = InkyWHAT(self.display_config["colour"])
         self.WIDTH = self.inky_display.WIDTH
         self.HEIGHT = self.inky_display.HEIGHT
-        self.BLACK = self.inky_display.BLACK
-        self.RED = self.inky_display.RED
         self.title_font = title_font
         self.price_font = price_font
     
