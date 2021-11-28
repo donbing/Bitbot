@@ -78,26 +78,26 @@ with io.BytesIO() as file_stream:
 
     # instrument / time text
     title = config["currency"]["instrument"] + ' (' + chartdata.candle_width + ') '
-    draw_plot_image.text(selectedArea, title, display.BLACK, display.title_font)
+    draw_plot_image.text(selectedArea, title, 'black', display.title_font)
 
     # % change text
     title_width, title_height = draw_plot_image.textsize(title, display.title_font)
     change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
-    change_colour = (display.RED if change < 0 else display.BLACK)
+    change_colour = ('red' if change < 0 else 'black')
     draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, display.title_font)
     
     # current price text
     price = '{:,.0f}'.format(chartdata.last_close())
     price_width, price_height = draw_plot_image.textsize(price, display.price_font)
-    draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, display.RED, display.price_font)
-
+    draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', display.price_font)
+    
     # select some random comment depending on price action
-    if random.random() < 0.5:
+    if random.random() < 1.5:
         direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
         messages=config.get('comments', direction).split(',')
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), display.BLACK, display.title_font)
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+50), random.choice(messages), 'red', display.title_font)
    
-    draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline=display.RED)
+    draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline='red')
     
     print("displaying image")
     display.show(plot_image) 
