@@ -1,4 +1,3 @@
-
 from inky import InkyWHAT
 import pathlib
 from PIL import Image, ImageFont, ImageDraw

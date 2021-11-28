@@ -34,8 +34,8 @@ curl https://get.pimoroni.com/inky | bash
 git clone https://github.com/donbing/bitbot
 cd bitbot
 pip3 install -r requirements.txt
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py")| crontab -
-(crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/run.py")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
+(crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 ```
    
 >Run the app (or wait for cron)
