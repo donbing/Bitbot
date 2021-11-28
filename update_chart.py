@@ -1,10 +1,8 @@
 import currency_chart
 import io
-import inky 
 from PIL import Image, ImageFont, ImageDraw
 from pprint import pprint
 import random
-from inky import InkyWHAT
 import RPi.GPIO as GPIO
 import configparser
 import socket
@@ -95,10 +93,8 @@ with io.BytesIO() as file_stream:
 
     # select some random comment depending on price action
     if random.random() < 0.5:
-        if chartdata.start_price() < chartdata.last_close():
-            messages=config.get('comments', 'up').split(',')
-        else:
-            messages=config.get('comments', 'down').split(',')
+        direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
+        messages=config.get('comments', direction).split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), display.BLACK, display.title_font)
    
     draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline=display.RED)
