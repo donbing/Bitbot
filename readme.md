@@ -14,39 +14,31 @@
  - warns on connection errors
 
 # Device setup
- > wifi connection script provided by https://github.com/jasbur/RaspiWiFi
+>Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
+
+ > install wifi connection helper, provided by https://github.com/jasbur/RaspiWiFi
 ```sh
 git clone https://github.com/jasbur/RaspiWiFi
 cd RaspiWiFi
 sudo python3 initial_setup.py
 ```
 
->Install the inky libs & configure pi for the inky display
+>Install Git, pip and inky (plus some dependencies)
 ```sh
+sudo apt-get install git python3-pip libffi-dev libjpeg62 libopenjp2-7-dev libatlas-base-dev
 curl https://get.pimoroni.com/inky | bash
-```
+```  
 
->Apt get python and all the other packages we need
+>clone this repo add cron jobs
 ```sh
-sudo apt-get install -y python-dev libffi-dev build-essential libjpeg62 libopenjp2-7-dev libatlas-base-dev python3-pip
-```
-
->Pip install python packages
-```sh
-pip3 -install requirements.txt
-```
-
->Set the graph to auto refresh
-```sh
-crontab -e
-```
-At the end of the file, add the following commands with your correct file path and save
-```sh
-@reboot sleep 30 && python3 /'file'/'path'/update_chart.py
-*/10 * * * * python3 /'file'/'path'/update_chart.py
+git clone https://github.com/donbing/bitbot
+cd bitbot
+pip3 install -r requirements.txt
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/update_chart.py")| crontab -
+(crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/update_chart.py")| crontab -
 ```
    
->Run the app
+>Run the app (or wait for cron)
 ```sh
 python3 -m update_chart
 ```
