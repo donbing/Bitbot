@@ -23,9 +23,9 @@ def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
     #print(" supported time frames: " + str(exchange.timeframes))
     #print(" supported markets: " + " ".join(exchange.markets.keys()))
 
-    mexData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
+    candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
     # clean up dates in data
-    return list(map(lambda x: replace_at_index(x, 0, mdates.date2num(datetime.utcfromtimestamp(x[0]/1000))), mexData))
+    return list(map(lambda x: replace_at_index(x, 0, mdates.date2num(datetime.utcfromtimestamp(x[0]/1000))), candleData))
 
 def replace_at_index(tup, ix, val):
    lst = list(tup)
@@ -51,8 +51,9 @@ def get_plot():
 
 def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
     ax.set_yticklabels(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
-    ax.yaxis.set_tick_params(pad=-26, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
-    ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
+    #ax.yaxis.set_tick_params(pad=-26, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
+    #ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
+ 
     ax.xaxis.set_minor_locator(minor_format)
     ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
