@@ -3,6 +3,14 @@ from inky import InkyWHAT
 import pathlib
 from PIL import Image, ImageFont, ImageDraw
 
+connection_error_message = """ 
+NO INTERNET LINK
+----------------------------
+Please check your connection
+----------------------------
+Connect to the RaspPiSetup WiFi 
+Then visit raspiwifisetup.com"""
+
 filePath = pathlib.Path(__file__).parent.absolute()
 price_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 48)
 title_font = ImageFont.truetype(str(filePath)+'/04B_03__.TTF', 16)
@@ -21,7 +29,7 @@ class disker:
     
     def show(self, display_image):
         display_image.save('last_display.png')
-
+thislist = []
 class inker:
     def __init__(self, config):
         self.display_config = config["display"]
@@ -34,13 +42,6 @@ class inker:
         self.price_font = price_font
     
     def draw_connection_error(self):
-        connection_error_message = """ 
-    NO INTERNET LINK
-    ----------------------------
-    Please check your connection
-    ----------------------------
-    Connect to the RaspPiSetup WiFi 
-    Then visit raspiwifisetup.com"""
         img = Image.new("P", (display.WIDTH, display.HEIGHT))
         draw = ImageDraw.Draw(img)
         # calculate space needed for message
@@ -61,8 +62,7 @@ class inker:
         # show the image
         self.show(img)
     
-    def show(self, image):
-        
+    def show(self, image, draw_plot_image):
         # create a limited pallete image for converting our chart image to.
         palette_img = Image.new("P", (1, 1))
         palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)

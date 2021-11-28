@@ -27,27 +27,24 @@ def network_connected(hostname="google.com"):
 # sort positions by average colour and then by random
 def BestTextPositionFor(img, possibleTextPositions):
     rgb_im = img.convert('RGB')
-    ordredByAveColour = sorted(title_positions, key=lambda item: (get_average_color(*item, 60, rgb_im), random.random()))
+    height_of_section = 60
+    ordredByAveColour = sorted(title_positions, key=lambda item: (count_white_pixels(*item, height_of_section, rgb_im), random.random()))
     return ordredByAveColour[-1]
 
-# get the aaverage colour of an area of the image
-def get_average_color(x, y, n, image):
-    r, g, b = 0, 0, 0
+# count the white pixels in an area of the image
+def count_white_pixels(x, y, n, image):
     count = 0
     for s in range(x, x+(n*3)+1):
         for t in range(y, y+n+1):
-            pixlr, pixlg, pixlb = image.getpixel((s, t))
-            r += pixlr
-            g += pixlg
-            b += pixlb
-            count += 1
-    return ((r/count), (g/count), (b/count))
+            pix = image.getpixel((s, t))
+            count += 1 if pix == (255,255,255) else 0
+    return count
 
 # wait for network connection
 def wait_for_internet_connection():
     connection_error_shown = False
     while network_connected() == False:
-    # draw error message if not already drawn
+        # draw error message if not already drawn
         if connection_error_shown == False:
             connection_error_shown = True
             display.draw_connection_error()
@@ -96,7 +93,8 @@ with io.BytesIO() as file_stream:
         direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
         messages=config.get('comments', direction).split(',')
         draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', display.title_font)
-   
+    
+    # add a border to the display
     draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline='red')
     
     print("displaying image")
