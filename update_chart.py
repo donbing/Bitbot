@@ -28,7 +28,7 @@ def network_connected(hostname="google.com"):
 def BestTextPositionFor(img, possibleTextPositions):
     rgb_im = img.convert('RGB')
     height_of_section = 60
-    ordredByAveColour = sorted(title_positions, key=lambda item: (count_white_pixels(*item, height_of_section, rgb_im), random.random()))
+    ordredByAveColour = sorted(possibleTextPositions, key=lambda item: (count_white_pixels(*item, height_of_section, rgb_im), item[0]))
     return ordredByAveColour[-1]
 
 # count the white pixels in an area of the image
