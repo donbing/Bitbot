@@ -1,7 +1,6 @@
 import currency_chart
 import io
 import inky 
-import pathlib
 from PIL import Image, ImageFont, ImageDraw
 from pprint import pprint
 import random
@@ -11,8 +10,6 @@ import configparser
 import socket
 import time
 import kinky
-
-filePath = pathlib.Path(__file__).parent.absolute()
 
 config = configparser.ConfigParser()
 config.read('./config.ini')
@@ -105,16 +102,6 @@ with io.BytesIO() as file_stream:
         draw_plot_image.text((selectedArea[0], selectedArea[1]+48), random.choice(messages), display.BLACK, display.title_font)
    
     draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline=display.RED)
-    print("displaying image")
-
-    # create a limited pallete image for converting our chart image to.
-    palette_img = Image.new("P", (1, 1))
-    palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
-
-    # rotate the image and set 3 colour palettep
-    image_rotation = display_config.getint("rotation")
-    display_image = plot_image.rotate(image_rotation).convert('RGB').quantize(palette=palette_img)
     
-    # create the display and show the image
-    display.show(display_image) 
-    #display_image.save('last_display.png')
+    print("displaying image")
+    display.show(plot_image) 
