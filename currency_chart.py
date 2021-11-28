@@ -40,8 +40,8 @@ def make_sell_order(instrument):
 def get_plot():
     # pyplot setup for 4X3 100dpi screen
     fig, ax = plt.subplots(figsize=(4, 3), dpi=100)
-    # fill screen
-    fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
+    # fills screen with graph
+    #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     plt.rcParams["font.family"] = "monospace"
     plt.rcParams["font.monospace"] = "Terminal"
     plt.rcParams['text.antialiased'] = False
@@ -50,28 +50,35 @@ def get_plot():
     return (fig, ax)
 
 def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
+    # format price labels to 'K'
     ax.set_yticklabels(['{:.1f}'.format(x / 1000) + 'K' for x in ax.get_yticks()])
-    #ax.yaxis.set_tick_params(pad=-26, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
-    #ax.xaxis.set_tick_params(pad=-12, direction="in", width=1, labelsize='7', color='black', which='both', labelcolor='black')
- 
+    # style tick labels
+    ax.yaxis.set_tick_params(labelsize='8', color='red', which='both', labelcolor='black')
+    ax.xaxis.set_tick_params(labelsize='8', color='red', which='both', labelcolor='black')
+    # hide the top/right border
+    ax.spines['bottom'].set_color('red')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('red')
+    # format/locate x axis labels
     ax.xaxis.set_minor_locator(minor_format)
     ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
     ax.xaxis.set_major_formatter(major_locator)
     ax.xaxis_date()
-    ax.autoscale_view()
+    # this will hide the axis/labels
+    ax.autoscale_view(tight=False)
 
 class chart_data:
     def __init__(self, config):   
-        # 1h 1d 5m 1m
         layouts = [
-            ('1d', timedelta(days=80), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('')),
-            ('1h', timedelta(hours=80), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter('%H'), mdates.DayLocator(), mdates.DateFormatter('')),
+            ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('')),
+            ('1h', timedelta(hours=60), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter('%H'), mdates.DayLocator(), mdates.DateFormatter('')),
             ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            ('5m', timedelta(minutes=5*80), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I:%M'))
+            ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=10), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I:%M'))
         ]
         
-        self.layout = layouts[random.randrange(4)]
+        self.layout = layouts[random.randrange(len(layouts))]
         self.candle_width = self.layout[0]
         self.fig, ax = get_plot()
         self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], config)
@@ -88,4 +95,4 @@ class chart_data:
         return self.candleData[0][4]
 
     def write_to_stream(self, stream):
-        self.fig.savefig(stream, dpi=self.fig.dpi)
+        self.fig.savefig(stream, dpi=self.fig.dpi, pad_inches=0)
