@@ -8,8 +8,7 @@ import matplotlib.dates as mdates
 import random
 
 def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
-    today = datetime.combine(datetime.today(), datetime.min.time())
-    startdate = today - chartDuration
+    startdate = datetime.utcnow() - chartDuration
     exchange = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
     print('fetching data from ' + exchange)
