@@ -1,14 +1,16 @@
 # etsy store blurb:
 Meet BitBot. a modern, elegant and minimalist e-ink crypto-chart ticker. This device makes for an attractive desk toy and convenient means to track your favourite crypto-currencies.
 
-contents:
- - hand-crafted aluminium base, brushed and polished to an attractive satin finish. 
- - 4.2" 3 colour (black, white, red) e-paper display (similar to a kindle display).
- - low-power integrated linux single-board-computer, with HDMI, USB and SDCard. 
- - Convenient magnetically attaching micro-USB power cable.
- - custom software designed for ease of use, low maintainance and reliability.
+BitBit is built using open-source software. This makes it very easy to tinker with, and function as a fun learning experience for more technically minded individuals. 
 
-Festures:
+contents:
+ - Hand-crafted aluminium base, brushed and polished to an attractive satin finish. 
+ - 4.2" 3 colour (black, white, red) e-paper display (similar to a kindle display).
+ - Low-power integrated linux single-board-computer, with HDMI, USB and SDCard. 
+ - Convenient magnetically attaching micro-USB power cable.
+ - 16GB micro-sd card, with custom software designed for ease of use, low maintainance and reliability.
+
+Features:
  - Easy to connect to your home wifi. Bit-Bot has a bitlt-in wifi access point that will allow you to easily connect it from any wifi enabled device.
  - Attractive candle graph of varying timeframes/candle widths
  - Current price displayed in large easy to read text
