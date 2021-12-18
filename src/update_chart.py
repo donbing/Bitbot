@@ -34,7 +34,7 @@ def count_white_pixels(x, y, n, image):
     return count
 
 # wait for network connection
-def wait_for_internet_connection():
+def wait_for_internet_connection(display):
     connection_error_shown = False
     while network_connected() == False:
         # draw error message if not already drawn
@@ -50,7 +50,7 @@ def run(config):
 
     # check internet connection
     print('await network')
-    wait_for_internet_connection()
+    wait_for_internet_connection(display)
 
     print('starting..')
     # fetch the chart data
