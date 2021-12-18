@@ -56,7 +56,8 @@ class inker:
         # draw box at position
         draw.rectangle([(x0, y0), (x1, y1)], outline=self.inky_display.RED)
         # show the image
-        self.show(img)
+        self.inky_display.set_image(img) 
+        self.inky_display.show()
     
     def show(self, image):
         # create a limited pallete image for converting our chart image to.
