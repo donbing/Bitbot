@@ -8,12 +8,13 @@ price_font = ImageFont.truetype(fontPath, 48)
 title_font = ImageFont.truetype(fontPath, 16)
 
 connection_error_message = """ 
-NO INTERNET LINK
+NO INTERNET CONNECTION
 ----------------------------
-Please check your connection
+Please check your WIFI
 ----------------------------
-Connect to the RaspPiSetup WiFi 
-Then visit raspiwifisetup.com"""
+To configure WiFi access, 
+connect to 'RaspPiSetup' WiFi AP 
+then visit raspiwifisetup.com"""
 
 class disker:
     def __init__(self):
