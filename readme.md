@@ -18,7 +18,7 @@
 
 >Install Git, pip (plus some dependencies)
 ```sh
-sudo apt-get install git python3-pip libffi-dev libjpeg62 libopenjp2-7-dev libatlas-base-dev
+sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
 curl https://get.pimoroni.com/inky | bash
 ```  
 
