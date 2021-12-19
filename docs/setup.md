@@ -19,7 +19,7 @@
 > in order to access the data, you will need SSH access using the following command.
 ```sh 
 ssh pi@bitbot
-# password is cryptonomicon
+# password is raspberry
 ```
 > Once you have connected, the config can be opened for editing by issuing the following command
 ```sh
