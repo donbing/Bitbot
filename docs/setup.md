@@ -2,7 +2,7 @@
 1. **Connect a micro-usb** cable to the raspberry pi board on your crypto-watcher
 2. **Wait a minute** or so for it to boot up
 3. The device will display a `**NO INTERNET CONNECTION**` message
-4. From another device, **connect** to the `RaspiWiFiSetup` access point 
+4. From another device, **connect** to the `RaspiWiFi Setup` access point (ignoring any warnings about it having no internet)
 5. **Go to `RaspPiWifiSetup.com` or `10.0.0.1`** in the browser on your device
 6. Select your internet-connected **wifi access point name**
 7. Enter your **wifi password**
