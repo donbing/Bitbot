@@ -13,7 +13,7 @@
 **I want** the **displayed instrument** to be configurable  
 **So that** users can follow their **preferred cryptocurrency**
  - *Scenario:* `Bitbot defaults to showing bitmex BTC/USD ticker.`
- - *Scenario:* `Bitbot is configured to show an ETH/USD chart.`
+ - *Scenario:* `Bitbot is re-configured to show an ETH/USD chart.`
 
 >**As** Marketing  
 **In order that** bitbot looks **aesthetically pleasing** 
