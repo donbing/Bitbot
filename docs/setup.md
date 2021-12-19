@@ -15,16 +15,16 @@
 > For technical assistance please contact us via the Etsy shop.  
 
 # Advanced Configuration
-> config settings for your crypto-watcher are stored in a config-file the raspberry pi,
+> Config settings for your crypto-watcher are stored in a config-file on the raspberry pi,
 > in order to access the data, you will need SSH access using the following command.
 ```sh 
 ssh pi@bitbot
 # password is cryptonomicon
 ```
-> once you have connected, the config can be opened for editing by issuing the following command
+> Once you have connected, the config can be opened for editing by issuing the following command
 ```sh
 nano bitbot/config.ini
 ```
-> the only values i reccoment altering are `exchange`, `instrument` and `comments`  
-> a list of supported crypto-exchanges can be found here https://github.com/ccxt/ccxt/wiki/Exchange-Markets  
-> please see your selected exchange for the instruments that it supports
+> The only values I reccomend altering are `exchange`, `instrument` and `comments`  
+> A list of supported crypto-exchanges can be found here https://github.com/ccxt/ccxt/wiki/Exchange-Markets  
+> Please see your selected exchange for the instruments that it supports
