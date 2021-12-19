@@ -16,18 +16,18 @@
 # Device setup
 >Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
 
+>Install Git, pip (plus some dependencies)
+```sh
+sudo apt-get install git python3-pip libffi-dev libjpeg62 libopenjp2-7-dev libatlas-base-dev
+curl https://get.pimoroni.com/inky | bash
+```  
+
  > install wifi connection helper, provided by https://github.com/jasbur/RaspiWiFi
 ```sh
 git clone https://github.com/jasbur/RaspiWiFi
 cd RaspiWiFi
 sudo python3 initial_setup.py
 ```
-
->Install Git, pip and inky (plus some dependencies)
-```sh
-sudo apt-get install git python3-pip libffi-dev libjpeg62 libopenjp2-7-dev libatlas-base-dev
-curl https://get.pimoroni.com/inky | bash
-```  
 
 >clone this repo add cron jobs
 ```sh
