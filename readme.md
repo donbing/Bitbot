@@ -14,31 +14,35 @@
  - warns on connection errors
 
 # Device setup
->Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
+> Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
 
->Install Git, pip (plus some dependencies)
+> Install Git, pip (plus some dependencies)
 ```sh
 sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
 curl https://get.pimoroni.com/inky | bash
 ```  
 
- > install wifi connection helper, provided by https://github.com/jasbur/RaspiWiFi
+> Install wifi connection helper, provided by https://github.com/jasbur/RaspiWiFi
 ```sh
 git clone https://github.com/jasbur/RaspiWiFi
 cd RaspiWiFi
 sudo python3 initial_setup.py
 ```
 
->clone this repo add cron jobs
+> Clone this repo and setup requirements
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot
 pip3 install -r requirements.txt
+```
+
+> Add cron jobs for screen refresh intervals
+```sh
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 (crontab -l 2>/dev/null; echo "*/10 * * * * python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 ```
    
->Run the app (or wait for cron)
+> Run the app (or just wait for cron)
 ```sh
 python3 -m run
 ```
