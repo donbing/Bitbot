@@ -54,7 +54,7 @@ def run(config):
 
     logging.info('Fetching chart data')
     # fetch the chart data
-    chartdata = currency_chart.chart_data(config)
+    chartdata = currency_chart.chart_data(config, display)
 
     with io.BytesIO() as file_stream:
         logging.info('Formatting chart for display')

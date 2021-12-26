@@ -1,10 +1,11 @@
-from os import curdir
+import pathlib
 import os.path
 from os.path import join as pjoin
 import cgi
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class StoreHandler(BaseHTTPRequestHandler):
+    curdir = pathlib.Path(__file__).parent.resolve()
     store_path = pjoin(curdir, '../', 'config.ini')
     log_path = pjoin(curdir, '../', 'debug.log')
     

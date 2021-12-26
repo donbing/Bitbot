@@ -38,9 +38,9 @@ def make_sell_order(instrument):
     logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
 
 #DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
-def get_plot():
+def get_plot(display):
     # pyplot setup for 4X3 100dpi screen
-    fig, ax = plt.subplots(figsize=(4, 3), dpi=100)
+    fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
     #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     plt.rcParams["font.family"] = "monospace"
@@ -78,7 +78,7 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
     ax.autoscale_view(tight=False)
 
 class chart_data:
-    def __init__(self, config):   
+    def __init__(self, config, display):   
         layouts = [
             ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
             ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%D')),
@@ -88,7 +88,7 @@ class chart_data:
         
         self.layout = layouts[random.randrange(len(layouts))]
         self.candle_width = self.layout[0]
-        self.fig, ax = get_plot()
+        self.fig, ax = get_plot(display)
         self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], config)
         mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
         configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])

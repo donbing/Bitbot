@@ -1,4 +1,4 @@
-from inky import InkyWHAT
+from inky.auto import auto
 import pathlib
 from PIL import Image, ImageFont, ImageDraw
 import logging
@@ -33,7 +33,7 @@ class disker:
 class inker:
     def __init__(self, config):
         self.display_config = config["display"]
-        self.inky_display = InkyWHAT(self.display_config["colour"])
+        self.inky_display = auto()
         self.WIDTH = self.inky_display.WIDTH
         self.HEIGHT = self.inky_display.HEIGHT
         self.title_font = title_font
@@ -68,14 +68,22 @@ class inker:
         self.inky_display.show()
     
     def show(self, image):
-        # create a limited pallete image for converting our chart image to.
-        palette_img = Image.new("P", (1, 1))
-        palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
-
-        # rotate the image and set 3 colour palettep
-        image_rotation = self.display_config.getint("rotation")
-        display_image = image.rotate(image_rotation).convert('RGB').quantize(palette=palette_img)
         
+        # rotate the image 
+        image_rotation = self.display_config.getint("rotation")
+        display_image = image.rotate(image_rotation)
+
+        three_colour_screen_types = ["yellow", "red"]
+
+        if self.inky_display.colour in three_colour_screen_types:
+            # create a limited pallete image for converting our chart image to.
+            palette_img = Image.new("P", (1, 1))
+            palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
+            display_image = display_image.convert('RGB').quantize(palette=palette_img)
+            
         # show the image
         self.inky_display.set_image(display_image) 
-        self.inky_display.show()
+        try:
+            self.inky_display.show()
+        except RuntimeError:
+            pass # current lib has a bug that spits out RuntimeError("Timeout waiting for busy signal to clear.")
