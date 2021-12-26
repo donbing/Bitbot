@@ -52,12 +52,12 @@ def run(config):
     logging.info('Await network')
     wait_for_internet_connection(display)
 
-    logging.info('Starting..')
+    logging.info('Fetching chart data')
     # fetch the chart data
     chartdata = currency_chart.chart_data(config)
 
     with io.BytesIO() as file_stream:
-        logging.info('Formatting image for display')
+        logging.info('Formatting chart for display')
 
         # write mathplot fig to stream and open as a PIL image
         chartdata.write_to_stream(file_stream)
