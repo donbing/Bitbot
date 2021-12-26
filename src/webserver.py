@@ -2,7 +2,6 @@ from os import curdir
 from os.path import join as pjoin
 import cgi
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import urllib.parse
 
 class StoreHandler(BaseHTTPRequestHandler):
     store_path = pjoin(curdir, '../', 'config.ini')
