@@ -22,7 +22,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 '''
             html += '<textarea name="configfile" rows="20" cols="80">' + str(fh.read()) + '</textarea>'
             html += '''
-                        <div><input type="submit">Save</input></div>
+                        <div><input type="submit"/></div>
                     </form>
                 </body>
                 </html>
