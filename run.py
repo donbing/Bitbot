@@ -6,34 +6,34 @@ import logging, logging.handlers
 
 # setup our logger for std out and rolling file
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.handlers.RotatingFileHandler("debug.log", maxBytes=2000, backupCount=10),
+        logging.handlers.RotatingFileHandler("debug.log", maxBytes=2000, backupCount=0),
         logging.StreamHandler()
     ])
-logging.info("starting")
+logging.info("Starting")
 
 # get the config file data
 filePath = pathlib.Path(__file__).parent.absolute()
 config = configparser.ConfigParser()
 config.read(str(filePath)+'/config.ini')
-logging.debug("loaded config")
+logging.info("Loaded config")
 
 # schedule chart updates
-redfresh_minutes = config['display']['refresh_time_minutes']
-refresh_seconds = float(redfresh_minutes) * 60
-logging.info("refreshing every: " + str(redfresh_minutes) + " mins")
 scheduler = sched.scheduler(time.time, time.sleep)
 
-def do_something(sc): 
-    logging.debug("refreshing")
+def refresh_chart(sc): 
     update_chart.run(config)
-    scheduler.enter(refresh_seconds, 1, do_something, (sc,))
+    logging.info("Update complete")
+    redfresh_minutes = config['display']['refresh_time_minutes']
+    refresh_seconds = float(redfresh_minutes) * 60
+    logging.info("Next refresh in: " + str(redfresh_minutes) + " mins")
+    scheduler.enter(refresh_seconds, 1, refresh_chart, (sc,))
 
 # update chart immediately and begin update schedule
 update_chart.run(config)
-scheduler.enter(refresh_seconds, 1, do_something, (scheduler,))
+logging.info("Initial screen update complete")
+scheduler.enter(refresh_seconds, 1, refresh_chart, (scheduler,))
 scheduler.run()
-
-logging.debug("update scheduler running")
+logging.info("Scheduler running")
