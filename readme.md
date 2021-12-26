@@ -59,6 +59,5 @@ more /var/log/syslog | grep bitbot
  - show value of your portfolio
  - display Transaction fees
  - smaller/cheaper display
- - easier config (web app)
  - regular stocks
  - inset candles to avoid overlap of axis ticks
