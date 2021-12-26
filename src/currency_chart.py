@@ -6,12 +6,13 @@ import matplotlib.pyplot as plt
 import mpl_finance
 import matplotlib.dates as mdates
 import random
+import logging
 
 def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
     startdate = datetime.utcnow() - chartDuration
     exchange = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    print('fetching data from ' + exchange)
+    logging.info('Fetching data from ' + exchange)
     # create exchange wrapper based on user exchange config
     exchange = getattr(ccxt, exchange)({ 
         #'apiKey': '<YOUR API KEY HERE>',
@@ -19,9 +20,9 @@ def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
         'enableRateLimit': True,
     })
     exchange.loadMarkets()
-    #print(" supported exchanges: " + str(cccxt.exchanges))
-    #print(" supported time frames: " + str(exchange.timeframes))
-    #print(" supported markets: " + " ".join(exchange.markets.keys()))
+    logging.info("Supported exchanges: " + str(ccxt.exchanges))
+    logging.info("Supported time frames: " + str(exchange.timeframes))
+    logging.info("Supported markets: " + " ".join(exchange.markets.keys()))
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
     # clean up dates in data
@@ -34,7 +35,7 @@ def replace_at_index(tup, ix, val):
 
 def make_sell_order(instrument):
     order = exchange.create_order(instrument, 'Market', 'sell', 2.0, None)
-    print(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
+    logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
 
 #DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
 def get_plot():

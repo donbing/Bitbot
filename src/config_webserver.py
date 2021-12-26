@@ -1,13 +1,15 @@
 from os import curdir
+import os.path
 from os.path import join as pjoin
 import cgi
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class StoreHandler(BaseHTTPRequestHandler):
     store_path = pjoin(curdir, '../', 'config.ini')
+    log_path = pjoin(curdir, '../', 'debug.log')
     
     def do_GET(self):
-        with open(self.store_path) as fh:
+        with open(self.store_path) as store_file:
             # html for config editor
             html = '''
                 <!DOCTYPE html>
@@ -15,15 +17,23 @@ class StoreHandler(BaseHTTPRequestHandler):
                 <head>
                     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
                     <meta content="utf-8" http-equiv="encoding">
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
                 </head>
                 <body>
                     <h1>BitBot crypto-ticker config</h1>
                     <form method="post">
                 '''
-            html += '<textarea name="configfile" rows="20" cols="80">' + str(fh.read()) + '</textarea>'
+            html += '<textarea name="configfile" rows="20" cols="80">' + str(store_file.read()) + '</textarea>'
             html += '''
                         <div><input type="submit"/></div>
                     </form>
+                    '''
+            # display log info if it exists
+            if os.path.isfile(self.log_path):
+                with open(self.log_path) as log_file:
+                    html += '<h1>LOG</h1><textarea name="configfile" rows="20" cols="80">' + str(log_file.read()) + '</textarea>'
+
+            html += '''
                 </body>
                 </html>
                     '''
