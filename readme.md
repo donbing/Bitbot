@@ -60,4 +60,3 @@ more /var/log/syslog | grep bitbot
  - display Transaction fees
  - smaller/cheaper display
  - regular stocks
- - inset candles to avoid overlap of axis ticks
