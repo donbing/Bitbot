@@ -51,6 +51,8 @@ python3 -m run
 > Debug log
 ```sh
 tail ~/bitbot/debug.log
+# or
+more /var/log/syslog | grep bitbot
 ```
 
 # Requested Features
