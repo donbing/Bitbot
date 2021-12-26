@@ -12,6 +12,7 @@
  - capable of charting and trading on many different crypto-exchanges
  - reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) 
  - warns on connection errors
+ - config and log are available via webserver running on port **8080**
 
 # Device setup
 > Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
