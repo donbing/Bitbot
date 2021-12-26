@@ -47,6 +47,11 @@ pip3 install -r requirements.txt
 python3 -m run
 ```
 
+> Debug log
+```sh
+tail ~/bitbot/debug.log
+```
+
 # Requested Features
  - show value of your portfolio
  - display Transaction fees
