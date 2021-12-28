@@ -14,9 +14,12 @@
  - warns on connection errors
  - config and log are available via webserver running on port **8080**
 
-# Device setup
+# Setup
+
+
 > Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
 
+## Device based setup
 > Install Git, pip (plus some dependencies)
 ```sh
 sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
@@ -53,6 +56,27 @@ python3 -m run
 tail ~/bitbot/debug.log
 # or
 more /var/log/syslog | grep bitbot
+```
+
+## Docker based setup
+> update the host package manager
+```sh
+sudo apt-get update && sudo apt-get upgrade
+```
+> install docker & reboot
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker Pi
+sudo reboot now
+```
+> build container image
+```sh
+docker build . -t bitbot
+```
+> run the container
+```sh
+docker run -privileged -d bitbot
 ```
 
 # Requested Features

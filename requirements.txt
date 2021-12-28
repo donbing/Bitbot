@@ -4,3 +4,4 @@ mpl-finance==0.10.0
 ccxt==1.62.36
 numpy
 inky
+rpi.gpio
