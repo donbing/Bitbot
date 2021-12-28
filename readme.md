@@ -36,7 +36,7 @@ sudo python3 initial_setup.py
 > Clone this repo and setup requirements
 ```sh
 git clone https://github.com/donbing/bitbot
-cd bitbot
+cd bitbot 
 pip3 install -r requirements.txt
 ```
 
