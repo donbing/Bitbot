@@ -62,6 +62,8 @@ more /var/log/syslog | grep bitbot
 > update the host package manager
 ```sh
 sudo apt-get update && sudo apt-get upgrade
+sudo raspi-config nonint do_spi 0
+sudo raspi-config nonint do_i2c 0
 ```
 > install docker & reboot
 ```sh
