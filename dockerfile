@@ -9,12 +9,12 @@ WORKDIR /code
 COPY requirements.txt .
 
 # install dependencies
+ARG CFLAGS=-fcommon 
 RUN pip3 install -U pip
 RUN pip3 install -r requirements.txt
 
 #RUN apt-get install -y python3-dev python3-rpi.gpio
-ARG CFLAGS=-fcommon 
-RUN pip3 install rpi.gpio
+# RUN pip3 install rpi.gpio
 
 # copy the content of the local src directory to the working directory
 COPY . .
