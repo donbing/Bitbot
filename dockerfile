@@ -1,7 +1,7 @@
 FROM python:3.9.9-bullseye
 
 # install required packages
-RUN apt-get update -y && apt-get install -y rustc rpi.gpio gcc
+RUN apt-get update -y && apt-get install -y rustc gcc
 # set the working directory in the container
 WORKDIR /code
 
