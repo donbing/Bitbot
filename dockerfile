@@ -1,22 +1,25 @@
-FROM python:3.9.9-bullseye
+FROM python:3.9.9-bullseye AS compile-image
 
 # install required packages
-RUN apt-get update -y 
-RUN apt-get install -y rustc rpi.gpio gcc python3-dev python3-rpi.gpio
+RUN apt-get update -y && apt-get install -y --no-install-recommends rustc gcc cargo
 
 # set the working directory in the container
 WORKDIR /code
 
+# install dependencies
+ARG CFLAGS=-fcommon 
+RUN pip3 install -U pip
+
+COPY requirements.txt .
+RUN pip3 install --user -r requirements.txt
+
+FROM python:3.9.9-bullseye AS build-image
+COPY --from=compile-image /root/.local /root/.local
+
 # copy the content of the local src directory to the working directory
 COPY . .
 
-# install dependencies
-RUN pip3 install -U pip
-ARG CFLAGS=-fcommon 
-RUN pip3 install -r requirements.txt
-
+# Make sure scripts in .local are usable:
+ENV PATH=/root/.local/bin:$PATH
 # command to run on container start
 CMD [ "python3", "./run.py" ]
-
-#sudo docker build . -t bitbot
-#docker run -privileged --device /dev/gpiomem -d bitbot
