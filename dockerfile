@@ -1,7 +1,7 @@
 FROM python:3.9.9-bullseye
 
 # install required packages
-RUN apt-get update -y && apt-get install -y rustc gcc
+RUN apt-get update -y && apt-get install -y rustc gcc python3-pip python3-dev
 # set the working directory in the container
 WORKDIR /code
 
