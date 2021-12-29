@@ -15,12 +15,12 @@
  - config and log are available via webserver running on port **8080**
 
 # Setup
+> Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD
 
-
-> Burn a copy of [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) to your micro SD  
+> Boot up and use `raspi-config` to setup wifi
 
 ## Device based setup
-> Install Git, pip (plus some dependencies)
+> Install Git, Pip (plus some dependencies)
 ```sh
 sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
 curl https://get.pimoroni.com/inky | bash
@@ -77,11 +77,11 @@ sudo shutdown -r now
 ```
 > build container image
 ```sh
-
+docker build . -t bitbot
 ```
 > run the container
 ```sh
-docker run -privileged -d bitbot
+docker run --privileged -d bitbot
 ```
 
 # Requested Features
