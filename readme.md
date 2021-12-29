@@ -62,6 +62,9 @@ more /var/log/syslog | grep bitbot
 > update the host package manager
 ```sh
 sudo apt-get update && sudo apt-get upgrade
+```
+> ensure that i2c and spi are enabled on the host pi
+```sh
 sudo raspi-config nonint do_spi 0
 sudo raspi-config nonint do_i2c 0
 ```
@@ -74,7 +77,7 @@ sudo shutdown -r now
 ```
 > build container image
 ```sh
-docker build . -t bitbot
+
 ```
 > run the container
 ```sh
