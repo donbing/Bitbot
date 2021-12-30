@@ -1,23 +1,10 @@
 FROM python:3.9.9-bullseye AS compile-image
 
 # install required packages
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
-    g++ \
-    rustc \
-    gcc \
-    cargo \
-    build-essential \
-    libffi-dev \
-    libfreetype6-dev \
-    libssl-dev \
-    libpng-dev \
-    pkg-config \
-    libjpeg-dev \
-    zlib1g-dev
+RUN apt-get update -y && apt-get install -y --no-install-recommends rustc gcc cargo
 
 # set the working directory in the container
-WORKDIR /code
+WORKDIR /tmp
 
 # install dependencies
 ARG CFLAGS=-fcommon 
@@ -29,7 +16,7 @@ RUN pip3 install --user --no-cache-dir -r requirements.txt
 # create app image
 FROM python:3.9.9-slim-bullseye AS build-image
 COPY --from=compile-image /root/.local /root/.local
-
+WORKDIR /code
 # packages needed to run the app
 RUN apt-get update && apt-get install -y \
     libfreetype6 \
