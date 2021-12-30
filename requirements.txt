@@ -1,4 +1,4 @@
-Pillow==4.2.1
+Pillow==8.4.0
 matplotlib==2.0.2
 mpl-finance==0.10.0
 ccxt==1.62.36
