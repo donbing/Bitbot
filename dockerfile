@@ -1,4 +1,7 @@
-FROM python:3.9.9-slim-bullseye AS compile-image
+FROM python:3.9.9-bullseye AS compile-image
+
+# make sure we use buildkit
+ENV DOCKER_BUILDKIT=1
 
 # install required packages
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
@@ -6,8 +9,10 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     rustc \
     gcc \
     cargo \
+    build-essential \
     libffi-dev \
     libfreetype6-dev \
+    libssl-dev \
     libpng-dev \
     pkg-config \
     libjpeg-dev \

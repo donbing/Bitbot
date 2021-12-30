@@ -77,7 +77,9 @@ sudo shutdown -r now
 ```
 > build container image
 ```sh
-docker build . -t bitbot
+export DOCKER_BUILDKIT=1
+# multi stage builds do not cache the intermediate compile image :( so we try to get buildkit to help out..
+docker build . -t bitbot --cache-from bitbot --build-arg BUILDKIT_INLINE_CACHE=1 
 ```
 > run the container
 ```sh
