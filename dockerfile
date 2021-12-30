@@ -1,10 +1,8 @@
 FROM python:3.9.9-bullseye AS compile-image
 
-# make sure we use buildkit
-ENV DOCKER_BUILDKIT=1
-
 # install required packages
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
     g++ \
     rustc \
     gcc \
