@@ -37,7 +37,7 @@ sudo python3 initial_setup.py
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
-pip3 install -r requirements.txt
+pip3 install -r requirements.txt --index-url=https://www.piwheels.org/simple/
 ```
 
 > Add cron jobs for screen refresh intervals
@@ -65,6 +65,7 @@ sudo apt-get update && sudo apt-get upgrade
 ```
 > ensure that i2c and spi are enabled on the host pi
 ```sh
+sudo raspi-config nonint do_hostname bitbot
 sudo raspi-config nonint do_spi 0
 sudo raspi-config nonint do_i2c 0
 ```
@@ -79,7 +80,7 @@ sudo shutdown -r now
 ```sh
 export DOCKER_BUILDKIT=1
 # multi stage builds do not cache the intermediate compile image :( so we try to get buildkit to help out..
-docker build . -t bitbot --cache-from bitbot --build-arg BUILDKIT_INLINE_CACHE=1 
+DOCKER_BUILDKIT=1 docker build . -t bitbot --cache-from bitbot --build-arg BUILDKIT_INLINE_CACHE=1 
 ```
 > run the container
 ```sh
