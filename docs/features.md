@@ -35,23 +35,21 @@
 INCOMPLETE
 ----------
 
->**As** Marketing   
+>**As** Marketing  
 **In order that** we can promote the device as a trading bot  
 **I want** bit bot to be configurable to make orders at regular intervals  
 **So that** users can use DCA trading strategies  
  - *Scenario:* `bit bot is configured with trading account details, buy frequencey and amount.`
  - *Scenario:* `bit bot used configured trading info to automatically place orders for the customer.`
 
->**AS** Marketing
-**In order** to avoid sending printed setup instructions with each device
-**I want** bit bots to guide the user through settting up the device when if first powers on
-**So that** users have an easy on-boarding experience and leave glowing reviews
+>**AS** Marketing  
+**In order** to avoid sending printed setup instructions with each device  
+**I want** bit bots to guide the user through settting up the device when if first powers on  
+**So that** users have an easy on-boarding experience and leave glowing reviews  
  - *Scenario:* `on first power on, bitbot displays a friendly welcome message and explains how to configure the wifi`
 
->**AS** Marketing
-**In order** that users leave glowing reviews
-**I want** bit bot to show a nice welcome screen before first power on
-**So that** users feel their device is personalised to them
+>**AS** Marketing  
+**In order** that users leave glowing reviews  
+**I want** bit bot to show a nice welcome screen before first power on  
+**So that** users feel their device is personalised to them  
  - *scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
-
-
