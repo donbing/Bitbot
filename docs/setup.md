@@ -26,6 +26,6 @@ ssh pi@bitbot
 ```sh
 nano bitbot/config.ini
 ```
-> The only values I reccomend altering are `exchange`, `instrument` and `comments`  
+> The only values I recommend altering are `exchange`, `instrument` and `comments`  
 > A list of supported crypto-exchanges can be found here https://github.com/ccxt/ccxt/wiki/Exchange-Markets  
 > Please see your selected exchange for the instruments that it supports
