@@ -4,3 +4,4 @@ ccxt==1.53.14
 inky==1.3.1
 rpi.gpio==0.7.1a4
 numpy
+pyasn1
