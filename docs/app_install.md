@@ -1,13 +1,15 @@
 
 # Setup Options
 
-## Burn a new SD card
+## Burn the Bitbot image to a new SD card
 ---
+> Simple installation that anyone can complete
 1. download the latest release from [releases page](https://github.com/donbing/bitbot/releases)  
 2. use [Balena Etcher](https://www.balena.io/etcher/) to burn the zipped image to your SD card.
 
 ## Add to an existing PiOS install 
 ---
+> For advanced users that want to modify an existing pi
 1. Ensure that `SPI`/`I2C` are enabled
 ```sh
 sudo raspi-config nonint do_spi 0
@@ -28,7 +30,7 @@ sudo python3 initial_setup.py
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
-pip3 install -r requirements.txt --index-url=https://www.piwheels.org/simple/
+pip3 install --user -r requirements.txt --index-url=https://www.piwheels.org/simple/
 ```
 5. Add cron jobs for screen refresh intervals
 ```sh
@@ -41,6 +43,7 @@ python3 -m run
 ```
 
 ## Install in docker
+> Highly flexible approach that allows for simple updates
 ---
 1. ensure that `I2C`/`SPI` are enabled on the host pi
 ```sh
