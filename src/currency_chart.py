@@ -64,6 +64,8 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
+    ax.spines['bottom'].set_linewidth(1)
+    ax.spines['left'].set_linewidth(1)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     # format/locate x axis labels
@@ -80,10 +82,10 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
 class chart_data:
     def __init__(self, config, display):   
         layouts = [
-            ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
-            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%D')),
-            ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=2), mdates.DateFormatter('%I%p'))
+            #('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+            #('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+            #('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=2), mdates.DateFormatter('%I%p'))
         ]
         
         self.layout = layouts[random.randrange(len(layouts))]
