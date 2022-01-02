@@ -10,34 +10,29 @@
 ## Add to an existing PiOS install 
 ---
 > For advanced users that want to modify an existing pi
-1. Ensure that `SPI`/`I2C` are enabled
-```sh
-sudo raspi-config nonint do_spi 0
-sudo raspi-config nonint do_i2c 0
-```
-2. Install Git, Pip (plus some dependencies)
+1. Install Git, Pip (plus some dependencies)
 ```sh
 sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
 curl https://get.pimoroni.com/inky | bash
 ```  
-3. optionally Install [wifi connection helper](https://github.com/jasbur/RaspiWiFi)
+2. optionally Install [wifi connection helper](https://github.com/jasbur/RaspiWiFi)
 ```sh
 git clone https://github.com/jasbur/RaspiWiFi
 cd RaspiWiFi
 sudo python3 initial_setup.py
 ```
-4. Clone this repo and setup requirements
+3. Clone this repo and setup requirements
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
 pip3 install --user -r requirements.txt --index-url=https://www.piwheels.org/simple/
 ```
-5. Add cron jobs for screen refresh intervals
+4. Add cron jobs for screen refresh intervals
 ```sh
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 ```
-6. Run the app (or just wait for cron)
+5. Test the app 
 ```sh
 python3 -m run
 ```

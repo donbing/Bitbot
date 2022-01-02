@@ -4,6 +4,7 @@ FROM python:3.9.9-slim-bullseye
 RUN apt-get update && apt-get install -y \
     libfreetype6 \
     libopenjp2-7-dev \
+    rustc \
     libtiff5 \
     libatlas-base-dev \
     libxcb-xinput0 \
@@ -19,4 +20,4 @@ COPY . .
 
 # Make sure scripts in .local are usable:
 # command to run on container start
-CMD [ "python3", "./run.py" ]
+CMD [ "python3", "./run.py" ]asd
