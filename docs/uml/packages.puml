@@ -1,5 +1,4 @@
 @startuml
-
 header https://github.com/donbing/bitbot
 title BitBot Package Interactions
 footer donbing
