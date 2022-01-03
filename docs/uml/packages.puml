@@ -1,0 +1,16 @@
+@startuml
+
+header https://github.com/donbing/bitbot
+title BitBot Package Interactions
+footer donbing
+
+BitBot -> CCXT: Request Chart Data
+BitBot <- CCXT: Chart Data!
+BitBot -> MatPlotLib: Create Graph (chart data)
+BitBot <- MatPlotLib: Formatted Graph
+BitBot -> MatPlotLib: Write Graph to stream
+BitBot -> Pillow: Create Image from stream
+BitBot -> Pillow: Draw overlay text
+BitBot -> Inky: Display image
+
+@enduml
