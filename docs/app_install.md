@@ -4,10 +4,11 @@
 ## Burn the Bitbot image to a new SD card
 ---
 > Simple installation that anyone can complete
-1. download the [buster release](https://downloads.raspberrypi.org/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2021-12-02/2021-12-02-raspios-buster-armhf-lite.zip)  
+1. download the latest release from [releases page](https://github.com/donbing/bitbot/releases)  
 2. use [Balena Etcher](https://www.balena.io/etcher/) to burn the zipped image to your SD card.
 
-## Add to an existing PiOS install 
+## Add to an existing PiOS install ]
+> note I've been  unable to get this working on bullseye so-far
 ---
 > For advanced users that want to modify an existing pi
 1. Install Git, Pip (plus some dependencies)
