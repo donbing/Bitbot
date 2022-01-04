@@ -1,16 +1,17 @@
 
 # Setup Options
 
-## Burn the Bitbot image to a new SD card
+## 1. Burn the Bitbot image to a new SD card
 ---
 > Simple installation that anyone can complete
 1. download the latest release from [releases page](https://github.com/donbing/bitbot/releases)  
 2. use [Balena Etcher](https://www.balena.io/etcher/) to burn the zipped image to your SD card.
 
-## Add to an existing PiOS install ]
-> note I've been  unable to get this working on bullseye so-far
----
+## 2. Add to an existing PiOS install
 > For advanced users that want to modify an existing pi
+
+> Note: I've been  unable to get this working on bullseye so-far, only the legacy buster image  
+
 1. Install Git, Pip (plus some dependencies)
 ```sh
 sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
@@ -38,7 +39,7 @@ pip3 install --user -r requirements.txt --index-url=https://www.piwheels.org/sim
 python3 -m run
 ```
 
-## Install in docker
+## 3. Install in docker
 > Highly flexible approach that allows for simple updates
 ---
 1. ensure that `I2C`/`SPI` are enabled on the host pi
@@ -49,11 +50,4 @@ sudo raspi-config nonint do_i2c 0
 2. run the container
 ```sh
 docker run --privileged -d ghcr.io/donbing/bitbot:release
-```
-
-> Debug log
-```sh
-tail ~/bitbot/debug.log
-# or
-more /var/log/syslog | grep bitbot
 ```

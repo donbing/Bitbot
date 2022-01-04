@@ -1,9 +1,8 @@
 from src import currency_chart
 from src import kinky
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageDraw
 import io
 import random
-import RPi.GPIO as GPIO
 import socket
 import time
 import logging
@@ -46,6 +45,7 @@ def wait_for_internet_connection(display):
 def run(config):
     
     display = kinky.inker(config)
+    # below is for testing without an inky display (will save to disk)
     #display = kinky.disker()
 
     # check internet connection

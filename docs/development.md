@@ -1,11 +1,20 @@
-# App Design
+# App Development
 
 > Bitbot is somewhat cobbled together, but is fairly carefully commented and has been factored with ease of change in mind.  
 
 ## logging
 BitBot will log to `StdOut` and a rolling `debug.log` file, i'm mildly concerned about writing to the SD card too much causing wear, it may be sensible to write these to a memory cache instead.
 
-log level is defaulted info, but there is some limited debug level logging if you wish to get more info.
+Log level is defaulted to info, but there is some limited debug level logging if you wish to get more info.
+
+Cron jobs were configured to output to syslog.
+
+```sh
+# python logging
+tail ~/bitbot/debug.log
+# syslog logging
+more /var/log/syslog | grep bitbot
+```
 
 ## Packages
  - Pimoroni's [`inky`](https://github.com/pimoroni/inky) lib is used to draw to the screen, 
