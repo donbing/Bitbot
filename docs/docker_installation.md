@@ -17,3 +17,10 @@ sudo usermod -aG docker pi
 ```sh
 sudo shutdown -r now
 ```
+5. Run bitbot image
+```sh
+#main
+docker run --privileged ghcr.io/donbing/bitbot:main
+#release (stable)
+docker run --privileged ghcr.io/donbing/bitbot:release
+```

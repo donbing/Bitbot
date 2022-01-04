@@ -25,7 +25,12 @@ more /var/log/syslog | grep bitbot
 ![Package Interactions](http://www.plantuml.com/plantuml/svg/3Oon3KCX30NxFqMo0EvJ_LN0M7mhO11-LjOFrUckkDkHDsBqwwt6FQh4xgy7MFuXslcNckA94YwRfq4CYUUWEgseDIgACa4Zgvt6JcT5A_CtD_6qZbstM3ty0m00)
 
 ## Docker
-Still trying to get this working reliably on the arm6 chip that runs the pi zero..
+> Build arm6 on x86
+```bash
+docker buildx build --platform linux/armv6 . -t bitbot --progress string
+# run it
+docker run --privileged --platform linux/arm/v6 bitbot
+```
 
 ## Configuration
 [`RaspiWifi`](https://github.com/jasbur/RaspiWiFi) is installed seperately in order to facilitate easy end-user setup. Unfortunately  the lack of region in wpa_supplicant causes problems on newer pi hardware. they could do with a PR to fix..  
