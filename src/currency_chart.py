@@ -78,8 +78,9 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
     #ax.xaxis.set_minor_formatter(minor_locator)
     ax.xaxis.set_major_locator(major_format)
     ax.xaxis.set_major_formatter(major_locator)
-    # human readable short-foprmat y-axis currency amount
+    # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(human_format))
+    # use current timezone for date formating?
     ax.xaxis_date(tz=datetime.now(timezone.utc).astimezone().tzinfo)
     # this will hide the axis/labels
     ax.autoscale_view(tight=False)
