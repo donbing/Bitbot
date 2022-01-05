@@ -1,4 +1,4 @@
-FROM python:3.9.9-slim-bullseye
+FROM python:3.7.12-slim-bullseye
 
 # packages needed to run the app
 RUN apt-get update && apt-get install -y \
@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libatlas-base-dev \
     libxcb-xinput0 \
     python3-pyasn1 \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/* 
 
 RUN pip3 install -U pip
