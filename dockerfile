@@ -21,4 +21,4 @@ COPY . .
 
 # Make sure scripts in .local are usable:
 # command to run on container start
-CMD [ "python3", "./run.py" ]asd
+CMD [ "python3", "./run.py" ]
