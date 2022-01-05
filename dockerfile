@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libtiff5 \
     libatlas-base-dev \
     libxcb-xinput0 \
+    python3-pyasn1 \
     && rm -rf /var/lib/apt/lists/* 
 
 RUN pip3 install -U pip
