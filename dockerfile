@@ -1,12 +1,11 @@
-FROM navikey/raspbian-buster
-
+FROM navikey/raspbian-buster 
+#balenalib/raspberry-pi-buster::latest
+ENV QEMU_CPU=arm1176
+ENV CFLAGS=" -marm -mfpu=vfp -mtune=arm1176jzf-s -mfloat-abi=softfp"
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libfreetype6 \
-    libopenjp2-7-dev \
+    libopenjp2-7 libtiff5 \
     python3 python3-pip \
-    libtiff5 \
-    libatlas-base-dev \
-    libxcb-xinput0 \
+    python3-matplotlib \
     && rm -rf /var/lib/apt/lists/* 
 
 COPY requirements.txt .
