@@ -6,10 +6,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenjp2-7 libtiff5 \
     python3 python3-pip \
     python3-matplotlib \
+    libatlas-base-dev \
     && rm -rf /var/lib/apt/lists/* 
 
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+#COPY requirements.txt .
+#RUN pip3 install --no-cache-dir -r requirements.txt
 
 WORKDIR /code
 COPY . .
