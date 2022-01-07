@@ -5,6 +5,7 @@ ENV CFLAGS=" -marm -mfpu=vfp -mtune=arm1176jzf-s -mfloat-abi=softfp"
 RUN apt-get update && apt-get install -y \
     python3 python3-pip \
     python3-matplotlib \
+    python3-rpi.gpio \
     && rm -rf /var/lib/apt/lists/* 
 
 COPY requirements.txt .
