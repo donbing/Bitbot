@@ -14,7 +14,8 @@
 
 1. Install Git, Pip (plus some dependencies)
 ```sh
-sudo apt-get install git python3-pip libffi-dev libtiff5 libjpeg62 libopenjp2-7-dev libatlas-base-dev
+sudo apt-get --allow-releaseinfo-change update
+sudo apt-get install git python3-pip python3-nmatplotlib
 curl https://get.pimoroni.com/inky | bash
 ```  
 2. optionally Install [wifi connection helper](https://github.com/jasbur/RaspiWiFi)

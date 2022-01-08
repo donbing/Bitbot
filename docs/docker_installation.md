@@ -21,13 +21,10 @@ sudo shutdown -r now
 
  - `main`
     ```shell
-    docker run --privileged ghcr.io/donbing/bitbot:main
+    docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:main
+    docker run -it --privileged ghcr.io/donbing/bitbot:main
     ```
  - `release` (stable)
-    ```shell
-    docker run --privileged ghcr.io/donbing/bitbot:release
-    ```
- - `keep running`
     ```shell
     docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:release
     ```
