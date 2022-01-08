@@ -1,12 +1,11 @@
 from src import currency_chart
 from src import kinky
-from PIL import Image, ImageFont, ImageDraw
-from pprint import pprint
+from PIL import Image, ImageDraw
 import io
 import random
-import RPi.GPIO as GPIO
 import socket
 import time
+import logging
 
 def network_connected(hostname="google.com"):
     try:
@@ -46,18 +45,19 @@ def wait_for_internet_connection(display):
 def run(config):
     
     display = kinky.inker(config)
+    # below is for testing without an inky display (will save to disk)
     #display = kinky.disker()
 
     # check internet connection
-    print('await network')
+    logging.info('Await network')
     wait_for_internet_connection(display)
 
-    print('starting..')
+    logging.info('Fetching chart data')
     # fetch the chart data
-    chartdata = currency_chart.chart_data(config)
+    chartdata = currency_chart.chart_data(config, display)
 
     with io.BytesIO() as file_stream:
-        print('Formatting image for display')
+        logging.info('Formatting chart for display')
 
         # write mathplot fig to stream and open as a PIL image
         chartdata.write_to_stream(file_stream)
@@ -95,5 +95,5 @@ def run(config):
         # add a border to the display
         draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline='red')
         
-        print("displaying image")
+        logging.info("Displaying image")
         display.show(plot_image) 

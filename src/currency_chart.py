@@ -1,18 +1,20 @@
+
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+matplotlib.use('Agg')
 import ccxt
 from datetime import datetime, timedelta, timezone
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import mpl_finance
-import matplotlib.dates as mdates
 import random
 import tzlocal
+import logging
 
 def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
     startdate = datetime.utcnow() - chartDuration
     exchange = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    print('fetching data from ' + exchange)
+    logging.info('Fetching data from ' + exchange)
     # create exchange wrapper based on user exchange config
     exchange = getattr(ccxt, exchange)({ 
         #'apiKey': '<YOUR API KEY HERE>',
@@ -20,9 +22,9 @@ def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
         'enableRateLimit': True,
     })
     exchange.loadMarkets()
-    #print(" supported exchanges: " + str(cccxt.exchanges))
-    #print(" supported time frames: " + str(exchange.timeframes))
-    #print(" supported markets: " + " ".join(exchange.markets.keys()))
+    logging.info("Supported exchanges: " + str(ccxt.exchanges))
+    logging.info("Supported time frames: " + str(exchange.timeframes))
+    logging.info("Supported markets: " + " ".join(exchange.markets.keys()))
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
     
@@ -41,12 +43,12 @@ def replace_at_index(tup, ix, val):
 
 def make_sell_order(instrument):
     order = exchange.create_order(instrument, 'Market', 'sell', 2.0, None)
-    print(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
+    logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
 
 #DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
-def get_plot():
+def get_plot(display):
     # pyplot setup for 4X3 100dpi screen
-    fig, ax = plt.subplots(figsize=(4, 3), dpi=100)
+    fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
     #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     plt.rcParams["font.family"] = "monospace"
@@ -71,6 +73,8 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
+    ax.spines['bottom'].set_linewidth(1)
+    ax.spines['left'].set_linewidth(1)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     # format/locate x axis labels
@@ -86,17 +90,17 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
     ax.autoscale_view(tight=False)
 
 class chart_data:
-    def __init__(self, config):   
+    def __init__(self, config, display):   
         layouts = [
             ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
-            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%D')),
+            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
             ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
             ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
         ]
         
         self.layout = layouts[random.randrange(len(layouts))]
         self.candle_width = self.layout[0]
-        self.fig, ax = get_plot()
+        self.fig, ax = get_plot(display)
         self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], config)
         mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
         configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])
