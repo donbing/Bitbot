@@ -45,7 +45,7 @@ def wait_for_internet_connection(display):
 def run(config):
     
     display = kinky.inker(config)
-    # below is for testing without an inky display (will save to disk)
+    # below is for testing without an inky display. saves to disk
     #display = kinky.disker()
 
     # check internet connection
