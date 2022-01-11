@@ -1,4 +1,3 @@
-
 # Setup Options
 
 ## 1. Burn the Bitbot image to a new SD card
