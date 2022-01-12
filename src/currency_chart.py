@@ -22,17 +22,14 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
     })
     exchange.loadMarkets()
 
-    logging.info("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
-    logging.info("Supported time frames: \n" + "\n".join(exchange.timeframes))
-    logging.info("Supported markets: \n" + "\n".join(exchange.markets.keys()))
-    logging.info("Fetching data from: " + exchange_name + " candles: " + str(num_candles) + " width: " + candleFreq)
+    logging.debug("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
+    logging.debug("Supported time frames: \n" + "\n".join(exchange.timeframes))
+    logging.debug("Supported markets: \n" + "\n".join(exchange.markets.keys()))
+    logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " of " + instrument + " candles from: " + exchange_name)
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
     cleaned_candle_data = list(map(lambda x: clean_element(x), candleData))
-    
-    #logging.info("Chart candles: " + str(len(cleaned_candle_data)))
-    #logging.info("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
-    #logging.info("Candle data: " + "\n".join(map(lambda x: str(mdates.date2num((x[0])), cleaned_candle_data)))
+    logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
 
     return cleaned_candle_data
 
