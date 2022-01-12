@@ -12,23 +12,27 @@ import logging
 
 def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
     startdate = datetime.utcnow() - chartDuration
-    exchange = config["currency"]["exchange"]
+    exchange_name = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    logging.info('Fetching data from ' + exchange)
     # create exchange wrapper based on user exchange config
-    exchange = getattr(ccxt, exchange)({ 
+    exchange = getattr(ccxt, exchange_name)({ 
         #'apiKey': '<YOUR API KEY HERE>',
         #'secret': '<YOUR API SECRET HERE>',
         'enableRateLimit': True,
     })
+    logging.info("Fetching data from \n" + exchange_name)
     exchange.loadMarkets()
-    logging.info("Supported exchanges: " + str(ccxt.exchanges))
-    logging.info("Supported time frames: " + str(exchange.timeframes))
-    logging.info("Supported markets: " + " ".join(exchange.markets.keys()))
+    logging.info("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
+    logging.info("Supported time frames: \n" + "\n".join(exchange.timeframes))
+    logging.info("Supported markets: \n" + "\n".join(exchange.markets.keys()))
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
+    cleaned_candle_data = list(map(lambda x: clean_element(x), candleData))
     
-    return list(map(lambda x: clean_element(x), candleData))
+    logging.info("Chart candles: " + str(len(cleaned_candle_data)))
+    logging.info("Candle data: " + "\n".join(map(str,cleaned_candle_data)))
+
+    return cleaned_candle_data
 
 def clean_element(element):
     datetime_field = element[0]/1000
