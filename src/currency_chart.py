@@ -10,8 +10,8 @@ import random
 import tzlocal
 import logging
 
-def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
-    startdate = datetime.utcnow() - chartDuration
+def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
+   
     exchange_name = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
     # create exchange wrapper based on user exchange config
@@ -20,17 +20,19 @@ def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
         #'secret': '<YOUR API SECRET HERE>',
         'enableRateLimit': True,
     })
-    logging.info("Fetching data from \n" + exchange_name)
     exchange.loadMarkets()
+
     logging.info("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
     logging.info("Supported time frames: \n" + "\n".join(exchange.timeframes))
     logging.info("Supported markets: \n" + "\n".join(exchange.markets.keys()))
+    logging.info("Fetching data from: " + exchange_name + " candles: " + str(num_candles) + " width: " + candleFreq)
 
-    candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
+    candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
     cleaned_candle_data = list(map(lambda x: clean_element(x), candleData))
     
-    logging.info("Chart candles: " + str(len(cleaned_candle_data)))
-    logging.info("Candle data: " + "\n".join(map(str,cleaned_candle_data)))
+    #logging.info("Chart candles: " + str(len(cleaned_candle_data)))
+    #logging.info("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
+    #logging.info("Candle data: " + "\n".join(map(lambda x: str(mdates.date2num((x[0])), cleaned_candle_data)))
 
     return cleaned_candle_data
 
@@ -96,10 +98,10 @@ def configure_axes(ax, minor_format, minor_locator, major_format, major_locator)
 class chart_data:
     def __init__(self, config, display):   
         layouts = [
-            ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
-            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
-            ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
+            ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+            ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+            ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+            ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
         ]
         
         self.layout = layouts[random.randrange(len(layouts))]
