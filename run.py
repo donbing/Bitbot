@@ -26,8 +26,10 @@ scheduler = sched.scheduler(time.time, time.sleep)
 def get_refresh_rate_minutes():
      return float(config['display']['refresh_time_minutes'])
     
+bb = update_chart.bitbot(config) 
+
 def refresh_chart(sc): 
-    update_chart.run(config)
+    bb.run()
     logging.info("Screen update complete")
     refresh_minutes = get_refresh_rate_minutes()
     logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
