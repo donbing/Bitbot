@@ -28,12 +28,12 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
     logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " of " + instrument + " candles from: " + exchange_name)
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
-    cleaned_candle_data = list(map(lambda x: clean_element(x), candleData))
+    cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
     logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
 
     return cleaned_candle_data
 
-def clean_element(element):
+def make_matplotfriendly_date(element):
     datetime_field = element[0]/1000
     dateime_utc = datetime.fromtimestamp(datetime_field)
     dateime_num = mdates.date2num(dateime_utc)
