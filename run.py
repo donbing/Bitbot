@@ -1,6 +1,7 @@
 from src import update_chart
 import configparser
 import pathlib
+from os.path import join as pjoin
 import sched, time
 import logging, logging.handlers
 
