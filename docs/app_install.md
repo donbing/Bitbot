@@ -8,8 +8,7 @@
 3. insert SD, power up and wait for the screen to refresh
 ## B. Add to an existing PiOS install
 > For advanced users that want to modify an existing pi
-
-> Note: I've been  unable to get this working on bullseye so-far, only the legacy buster image  
+buster image  
 
 1. make sure python, pip, git and other dependancies are installed
 ```sh
@@ -22,25 +21,19 @@ git clone https://github.com/donbing/bitbot
 cd bitbot 
 pip3 install --user -r requirements.txt
 ```
-3. Add cron jobs to start the app and config server
-```sh
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
-```
-4. ensure that `I2C`/`SPI` are enabled on the host pi
+3. ensure that `I2C`/`SPI` are enabled on the host pi
 ```sh
 sudo raspi-config nonint do_spi 0
 sudo raspi-config nonint do_i2c 0
 ```
-5. Test the app 
+4. Test the app 
 ```sh
 python3 -m run
 ```
-6. optionally Install [wifi connection helper](https://github.com/jasbur/RaspiWiFi)
+5. Add cron jobs to start the app and config server
 ```sh
-git clone https://github.com/jasbur/RaspiWiFi
-cd RaspiWiFi
-sudo python3 initial_setup.py
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 ```
 ## C. Install in docker
 > Highly flexible approach that allows for simple updates
