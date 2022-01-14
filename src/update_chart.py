@@ -1,9 +1,8 @@
 from src import currency_chart
 from src import kinky
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageDraw
 import io
 import random
-import RPi.GPIO as GPIO
 import socket
 import time
 import logging
@@ -35,6 +34,7 @@ def count_white_pixels(x, y, n, image):
 
 # wait for network connection
 def wait_for_internet_connection(display):
+    logging.info('Await network')
     connection_error_shown = False
     while network_connected() == False:
         # draw error message if not already drawn
@@ -43,57 +43,65 @@ def wait_for_internet_connection(display):
             display.draw_connection_error()
         time.sleep(10)
 
-def run(config):
-    
-    display = kinky.inker(config)
-    #display = kinky.disker()
+class bitbot:
+    def __init__(self, config):
+        self.config = config
+        self.display = kinky.inker(self.config)
+        # below is for testing without an inky display. saves to disk
+        #display = kinky.disker()
+        self.chart = currency_chart.crypto_chart(self.config, self.display)
 
-    # check internet connection
-    logging.info('Await network')
-    wait_for_internet_connection(display)
+    def get_comments(self, direction):
+        return self.config.get('comments', direction).split(',')
 
-    logging.info('Fetching chart data')
-    # fetch the chart data
-    chartdata = currency_chart.chart_data(config, display)
+    def configured_instrument(self):
+        return self.config["currency"]["instrument"]
 
-    with io.BytesIO() as file_stream:
-        logging.info('Formatting chart for display')
+    def run(self):
+        # check internet connection
+        wait_for_internet_connection(self.display)
 
-        # write mathplot fig to stream and open as a PIL image
-        chartdata.write_to_stream(file_stream)
-        file_stream.seek(0)
-        plot_image = Image.open(file_stream)
-        
-        # find some empty graph space to place our text
-        title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
-        selectedArea = least_intrusive_position(plot_image, title_positions)
-        
-        # write our text to the image
-        draw_plot_image = ImageDraw.Draw(plot_image)
+        # fetch the chart data
+        chartdata = self.chart.createChart()
+        #chartdata = currency_chart.chart_data(self.config, self.display)
 
-        # instrument / time text
-        title = config["currency"]["instrument"] + ' (' + chartdata.candle_width + ') '
-        draw_plot_image.text(selectedArea, title, 'black', display.title_font)
+        with io.BytesIO() as file_stream:
+            logging.info('Formatting chart for display')
 
-        # % change text
-        title_width, title_height = draw_plot_image.textsize(title, display.title_font)
-        change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
-        change_colour = ('red' if change < 0 else 'black')
-        draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, display.title_font)
-        
-        # current price text
-        price = '{:,.0f}'.format(chartdata.last_close())
-        price_width, price_height = draw_plot_image.textsize(price, display.price_font)
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', display.price_font)
-        
-        # select some random comment depending on price action
-        if random.random() < 0.5:
-            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-            messages=config.get('comments', direction).split(',')
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', display.title_font)
-        
-        # add a border to the display
-        draw_plot_image.rectangle([(0, 0), (display.WIDTH -1, display.HEIGHT-1)], outline='red')
-        
-        logging.info("Displaying image")
-        display.show(plot_image) 
+            # write mathplot fig to stream and open as a PIL image
+            chartdata.write_to_stream(file_stream)
+            file_stream.seek(0)
+            plot_image = Image.open(file_stream)
+            
+            # find some empty graph space to place our text
+            title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
+            selectedArea = least_intrusive_position(plot_image, title_positions)
+            
+            # write our text to the image
+            draw_plot_image = ImageDraw.Draw(plot_image)
+
+            # instrument / time text
+            title = self.configured_instrument() + ' (' + chartdata.candle_width + ') '
+            draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
+
+            # % change text
+            title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
+            change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
+            change_colour = ('red' if change < 0 else 'black')
+            draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+            
+            # current price text
+            price = '{:,.0f}'.format(chartdata.last_close())
+            price_width, price_height = draw_plot_image.textsize(price, self.display.price_font)
+            draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
+            
+            # select some random comment depending on price action
+            if random.random() < 0.5:
+                direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
+                messages=self.get_comments(direction)
+                draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
+            
+            # add a border to the display
+            draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
+            
+            self.display.show(plot_image) 

@@ -1,32 +1,43 @@
-import ccxt
-from datetime import datetime, timedelta
+
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import mpl_finance
 import matplotlib.dates as mdates
+matplotlib.use('Agg')
+import ccxt
+from datetime import datetime, timedelta, timezone
+import mpl_finance
 import random
+import tzlocal
 import logging
 
-def fetch_OHLCV_chart_data(candleFreq, chartDuration, config):
-    startdate = datetime.utcnow() - chartDuration
-    exchange = config["currency"]["exchange"]
+def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
+   
+    exchange_name = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    logging.info('Fetching data from ' + exchange)
     # create exchange wrapper based on user exchange config
-    exchange = getattr(ccxt, exchange)({ 
+    exchange = getattr(ccxt, exchange_name)({ 
         #'apiKey': '<YOUR API KEY HERE>',
         #'secret': '<YOUR API SECRET HERE>',
         'enableRateLimit': True,
     })
     exchange.loadMarkets()
-    logging.info("Supported exchanges: " + str(ccxt.exchanges))
-    logging.info("Supported time frames: " + str(exchange.timeframes))
-    logging.info("Supported markets: " + " ".join(exchange.markets.keys()))
 
-    candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=1000, params={'startTime':startdate})
-    # clean up dates in data
-    return list(map(lambda x: replace_at_index(x, 0, mdates.date2num(datetime.utcfromtimestamp(x[0]/1000))), candleData))
+    logging.debug("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
+    logging.debug("Supported time frames: \n" + "\n".join(exchange.timeframes))
+    logging.debug("Supported markets: \n" + "\n".join(exchange.markets.keys()))
+    logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " " + instrument + " candles from " + exchange_name)
+
+    candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
+    cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
+    logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
+
+    return cleaned_candle_data
+
+def make_matplotfriendly_date(element):
+    datetime_field = element[0]/1000
+    datetime_utc = datetime.utcfromtimestamp(datetime_field)
+    datetime_num = mdates.date2num(datetime_utc)
+    return replace_at_index(element, 0, datetime_num)
 
 def replace_at_index(tup, ix, val):
    lst = list(tup)
@@ -43,11 +54,31 @@ def get_plot(display):
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
     #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
+    # faied attempt at mpl fonts
     plt.rcParams["font.family"] = "monospace"
     plt.rcParams["font.monospace"] = "Terminal"
     plt.rcParams['text.antialiased'] = False
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
+    plt.rcParams['timezone'] = tzlocal.get_localzone_name()
+    
+    # human readable short-format y-axis currency amount
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(human_format))
+    
+    # this will hide the axis/labels
+    ax.autoscale_view(tight=False)
+
+    # style axis ticks
+    ax.tick_params(labelsize='8', color='red', which='both', labelcolor='black')
+    
+    # hide the top/right border
+    ax.spines['bottom'].set_color('red')
+    ax.spines['left'].set_color('red')
+    ax.spines['bottom'].set_linewidth(1)
+    ax.spines['left'].set_linewidth(1)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
     return (fig, ax)
 
 def human_format(num, pos):
@@ -58,37 +89,33 @@ def human_format(num, pos):
         num /= 1000.0
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
-def configure_axes(ax, minor_format, minor_locator, major_format, major_locator):
-    # style axis ticks
-    ax.tick_params(labelsize='8', color='red', which='both', labelcolor='black')
-    # hide the top/right border
-    ax.spines['bottom'].set_color('red')
-    ax.spines['left'].set_color('red')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
+def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
     # format/locate x axis labels
-    ax.xaxis.set_minor_locator(minor_format)
-    #ax.xaxis.set_minor_formatter(minor_locator)
-    ax.xaxis.set_major_locator(major_format)
-    ax.xaxis.set_major_formatter(major_locator)
-    # human readable short-foprmat y-axis currency amount
-    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(human_format))
-    ax.xaxis_date()
-    # this will hide the axis/labels
-    ax.autoscale_view(tight=False)
+    ax.xaxis.set_minor_locator(minor_label_locator)
+    #ax.xaxis.set_minor_formatter(minor_label_format)
+    ax.xaxis.set_major_locator(major_label_locator)
+    ax.xaxis.set_major_formatter(major_label_format)
+
+class crypto_chart:
+    def __init__(self, config, display):   
+        self.config = config
+        self.display = display
+        self.fig, self.ax = get_plot(display)
+    
+    def createChart(self):
+        return chart_data(self.config, self.fig, self.ax)
 
 class chart_data:
-    def __init__(self, config, display):   
+    def __init__(self, config, fig, ax):   
         layouts = [
-            ('1d', timedelta(days=60), 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
-            ('1h', timedelta(hours=40), 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%D')),
-            ('1h', timedelta(hours=24), 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            ('5m', timedelta(minutes=5*60), 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=2), mdates.DateFormatter('%I%p'))
+            ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter('%d'), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+            ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+            ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+            ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
         ]
-        
+        self.fig = fig
         self.layout = layouts[random.randrange(len(layouts))]
         self.candle_width = self.layout[0]
-        self.fig, ax = get_plot(display)
         self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], config)
         mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
         configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])

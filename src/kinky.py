@@ -68,7 +68,7 @@ class inker:
         self.inky_display.show()
     
     def show(self, image):
-        
+        logging.info("Displaying image")
         # rotate the image 
         image_rotation = self.display_config.getint("rotation")
         display_image = image.rotate(image_rotation)

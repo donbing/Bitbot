@@ -20,5 +20,9 @@
  - Smaller/cheaper display
  - Regular stocks
 
-## [How To Install](docs/app_install.md)  
-## [Device Setup](docs/device_setup.md)  
+# Docs
+ - [How To Install](docs/app_install.md)  
+ - [Device Setup](docs/device_setup.md)  
+ - [Device Assembly](docs/device_assembly.md)  
+ - [Dev Notes](docs/development.md)   
+ - [Docker Setup](docs/docker_installation.md)  

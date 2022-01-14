@@ -1,25 +1,17 @@
-FROM python:3.7.12-slim-bullseye
+FROM navikey/raspbian-buster 
 
 # packages needed to run the app
-RUN apt-get update && apt-get install -y \
-    libfreetype6 \
-    libopenjp2-7-dev \
-    rustc \
-    libtiff5 \
-    libatlas-base-dev \
-    libxcb-xinput0 \
-    python3-pyasn1 \
-    python3-dev \
+RUN apt-get update && apt-get install -y --no-install-recommends\
+    python3 python3-pip \
+    python3-matplotlib \
+    python3-rpi.gpio \
+    python3-pil \
     && rm -rf /var/lib/apt/lists/* 
 
-RUN pip3 install -U pip
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir --index-url=https://www.piwheels.org/simple/ -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# copy the content of the local src directory to the working directory
 WORKDIR /code
 COPY . .
 
-# Make sure scripts in .local are usable:
-# command to run on container start
 CMD [ "python3", "./run.py" ]
