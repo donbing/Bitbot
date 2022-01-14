@@ -13,19 +13,14 @@
 
 1. make sure python, pip, git and other dependancies are installed
 ```sh
-sudo apt-get --allow-releaseinfo-change update
-sudo apt-get install -y
-    git \
-    python3 python3-pip \
-    python3-matplotlib \
-    python3-rpi.gpio \
-    python3-pil \
+sudo apt update -y
+sudo apt install -y git python3-pip python3-matplotlib python3-rpi.gpio python3-pil
 ```  
 2. Clone this repo and setup requirements
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
-pip3 install --user -r requirements.txt --index-url=https://www.piwheels.org/simple/
+pip3 install --user -r requirements.txt
 ```
 3. Add cron jobs to start the app and config server
 ```sh
