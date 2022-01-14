@@ -4,12 +4,14 @@ import pathlib
 import sched, time
 import logging, logging.handlers
 
+curdir = pathlib.Path(__file__).parent.resolve()
+log_path = pjoin(curdir, 'debug.log')
 # setup our logger for std out and rolling file
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.handlers.RotatingFileHandler("debug.log", maxBytes=2000, backupCount=0),
+        logging.handlers.RotatingFileHandler(log_path, maxBytes=2000, backupCount=0),
         logging.StreamHandler()
     ])
 logging.info("Running")
