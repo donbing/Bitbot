@@ -15,13 +15,14 @@ logging.basicConfig(
         logging.handlers.RotatingFileHandler(log_path, maxBytes=2000, backupCount=0),
         logging.StreamHandler()
     ])
-logging.info("Running")
+logging.info("logging to " + log_path)
 
 # get the config file data
 filePath = pathlib.Path(__file__).parent.absolute()
+config_path = str(filePath)+'/config.ini'
 config = configparser.ConfigParser()
-config.read(str(filePath)+'/config.ini')
-logging.info("Loaded config")
+config.read(config_path)
+logging.info("Loaded config from " + config_path)
 
 # schedule chart updates
 scheduler = sched.scheduler(time.time, time.sleep)

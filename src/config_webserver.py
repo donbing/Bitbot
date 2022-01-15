@@ -1,4 +1,5 @@
 import pathlib
+import os
 import os.path
 from os.path import join as pjoin
 import cgi
@@ -26,7 +27,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 '''
             html += '<textarea name="configfile" rows="20" cols="80">' + str(store_file.read()) + '</textarea>'
             html += '''
-                        <div><input type="submit"/></div>
+                        <div><input type="submit">Save and Reboot</input></div>
                     </form>
                     '''
             # display log info if it exists
@@ -44,6 +45,7 @@ class StoreHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(html)))
             self.end_headers()
             self.wfile.write(bytes(html, "utf8"))
+            os.system('systemctl reboot -i')    
 
     def do_POST(self):
         # form vars
