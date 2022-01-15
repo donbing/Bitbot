@@ -41,7 +41,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ./scripts/docker
+          context: .
+          file: scripts/docker/dockerfile
           platforms: linux/arm/v6,linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}
