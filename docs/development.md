@@ -5,7 +5,7 @@
 # Tests
 > How to run.
 ```sh
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover tests -v
 ```
 
 
