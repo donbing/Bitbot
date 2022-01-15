@@ -1,8 +1,8 @@
 import unittest
 import currency_chart
 
-class test_price_humaiser_decimal(unittest.TestCase):
-    def test_giga(self):
+class test_price_humaiser(unittest.TestCase):
+    def test_decimal(self):
         self.assertEqual(currency_chart.human_format(1,0), "1.00")
         self.assertEqual(currency_chart.human_format(9.99,0), "9.99")
         self.assertEqual(currency_chart.human_format(11,0), "11")
