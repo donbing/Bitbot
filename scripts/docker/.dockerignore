@@ -5,6 +5,7 @@
 .gitmodules
 docs
 tests
+scripts
 
 docker-compose.yml
 readme.md

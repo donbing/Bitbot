@@ -1,5 +1,5 @@
-from src import update_chart
-import configparser, sched, time, sys,  logging, logging.config, pathlib
+from src import bitbot
+import configparser, sched, time, sys, logging, logging.config, pathlib, os
 from os.path import join as pjoin
 
 curdir = pathlib.Path(__file__).parent.resolve()
@@ -20,13 +20,13 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
         return
-    logging.critical("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+    logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
 sys.excepthook = handle_exception
 
 # schedule chart updates
 scheduler = sched.scheduler(time.time, time.sleep)
-chart_updater = update_chart.bitbot(config) 
+chart_updater = bitbot.chart_updater(config) 
 
 def refresh_chart(sc): 
     chart_updater.run()

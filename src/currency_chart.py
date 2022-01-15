@@ -1,14 +1,10 @@
-import matplotlib
+import matplotlib, ccxt, mpl_finance, random, tzlocal, logging
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-matplotlib.use('Agg')
-import ccxt
-from datetime import datetime, timedelta, timezone
-import mpl_finance
-import random
-import tzlocal
-import logging
+from datetime import datetime
 from src import price_humaniser
+
+matplotlib.use('Agg')
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
    

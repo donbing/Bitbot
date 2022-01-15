@@ -39,7 +39,7 @@ def wait_for_internet_connection(display):
             display.draw_connection_error()
         time.sleep(10)
 
-class bitbot:
+class chart_updater:
     def __init__(self, config):
         self.config = config
         # select inky display or file output (nice for testing)
