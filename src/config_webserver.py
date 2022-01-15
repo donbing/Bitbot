@@ -27,7 +27,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 '''
             html += '<textarea name="configfile" rows="20" cols="80">' + str(store_file.read()) + '</textarea>'
             html += '''
-                        <div><input type="submit">Save and Reboot</input></div>
+                        <div><input type="submit" value="Save and Reboot"></input></div>
                     </form>
                     '''
             # display log info if it exists
