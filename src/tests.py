@@ -1,0 +1,25 @@
+import unittest
+import currency_chart
+
+class test_price_humaiser_decimal(unittest.TestCase):
+    def test_giga(self):
+        self.assertEqual(currency_chart.human_format(1,0), "1.00")
+        self.assertEqual(currency_chart.human_format(9.99,0), "9.99")
+        self.assertEqual(currency_chart.human_format(11,0), "11")
+        self.assertEqual(currency_chart.human_format(11.1,0), "11.1")
+        self.assertEqual(currency_chart.human_format(11.11,0), "11.1")
+        self.assertEqual(currency_chart.human_format(100.11,0), "100")
+    def test_kilo(self):
+        self.assertEqual(currency_chart.human_format(1000,0), "1K")
+        self.assertEqual(currency_chart.human_format(1100,0), "1.1K")
+        self.assertEqual(currency_chart.human_format(11100,0), "11.1K")
+    def test_mega(self):
+        self.assertEqual(currency_chart.human_format(1000000,0), "1M")
+        self.assertEqual(currency_chart.human_format(1100000,0), "1.1M")
+        self.assertEqual(currency_chart.human_format(1110000,0), "1.11M")
+        self.assertEqual(currency_chart.human_format(1111000,0), "1.11M")
+    def test_giga(self):
+        self.assertEqual(currency_chart.human_format(1000000000,0), "1B")
+        self.assertEqual(currency_chart.human_format(1100000000,0), "1.1B")
+        self.assertEqual(currency_chart.human_format(1110000000,0), "1.11B")
+        self.assertEqual(currency_chart.human_format(1111000000,0), "1.11B")
