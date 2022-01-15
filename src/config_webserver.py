@@ -45,7 +45,6 @@ class StoreHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(html)))
             self.end_headers()
             self.wfile.write(bytes(html, "utf8"))
-            os.system('sudo reboot now')    
 
     def do_POST(self):
         # form vars
@@ -62,6 +61,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         self.send_response(302)
         self.send_header('Location', self.path)
         self.end_headers()
+        os.system('sudo reboot now')    
 
 # start the webserver
 server = HTTPServer(('', 8080), StoreHandler)
