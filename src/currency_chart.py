@@ -49,9 +49,9 @@ def replace_at_index(tup, ix, val):
    lst[ix] = val
    return tuple(lst)
 
-def make_sell_order(instrument):
-    order = exchange.create_order(instrument, 'Market', 'sell', 2.0, None)
-    logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
+#def make_sell_order(instrument):
+#    order = exchange.create_order(instrument, 'Market', 'sell', 2.0, None)
+#    logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
 
 #DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
 def get_plot(display):
