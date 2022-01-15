@@ -2,6 +2,13 @@
 
 > Bitbot is somewhat cobbled together, but is fairly carefully commented and has been factored with ease of change in mind.  
 
+# Tests
+> How to run.
+```sh
+python3 -m unittest discover tests -v
+```
+
+
 ## logging
 BitBot will log to `StdOut` and a rolling `debug.log` file, i'm mildly concerned about writing to the SD card too much causing wear, it may be sensible to write these to a memory cache instead.
 

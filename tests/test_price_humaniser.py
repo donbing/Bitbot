@@ -1,5 +1,8 @@
 import unittest
-import price_humaniser
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+from src import price_humaniser
 
 class test_title_price_humaniser(unittest.TestCase):
     def test_uses_2dp_if_lessthan_100(self):
