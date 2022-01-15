@@ -34,7 +34,7 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
     cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
 
     logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
-    logging.info("Fetched " + str(len(cleaned_candle_data)) + "candles")
+    logging.info("Fetched " + str(len(cleaned_candle_data)) + " candles")
 
     return cleaned_candle_data
 
