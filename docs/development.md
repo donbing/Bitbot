@@ -13,7 +13,7 @@ Cron jobs were configured to output to syslog.
 # python logging
 tail ~/bitbot/debug.log
 # syslog logging
-more /var/log/syslog | grep bitbot
+more /var/log/syslog | grep bitbot.charts
 ```
 
 ## Packages
