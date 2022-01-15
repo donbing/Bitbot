@@ -1,4 +1,3 @@
-
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -15,7 +14,8 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
    
     exchange_name = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    # create exchange wrapper based on user exchange config
+
+    # create exchange wrapper and load market data
     exchange = getattr(ccxt, exchange_name)({ 
         #'apiKey': '<YOUR API KEY HERE>',
         #'secret': '<YOUR API SECRET HERE>',
@@ -26,11 +26,15 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
     logging.debug("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
     logging.debug("Supported time frames: \n" + "\n".join(exchange.timeframes))
     logging.debug("Supported markets: \n" + "\n".join(exchange.markets.keys()))
+
+    # fetch the chart data
     logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " " + instrument + " candles from " + exchange_name)
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
     cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
+
     logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
+    logging.info("Fetched " + str(len(cleaned_candle_data)) + " candles")
 
     return cleaned_candle_data
 
@@ -54,7 +58,7 @@ def get_plot(display):
     # pyplot setup for 4X3 100dpi screen
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
-    #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
+    # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     # faied attempt at mpl fonts
     plt.rcParams["font.family"] = "monospace"
     plt.rcParams["font.monospace"] = "Terminal"
@@ -82,13 +86,14 @@ def get_plot(display):
     
     return (fig, ax)
 
+# locate/format x axis labels
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
-    # format/locate x axis labels
     ax.xaxis.set_minor_locator(minor_label_locator)
-    #ax.xaxis.set_minor_formatter(minor_label_format)
+    ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
     ax.xaxis.set_major_formatter(major_label_format)
 
+# single instance for lifetime of app
 class crypto_chart:
     def __init__(self, config, display):   
         self.config = config

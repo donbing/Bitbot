@@ -32,8 +32,14 @@ python3 -m run
 ```
 5. Add cron jobs to start the app and config server
 ```sh
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
+```
+6. Give the current user permission to reboot
+> The config webserver runs as current user and needs to reboot for the app to reload it's config
+```sh
+sudo visudo -f /etc/sudoers.d/reboot_privilege
+# enter 'pi ALL=(root) NOPASSWD: /sbin/reboot'
 ```
 ## C. Install in docker
 > Highly flexible approach that allows for simple updates
