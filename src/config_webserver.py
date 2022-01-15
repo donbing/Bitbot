@@ -45,7 +45,7 @@ class StoreHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(html)))
             self.end_headers()
             self.wfile.write(bytes(html, "utf8"))
-            os.system('systemctl reboot -i')    
+            os.system('sudo reboot now')    
 
     def do_POST(self):
         # form vars
