@@ -1,8 +1,5 @@
 from src import update_chart
-import configparser
-import sched, time
-import logging, logging.config
-import pathlib
+import configparser, sched, time, sys,  logging, logging.config, pathlib
 from os.path import join as pjoin
 
 curdir = pathlib.Path(__file__).parent.resolve()
@@ -17,6 +14,15 @@ config_path = pjoin(curdir, 'config.ini')
 config = configparser.ConfigParser()
 config.read(config_path, encoding='utf-8')
 logging.info("Loaded config from " + config_path)
+
+# log unhandled exceptions
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+    logging.critical("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+
+sys.excepthook = handle_exception
 
 # schedule chart updates
 scheduler = sched.scheduler(time.time, time.sleep)
