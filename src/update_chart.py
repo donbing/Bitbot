@@ -6,7 +6,7 @@ import random
 import socket
 import time
 import logging
-import price_humaniser
+from src import price_humaniser
 
 def network_connected(hostname="google.com"):
     try:

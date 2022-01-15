@@ -9,7 +9,7 @@ import mpl_finance
 import random
 import tzlocal
 import logging
-import price_humaniser
+from src import price_humaniser
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
    
