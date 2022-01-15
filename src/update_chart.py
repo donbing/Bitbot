@@ -47,9 +47,9 @@ def wait_for_internet_connection(display):
 class bitbot:
     def __init__(self, config):
         self.config = config
-        #self.display = kinky.inker(self.config)
+        self.display = kinky.inker(self.config)
         # below is for testing without an inky display. saves to disk
-        self.display = kinky.disker()
+        #self.display = kinky.disker()
         self.chart = currency_chart.crypto_chart(self.config, self.display)
 
     def get_comments(self, direction):

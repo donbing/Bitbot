@@ -5,9 +5,10 @@ class test_title_price_humaniser(unittest.TestCase):
     def test_uses_2dp_if_lessthan_100(self):
         self.assertEqual(price_humaniser.format_title_price(1), "1.00")
         self.assertEqual(price_humaniser.format_title_price(9.99), "9.99")
-        self.assertEqual(price_humaniser.format_title_price(11), "11")
-        self.assertEqual(price_humaniser.format_title_price(11.1), "11.1")
-        self.assertEqual(price_humaniser.format_title_price(99.999), "99.99")
+        self.assertEqual(price_humaniser.format_title_price(11), "11.00")
+        self.assertEqual(price_humaniser.format_title_price(11.1), "11.10")
+        self.assertEqual(price_humaniser.format_title_price(99.99), "99.99")
+        self.assertEqual(price_humaniser.format_title_price(99.999), "100.00")
         
     def test_uses_0dp_if_greaterthan_100(self):
         self.assertEqual(price_humaniser.format_title_price(100.1), "100")
