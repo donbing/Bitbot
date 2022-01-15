@@ -35,6 +35,12 @@ python3 -m run
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/run.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && python3 /home/pi/bitbot/src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot")| crontab -
 ```
+6. Give the current user permission to reboot
+> this is so that teh config webserver can reboot and have the app reload it's config
+```sh
+sudo visudo -f /etc/sudoers.d/reboot_privilege
+# enter 'pi ALL=(root) NOPASSWD: /sbin/reboot'
+```
 ## C. Install in docker
 > Highly flexible approach that allows for simple updates
 1. ensure that `I2C`/`SPI` are enabled on the host pi

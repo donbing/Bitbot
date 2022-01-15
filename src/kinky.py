@@ -28,6 +28,7 @@ class disker:
         logging.info("No connection")
     
     def show(self, display_image):
+        logging.info("Saving image")
         display_image.save('last_display.png')
         
 class inker:

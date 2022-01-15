@@ -85,7 +85,7 @@ def get_plot(display):
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
     # format/locate x axis labels
     ax.xaxis.set_minor_locator(minor_label_locator)
-    #ax.xaxis.set_minor_formatter(minor_label_format)
+    ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
     ax.xaxis.set_major_formatter(major_label_format)
 
