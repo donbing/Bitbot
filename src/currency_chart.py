@@ -82,8 +82,13 @@ def get_plot(display):
     return (fig, ax)
 
 def human_format(num, pos):
+
+    if num < 10:
+        return "{:.2f}".format(num)
+        
     num = float('{:.3g}'.format(num))
     magnitude = 0
+    
     while abs(num) >= 1000:
         magnitude += 1
         num /= 1000.0
