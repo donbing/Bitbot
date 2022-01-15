@@ -15,7 +15,8 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
    
     exchange_name = config["currency"]["exchange"]
     instrument = config["currency"]["instrument"]
-    # create exchange wrapper based on user exchange config
+
+    # create exchange wrapper and load market data
     exchange = getattr(ccxt, exchange_name)({ 
         #'apiKey': '<YOUR API KEY HERE>',
         #'secret': '<YOUR API SECRET HERE>',
@@ -26,11 +27,15 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
     logging.debug("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
     logging.debug("Supported time frames: \n" + "\n".join(exchange.timeframes))
     logging.debug("Supported markets: \n" + "\n".join(exchange.markets.keys()))
+
+    # fetch the chart data
     logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " " + instrument + " candles from " + exchange_name)
 
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
     cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
+
     logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
+    logging.info("Fetched " + len(cleaned_candle_data) + "candles")
 
     return cleaned_candle_data
 
