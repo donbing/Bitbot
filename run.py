@@ -10,6 +10,7 @@ curdir = pathlib.Path(__file__).parent.resolve()
 # load logging config
 logging.config.fileConfig(pjoin(curdir, 'logging.ini'))
 log_output_file = pjoin(curdir, 'debug.log')
+logging.info("App starting")
 
 # load app config
 config_path = pjoin(curdir, 'config.ini')
