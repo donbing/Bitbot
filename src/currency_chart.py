@@ -9,6 +9,7 @@ import mpl_finance
 import random
 import tzlocal
 import logging
+import price_humaniser
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
    
@@ -63,7 +64,7 @@ def get_plot(display):
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
     
     # human readable short-format y-axis currency amount
-    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(human_format))
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
     
     # this will hide the axis/labels
     ax.autoscale_view(tight=False)
@@ -80,19 +81,6 @@ def get_plot(display):
     ax.spines['right'].set_visible(False)
     
     return (fig, ax)
-
-def human_format(num, pos):
-
-    if num < 10:
-        return "{:.2f}".format(num)
-        
-    num = float('{:.3g}'.format(num))
-    magnitude = 0
-    
-    while abs(num) >= 1000:
-        magnitude += 1
-        num /= 1000.0
-    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
     # format/locate x axis labels

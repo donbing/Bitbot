@@ -6,6 +6,7 @@ import random
 import socket
 import time
 import logging
+import price_humaniser
 
 def network_connected(hostname="google.com"):
     try:
@@ -46,9 +47,9 @@ def wait_for_internet_connection(display):
 class bitbot:
     def __init__(self, config):
         self.config = config
-        self.display = kinky.inker(self.config)
+        #self.display = kinky.inker(self.config)
         # below is for testing without an inky display. saves to disk
-        #display = kinky.disker()
+        self.display = kinky.disker()
         self.chart = currency_chart.crypto_chart(self.config, self.display)
 
     def get_comments(self, direction):
@@ -91,9 +92,7 @@ class bitbot:
             draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
             
             # current price text
-            last_closing_price = chartdata.last_close()
-            price_format = '{:,.0f}' if last_closing_price > 100 else '{:,.2f}' 
-            price = price_format.format(chartdata.last_close())
+            price = price_humaniser.format_title_price(chartdata.last_close())
             price_width, price_height = draw_plot_image.textsize(price, self.display.price_font)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
             
