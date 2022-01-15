@@ -54,7 +54,7 @@ def get_plot(display):
     # pyplot setup for 4X3 100dpi screen
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
-    #fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
+    # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     # faied attempt at mpl fonts
     plt.rcParams["font.family"] = "monospace"
     plt.rcParams["font.monospace"] = "Terminal"
@@ -82,13 +82,14 @@ def get_plot(display):
     
     return (fig, ax)
 
+# locate/format x axis labels
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
-    # format/locate x axis labels
     ax.xaxis.set_minor_locator(minor_label_locator)
     ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
     ax.xaxis.set_major_formatter(major_label_format)
 
+# single instance for lifetime of app
 class crypto_chart:
     def __init__(self, config, display):   
         self.config = config
