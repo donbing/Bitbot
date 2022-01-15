@@ -28,7 +28,7 @@ sudo shutdown -r now
     ```shell
     docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:main
     docker run -it --privileged ghcr.io/donbing/bitbot:main
-    docker-compose up -d
+    docker-compose -f scripts/docker/docker-compose.yml up
     ```
  - `release` (stable)
     ```shell

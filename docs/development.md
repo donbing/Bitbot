@@ -34,7 +34,7 @@ more /var/log/syslog | grep bitbot.charts
 ## Docker
 > Build arm6 on x86
 ```bash
-docker buildx build --platform linux/armv6 . -t bitbot --progress string
+docker buildx build --platform linux/armv6  . -t bitbot -f scripts/docker/dockerfile --progress string
 # run it
 docker run --privileged --platform linux/arm/v6 bitbot
 ```
