@@ -91,7 +91,9 @@ class bitbot:
             draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
             
             # current price text
-            price = '{:,.0f}'.format(chartdata.last_close())
+            last_closing_price = chartdata.last_close()
+            price_format = '{:,.0f}' if last_closing_price > 100 else '{:,.2f}' 
+            price = price_format.format(chartdata.last_close())
             price_width, price_height = draw_plot_image.textsize(price, self.display.price_font)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
             
