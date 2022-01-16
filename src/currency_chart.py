@@ -64,8 +64,7 @@ def get_chart_plot(display):
 
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
-    ax.set_title("Font Test 123467")
-
+    
     # bring labels closer to the axis
     ax.tick_params(axis='x', pad=4)
     ax.tick_params(axis='y', pad=1)
