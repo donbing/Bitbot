@@ -57,18 +57,20 @@ def get_chart_plot(display):
     
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
-    
+    # bring labels closer to the axis
+    ax.tick_params(axis='x', pad=4)
+    ax.tick_params(axis='y', pad=1)
     # this will hide the axis/labels
     ax.autoscale_view(tight=False)
 
     # style axis ticks
-    ax.tick_params(labelsize='8', color='red', which='both', labelcolor='black')
+    ax.tick_params(labelsize='10', color='red', which='both', labelcolor='black')
     
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
-    ax.spines['bottom'].set_linewidth(1)
-    ax.spines['left'].set_linewidth(1)
+    ax.spines['bottom'].set_linewidth(0.8)
+    ax.spines['left'].set_linewidth(0.8)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
@@ -88,13 +90,13 @@ class crypto_chart:
         self.display = display
     
     def createChart(self):
-        return chart_data(self.config, self.display)
+        return charted_plot(self.config, self.display)
 
-class chart_data:
+class charted_plot:
     layouts = [
         ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%B')),
         ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
-        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I%p')),
         ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
     ]
     def __init__(self, config, display):
