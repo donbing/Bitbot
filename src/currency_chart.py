@@ -120,6 +120,9 @@ class charted_plot:
         # draw candles to MPL plot
         mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
 
+    def percentage_change(self):
+        return ((self.last_close() - self.start_price()) / self.last_close()) * 100
+
     def last_close(self):
         return self.candleData[-1][4]
 

@@ -137,8 +137,7 @@ class chart_updater:
             draw_plot_image.text((self.display.WIDTH - time_width - 1, self.display.HEIGHT - time_height - 2), formatted_time, 'black', self.display.tiny_font)
 
             # draw % change text
-            title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
-            change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
+            change = chartdata.percentage_change()
             change_colour = ('red' if change < 0 else 'black')
             draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
             
