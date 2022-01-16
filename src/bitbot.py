@@ -1,6 +1,6 @@
 from src import price_humaniser, currency_chart, kinky
 from PIL import Image, ImageDraw
-import io, random, socket, logging, time
+import io, random, socket, logging, time, os
 
 # test if internet is available
 def network_connected(hostname="google.com"):
@@ -48,7 +48,7 @@ class chart_updater:
         self.chart = currency_chart.crypto_chart(self.config, self.display)
 
     def use_inky(self):
-        return self.config["display"]["output"] == "inky"
+        return os.getenv('BITBOT_OUTPUT') != 'disk' and self.config["display"]["output"] == "inky"
 
     def get_price_action_comments(self, direction):
         return self.config.get('comments', direction).split(',')

@@ -49,7 +49,7 @@ jobs:
 
       - name: Run test image
         run: |
-          docker run --rm  ${{ env.TEST_TAG }}
+          docker run --rm  ${{ env.TEST_TAG }} --env TESTRUN=true BITBOT_OUTPUT=disk
 
       - name: Build and push real Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -60,5 +60,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-
