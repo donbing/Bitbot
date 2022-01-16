@@ -2,11 +2,12 @@ name: Create and publish Docker image
 
 on:
   push:
-    branches: ['main', 'release']
+    branches: ['main', 'release', 'project_structure']
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  TEST_TAG: donbing/bitbot:test
 
 jobs:
   build-and-push-image:
@@ -38,10 +39,23 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image
+      - name: Build test image and export to Docker
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          load: true
+          file: scripts/docker/dockerfile
+          tags:  ${{ env.TEST_TAG }}
+
+      - name: Run test image
+        run: |
+          docker run --rm --env TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false ${{ env.TEST_TAG }} 
+
+      - name: Build and push real Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
+          file: scripts/docker/dockerfile
           platforms: linux/arm/v6,linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}

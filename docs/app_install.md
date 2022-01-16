@@ -1,21 +1,18 @@
 # Setup Options
 
-## A. Burn the Bitbot image to a new SD card
----
+## 🎴 A. Burn the Bitbot image to a new SD card
 > Simple installation that anyone can complete
 1. download the latest release from [releases page](https://github.com/donbing/bitbot/releases)  
 2. use [Balena Etcher](https://www.balena.io/etcher/) to burn the zipped image to your SD card.
 3. insert SD, power up and wait for the screen to refresh
-## B. Add to an existing PiOS install
-> For advanced users that want to modify an existing pi
-buster image  
-
-1. make sure python, pip, git and other dependancies are installed
+## 🍓B. Add Bitbot to an existing PiOS install
+> tested on buster, seems to work on bullseye too 
+1. Make sure python, pip, git and other dependancies are installed
 ```sh
 sudo apt update -y
 sudo apt install -y git python3-pip python3-matplotlib python3-rpi.gpio python3-pil
 ```  
-2. Clone this repo and setup requirements
+2. Clone this repo and install [pip requirements](/requirements.txt)
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
@@ -30,19 +27,18 @@ sudo raspi-config nonint do_i2c 0
 ```sh
 python3 -m run
 ```
-5. Add cron jobs to start the app and config server
+5. Add cron jobs to start the [app](/run.py) and [config-server](/src/config_webserver.py) after reboot
 ```sh
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
 ```
-6. Give the current user permission to reboot
-> The config webserver runs as current user and needs to reboot for the app to reload it's config
+6. The [config-server](/src/config_webserver.py) needs permission to reboot after changes
 ```sh
 sudo visudo -f /etc/sudoers.d/reboot_privilege
 # enter 'pi ALL=(root) NOPASSWD: /sbin/reboot'
 ```
-## C. Install in docker
-> Highly flexible approach that allows for simple updates
+## 🐳 C. Run in docker
+> 
 1. ensure that `I2C`/`SPI` are enabled on the host pi
 ```sh
 sudo raspi-config nonint do_spi 0
@@ -50,5 +46,5 @@ sudo raspi-config nonint do_i2c 0
 ```
 2. run the container
 ```sh
-docker run --privileged -d ghcr.io/donbing/bitbot:main
+docker run --privileged --restart unless-stopped -d ghcr.io/donbing/bitbot:release
 ```

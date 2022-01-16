@@ -1,5 +1,5 @@
-from src import update_chart
-import configparser, sched, time, sys,  logging, logging.config, pathlib
+from src import bitbot
+import configparser, sched, time, sys, logging, logging.config, pathlib, os
 from os.path import join as pjoin
 
 curdir = pathlib.Path(__file__).parent.resolve()
@@ -20,21 +20,33 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     if issubclass(exc_type, KeyboardInterrupt):
         sys.__excepthook__(exc_type, exc_value, exc_traceback)
         return
-    logging.critical("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
-
+    logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 sys.excepthook = handle_exception
+
+# configure bitbot chart updater
+chart_updater = bitbot.chart_updater(config) 
+def update_chart():
+    chart_updater.run()
+    if os.getenv('BITBOT_SHOWIMAGE') == 'true':
+        os.system("code last_display.png")    
+
+# terminate after test run
+if os.getenv('TESTRUN') == 'true':
+    update_chart()
+    raise SystemExit
 
 # schedule chart updates
 scheduler = sched.scheduler(time.time, time.sleep)
-chart_updater = update_chart.bitbot(config) 
+secs_per_min = 60
 
 def refresh_chart(sc): 
-    chart_updater.run()
+    update_chart()
     refresh_minutes = float(config['display']['refresh_time_minutes'])
     logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-    sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
+    sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
 
 # update chart immediately and begin update schedule
 refresh_chart(scheduler)
 scheduler.run()
+
 logging.info("Scheduler running")

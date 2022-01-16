@@ -1,20 +1,13 @@
-import matplotlib
+import matplotlib, ccxt, mpl_finance, random, tzlocal, logging
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-matplotlib.use('Agg')
-import ccxt
-from datetime import datetime, timedelta, timezone
-import mpl_finance
-import random
-import tzlocal
-import logging
+from datetime import datetime
 from src import price_humaniser
 
-def fetch_OHLCV_chart_data(candleFreq, num_candles, config):
-   
-    exchange_name = config["currency"]["exchange"]
-    instrument = config["currency"]["instrument"]
+matplotlib.use('Agg')
 
+def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
+   
     # create exchange wrapper and load market data
     exchange = getattr(ccxt, exchange_name)({ 
         #'apiKey': '<YOUR API KEY HERE>',
@@ -49,12 +42,7 @@ def replace_at_index(tup, ix, val):
    lst[ix] = val
    return tuple(lst)
 
-#def make_sell_order(instrument):
-#    order = exchange.create_order(instrument, 'Market', 'sell', 2.0, None)
-#    logging.info(order['side'] + ':' + str(order['amount']) + '@' + str(order['price']))
-
-#DejaVu Sans Mono, Bitstream Vera Sans Mono, Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
-def get_plot(display):
+def get_chart_plot(display):
     # pyplot setup for 4X3 100dpi screen
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
@@ -103,20 +91,27 @@ class crypto_chart:
         return chart_data(self.config, self.display)
 
 class chart_data:
-    def __init__(self, config, display):   
-        fig, ax = get_plot(display)
-        layouts = [
-            ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%B')),
-            ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
-            ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
-            ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
-        ]
-        self.fig = fig
-        self.layout = layouts[random.randrange(len(layouts))]
+    layouts = [
+        ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+        ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I %p')),
+        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
+    ]
+    def __init__(self, config, display):
+        # create MPL plot
+        self.fig, ax = get_chart_plot(display)
+        # select a random chart layout 
+        self.layout = self.layouts[random.randrange(len(self.layouts))]
         self.candle_width = self.layout[0]
-        self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], config)
-        mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
+        # apply chosen layouts axis labelling to plot 
         configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])
+
+        exchange_name = config["currency"]["exchange"]
+        instrument = config["currency"]["instrument"]
+        # get market data for layout
+        self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], exchange_name, instrument)
+        # draw candles to MPL plot
+        mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
 
     def last_close(self):
         return self.candleData[-1][4]
