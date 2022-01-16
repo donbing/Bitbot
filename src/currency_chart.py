@@ -43,17 +43,26 @@ def replace_at_index(tup, ix, val):
    lst[ix] = val
    return tuple(lst)
 
-def get_chart_plot(display):
+def get_chart_plot(display, config):
     # pyplot setup for 4X3 100dpi screen
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
-    # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
-    
+    if config["display"]["expanded_chart"] == 'true':
+        fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
+        #ax.set_xmargin(0.2) # inset candles to make space for tick labels
+        ax.tick_params(axis='x', pad=-15, direction="in")
+        ax.tick_params(axis='y', pad=-40, direction="in")
+    else:    
+        # bring labels closer to the axis
+        ax.tick_params(axis='x', pad=6, direction="in")
+        ax.tick_params(axis='y', pad=1, direction="in")
+        plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
+
     # set default attempt at mpl font / style
     logging.debug(font_manager.fontManager.ttflist)
     matplotlib.rcParams["font.sans-serif"] = "04b03"
     matplotlib.rcParams["font.family"] = "sans-serif"
-    matplotlib.rcParams['font.weight'] = 'light'  
+    matplotlib.rcParams['font.weight'] = 'light'
 
     plt.rcParams['text.hinting_factor'] = 1
     plt.rcParams['text.hinting'] = 'native'
@@ -61,13 +70,9 @@ def get_chart_plot(display):
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-    plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
-    # ax.set_xmargin(0.8) could use this to inset ticks and vals
-    # bring labels closer to the axis
-    ax.tick_params(axis='x', pad=6, direction="in")
-    ax.tick_params(axis='y', pad=1, direction="in")
+    
     # style axis ticks
     ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
     
@@ -106,7 +111,7 @@ class charted_plot:
     ]
     def __init__(self, config, display):
         # create MPL plot
-        self.fig, ax = get_chart_plot(display)
+        self.fig, ax = get_chart_plot(display, config)
         # select a random chart layout 
         self.layout = self.layouts[random.randrange(len(self.layouts))]
         self.candle_width = self.layout[0]
