@@ -84,9 +84,16 @@ class chart_updater:
             self.display.show(plot_image) 
 
     def draw_current_time(self, draw_plot_image):
-        formatted_time = datetime.now().strftime("%b %-d %-H:%M")
-        time_width, time_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
-        draw_plot_image.text((self.display.WIDTH - time_width - 1, self.display.HEIGHT - time_height - 2), formatted_time, 'black', self.display.tiny_font)
+        if self.config["display"]["timestamp"] == 'true':
+            formatted_time = datetime.now().strftime("%b %-d %-H:%M")
+            text_width, text_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
+            draw_plot_image.text((self.display.WIDTH - text_width - 1, self.display.HEIGHT - text_height - 2), formatted_time, 'black', self.display.tiny_font)
+
+    # add a border if configured
+    def draw_border(self, draw_plot_image):
+        border_type = self.config["display"]["border"]
+        if self.config["display"]["border"] != 'none':
+            draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline=border_type)
 
     def draw_overlay1(self, plot_image, chartdata):
         # handle for drawing on our chart image
@@ -115,51 +122,47 @@ class chart_updater:
             messages=self.get_price_action_comments(direction)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
         
-        # draw current time
+        self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
 
-        # add a border and show the image
-        draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
-
     def draw_overlay2(self, plot_image, chartdata):
-            # handles drawing over our chart image
-            draw_plot_image = ImageDraw.Draw(plot_image)
-            
-            # find some empty space in the image to place our text
-            selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
-            
-            # draw instrument name
-            title = self.configured_instrument()
-            title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
-            txt=Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
-            d = ImageDraw.Draw(txt)
-            d.text((0, 0), title, 'black', self.display.medium_font)
-            w=txt.rotate(270, expand=True)
-            title_paste_pos = (self.display.WIDTH-title_height - 6, int((self.display.HEIGHT - title_width) / 2))
-            plot_image.paste(w, title_paste_pos, w)
+        # handles drawing over our chart image
+        draw_plot_image = ImageDraw.Draw(plot_image)
+        
+        # find some empty space in the image to place our text
+        selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
+        
+        # draw instrument name
+        title = self.configured_instrument()
+        title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
+        txt=Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
+        d = ImageDraw.Draw(txt)
+        d.text((0, 0), title, 'black', self.display.medium_font)
+        w=txt.rotate(270, expand=True)
+        title_paste_pos = (self.display.WIDTH-title_height - 6, int((self.display.HEIGHT - title_width) / 2))
+        plot_image.paste(w, title_paste_pos, w)
 
-            # # candle width
-            candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
-            draw_plot_image.text((self.display.WIDTH-candle_width_width, 2), chartdata.candle_width, 'red', self.display.medium_font)
+        # # candle width
+        candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
+        draw_plot_image.text((self.display.WIDTH-candle_width_width, 2), chartdata.candle_width, 'red', self.display.medium_font)
 
-            # draw current time
-            self.draw_current_time(draw_plot_image)
+        # draw current time
 
-            # draw % change text
-            change = chartdata.percentage_change()
-            change_colour = ('red' if change < 0 else 'black')
-            draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
-            
-            # draw current price text
-            price = price_humaniser.format_title_price(chartdata.last_close())
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
-            
-            # select some random comment depending on price action
-            if random.random() < 0.5:
-                direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-                messages=self.get_price_action_comments(direction)
-                draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
+        # draw % change text
+        change = chartdata.percentage_change()
+        change_colour = ('red' if change < 0 else 'black')
+        draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+        
+        # draw current price text
+        price = price_humaniser.format_title_price(chartdata.last_close())
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
+        
+        # select some random comment depending on price action
+        if random.random() < 0.5:
+            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
+            messages=self.get_price_action_comments(direction)
+            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
 
-            # add a border and show the image
-            draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
-            
+        self.draw_border(draw_plot_image)
+        self.draw_current_time(draw_plot_image)
+
