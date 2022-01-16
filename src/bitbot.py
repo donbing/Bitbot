@@ -120,20 +120,21 @@ class chart_updater:
             # find some empty space in the image to place our text
             selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
             
-            # draw instrument / candle width
+            # draw instrument name
             title = self.configured_instrument()
             title_width, title_height = draw_plot_image.textsize(title, self.display.price_font)
             txt=Image.new('RGBA', (title_width, title_height), (0, 99, 0, 0))
             d = ImageDraw.Draw(txt)
             d.text((0, 0), title, 'black', self.display.price_font)
             w=txt.rotate(270, expand=True)
-            # ImageOps.colorize(w, (0,0,0), (255,255,84)), (242,60),  
             plot_image.paste(w,(self.display.WIDTH-title_height, int((self.display.HEIGHT - title_width) / 2)), w)
 
             #draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
 
             # draw current time
-            draw_plot_image.text((2, 1), datetime.now().strftime("%b %-d %-H:%M"), 'black', self.display.tiny_font)
+            formatted_time = datetime.now().strftime("%b %-d %-H:%M")
+            time_width, time_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
+            draw_plot_image.text((self.display.WIDTH - time_width - 1, self.display.HEIGHT - time_height - 2), formatted_time, 'black', self.display.tiny_font)
 
             # draw % change text
             title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
