@@ -5,6 +5,9 @@ def format_title_price(price):
 
 def format_scale_price(num, pos):
 
+    if num < 1:
+        return "{:.3f}".format(num)
+        
     if num < 10:
         return "{:.2f}".format(num)
         

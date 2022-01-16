@@ -17,6 +17,12 @@ class test_title_price_humaniser(unittest.TestCase):
         self.assertEqual(price_humaniser.format_title_price(100.1), "100")
 
 class test_scale_price_humaiser(unittest.TestCase):
+    def test_less_than_one(self):
+        self.assertEqual(price_humaniser.format_scale_price(0.9, 0), "0.900")
+        self.assertEqual(price_humaniser.format_scale_price(0.99, 0), "0.990")
+        self.assertEqual(price_humaniser.format_scale_price(1.11, 0), "1.11")
+        self.assertEqual(price_humaniser.format_scale_price(0.432, 0), "0.432")
+        self.assertEqual(price_humaniser.format_scale_price(0.4324, 0), "0.432")
     def test_decimal(self):
         self.assertEqual(price_humaniser.format_scale_price(1,0), "1.00")
         self.assertEqual(price_humaniser.format_scale_price(9.99,0), "9.99")

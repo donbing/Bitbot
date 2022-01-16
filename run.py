@@ -48,5 +48,4 @@ def refresh_chart(sc):
 # update chart immediately and begin update schedule
 refresh_chart(scheduler)
 scheduler.run()
-
 logging.info("Scheduler running")
