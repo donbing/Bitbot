@@ -1,5 +1,9 @@
 FROM navikey/raspbian-buster 
 
+ENV TESTRUN=false
+ENV BITBOT_OUTPUT=inky
+ENV BITBOT_SHOWIMAGE=false
+
 # packages needed to run the app
 RUN apt-get update && apt-get install -y --no-install-recommends\
     python3 python3-pip \
