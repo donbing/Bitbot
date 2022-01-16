@@ -1,6 +1,7 @@
 import matplotlib, ccxt, mpl_finance, random, tzlocal, logging
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib import font_manager
 from datetime import datetime
 from src import price_humaniser
 
@@ -48,15 +49,31 @@ def get_chart_plot(display):
     # fills screen with graph
     # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     # faied attempt at mpl fonts
-    plt.rcParams["font.family"] = "monospace"
-    plt.rcParams["font.monospace"] = "Terminal"
+    #plt.rcParams["font.family"] = "monospace"
+    #plt.rcParams["font.monospace"] = "Terminal"
+
+    font_manager._rebuild()
+    # flist = font_manager.get_fontconfig_fonts()
+    # names = [matplotlib.font_manager.FontProperties(fname=fname).get_name() for fname in flist]
+    # from matplotlib.font_manager import findfont, FontProperties
+    #print(font_manager.fontManager.ttflist)
+    matplotlib.rcParams["font.sans-serif"] = "04b03"
+    matplotlib.rcParams["font.family"] = "sans-serif"
+    matplotlib.rcParams['font.style'] = 'oblique'
+    matplotlib.rcParams['font.weight'] = 'ultralight'  
+
+    # font = findfont(FontProperties(family=['sans-serif']))
+    # print(font)
+
     plt.rcParams['text.antialiased'] = False
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-    
+
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
+    ax.set_title("Font Test 123467")
+
     # bring labels closer to the axis
     ax.tick_params(axis='x', pad=4)
     ax.tick_params(axis='y', pad=1)
@@ -64,8 +81,8 @@ def get_chart_plot(display):
     ax.autoscale_view(tight=False)
 
     # style axis ticks
-    ax.tick_params(labelsize='10', color='red', which='both', labelcolor='black')
-    
+    ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
+
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
