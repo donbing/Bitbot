@@ -1,4 +1,4 @@
-# Docker setup instructions
+# 🐋 How to install Docker
 
 1. ### Update the host package manager
 ```sh
