@@ -73,7 +73,7 @@ class chart_updater:
 
             plot_image = Image.open(file_stream)
 
-            self.draw_overlay1(plot_image, chartdata)
+            self.draw_overlay2(plot_image, chartdata)
 
             self.display.show(plot_image) 
 
