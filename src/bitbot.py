@@ -40,7 +40,11 @@ def wait_for_internet_connection(display):
             display.draw_connection_error()
         time.sleep(10)
 
+def flatten(t):
+    return [item for sublist in t for item in sublist]
+
 class chart_updater:
+    possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
     def __init__(self, config):
         self.config = config
         # select inky display or file output (nice for testing)
@@ -72,8 +76,10 @@ class chart_updater:
             file_stream.seek(0)
 
             plot_image = Image.open(file_stream)
-
-            self.draw_overlay2(plot_image, chartdata)
+            if self.config["display"]["overlay_layout"] == "2":
+                self.draw_overlay2(plot_image, chartdata)
+            else:
+                self.draw_overlay1(plot_image, chartdata)
 
             self.display.show(plot_image) 
 
@@ -82,8 +88,7 @@ class chart_updater:
         draw_plot_image = ImageDraw.Draw(plot_image)
 
         # find some empty space in the image to place our text
-        title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
-        selectedArea = least_intrusive_position(plot_image, title_positions)
+        selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
             
         # draw instrument / candle width
         title = self.configured_instrument() + ' (' + chartdata.candle_width + ') '
@@ -113,8 +118,7 @@ class chart_updater:
             draw_plot_image = ImageDraw.Draw(plot_image)
             
             # find some empty space in the image to place our text
-            title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
-            selectedArea = least_intrusive_position(plot_image, title_positions)
+            selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
             
             # draw instrument / candle width
             title = self.configured_instrument()

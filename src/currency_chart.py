@@ -50,7 +50,7 @@ def get_chart_plot(display):
     # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
     
     # set default attempt at mpl font / style
-    print(font_manager.fontManager.ttflist)
+    logging.debug(font_manager.fontManager.ttflist)
     matplotlib.rcParams["font.sans-serif"] = "04b03"
     matplotlib.rcParams["font.family"] = "sans-serif"
     matplotlib.rcParams['font.weight'] = 'light'  
@@ -61,13 +61,13 @@ def get_chart_plot(display):
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-    #plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
+    plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
     # ax.set_xmargin(0.8) could use this to inset ticks and vals
     # bring labels closer to the axis
-    ax.tick_params(axis='x', pad=4, direction="in",)
-    ax.tick_params(axis='y', pad=2, direction="in")
+    ax.tick_params(axis='x', pad=6, direction="in")
+    ax.tick_params(axis='y', pad=1, direction="in")
     # style axis ticks
     ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
     
@@ -102,7 +102,7 @@ class charted_plot:
         ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%b')),
         ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
         ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%-I.%p')),
-        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
+        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'))
     ]
     def __init__(self, config, display):
         # create MPL plot
