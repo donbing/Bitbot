@@ -48,23 +48,15 @@ def get_chart_plot(display):
     fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
     # fills screen with graph
     # fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
-    # faied attempt at mpl fonts
-    #plt.rcParams["font.family"] = "monospace"
-    #plt.rcParams["font.monospace"] = "Terminal"
-
-    font_manager._rebuild()
-    # flist = font_manager.get_fontconfig_fonts()
-    # names = [matplotlib.font_manager.FontProperties(fname=fname).get_name() for fname in flist]
-    # from matplotlib.font_manager import findfont, FontProperties
-    #print(font_manager.fontManager.ttflist)
+    
+    # set default attempt at mpl font / style
+    print(font_manager.fontManager.ttflist)
     matplotlib.rcParams["font.sans-serif"] = "04b03"
     matplotlib.rcParams["font.family"] = "sans-serif"
-    matplotlib.rcParams['font.style'] = 'oblique'
-    matplotlib.rcParams['font.weight'] = 'ultralight'  
+    matplotlib.rcParams['font.weight'] = 'light'  
 
-    # font = findfont(FontProperties(family=['sans-serif']))
-    # print(font)
-
+    plt.rcParams['text.hinting_factor'] = 1
+    plt.rcParams['text.hinting'] = 'native'
     plt.rcParams['text.antialiased'] = False
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
@@ -77,8 +69,6 @@ def get_chart_plot(display):
     # bring labels closer to the axis
     ax.tick_params(axis='x', pad=4)
     ax.tick_params(axis='y', pad=1)
-    # this will hide the axis/labels
-    ax.autoscale_view(tight=False)
 
     # style axis ticks
     ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
@@ -93,7 +83,7 @@ def get_chart_plot(display):
     
     return (fig, ax)
 
-# locate/format x axis labels
+# locate/format x axis tick labels
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
     ax.xaxis.set_minor_locator(minor_label_locator)
     ax.xaxis.set_minor_formatter(minor_label_format)
@@ -111,7 +101,7 @@ class crypto_chart:
 
 class charted_plot:
     layouts = [
-        ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%B')),
+        ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%b')),
         ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
         ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I%p')),
         ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
