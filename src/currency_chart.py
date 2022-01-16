@@ -61,17 +61,16 @@ def get_chart_plot(display):
     plt.rcParams['lines.antialiased'] = False
     plt.rcParams['patch.antialiased'] = False
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-
+    #plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
     # human readable short-format y-axis currency amount
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
-    
+    # ax.set_xmargin(0.8) could use this to inset ticks and vals
     # bring labels closer to the axis
-    ax.tick_params(axis='x', pad=4)
-    ax.tick_params(axis='y', pad=1)
-
+    ax.tick_params(axis='x', pad=4, direction="in",)
+    ax.tick_params(axis='y', pad=2, direction="in")
     # style axis ticks
     ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
-
+    
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
@@ -84,8 +83,8 @@ def get_chart_plot(display):
 
 # locate/format x axis tick labels
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
-    ax.xaxis.set_minor_locator(minor_label_locator)
-    ax.xaxis.set_minor_formatter(minor_label_format)
+    #ax.xaxis.set_minor_locator(minor_label_locator)
+    #ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
     ax.xaxis.set_major_formatter(major_label_format)
 
@@ -102,7 +101,7 @@ class charted_plot:
     layouts = [
         ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%b')),
         ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
-        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%I%p')),
+        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%-I.%p')),
         ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%I%p'))
     ]
     def __init__(self, config, display):
