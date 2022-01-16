@@ -69,8 +69,8 @@ def get_chart_plot(display):
     # hide the top/right border
     ax.spines['bottom'].set_color('red')
     ax.spines['left'].set_color('red')
-    ax.spines['bottom'].set_linewidth(1)
-    ax.spines['left'].set_linewidth(1)
+    ax.spines['bottom'].set_linewidth(0.8)
+    ax.spines['left'].set_linewidth(0.8)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
