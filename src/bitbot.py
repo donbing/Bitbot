@@ -83,6 +83,11 @@ class chart_updater:
 
             self.display.show(plot_image) 
 
+    def draw_current_time(self, draw_plot_image):
+        formatted_time = datetime.now().strftime("%b %-d %-H:%M")
+        time_width, time_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
+        draw_plot_image.text((self.display.WIDTH - time_width - 1, self.display.HEIGHT - time_height - 2), formatted_time, 'black', self.display.tiny_font)
+
     def draw_overlay1(self, plot_image, chartdata):
         # handle for drawing on our chart image
         draw_plot_image = ImageDraw.Draw(plot_image)
@@ -110,6 +115,9 @@ class chart_updater:
             messages=self.get_price_action_comments(direction)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
         
+        # draw current time
+        self.draw_current_time(draw_plot_image)
+
         # add a border and show the image
         draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
 
@@ -122,19 +130,20 @@ class chart_updater:
             
             # draw instrument name
             title = self.configured_instrument()
-            title_width, title_height = draw_plot_image.textsize(title, self.display.price_font)
-            txt=Image.new('RGBA', (title_width, title_height), (0, 99, 0, 0))
+            title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
+            txt=Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
             d = ImageDraw.Draw(txt)
-            d.text((0, 0), title, 'black', self.display.price_font)
+            d.text((0, 0), title, 'black', self.display.medium_font)
             w=txt.rotate(270, expand=True)
-            plot_image.paste(w,(self.display.WIDTH-title_height, int((self.display.HEIGHT - title_width) / 2)), w)
+            title_paste_pos = (self.display.WIDTH-title_height - 6, int((self.display.HEIGHT - title_width) / 2))
+            plot_image.paste(w, title_paste_pos, w)
 
-            #draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
+            # # candle width
+            candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
+            draw_plot_image.text((self.display.WIDTH-candle_width_width, 2), chartdata.candle_width, 'red', self.display.medium_font)
 
             # draw current time
-            formatted_time = datetime.now().strftime("%b %-d %-H:%M")
-            time_width, time_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
-            draw_plot_image.text((self.display.WIDTH - time_width - 1, self.display.HEIGHT - time_height - 2), formatted_time, 'black', self.display.tiny_font)
+            self.draw_current_time(draw_plot_image)
 
             # draw % change text
             change = chartdata.percentage_change()
@@ -143,13 +152,6 @@ class chart_updater:
             
             # draw current price text
             price = price_humaniser.format_title_price(chartdata.last_close())
-            # price_width, price_height = draw_plot_image.textsize(price, self.display.price_font)
-            # txt=Image.new('RGBA', (price_width, price_height), (0, 0, 0, 0))
-            # d = ImageDraw.Draw(txt)
-            # d.text((0, 0), price, 'black', self.display.price_font)
-            # w=txt.rotate(0)
-            # # ImageOps.colorize(w, (0,0,0), (255,255,84)), (242,60),  
-            # plot_image.paste(w,(100,100), w)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
             
             # select some random comment depending on price action
