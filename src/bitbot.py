@@ -1,3 +1,4 @@
+from datetime import datetime
 from src import price_humaniser, currency_chart, kinky
 from PIL import Image, ImageDraw
 import io, random, socket, logging, time, os
@@ -69,27 +70,82 @@ class chart_updater:
             # write mathplot fig to stream and open as a PIL image
             chartdata.write_to_stream(file_stream)
             file_stream.seek(0)
+
             plot_image = Image.open(file_stream)
+
+            self.draw_overlay1(plot_image, chartdata)
+
+            self.display.show(plot_image) 
+
+    def draw_overlay1(self, plot_image, chartdata):
+        # handle for drawing on our chart image
+        draw_plot_image = ImageDraw.Draw(plot_image)
+
+        # find some empty space in the image to place our text
+        title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
+        selectedArea = least_intrusive_position(plot_image, title_positions)
             
-            # find some empty graph space to place our text
+        # draw instrument / candle width
+        title = self.configured_instrument() + ' (' + chartdata.candle_width + ') '
+        draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
+
+        # draw % change text
+        title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
+        change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
+        change_colour = ('red' if change < 0 else 'black')
+        draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+        
+        # draw current price text
+        price = price_humaniser.format_title_price(chartdata.last_close())
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
+        
+        # select some random comment depending on price action
+        if random.random() < 0.5:
+            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
+            messages=self.get_price_action_comments(direction)
+            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
+        
+        # add a border and show the image
+        draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
+
+    def draw_overlay2(self, plot_image, chartdata):
+            # handles drawing over our chart image
+            draw_plot_image = ImageDraw.Draw(plot_image)
+            
+            # find some empty space in the image to place our text
             title_positions = [(60, 5), (210, 5), (140, 5), (60, 200), (210, 200), (140, 200)] 
             selectedArea = least_intrusive_position(plot_image, title_positions)
             
-            # handle for drawing on our chart image
-            draw_plot_image = ImageDraw.Draw(plot_image)
-
             # draw instrument / candle width
-            title = self.configured_instrument() + ' (' + chartdata.candle_width + ') '
-            draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
+            title = self.configured_instrument()
+            title_width, title_height = draw_plot_image.textsize(title, self.display.price_font)
+            txt=Image.new('RGBA', (title_width, title_height), (0, 99, 0, 0))
+            d = ImageDraw.Draw(txt)
+            d.text((0, 0), title, 'black', self.display.price_font)
+            w=txt.rotate(270, expand=True)
+            # ImageOps.colorize(w, (0,0,0), (255,255,84)), (242,60),  
+            plot_image.paste(w,(self.display.WIDTH-title_height, int((self.display.HEIGHT - title_width) / 2)), w)
+
+            #draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
+
+            # draw current time
+            draw_plot_image.text((2, 1), datetime.now().strftime("%b %-d %-H:%M"), 'black', self.display.tiny_font)
 
             # draw % change text
             title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
             change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
             change_colour = ('red' if change < 0 else 'black')
-            draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+            draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
             
             # draw current price text
             price = price_humaniser.format_title_price(chartdata.last_close())
+            # price_width, price_height = draw_plot_image.textsize(price, self.display.price_font)
+            # txt=Image.new('RGBA', (price_width, price_height), (0, 0, 0, 0))
+            # d = ImageDraw.Draw(txt)
+            # d.text((0, 0), price, 'black', self.display.price_font)
+            # w=txt.rotate(0)
+            # # ImageOps.colorize(w, (0,0,0), (255,255,84)), (242,60),  
+            # plot_image.paste(w,(100,100), w)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
             
             # select some random comment depending on price action
@@ -97,7 +153,7 @@ class chart_updater:
                 direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
                 messages=self.get_price_action_comments(direction)
                 draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
-            
+
             # add a border and show the image
             draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline='red')
-            self.display.show(plot_image) 
+            
