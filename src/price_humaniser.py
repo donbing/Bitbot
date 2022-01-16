@@ -1,6 +1,6 @@
 
 def format_title_price(price):
-    price_format = '{:,.0f}' if price > 100 else '{:,.2f}'
+    price_format = '{:,.0f}' if price > 100 else '{:,.2f}' if price > 10 else '{:,.3f}'
     return price_format.format(price) 
 
 def format_scale_price(num, pos):
