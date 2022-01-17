@@ -8,8 +8,8 @@ text.antialiased:   False
 text.hinting_factor:1
 text.hinting:       native
 text.antialiased:   False
-lines.antialiased:  False
 patch.antialiased:  False
+lines.antialiased:  False
 
 axes.facecolor:     white
 axes.linewidth:     0.5
@@ -24,12 +24,10 @@ axes.labelcolor:    black
 
 xtick.color:        red
 ytick.color:        red
-xtick.major.size:   5
-ytick.major.size:   5
 xtick.labelsize:    12
 ytick.labelsize:    12
-xtick.direction:    in
-ytick.direction:    in
+xtick.labelcolor:   red
+ytick.labelcolor:   red
 
 xtick.alignment:    center
 ytick.alignment:    center
