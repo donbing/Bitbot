@@ -24,7 +24,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
      def on_modified(self, event):
         global last_trigger_time
         current_time = time.time()
-        if isinstance(event, FileModifiedEvent) and (current_time - last_trigger_time) > 100:
+        if isinstance(event, FileModifiedEvent) and (current_time - last_trigger_time) > 3:
             logging.info('Config modified ' + str(current_time - last_trigger_time))
             # reload the app config
             config.read(config_ini_path, encoding='utf-8')
