@@ -45,13 +45,13 @@ inset_style = '~/bitbot/src/resources/inset.mplstyle'
 default_style = '~/bitbot/src/resources/default.mplstyle'
 
 def get_chart_plot(display, config):
+    # apply global base style
+    plt.style.use(base_style)
+    # may not need to do this anymore
+    plt.rcParams['timezone'] = tzlocal.get_localzone_name()
     # select mpl style
     stlye = inset_style if config["display"]["expanded_chart"] == 'true' else default_style
-    # base style doesnt seem to work when passed to context as a collection
-    plt.style.use(base_style)
-    # may not need to do this..
-    plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-    
+    plt.tight_layout()
     # scope styles to just this plot
     with plt.style.context(stlye):
         fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
@@ -60,7 +60,7 @@ def get_chart_plot(display, config):
         return (fig, ax)
 
 # locate/format x axis tick labels
-def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
+def configure_axis_format(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
     #ax.xaxis.set_minor_locator(minor_label_locator)
     #ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
@@ -86,18 +86,22 @@ class charted_plot:
     def __init__(self, config, display):
         # create MPL plot
         self.fig, ax = get_chart_plot(display, config)
-        # select a random chart layout 
-        self.layout = self.layouts[random.randrange(len(self.layouts))]
-        self.candle_width = self.layout[0]
-        # apply chosen layouts axis labelling to plot 
-        configure_axes(ax, self.layout[3], self.layout[4], self.layout[5], self.layout[6])
 
+        # select a random chart layout 
+        layout = self.layouts[random.randrange(len(self.layouts))]
+        self.candle_width = layout[0]
+        self.num_candles = layout[1]
+
+        # get market data
         exchange_name = config["currency"]["exchange"]
         instrument = config["currency"]["instrument"]
-        # get market data for layout
-        self.candleData = fetch_OHLCV_chart_data(self.layout[0], self.layout[1], exchange_name, instrument)
+        self.candleData = fetch_OHLCV_chart_data(self.candle_width, self.num_candles, exchange_name, instrument)
+
+        # apply chosen layouts axis labelling to plot 
+        configure_axis_format(ax, layout[3], layout[4], layout[5], layout[6])
+
         # draw candles to MPL plot
-        mpl_finance.candlestick_ohlc(ax, self.candleData, width=self.layout[2], colorup='black', colordown='red') 
+        mpl_finance.candlestick_ohlc(ax, self.candleData, width=layout[2], colorup='black', colordown='red') 
 
     def percentage_change(self):
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
