@@ -1,0 +1,38 @@
+figure.dpi:         100
+
+font.family: sans-serif
+font.sans-serif: 04b03
+font.weight: light
+
+text.antialiased:   False
+text.hinting_factor:1
+text.hinting:       native
+text.antialiased:   False
+lines.antialiased:  False
+patch.antialiased:  False
+
+axes.facecolor:     white
+axes.linewidth:     0.5
+axes.spines.left:   True 
+axes.spines.bottom: True
+axes.spines.top:    False
+axes.spines.right:  False
+axes.grid:          False
+axes.labelsize:     12
+axes.edgecolor:     red
+axes.labelcolor:    black
+
+xtick.color:        red
+ytick.color:        red
+xtick.major.size:   5
+ytick.major.size:   5
+xtick.labelsize:    12
+ytick.labelsize:    12
+xtick.direction:    in
+ytick.direction:    in
+
+xtick.alignment:    center
+ytick.alignment:    center
+
+xtick.color: black
+ytick.color: black

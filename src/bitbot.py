@@ -142,11 +142,10 @@ class chart_updater:
         title_paste_pos = (self.display.WIDTH-title_height - 2, int((self.display.HEIGHT - title_width) / 2))
         plot_image.paste(w, title_paste_pos, w)
 
-        # # candle width
+        # candle width
+        candle_width_right_padding = 2
         candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
-        draw_plot_image.text((self.display.WIDTH-candle_width_width, 2), chartdata.candle_width, 'red', self.display.medium_font)
-
-        # draw current time
+        draw_plot_image.text((self.display.WIDTH-candle_width_width, candle_width_right_padding), chartdata.candle_width, 'red', self.display.medium_font)
 
         # draw % change text
         change = chartdata.percentage_change()

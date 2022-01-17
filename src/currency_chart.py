@@ -16,17 +16,14 @@ def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
         'enableRateLimit': True,
     })
     exchange.loadMarkets()
-
     logging.debug("Supported exchanges: \n" + "\n".join(ccxt.exchanges))
     logging.debug("Supported time frames: \n" + "\n".join(exchange.timeframes))
     logging.debug("Supported markets: \n" + "\n".join(exchange.markets.keys()))
 
     # fetch the chart data
     logging.info("Fetching "+ str(num_candles) + " " + candleFreq + " " + instrument + " candles from " + exchange_name)
-
     candleData = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
     cleaned_candle_data = list(map(lambda x: make_matplotfriendly_date(x), candleData))
-
     logging.debug("Candle data: " + "\n".join(map(str, cleaned_candle_data)))
     logging.info("Fetched " + str(len(cleaned_candle_data)) + " candles")
 
@@ -42,49 +39,25 @@ def replace_at_index(tup, ix, val):
    lst = list(tup)
    lst[ix] = val
    return tuple(lst)
+   
+base_style = '~/bitbot/src/resources/base.mplstyle'
+inset_style = '~/bitbot/src/resources/inset.mplstyle'
+default_style = '~/bitbot/src/resources/default.mplstyle'
 
 def get_chart_plot(display, config):
-    # pyplot setup for 4X3 100dpi screen
-    fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
-    # fills screen with graph
-    if config["display"]["expanded_chart"] == 'true':
-        fig.subplots_adjust(top=1, bottom=0, left=0, right=1)
-        #ax.set_xmargin(0.2) # inset candles to make space for tick labels
-        ax.tick_params(axis='x', pad=-15, direction="in")
-        ax.tick_params(axis='y', pad=-40, direction="in")
-    else:    
-        # bring labels closer to the axis
-        ax.tick_params(axis='x', pad=6, direction="in")
-        ax.tick_params(axis='y', pad=1, direction="in")
-        plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
-
-    # set default attempt at mpl font / style
-    logging.debug(font_manager.fontManager.ttflist)
-    matplotlib.rcParams["font.sans-serif"] = "04b03"
-    matplotlib.rcParams["font.family"] = "sans-serif"
-    matplotlib.rcParams['font.weight'] = 'light'
-
-    plt.rcParams['text.hinting_factor'] = 1
-    plt.rcParams['text.hinting'] = 'native'
-    plt.rcParams['text.antialiased'] = False
-    plt.rcParams['lines.antialiased'] = False
-    plt.rcParams['patch.antialiased'] = False
+    # select mpl style
+    stlye = inset_style if config["display"]["expanded_chart"] == 'true' else default_style
+    # base style doesnt seem to work when passed to context as a collection
+    plt.style.use(base_style)
+    # may not need to do this..
     plt.rcParams['timezone'] = tzlocal.get_localzone_name()
-    # human readable short-format y-axis currency amount
-    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
     
-    # style axis ticks
-    ax.tick_params(labelsize='12', color='red', which='both', labelcolor='black')
-    
-    # hide the top/right border
-    ax.spines['bottom'].set_color('red')
-    ax.spines['left'].set_color('red')
-    ax.spines['bottom'].set_linewidth(0.8)
-    ax.spines['left'].set_linewidth(0.8)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    
-    return (fig, ax)
+    # scope styles to just this plot
+    with plt.style.context(stlye):
+        fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
+        # currency amount humanised 
+        ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
+        return (fig, ax)
 
 # locate/format x axis tick labels
 def configure_axes(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
@@ -103,11 +76,12 @@ class crypto_chart:
         return charted_plot(self.config, self.display)
 
 class charted_plot:
+    noop_date_formatter = lambda x: mdates.DateFormatter('')
     layouts = [
-        ('1d', 60, 0.01, mdates.DayLocator(interval=7), mdates.DateFormatter(''), mdates.MonthLocator(), mdates.DateFormatter('%b')),
-        ('1h', 40, 0.005, mdates.HourLocator(interval=4), mdates.DateFormatter(''), mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
-        ('1h', 24, 0.01, mdates.HourLocator(interval=1), mdates.DateFormatter(''), mdates.HourLocator(interval=4), mdates.DateFormatter('%-I.%p')),
-        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), mdates.DateFormatter(''), mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'))
+        ('1d', 60, 0.01, mdates.DayLocator(interval=7), noop_date_formatter, mdates.MonthLocator(), mdates.DateFormatter('%b')),
+        ('1h', 40, 0.005, mdates.HourLocator(interval=4), noop_date_formatter, mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+        ('1h', 24, 0.01, mdates.HourLocator(interval=1), noop_date_formatter, mdates.HourLocator(interval=4), mdates.DateFormatter('%-I.%p')),
+        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), noop_date_formatter, mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'))
     ]
     def __init__(self, config, display):
         # create MPL plot
