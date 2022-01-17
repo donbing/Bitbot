@@ -1,11 +1,12 @@
-## **BitBot**, *A Raspberry Pi powered e-ink screen with crypto price chart*  
+# 🤖 **BitBot**
+> A Raspberry Pi powered e-ink crypto price chart
 <div>
     <img height="200" src="docs/images/bit-bot.jpg">
     <img height="200" src="docs/images/bitbot-v2.png">
     <img height="200" src="docs/images/last_display.png">
 </div>
 
-# Basic features
+# ✔️ Basic features
  - Shows the current price
  - Shows instrument details (e,g, ```(XBTUSD, +12%)```)
  - Displays some AI text comment/message depending on price action
@@ -14,13 +15,13 @@
  - Warns on connection errors
  - Config and log are available via webserver running on port **8080**
 
-# Requested Features
+# 💡 Requested Features
  - Show value of your portfolio
  - Display Transaction fees
  - Smaller/cheaper display
  - Regular stocks
 
-# Docs
+# 📝 Docs
  - [How To Install](docs/app_install.md)  
  - [Device Setup](docs/device_setup.md)  
  - [Device Assembly](docs/device_assembly.md)  

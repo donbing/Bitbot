@@ -8,7 +8,11 @@
     python3 -m unittest discover tests -v
 
 ## ✉️ Env vars 
-> env vars `TESTRUN` loads one chart and exits, `BITBOT_SHOWIMAGE` [opens the image in vscode](/run.py)
+> env vars `TESTRUN` loads one chart and exits
+
+> `BITBOT_SHOWIMAGE` [opens the image in vscode](/run.py)
+
+> `BITBOT_OUTPUT` may be set to `disk` to skip writing to the e-ink display
 
     export TESTRUN=true BITBOT_OUTPUT=disk BITBOT_SHOWIMAGE=true
 
@@ -44,7 +48,7 @@ docker buildx build --platform linux/armv6  . -t bitbot -f scripts/docker/docker
 ### 🐳 Run
 > **Priviledged access** is needed for `GPIO`, this looks to be fixable thru bind mounts  
 ```sh
-    docker run --privileged --platform linux/arm/v6 bitbot
+docker run --privileged --platform linux/arm/v6 bitbot
 ```
 ## 📻 Easy WiFi config 
 [`comitup`](https://github.com/davesteele/comitup) is used for the ***disk image***, it creates a **config hotspot** on the Pi if it **cant connect** to any wifi itself.
