@@ -1,10 +1,16 @@
-import matplotlib, mpl_finance, ccxt, random, tzlocal, logging
+import matplotlib, mpl_finance, ccxt, random, tzlocal, logging, pathlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime
 from src import price_humaniser
+from os.path import join as pjoin
 
 matplotlib.use('Agg')
+
+curdir = pathlib.Path(__file__).parent.resolve()
+base_style = pjoin(curdir, '../config/', 'base.mplstyle') 
+inset_style = pjoin(curdir, '../config/', 'inset.mplstyle') 
+default_style = pjoin(curdir, '../config/', 'default.mplstyle') 
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
    
@@ -39,10 +45,6 @@ def replace_at_index(tup, ix, val):
    lst[ix] = val
    return tuple(lst)
    
-base_style = '~/bitbot/src/resources/base.mplstyle'
-inset_style = '~/bitbot/src/resources/inset.mplstyle'
-default_style = '~/bitbot/src/resources/default.mplstyle'
-
 def get_chart_plot(display, config):
     # apply global base style
     plt.style.use(base_style)
