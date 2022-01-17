@@ -139,7 +139,7 @@ class chart_updater:
         d = ImageDraw.Draw(txt)
         d.text((0, 0), title, 'black', self.display.medium_font)
         w=txt.rotate(270, expand=True)
-        title_paste_pos = (self.display.WIDTH-title_height - 6, int((self.display.HEIGHT - title_width) / 2))
+        title_paste_pos = (self.display.WIDTH-title_height - 2, int((self.display.HEIGHT - title_width) / 2))
         plot_image.paste(w, title_paste_pos, w)
 
         # # candle width
