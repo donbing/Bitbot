@@ -47,3 +47,12 @@ git config --global --unset user.password
  
 > check cpu arch 
 `dpkg --print-architecture`
+
+
+## fonts
+> place in `~/.fonts` or `/usr/local/share/fonts` for system wide access
+    mkdir ~/.fonts && cp ~/bitbot/src/resources/04B_03__.TTF ~/.fonts/04B_03__.TTF
+> manually rebuild the font cache with `fc-cache -f -v`
+
+
+> list fonts with `fc-list`

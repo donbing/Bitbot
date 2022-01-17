@@ -7,6 +7,8 @@ filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
 price_font = ImageFont.truetype(fontPath, 48)
 title_font = ImageFont.truetype(fontPath, 16)
+medium_font = ImageFont.truetype(fontPath, 32)
+tiny_font = ImageFont.truetype(fontPath, 8)
 
 connection_error_message = """ 
 NO INTERNET CONNECTION
@@ -23,6 +25,8 @@ class disker:
         self.HEIGHT = 300
         self.title_font = title_font
         self.price_font = price_font
+        self.tiny_font = tiny_font
+        self.medium_font = medium_font
     
     def draw_connection_error(self):
         logging.info("No connection")
@@ -39,6 +43,8 @@ class inker:
         self.HEIGHT = self.inky_display.HEIGHT
         self.title_font = title_font
         self.price_font = price_font
+        self.tiny_font = tiny_font
+        self.medium_font = medium_font
     
     def draw_connection_error(self):
         logging.info("No connection")

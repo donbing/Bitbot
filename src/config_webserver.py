@@ -7,7 +7,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class StoreHandler(BaseHTTPRequestHandler):
     curdir = pathlib.Path(__file__).parent.resolve()
-    store_path = pjoin(curdir, '../', 'config.ini')
+    store_path = pjoin(curdir, '../config/', 'config.ini')
     log_path = pjoin(curdir, '../', 'debug.log')
     
     def do_GET(self):

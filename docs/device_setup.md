@@ -1,4 +1,4 @@
-# How to configure your new crypto-watcher
+# 📈 How to configure your new crypto-watcher
 1. Optionally, remove the screen protoector that is covering the e-paper display (there is a red tab at the bottom-left)
 2. **Connect a micro-usb** cable to the raspberry pi board on your crypto-watcher
 3. **Wait a minute** or so for it to boot up
@@ -11,10 +11,12 @@
     * The device is set up to refresh on the hour and every **ten minutes** thereafter. 
     * The current instrument defaults to **Bitmex BTC/USD**.
  
-> Source code for the application can be found at: https://github.com/donbing/bitbot  
-> For technical assistance please contact us via the Etsy shop.  
+# 💻 Help
+> **Source code** for the application can be found at: https://github.com/donbing/bitbot  
 
-# Advanced Configuration
+> For **technical assistance** please contact us via the [Etsy shop](https://www.etsy.com/uk/shop/TurtlefishDesigns), or raise a [github issue](https://github.com/donbing/bitbot/issues)
+
+# ⚙️ Advanced Configuration
 Configuration for your crypto-watcher is stored in a config.ini file on the raspberry pi  
 
 > visit bitbot:8080 in your browser to edit the configuration file  

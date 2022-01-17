@@ -5,12 +5,12 @@ from os.path import join as pjoin
 curdir = pathlib.Path(__file__).parent.resolve()
 
 # load logging config
-logging.config.fileConfig(pjoin(curdir, 'logging.ini'))
+logging.config.fileConfig(pjoin(curdir, 'config/logging.ini'))
 log_output_file = pjoin(curdir, 'debug.log')
 logging.info("App starting")
 
 # load app config
-config_path = pjoin(curdir, 'config.ini')
+config_path = pjoin(curdir, 'config/config.ini')
 config = configparser.ConfigParser()
 config.read(config_path, encoding='utf-8')
 logging.info("Loaded config from " + config_path)
