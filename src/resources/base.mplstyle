@@ -22,15 +22,20 @@ axes.labelsize:     12
 axes.edgecolor:     red
 axes.labelcolor:    black
 
+ytick.major.pad:     0
+
 xtick.color:        red
 ytick.color:        red
+
 xtick.labelsize:    12
 ytick.labelsize:    12
-xtick.labelcolor:   red
-ytick.labelcolor:   red
 
 xtick.alignment:    center
 ytick.alignment:    center
 
 xtick.color: black
 ytick.color: black
+
+
+xtick.direction:    inout
+ytick.direction:    inout

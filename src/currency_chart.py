@@ -1,7 +1,6 @@
-import matplotlib, ccxt, mpl_finance, random, tzlocal, logging
+import matplotlib, mpl_finance, ccxt, random, tzlocal, logging
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib import font_manager
 from datetime import datetime
 from src import price_humaniser
 
@@ -55,7 +54,7 @@ def get_chart_plot(display, config):
     # scope styles to just this plot
     with plt.style.context(stlye):
         fig, ax = plt.subplots(figsize=(display.WIDTH / 100, display.HEIGHT / 100), dpi=100)
-        # currency amount humanised 
+        # currency amount uses custom formatting 
         ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
         return (fig, ax)
 
@@ -76,7 +75,7 @@ class crypto_chart:
         return charted_plot(self.config, self.display)
 
 class charted_plot:
-    noop_date_formatter = lambda x: mdates.DateFormatter('')
+    noop_date_formatter = mdates.DateFormatter('')
     layouts = [
         ('1d', 60, 0.01, mdates.DayLocator(interval=7), noop_date_formatter, mdates.MonthLocator(), mdates.DateFormatter('%b')),
         ('1h', 40, 0.005, mdates.HourLocator(interval=4), noop_date_formatter, mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
