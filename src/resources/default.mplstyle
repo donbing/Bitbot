@@ -1,5 +1,3 @@
 axes.xmargin:           0.02
 axes.ymargin:           0.1
 axes.autolimit_mode:    round_numbers
-
-text.hinting_factor = 1
