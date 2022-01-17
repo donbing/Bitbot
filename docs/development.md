@@ -8,20 +8,20 @@
     python3 -m unittest discover tests -v
 
 ## ✉️ Env vars 
-> env vars `TESTRUN` loads one chart and exits
+> `TESTRUN` loads one chart and then exits
 
-> `BITBOT_SHOWIMAGE` [opens the image in vscode](/run.py)
+> `BITBOT_SHOWIMAGE` [opens the image in vscode](/run.py) after loading the chart
 
-> `BITBOT_OUTPUT` may be set to `disk` to skip writing to the e-ink display
+> `BITBOT_OUTPUT` may be set to `disk` to write to disk rather than the e-ink display
 
     export TESTRUN=true BITBOT_OUTPUT=disk BITBOT_SHOWIMAGE=true
 
-## 🌳logging 
+## 🌳Logging 
 > BitBot will log to `StdOut` and a rolling `debug.log` file, configured in [📁logging.ini](/logging.ini)
 
 > Log level is **defaulted to `INFO`**, but there is some ***limited debug level logging*** if you wish to get more info.
 
-> Cron jobs were configured to output to syslog. 😞, python should do this
+> Cron jobs were configured to output to syslog. 😞
 ```sh
 # python logging
 tail ~/bitbot/debug.log
