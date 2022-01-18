@@ -1,19 +1,24 @@
-FROM navikey/raspbian-buster 
+FROM navikey/raspbian-bullseye:latest@sha256:0e8148e4006cd1bb6bf9f94ddbcb861171483199ba08b2a91edd9cf6b1db680f
 
 ENV TESTRUN='false'
 ENV BITBOT_OUTPUT='inky'
 ENV BITBOT_SHOWIMAGE='false'
+ENV DEBIAN_FRONTEND noninteractive
 
-# packages needed to run the app
-RUN apt-get update && apt-get install -y --no-install-recommends\
-    python3 python3-pip \
-    python3-matplotlib \
+RUN apt-get update && apt-get install -y \ 
+    python3 \
+    python3-pip \
     python3-rpi.gpio \
-    python3-pil \
+    libatlas-base-dev \
+    libopenjp2-7 \
+    libtiff5 \
+    libxcb1  \
     && rm -rf /var/lib/apt/lists/* 
 
 COPY ../../requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install -U pip
+RUN pip3 install --user --prefer-binary --no-cache-dir -r requirements.txt
+RUN pip3 install numpy --upgrade
 
 WORKDIR /code
 COPY ../../ .
