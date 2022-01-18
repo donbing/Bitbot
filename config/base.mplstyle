@@ -26,6 +26,9 @@ ytick.major.pad:     0
 xtick.color:        red
 ytick.color:        red
 
+xtick.labelcolor:   black
+ytick.labelcolor:   black
+
 xtick.labelsize:    12
 ytick.labelsize:    12
 

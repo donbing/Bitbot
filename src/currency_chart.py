@@ -12,6 +12,15 @@ base_style = pjoin(curdir, '../config/', 'base.mplstyle')
 inset_style = pjoin(curdir, '../config/', 'inset.mplstyle') 
 default_style = pjoin(curdir, '../config/', 'default.mplstyle') 
 
+from matplotlib import font_manager
+fonts_path = pjoin(curdir, '../src/resources') #/', 'Pixel12x10.ttf'
+font_files = font_manager.findSystemFonts(fontpaths=fonts_path)
+custom_font_manager = font_manager.FontManager()
+
+for font_file in font_files:
+    custom_font_manager.addfont(font_file)
+
+
 def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
    
     # create exchange wrapper and load market data
