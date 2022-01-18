@@ -1,9 +1,9 @@
 from src import bitbot
-import configparser, sched, time, sys, logging, logging.config, pathlib, os
-from os.path import join as pjoin
-
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+import configparser, sched, time, sys, logging, logging.config, pathlib, os
+import os.path as path
+from os.path import join as pjoin
 
 curdir = pathlib.Path(__file__).parent.resolve()
 config_dir = pjoin(curdir, 'config')
@@ -16,30 +16,6 @@ config_ini_path = pjoin(config_dir, 'config.ini')
 config = configparser.ConfigParser()
 config.read(config_ini_path, encoding='utf-8')
 logging.info("Loaded config from " + config_ini_path)
-
-# watch for changes to logfile
-scheduler_event = None
-last_trigger_time = 0
-class ConfigChangeHandler(FileSystemEventHandler):
-     def on_modified(self, event):
-        global last_trigger_time
-        current_time = time.time()
-        if isinstance(event, FileModifiedEvent) and (current_time - last_trigger_time) > 3:
-            logging.info('Config modified ' + str(current_time - last_trigger_time))
-            # reload the app config
-            config.read(config_ini_path, encoding='utf-8')
-            # reload log config
-            logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
-            # restart schedule and refresh screen
-            scheduler.cancel(scheduler_event)
-            refresh_chart(scheduler)
-            last_trigger_time = current_time
-
-event_handler = ConfigChangeHandler()
-observer = Observer()
-observer.schedule(event_handler, config_dir)
-observer.start()
-logging.info("config observer ready")
 
 # log unhandled exceptions
 def handle_exception(exc_type, exc_value, exc_traceback):
@@ -72,7 +48,46 @@ def refresh_chart(sc):
     logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
     scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
 
+from hashlib import md5
+
+# watch for changes to logfile
+scheduler_event = None
+watched_files = {}
+
+class ConfigChangeHandler(FileSystemEventHandler):
+     def on_modified(self, event):
+        global watched_files
+        if isinstance(event, FileModifiedEvent):
+            file_path = event.src_path
+            last_modified = path.getmtime(file_path)
+            
+            cached_last_modified = watched_files.get(file_path)
+         
+            new_change = file_path not in watched_files
+            file_changed = last_modified != cached_last_modified
+
+            if new_change or file_changed:
+                logging.info('Config changed')
+                watched_files[file_path] = last_modified
+                # reload the app config
+                config.read(config_ini_path, encoding='utf-8')
+                # reload log config
+                logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
+                # restart schedule and refresh screen for event in self.scheduler.queue:
+                for event in scheduler.queue:
+                    try:
+                        scheduler.cancel(event)
+                    except ValueError:
+                        # This is OK because the event may have been just canceled
+                        pass
+                refresh_chart(scheduler)
+
+event_handler = ConfigChangeHandler()
+observer = Observer()
+observer.schedule(event_handler, config_dir)
+observer.start()
+logging.info("config observer ready")
+
 # update chart immediately and begin update schedule
 refresh_chart(scheduler)
 scheduler.run()
-logging.info("Scheduler running")
