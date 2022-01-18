@@ -1,21 +1,24 @@
-from src import bitbot
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent
-import configparser, sched, time, sys, logging, logging.config, pathlib, os
-import os.path as path
+import pathlib, logging, logging.config
 from os.path import join as pjoin
-
 curdir = pathlib.Path(__file__).parent.resolve()
 config_dir = pjoin(curdir, 'config')
+
 # load logging config
 logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
 logging.info("App starting")
 
+import configparser
 # load app config
 config_ini_path = pjoin(config_dir, 'config.ini')
 config = configparser.ConfigParser()
 config.read(config_ini_path, encoding='utf-8')
 logging.info("Loaded config from " + config_ini_path)
+
+from src import bitbot
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler, FileModifiedEvent
+import sched, time, sys,  os
+import os.path as path
 
 # log unhandled exceptions
 def handle_exception(exc_type, exc_value, exc_traceback):
