@@ -27,7 +27,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 '''
             html += '<textarea name="configfile" rows="20" cols="80">' + str(store_file.read()) + '</textarea>'
             html += '''
-                        <div><input type="submit" value="Save and Reboot"></input></div>
+                        <div><input type="submit" value="Save"></input></div>
                     </form>
                     '''
             # display log info if it exists
@@ -61,7 +61,6 @@ class StoreHandler(BaseHTTPRequestHandler):
         self.send_response(302)
         self.send_header('Location', self.path)
         self.end_headers()
-        os.system('sudo reboot now')    
 
 # start the webserver
 server = HTTPServer(('', 8080), StoreHandler)

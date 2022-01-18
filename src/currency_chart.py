@@ -118,3 +118,4 @@ class charted_plot:
 
     def write_to_stream(self, stream):
         self.fig.savefig(stream, dpi=self.fig.dpi, pad_inches=0)
+        plt.close(self.fig)

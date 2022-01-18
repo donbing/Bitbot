@@ -4,7 +4,6 @@ font.family: sans-serif
 font.sans-serif: 04b03
 font.weight: light
 
-text.antialiased:   False
 text.hinting_factor:1
 text.hinting:       native
 text.antialiased:   False
@@ -32,10 +31,6 @@ ytick.labelsize:    12
 
 xtick.alignment:    center
 ytick.alignment:    center
-
-xtick.color: black
-ytick.color: black
-
 
 xtick.direction:    inout
 ytick.direction:    inout

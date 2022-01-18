@@ -43,7 +43,7 @@ less /var/log/syslog | grep bitbot.charts
 > building on `x86` is way faster than on the Pi  
 ```sh
 # remove the `--platform` args if building on a pi
-docker buildx build --platform linux/armv6  . -t bitbot -f scripts/docker/dockerfile --progress string
+docker buildx build --platform linux/arm/v6  . -t bitbot -f scripts/docker/dockerfile --progress string
 ```
 ### 🐳 Run
 > **Priviledged access** is needed for `GPIO`, this looks to be fixable thru bind mounts  
