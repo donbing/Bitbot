@@ -67,9 +67,9 @@
  - *scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
 
  
-## 💡 Make chart styles editable in the config-server
+## 💡 Support muiltiple chart plots on one display
 >**AS** Marketing  
-**In order** that bit bot charts looks cooler
+**In order** to appeal to a broad user-base
 **I want** multiple charts to be displayed on one screen  
-**So that** multiple currencies can be tracked
+**So that** that people can accurately track multiple currencies with one device
  - *scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
