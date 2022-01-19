@@ -1,7 +1,6 @@
 
 # 📗 Features
 
-
 ## ✔️ Bitbot creates it's own config hotspot when it cant connect to WiFi
 >**As** Marketing  
 **In order that** customers give bitbot **glowing reviews** about the easy setup process  
@@ -58,3 +57,19 @@
 **I want** bit bot to show a nice welcome screen before first power on  
 **So that** users feel their device is personalised to them  
  - *scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+ 
+## 💡 Make chart styles editable in the config-server
+>**AS** Marketing  
+**In order** we can advertise bit bot as 'infinately customisable' 
+**I want** users to be able to edit the matplot lib style sheets  
+**So that** they can personalise their chart to their own tastes
+ - *scenario:* `The config editor allows direct editing of existing MPL style sheet files`
+ - *scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
+
+ 
+## 💡 Make chart styles editable in the config-server
+>**AS** Marketing  
+**In order** that bit bot charts looks cooler
+**I want** multiple charts to be displayed on one screen  
+**So that** multiple currencies can be tracked
+ - *scenario:* `two currencies may be added to config, and both have charts displayed on-screen`

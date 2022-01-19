@@ -73,8 +73,8 @@ def get_chart_plot(display, config):
 
 # locate/format x axis tick labels
 def configure_axis_format(ax, minor_label_locator, minor_label_format, major_label_locator,  major_label_format):
-    #ax.xaxis.set_minor_locator(minor_label_locator)
-    #ax.xaxis.set_minor_formatter(minor_label_format)
+    ax.xaxis.set_minor_locator(minor_label_locator)
+    ax.xaxis.set_minor_formatter(minor_label_format)
     ax.xaxis.set_major_locator(major_label_locator)
     ax.xaxis.set_major_formatter(major_label_format)
 
@@ -88,12 +88,12 @@ class crypto_chart:
         return charted_plot(self.config, self.display)
 
 class charted_plot:
-    noop_date_formatter = mdates.DateFormatter('')
+    noop_date_formatter = plt.NullFormatter()
     layouts = [
-        ('1d', 60, 0.01, mdates.DayLocator(interval=7), noop_date_formatter, mdates.MonthLocator(), mdates.DateFormatter('%b')),
-        ('1h', 40, 0.005, mdates.HourLocator(interval=4), noop_date_formatter, mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
+        ('1d', 60, 0.01, mdates.DayLocator(bymonthday=range(1,31,7)), noop_date_formatter, mdates.MonthLocator(), mdates.DateFormatter('%b')),
+        ('1h', 40, 0.005, mdates.HourLocator(byhour=range(0,23,4)), noop_date_formatter, mdates.DayLocator(), mdates.DateFormatter('%a %d %b')),
         ('1h', 24, 0.01, mdates.HourLocator(interval=1), noop_date_formatter, mdates.HourLocator(interval=4), mdates.DateFormatter('%-I.%p')),
-        ('5m', 60, 0.0005, mdates.MinuteLocator(interval=30), noop_date_formatter, mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'))
+        ('5m', 60, 0.0005, mdates.MinuteLocator(byminute=[0,30]), noop_date_formatter, mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'))
     ]
     def __init__(self, config, display):
         # create MPL plot

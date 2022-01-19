@@ -17,9 +17,10 @@ axes.spines.bottom: True
 axes.spines.top:    False
 axes.spines.right:  False
 axes.grid:          False
-axes.labelsize:     12
+grid.linestyle:     -
+grid.linewidth:     0.5
+grid.color:         black
 axes.edgecolor:     red
-axes.labelcolor:    black
 
 ytick.major.pad:     0
 
@@ -33,7 +34,11 @@ xtick.labelsize:    12
 ytick.labelsize:    12
 
 xtick.alignment:    center
-ytick.alignment:    center
+ytick.alignment:    bottom
+
+ytick.major.size:  5
+xtick.major.size:  5
+xtick.minor.size:  3
 
 xtick.direction:    inout
 ytick.direction:    inout
