@@ -1,4 +1,4 @@
-mpl-finance==0.10.0
+mplfinance==0.12.8b6
 matplotlib==3.5.1
 tzlocal
 ccxt==1.66.90

@@ -2,6 +2,7 @@ from datetime import datetime
 from src import price_humaniser, currency_chart, kinky
 from PIL import Image, ImageDraw
 import io, random, socket, logging, time, os
+from src.log_decorator import info_log
 
 # test if internet is available
 def network_connected(hostname="google.com"):
@@ -29,9 +30,8 @@ def count_white_pixels(x, y, n, image):
             count += 1 if pix == (255,255,255) else 0
     return count
 
-# wait for network connection
+@info_log
 def wait_for_internet_connection(display):
-    logging.info('Await network')
     connection_error_shown = False
     while network_connected() == False:
         # draw error message if not already drawn
@@ -71,7 +71,7 @@ class chart_updater:
         with io.BytesIO() as file_stream:
             logging.info('Formatting chart for display')
 
-            # write mathplot fig to stream and open as a PIL image
+            # write chart plot to stream and open as a PIL image
             chartdata.write_to_stream(file_stream)
             file_stream.seek(0)
 
