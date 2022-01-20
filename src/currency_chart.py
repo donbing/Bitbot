@@ -10,9 +10,11 @@ matplotlib.use('Agg')
 curdir = pathlib.Path(__file__).parent.resolve()
 
 config_path = pjoin(curdir, '../config/') 
+
 base_style = pjoin(config_path, 'base.mplstyle') 
 inset_style = pjoin(config_path, 'inset.mplstyle') 
 default_style = pjoin(config_path, 'default.mplstyle') 
+volume_style = pjoin(config_path, 'volume.mplstyle') 
 
 fonts_path = pjoin(curdir, '../src/resources')
 font_files = font_manager.findSystemFonts(fontpaths=fonts_path)
@@ -51,8 +53,9 @@ class charted_plot:
         # scope styles to just this plot
         with plt.style.context(stlye):
             fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
-            ax1 = fig.add_subplot(3,1,(1,2),zorder=1)
-            ax2 = fig.add_subplot(3,1,3,zorder=0)
+            ax1 = fig.add_subplot(3, 1, (1,2), zorder = 1)
+            with plt.style.context(volume_style):
+                ax2 = fig.add_subplot(3, 1, 3, zorder = 0)
             return (fig,(ax1,ax2))
             return plt.subplots(
                 figsize=(display.WIDTH / 100, display.HEIGHT / 100), 
