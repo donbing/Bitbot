@@ -1,0 +1,16 @@
+axes.spines.left:   False 
+axes.spines.bottom: False
+axes.spines.top:    False
+axes.spines.right:  False
+
+ytick.major.width: 0
+ytick.minor.size: 0
+ytick.color: white
+
+xtick.major.width: 0
+xtick.minor.size: 0
+xtick.color: white
+xtick.labelsize: 0
+xtick.labelcolor: inherit
+
+axes.ymargin:0
