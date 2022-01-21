@@ -32,6 +32,7 @@ sys.excepthook = handle_exception
 chart_updater = bitbot.chart_updater(config) 
 def update_chart():
     chart_updater.run()
+    # show image in vscode for debug
     if os.getenv('BITBOT_SHOWIMAGE') == 'true':
         os.system("code last_display.png")    
 
@@ -50,8 +51,6 @@ def refresh_chart(sc):
     refresh_minutes = float(config['display']['refresh_time_minutes'])
     logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
     scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
-
-from hashlib import md5
 
 # watch for changes to logfile
 scheduler_event = None

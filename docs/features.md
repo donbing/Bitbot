@@ -36,6 +36,21 @@
  - *Scenario:* `Wifi is connected, and bitbot can ping google, so loads the chart.`
 
 # INCOMPLETE
+## 💡 Make chart styles editable in the config-server
+>**AS** Marketing  
+**In order** we can advertise bit bot as 'infinately customisable' 
+**I want** users to be able to edit the matplot lib style sheets  
+**So that** they can personalise their chart to their own tastes
+ - *Scenario:* `The config editor allows direct editing of existing MPL style sheet files`
+ - *Scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
+
+## 💡 Support muiltiple chart plots on one display
+>**AS** Marketing  
+**In order** to appeal to a broad user-base  
+**I want** multiple charts to be displayed on one screen  
+**So that** that people can accurately track multiple currencies with one device
+ - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
+
 ## 💡Make bitbot capable of buying/selling 
 >**As** Marketing  
 **In order that** we can promote the device as a trading bot  
@@ -56,20 +71,5 @@
 **In order** that users leave glowing reviews  
 **I want** bit bot to show a nice welcome screen before first power on  
 **So that** users feel their device is personalised to them  
- - *scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+ - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
  
-## 💡 Make chart styles editable in the config-server
->**AS** Marketing  
-**In order** we can advertise bit bot as 'infinately customisable' 
-**I want** users to be able to edit the matplot lib style sheets  
-**So that** they can personalise their chart to their own tastes
- - *scenario:* `The config editor allows direct editing of existing MPL style sheet files`
- - *scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
-
- 
-## 💡 Support muiltiple chart plots on one display
->**AS** Marketing  
-**In order** to appeal to a broad user-base
-**I want** multiple charts to be displayed on one screen  
-**So that** that people can accurately track multiple currencies with one device
- - *scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
