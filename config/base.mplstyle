@@ -51,3 +51,6 @@ xtick.minor.size:  3
 
 xtick.direction:    inout
 ytick.direction:    inout
+
+ytick.major.width: 0.5
+xtick.major.width: 0.5

@@ -110,7 +110,7 @@ class chart_updater:
         title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
         change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
         change_colour = ('red' if change < 0 else 'black')
-        draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font, fill=(255, 255, 255, 0))
+        draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
         
         # draw current price text
         price = price_humaniser.format_title_price(chartdata.last_close())
