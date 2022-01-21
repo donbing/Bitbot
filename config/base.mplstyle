@@ -1,5 +1,6 @@
 figure.dpi:         100
-
+#figure.autolayout: True
+figure.constrained_layout.use: True
 font.family: sans-serif
 font.sans-serif: 04b03
 font.weight: light
