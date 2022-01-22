@@ -18,17 +18,11 @@ import os.path as path
 
 # create bitbot chart updater
 chart_updater = bitbot.chart_updater(config)
-
 def update_chart():
     chart_updater.run()
     # show image in vscode for debug
     if os.getenv('BITBOT_SHOWIMAGE') == 'true':
         os.system("code last_display.png")    
-
-# terminate after test run
-if os.getenv('TESTRUN') == 'true':
-    update_chart()
-    raise SystemExit
 
 # schedule chart updates
 scheduler = sched.scheduler(time.time, time.sleep)
@@ -37,9 +31,11 @@ secs_per_min = 60
 def refresh_chart(sc): 
     global scheduler_event
     update_chart()
-    refresh_minutes = float(config['display']['refresh_time_minutes'])
-    logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-    scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
+    # dont reschedule if testing
+    if os.getenv('TESTRUN') != 'true':
+        refresh_minutes = config.refresh_rate_minutes()
+        logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
+        scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
 
 # watch for changes to logfile
 scheduler_event = None
@@ -75,7 +71,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
 
 event_handler = ConfigChangeHandler()
 observer = Observer()
-observer.schedule(event_handler, config_files.base_path)
+observer.schedule(event_handler, config_files.config_folder)
 observer.start()
 logging.info("config observer ready")
 
