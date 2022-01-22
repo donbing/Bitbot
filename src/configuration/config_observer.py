@@ -3,7 +3,6 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 import os.path as path
 from src.log_decorator import info_log
-import logging
 
 
 @info_log
