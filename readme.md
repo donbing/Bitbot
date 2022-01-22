@@ -6,14 +6,15 @@
     <img height="200" src="docs/images/last_display.png">
 </div>
 
-# ✔️ Basic features
- - 💵 Shows the current price
+# ✨ Basic features
+ - 💵 Shows the **current price**
  - 📈 Shows instrument details (e,g, ```(XBTUSD, +12%)```)
- - 💬 Displays some AI text comment/message depending on price action
- - 🏦 Capable of charting and trading on many different crypto-exchanges
+ - 🔊 Optional **volume chart** 
+ - 💬 Displays some **AI text message** depending on price action
+ - 🏦 Capable of charting and trading on **many different crypto-exchanges**
  - 👽 Reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) and [here](https://old.reddit.com/r/raspberry_pi/comments/s3dnnn/i_made_an_aluminium_stand_for_an_eink_display/)
- - 📶 Warns on connection errors
- - ⚙️ Config and log are available via webserver running on port **8080**
+ - 📶 Warns on **connection errors**
+ - ⚙️ **Config webserver** running on port **8080** allows easy configuration
 
 # 💡 Requested Features
  - 📈 Show value of your portfolio

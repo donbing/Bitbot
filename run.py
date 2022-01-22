@@ -32,6 +32,7 @@ sys.excepthook = handle_exception
 chart_updater = bitbot.chart_updater(config) 
 def update_chart():
     chart_updater.run()
+    # show image in vscode for debug
     if os.getenv('BITBOT_SHOWIMAGE') == 'true':
         os.system("code last_display.png")    
 
@@ -51,8 +52,6 @@ def refresh_chart(sc):
     logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
     scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
 
-from hashlib import md5
-
 # watch for changes to logfile
 scheduler_event = None
 watched_files = {}
@@ -62,8 +61,8 @@ class ConfigChangeHandler(FileSystemEventHandler):
         global watched_files
         if isinstance(event, FileModifiedEvent):
             file_path = event.src_path
+
             last_modified = path.getmtime(file_path)
-            
             cached_last_modified = watched_files.get(file_path)
          
             new_change = file_path not in watched_files
@@ -84,6 +83,8 @@ class ConfigChangeHandler(FileSystemEventHandler):
                         # This is OK because the event may have been just canceled
                         pass
                 refresh_chart(scheduler)
+            else:
+                logging.info('file not really changed')
 
 event_handler = ConfigChangeHandler()
 observer = Observer()

@@ -1,6 +1,4 @@
-
-# 📗 Features
-
+# ✨ Features
 
 ## ✔️ Bitbot creates it's own config hotspot when it cant connect to WiFi
 >**As** Marketing  
@@ -19,7 +17,7 @@
  - *Scenario:* `Bitbot defaults to showing bitmex BTC/USD ticker.`
  - *Scenario:* `Bitbot is re-configured to show an ETH/USD chart.`
 
-## ✔️ Current price shoudl not overlap the chart
+## ✔️ Current price should not overlap the chart
 >**As** Marketing  
 **In order that** bitbot looks **aesthetically pleasing** 
 **I want** the price display to **avoid overlapping** the chart  
@@ -36,15 +34,31 @@
  - *Scenario:* `Wifi is not connected, so an error is shown.`
  - *Scenario:* `Wifi is connected, and bitbot can ping google, so loads the chart.`
 
-# INCOMPLETE
-## 💡Make bitbot capable of buying/selling 
->**As** Marketing  
-**In order that** we can promote the device as a trading bot  
-**I want** bit bot to be configurable to make orders at regular intervals  
-**So that** users can use DCA trading strategies  
- - *Scenario:* `bit bot is configured with trading account details, buy frequencey and amount.`
- - *Scenario:* `bit bot used configured trading info to automatically place orders for the customer.`
+## ✔️ Configurable Volume chart
+>**AS** Marketing  
+**In order** that pro traders be interested in bitbot  
+**I want** bit bot to show an optional volume graph below the prive chart  
+**So that**  the validity of price movements can be better assessed
+ - *Scenario:* `Bitbot defaults to showing no volume chart`
+ - *Scenario:* `Bitbots config is latered to enable the volume chart`
+ - *Scenario:* `Bitbots config  allows styling of the volume chart`
 
+# 🚧 INCOMPLETE
+## 💡 Make chart styles editable in the config-server
+>**AS** Marketing  
+**In order** we can advertise bit bot as 'infinately customisable' 
+**I want** users to be able to edit the matplot lib style sheets  
+**So that** they can personalise their chart to their own tastes
+ - *Scenario:* `The config editor allows direct editing of existing MPL style sheet files`
+ - *Scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
+
+## 💡 Show friendly welcome screen(s) on first load
+>**AS** Marketing  
+**In order** that users leave glowing reviews  
+**I want** bit bot to show a nice welcome screen before first power on  
+**So that** users feel their device is personalised to them  
+ - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+ 
 ## 💡Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
@@ -52,9 +66,19 @@
 **So that** users have an easy on-boarding experience and leave glowing reviews  
  - *Scenario:* `on first power on, bitbot displays a friendly welcome message and explains how to configure the wifi`
 
-## 💡 Show friendly welcome screen(s) on first load
+## 💡 Support muiltiple chart plots on one display
 >**AS** Marketing  
-**In order** that users leave glowing reviews  
-**I want** bit bot to show a nice welcome screen before first power on  
-**So that** users feel their device is personalised to them  
- - *scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+**In order** to appeal to a broad user-base  
+**I want** multiple charts to be displayed on one screen  
+**So that** that people can accurately track multiple currencies with one device
+ - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
+
+## 💡 Show Market indicators (macd, rsi, bbands)
+
+## 💡Make bitbot capable of buying/selling 
+>**As** Marketing  
+**In order that** we can promote the device as a trading bot  
+**I want** bit bot to be configurable to make orders at regular intervals  
+**So that** users can use DCA trading strategies  
+ - *Scenario:* `bit bot is configured with trading account details, buy frequencey and amount.`
+ - *Scenario:* `bit bot used configured trading info to automatically place orders for the customer.`

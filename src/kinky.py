@@ -31,8 +31,13 @@ class disker:
     def draw_connection_error(self):
         logging.info("No connection")
     
-    def show(self, display_image):
+    def show(self, image):
         logging.info("Saving image")
+        display_image = image.rotate(0)
+        
+        palette_img = Image.new("P", (1, 1))
+        palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
+        display_image = display_image.convert('RGB').quantize(palette=palette_img)
         display_image.save('last_display.png')
         
 class inker:
