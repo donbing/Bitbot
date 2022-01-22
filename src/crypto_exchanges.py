@@ -4,35 +4,28 @@ import matplotlib.dates as mdates
 from src.log_decorator import info_log
 
 class Exchange():
-    CandleConfig = collections.namedtuple('CandleConfig', 'code count')
+    CandleConfig = collections.namedtuple('CandleConfig', 'width count')
     candle_configs = [ CandleConfig("5m", 60), CandleConfig("1h", 24), CandleConfig("1h", 40), CandleConfig("1d", 60) ]
     
     def __init__(self, config):
         self.config = config
-
+    
+    @info_log
     def fetch_random(self):
         candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
         candle_data = fetch_OHLCV_chart_data(
-            candle_config.code, 
+            candle_config.width, 
             candle_config.count,
             self.config.exchange_name(), 
             self.config.instrument_name()
         )
-        return CandleData(candle_config.code, candle_data)
+        return CandleData(candle_config.width, candle_data)
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
     exchange = load_exchange(exchange_name)
-    dirty_chart_data = get_chart_data(exchange, instrument, candleFreq, num_candles)
-    clean_chart_data = replace_dates(dirty_chart_data)
-    return clean_chart_data
-
-def replace_dates(chart_data):
-    return list(map(make_matplotfriendly_date, chart_data))
-
-@info_log
-def get_chart_data(exchange, instrument, candleFreq, num_candles):
-    return exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
-
+    dirty_chart_data = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
+    return list(map(make_matplotfriendly_date, dirty_chart_data))
+    
 @info_log
 def load_exchange(exchange_name):
     exchange = getattr(ccxt, exchange_name)({ 
@@ -55,7 +48,7 @@ def replace_at_index(tup, ix, val):
    return tuple(lst)
    
 class CandleData():
-    def __init__(self,candle_width, candle_data):
+    def __init__(self, candle_width, candle_data):
         self.candle_width = candle_width
         self.candle_data = candle_data
         

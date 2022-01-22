@@ -5,23 +5,25 @@ from os.path import join as pjoin
 import cgi
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib import parse as urlparse
+from src.configuration.bitbot_files import BitBotFiles
 
-curdir = pathlib.Path(__file__).parent.resolve()
-config_folder = pjoin(curdir, '../config/') 
 
-files = {
-    "config_ini": pjoin(config_folder, 'config.ini'),
-    "log_output": pjoin(curdir, '../', 'debug.log'),
-    "base_style": pjoin(config_folder, 'base.mplstyle'),
-    "inset_style": pjoin(config_folder, 'inset.mplstyle'),
-    "default_style": pjoin(config_folder, 'default.mplstyle'),
-    "volume_style": pjoin(config_folder, 'volume.mplstyle') 
+base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../') 
+
+files_config = BitBotFiles(base_dir)
+
+editable_files = {
+    "config_ini": files_config.config_ini,
+    "base_style": files_config.base_style,
+    "inset_style": files_config.inset_style,
+    "default_style": files_config.default_style,
+    "volume_style": files_config.volume_style
 }
 
 class StoreHandler(BaseHTTPRequestHandler):
 
     def create_editor_form(self, fileKey, current_file_key):
-        with open(files[fileKey]) as file_handle:
+        with open(editable_files[fileKey]) as file_handle:
             html =  '<h2 class="collapser">⚙️ ' + fileKey + '</h2>'
             html += '<form method="post" action="?fileKey=' + fileKey + '"' + ' class="' + ('open' if fileKey == current_file_key else '') + '">'
             html += '<textarea name="fileContent" rows="20" cols="80">' + str(file_handle.read()) + '</textarea>'
@@ -59,21 +61,15 @@ class StoreHandler(BaseHTTPRequestHandler):
             <body>
                 <h1>🤖 BitBot Crypto-Ticker Config</h1>
             '''
-        html+=self.create_editor_form("config_ini", fileKey)
-        html+=self.create_editor_form("base_style", fileKey)
-        html+=self.create_editor_form("inset_style", fileKey)
-        html+=self.create_editor_form("default_style", fileKey)
-        html+=self.create_editor_form("volume_style", fileKey)
+        for file in editable_files:
+            html+=self.create_editor_form(file, fileKey)  
 
         # display log info if it exists
-        if os.path.isfile(files['log_output']):
-            with open(files['log_output']) as log_file:
+        if os.path.isfile(files_config.log_file_path):
+            with open(files_config.log_file_path) as log_file:
                 html += '<h1 class="collapser">🪵 LOG</h1><textarea name="configfile" rows="20" cols="80">' + str(log_file.read()) + '</textarea>'
 
-        html += '''
-            </body>
-            </html>
-                '''
+        html += '</body></html>'
         # html response
         self.send_response(200)
         self.send_header("Content-type", "text/html; charset=utf-8")
@@ -90,7 +86,7 @@ class StoreHandler(BaseHTTPRequestHandler):
             environ={'REQUEST_METHOD':'POST'})
 
         # write config file to disk
-        with open(files[fileKey], 'w') as fh:
+        with open(editable_files[fileKey], 'w') as fh:
             fh.write(form.getvalue('fileContent'))
 
         # redirect to get action

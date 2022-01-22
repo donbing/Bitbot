@@ -15,17 +15,13 @@ class crypto_chart:
         self.config = config
         self.display = display
         self.files = files
-        self.load_fonts(self.files)
-
-    def load_fonts(self, files):
-        font_files = font_manager.findSystemFonts(fontpaths=files.fonts_folder)
-        for font_file in font_files:
+        for font_file in font_manager.findSystemFonts(fontpaths=files.fonts_folder):
             font_manager.fontManager.addfont(font_file)
-       
-    def createChart(self, chart_data):
-        return charted_plot(self.config, self.display, self.files, chart_data)
+        
+    def create_plot(self, chart_data):
+        return plotted_chart(self.config, self.display, self.files, chart_data)
 
-class charted_plot:
+class plotted_chart:
     layouts = {   
         '1d': (0.01,    mdates.DayLocator(bymonthday=range(1,31,7)),    plt.NullFormatter(),    mdates.MonthLocator(),             mdates.DateFormatter('%b'), local_timezone),
         '1h': (0.005,   mdates.HourLocator(byhour=range(0,23,4)),       plt.NullFormatter(),    mdates.DayLocator(),               mdates.DateFormatter('%a %d %b', local_timezone)),
@@ -35,7 +31,7 @@ class charted_plot:
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
         # create MPL plot
-        self.fig, ax = self.get_chart_plot(display, config, files)
+        self.fig, ax = self.create_chart_figure(display, config, files)
         # find suiteable layout for timeframe
         layout = self.layouts[self.candle_width]
         # locate/format x axis ticks for chosen layout
@@ -46,9 +42,9 @@ class charted_plot:
         # currency amount uses custom formatting 
         ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
 
-        self.draw_chart(config, layout, ax, chart_data.candle_data)
+        self.plot_chart(config, layout, ax, chart_data.candle_data)
 
-    def draw_chart(self, config, layout, ax, candle_data):
+    def plot_chart(self, config, layout, ax, candle_data):
         # draw candles to MPL plot
         candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0]) 
         # draw volumes to MPL plot
@@ -57,7 +53,7 @@ class charted_plot:
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
 
-    def get_chart_plot(self, display, config, files):
+    def create_chart_figure(self, display, config, files):
         # apply global base style
         plt.style.use(files.base_style)
         # select mpl style
@@ -79,4 +75,5 @@ class charted_plot:
 
     def write_to_stream(self, stream):
         self.fig.savefig(stream, dpi=self.fig.dpi, pad_inches=0)
+        stream.seek(0)
         plt.close(self.fig)
