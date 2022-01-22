@@ -1,4 +1,3 @@
-
 # ✨ Features
 
 ## ✔️ Bitbot creates it's own config hotspot when it cant connect to WiFi
