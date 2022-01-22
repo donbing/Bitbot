@@ -14,7 +14,7 @@ initialise_logger(config_files.logging_ini)
 config = load_config_ini(config_files.config_ini)
 
 # create bitbot chart updater
-chart_updater = bitbot.chart_updater(config)
+chart_updater = bitbot.chart_updater(config, config_files)
 
 @info_log
 def refresh_chart(sc): 

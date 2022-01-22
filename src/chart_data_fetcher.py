@@ -1,7 +1,24 @@
-import ccxt, datetime
+import ccxt, datetime, random, collections
 from datetime import datetime
 import matplotlib.dates as mdates
 from src.log_decorator import info_log
+
+class Exchange():
+    CandleConfig = collections.namedtuple('CandleConfig', 'code count')
+    candle_configs = [ CandleConfig("5m", 60), CandleConfig("1h", 24), CandleConfig("1h", 40), CandleConfig("1d", 60) ]
+    
+    def __init__(self, config):
+        self.config = config
+
+    def fetch_random(self):
+        candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
+        candle_data = fetch_OHLCV_chart_data(
+            candle_config.code, 
+            candle_config.count,
+            self.config.exchange_name(), 
+            self.config.instrument_name()
+        )
+        return CandleData(candle_config.code, candle_data)
 
 def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
     exchange = load_exchange(exchange_name)
@@ -37,3 +54,19 @@ def replace_at_index(tup, ix, val):
    lst[ix] = val
    return tuple(lst)
    
+class CandleData():
+    def __init__(self,candle_width, candle_data):
+        self.candle_width = candle_width
+        self.candle_data = candle_data
+        
+    def percentage_change(self):
+        return ((self.last_close() - self.start_price()) / self.last_close()) * 100
+
+    def last_close(self):
+        return self.candle_data[-1][4]
+
+    def end_price(self):
+        return self.candle_data[0][3]
+
+    def start_price(self):
+        return self.candle_data[0][4]
