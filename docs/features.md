@@ -1,5 +1,5 @@
 
-# 📗 Features
+# ✨ Features
 
 ## ✔️ Bitbot creates it's own config hotspot when it cant connect to WiFi
 >**As** Marketing  
@@ -18,7 +18,7 @@
  - *Scenario:* `Bitbot defaults to showing bitmex BTC/USD ticker.`
  - *Scenario:* `Bitbot is re-configured to show an ETH/USD chart.`
 
-## ✔️ Current price shoudl not overlap the chart
+## ✔️ Current price should not overlap the chart
 >**As** Marketing  
 **In order that** bitbot looks **aesthetically pleasing** 
 **I want** the price display to **avoid overlapping** the chart  
@@ -35,7 +35,16 @@
  - *Scenario:* `Wifi is not connected, so an error is shown.`
  - *Scenario:* `Wifi is connected, and bitbot can ping google, so loads the chart.`
 
-# INCOMPLETE
+## ✔️ Configurable Volume chart
+>**AS** Marketing  
+**In order** that pro traders be interested in bitbot  
+**I want** bit bot to show an optional volume graph below the prive chart  
+**So that**  the validity of price movements can be better assessed
+ - *Scenario:* `Bitbot defaults to showing no volume chart`
+ - *Scenario:* `Bitbots config is latered to enable the volume chart`
+ - *Scenario:* `Bitbots config  allows styling of the volume chart`
+
+# 🚧 INCOMPLETE
 ## 💡 Make chart styles editable in the config-server
 >**AS** Marketing  
 **In order** we can advertise bit bot as 'infinately customisable' 
@@ -73,3 +82,4 @@
 **So that** users feel their device is personalised to them  
  - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
  
+## 💡 Show Market indicators (macd, rsi, bbands)

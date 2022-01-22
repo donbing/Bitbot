@@ -6,7 +6,7 @@
     <img height="200" src="docs/images/last_display.png">
 </div>
 
-# ✔️ Basic features
+# ✨ Basic features
  - 💵 Shows the current price
  - 📈 Shows instrument details (e,g, ```(XBTUSD, +12%)```)
  - 💬 Displays some AI text comment/message depending on price action
