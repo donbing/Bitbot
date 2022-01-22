@@ -53,12 +53,28 @@
  - *Scenario:* `The config editor allows direct editing of existing MPL style sheet files`
  - *Scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
 
+## 💡 Show friendly welcome screen(s) on first load
+>**AS** Marketing  
+**In order** that users leave glowing reviews  
+**I want** bit bot to show a nice welcome screen before first power on  
+**So that** users feel their device is personalised to them  
+ - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+ 
+## 💡Show setup instructions on first load
+>**AS** Marketing  
+**In order** to avoid sending printed setup instructions with each device  
+**I want** bit bot to guide the user through settting up the device when if first powers on  
+**So that** users have an easy on-boarding experience and leave glowing reviews  
+ - *Scenario:* `on first power on, bitbot displays a friendly welcome message and explains how to configure the wifi`
+
 ## 💡 Support muiltiple chart plots on one display
 >**AS** Marketing  
 **In order** to appeal to a broad user-base  
 **I want** multiple charts to be displayed on one screen  
 **So that** that people can accurately track multiple currencies with one device
  - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
+
+## 💡 Show Market indicators (macd, rsi, bbands)
 
 ## 💡Make bitbot capable of buying/selling 
 >**As** Marketing  
@@ -67,19 +83,3 @@
 **So that** users can use DCA trading strategies  
  - *Scenario:* `bit bot is configured with trading account details, buy frequencey and amount.`
  - *Scenario:* `bit bot used configured trading info to automatically place orders for the customer.`
-
-## 💡Show setup instructions on first load
->**AS** Marketing  
-**In order** to avoid sending printed setup instructions with each device  
-**I want** bit bot to guide the user through settting up the device when if first powers on  
-**So that** users have an easy on-boarding experience and leave glowing reviews  
- - *Scenario:* `on first power on, bitbot displays a friendly welcome message and explains how to configure the wifi`
-
-## 💡 Show friendly welcome screen(s) on first load
->**AS** Marketing  
-**In order** that users leave glowing reviews  
-**I want** bit bot to show a nice welcome screen before first power on  
-**So that** users feel their device is personalised to them  
- - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
- 
-## 💡 Show Market indicators (macd, rsi, bbands)
