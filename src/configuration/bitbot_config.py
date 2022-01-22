@@ -47,3 +47,6 @@ class BitBotConfig():
     
     def refresh_rate_minutes(self):
         return float(self.config['display']['refresh_time_minutes'])
+
+    def display_rotation(self):
+        return int(self.config['display']['rotation'])

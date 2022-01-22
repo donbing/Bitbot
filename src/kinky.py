@@ -42,7 +42,7 @@ class disker:
         
 class inker:
     def __init__(self, config):
-        self.display_config = config["display"]
+        self.config = config
         self.inky_display = auto()
         self.WIDTH = self.inky_display.WIDTH
         self.HEIGHT = self.inky_display.HEIGHT
@@ -82,7 +82,7 @@ class inker:
     def show(self, image):
         logging.info("Displaying image")
         # rotate the image 
-        image_rotation = self.display_config.getint("rotation")
+        image_rotation = self.config.display_rotation()
         display_image = image.rotate(image_rotation)
 
         three_colour_screen_types = ["yellow", "red"]
