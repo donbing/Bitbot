@@ -43,14 +43,15 @@
  - *Scenario:* `Bitbots config is latered to enable the volume chart`
  - *Scenario:* `Bitbots config  allows styling of the volume chart`
 
-# 🚧 INCOMPLETE
-## 💡 Make chart styles editable in the config-server
+## ✔️ Make chart styles editable in the config-server
 >**AS** Marketing  
 **In order** we can advertise bit bot as 'infinately customisable' 
 **I want** users to be able to edit the matplot lib style sheets  
 **So that** they can personalise their chart to their own tastes
  - *Scenario:* `The config editor allows direct editing of existing MPL style sheet files`
- - *Scenario:* `The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
+ - *Scenario:* `🚧 Incomplete: The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
+
+# 🚧 INCOMPLETE
 
 ## 💡 Show friendly welcome screen(s) on first load
 >**AS** Marketing  
