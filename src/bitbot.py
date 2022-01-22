@@ -1,41 +1,9 @@
 from datetime import datetime
-from src import price_humaniser, currency_chart, kinky
 from PIL import Image, ImageDraw
-import io, random, socket, logging, time, os
+import io, random, socket, logging, time
+from src import price_humaniser, currency_chart, kinky
 from src.log_decorator import info_log
-
-# encapsulate horrid config vars
-class bitbot_config():
-    def __init__(self, config):
-        self.config = config
-
-    def exchange_name(self):
-        return self.config["currency"]["exchange"]
-
-    def instrument_name(self):
-        return self.config["currency"]["instrument"]
-
-    def use_inky(self):
-        return os.getenv('BITBOT_OUTPUT') != 'disk' and self.config["display"]["output"] == "inky"
-
-    def get_price_action_comments(self, direction):
-        return self.config.get('comments', direction).split(',')
-
-    def border_type(self):
-        return self.config["display"]["border"]
-
-    def overlay_type(self):
-        return self.config["display"]["overlay_layout"]
-
-    def show_timestamp(self):
-        return self.config["display"]["timestamp"] 
-        
-    def expand_chart(self):
-        return self.config["display"]["expanded_chart"] == 'true'
-    
-    def show_volume(self):
-        return self.config["display"]["show_volume"] == 'true'
-
+import src.configuration.bitbot_config as configuration
 
 # test if internet is available
 def network_connected(hostname="google.com"):
@@ -79,7 +47,7 @@ def flatten(t):
 class chart_updater:
     possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
     def __init__(self, config):
-        self.config = bitbot_config(config)
+        self.config = config
         # select inky display or file output (nice for testing)
         self.display = kinky.inker(self.config) if self.config.use_inky() else kinky.disker()
         # fetch chart data

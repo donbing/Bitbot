@@ -1,23 +1,19 @@
-import pathlib, logging, logging.config
+import pathlib, logging, logging.config, sched, time, sys, os
 from os.path import join as pjoin
-curdir = pathlib.Path(__file__).parent.resolve()
-config_dir = pjoin(curdir, 'config')
+from src.configuration.bitbot_files import use_config_dir  
+from src.configuration.bitbot_config import load_config_ini 
+from src.configuration.bitbot_logging import initialise_logger 
 
+# declare config files
+config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
 # load logging config
-logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
-logging.info("App starting")
-
-import configparser
+initialise_logger(config_files.logging_ini)
 # load app config
-config_ini_path = pjoin(config_dir, 'config.ini')
-config = configparser.ConfigParser()
-config.read(config_ini_path, encoding='utf-8')
-logging.info("Loaded config from " + config_ini_path)
+config = load_config_ini(config_files.config_ini)
 
 from src import bitbot
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
-import sched, time, sys,  os
 import os.path as path
 
 # log unhandled exceptions
@@ -28,8 +24,9 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 sys.excepthook = handle_exception
 
-# configure bitbot chart updater
-chart_updater = bitbot.chart_updater(config) 
+# create bitbot chart updater
+chart_updater = bitbot.chart_updater(config)
+
 def update_chart():
     chart_updater.run()
     # show image in vscode for debug
@@ -72,9 +69,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
                 logging.info('Config changed')
                 watched_files[file_path] = last_modified
                 # reload the app config
-                config.read(config_ini_path, encoding='utf-8')
-                # reload log config
-                logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
+                config.reload(config_files.config_ini)
                 # restart schedule and refresh screen for event in self.scheduler.queue:
                 for event in scheduler.queue:
                     try:
@@ -88,7 +83,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
 
 event_handler = ConfigChangeHandler()
 observer = Observer()
-observer.schedule(event_handler, config_dir)
+observer.schedule(event_handler, config_files.base_path)
 observer.start()
 logging.info("config observer ready")
 
