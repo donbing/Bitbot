@@ -1,27 +1,11 @@
-import matplotlib, tzlocal, pathlib
+import matplotlib, tzlocal
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.font_manager as font_manager
 from mplfinance.original_flavor import candlestick_ohlc, volume_overlay
 from src import price_humaniser
-from os.path import join as pjoin
         
 matplotlib.use('Agg')
-
-curdir = pathlib.Path(__file__).parent.resolve()
-
-config_path = pjoin(curdir, '../config/') 
-
-# base_style = pjoin(config_path, 'base.mplstyle') 
-# inset_style = pjoin(config_path, 'inset.mplstyle') 
-# default_style = pjoin(config_path, 'default.mplstyle') 
-# volume_style = pjoin(config_path, 'volume.mplstyle') 
-
-fonts_path = pjoin(curdir, '../src/resources')
-font_files = font_manager.findSystemFonts(fontpaths=fonts_path)
-
-for font_file in font_files:
-    font_manager.fontManager.addfont(font_file)
 
 local_timezone = tzlocal.get_localzone()
 
@@ -31,7 +15,13 @@ class crypto_chart:
         self.config = config
         self.display = display
         self.files = files
-    
+        self.load_fonts(self.files)
+
+    def load_fonts(self, files):
+        font_files = font_manager.findSystemFonts(fontpaths=files.fonts_folder)
+        for font_file in font_files:
+            font_manager.fontManager.addfont(font_file)
+       
     def createChart(self, chart_data):
         return charted_plot(self.config, self.display, self.files, chart_data)
 
