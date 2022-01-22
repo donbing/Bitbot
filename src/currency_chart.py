@@ -72,8 +72,8 @@ class charted_plot:
         self.candleData = chart_data_fetcher.fetch_OHLCV_chart_data(
             self.candle_width, 
             num_candles,
-            config["currency"]["exchange"], 
-            config["currency"]["instrument"])
+            self.exchange_name(), 
+            self.instrument_name())
 
         # create MPL plot
         self.fig, ax = self.get_chart_plot(display, config)
@@ -101,6 +101,18 @@ class charted_plot:
             ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
             dates, opens, highs, lows, closes, volumes = list(zip(*self.candleData))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
+
+    def expand_chart(self):
+        return self.config["display"]["expanded_chart"] == 'true'
+    
+    def show_volume(self):
+        return self.config["display"]["show_volume"] == 'true'
+
+    def exchange_name(self):
+        return self.config["currency"]["exchange"]
+
+    def instrument_name(self):
+        return self.config["currency"]["instrument"]
 
     def percentage_change(self):
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
