@@ -9,7 +9,7 @@
 # ✨ Basic features
  - 💵 Shows the **current price**
  - 📈 Shows instrument details (e,g, ```(XBTUSD, +12%)```)
- - 🔊 Optional **volume chart** 
+ - 📊 Optional **volume chart** 
  - 💬 Displays some **AI text message** depending on price action
  - 🏦 Capable of charting and trading on **many different crypto-exchanges**
  - 👽 Reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) and [here](https://old.reddit.com/r/raspberry_pi/comments/s3dnnn/i_made_an_aluminium_stand_for_an_eink_display/)
