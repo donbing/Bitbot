@@ -61,8 +61,8 @@ class ConfigChangeHandler(FileSystemEventHandler):
         global watched_files
         if isinstance(event, FileModifiedEvent):
             file_path = event.src_path
+
             last_modified = path.getmtime(file_path)
-            
             cached_last_modified = watched_files.get(file_path)
          
             new_change = file_path not in watched_files
@@ -83,6 +83,8 @@ class ConfigChangeHandler(FileSystemEventHandler):
                         # This is OK because the event may have been just canceled
                         pass
                 refresh_chart(scheduler)
+            else:
+                logging.info('file not really changed')
 
 event_handler = ConfigChangeHandler()
 observer = Observer()
