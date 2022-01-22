@@ -10,7 +10,6 @@ class Exchange():
     def __init__(self, config):
         self.config = config
     
-    @info_log
     def fetch_random(self):
         candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
         candle_data = fetch_OHLCV_chart_data(
@@ -21,11 +20,15 @@ class Exchange():
         )
         return CandleData(candle_config.width, candle_data)
 
-def fetch_OHLCV_chart_data(candleFreq, num_candles, exchange_name, instrument):
+def fetch_OHLCV_chart_data(candle_freq, num_candles, exchange_name, instrument):
     exchange = load_exchange(exchange_name)
-    dirty_chart_data = exchange.fetchOHLCV(instrument, candleFreq, limit=num_candles)
+    dirty_chart_data = fetch_market_data(exchange, instrument, candle_freq, num_candles)
     return list(map(make_matplotfriendly_date, dirty_chart_data))
-    
+
+@info_log
+def fetch_market_data(exchange, instrument, candle_freq, num_candles):
+    return exchange.fetchOHLCV(instrument, candle_freq, limit=num_candles)
+
 @info_log
 def load_exchange(exchange_name):
     exchange = getattr(ccxt, exchange_name)({ 
