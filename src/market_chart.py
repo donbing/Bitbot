@@ -10,7 +10,7 @@ matplotlib.use('Agg')
 local_timezone = tzlocal.get_localzone()
 
 # single instance for lifetime of app
-class crypto_chart:
+class MarketChart:
     def __init__(self, config, display, files):
         self.config = config
         self.display = display
@@ -19,9 +19,9 @@ class crypto_chart:
             font_manager.fontManager.addfont(font_file)
         
     def create_plot(self, chart_data):
-        return plotted_chart(self.config, self.display, self.files, chart_data)
+        return PlottedChart(self.config, self.display, self.files, chart_data)
 
-class plotted_chart:
+class PlottedChart:
     layouts = {   
         '1d': (0.01,    mdates.DayLocator(bymonthday=range(1,31,7)),    plt.NullFormatter(),    mdates.MonthLocator(),             mdates.DateFormatter('%b'), local_timezone),
         '1h': (0.005,   mdates.HourLocator(byhour=range(0,23,4)),       plt.NullFormatter(),    mdates.DayLocator(),               mdates.DateFormatter('%a %d %b', local_timezone)),

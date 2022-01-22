@@ -1,13 +1,13 @@
 from PIL import Image
 import io, socket, time
 from src import crypto_exchanges, kinky
-from src.market_chart import crypto_chart
+from src.market_chart import MarketChart
 from src.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
 
 class Cartographer():
     def __init__(self, config, display, files, chart_data):
-        self.plot = crypto_chart(config, display, files).create_plot(chart_data)
+        self.plot = MarketChart(config, display, files).create_plot(chart_data)
     
     @info_log
     def draw_to(self, file_stream):
@@ -18,7 +18,7 @@ class chart_updater:
         self.config = config
         self.files = files
         # select inky display or file output (nice for testing)
-        self.display = kinky.inker(self.config) if self.config.use_inky() else kinky.disker()
+        self.display = kinky.Inker(self.config) if self.config.use_inky() else kinky.Disker()
         # initialise exchange
         self.exchange = crypto_exchanges.Exchange(config)
 

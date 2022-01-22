@@ -19,7 +19,7 @@ To configure WiFi access,
 connect to 'RaspPiSetup' WiFi AP 
 then visit raspiwifisetup.com"""
 
-class disker:
+class Disker:
     def __init__(self):
         self.WIDTH = 400
         self.HEIGHT = 300
@@ -40,7 +40,7 @@ class disker:
         display_image = display_image.convert('RGB').quantize(palette=palette_img)
         display_image.save('last_display.png')
         
-class inker:
+class Inker:
     def __init__(self, config):
         self.config = config
         self.inky_display = auto()
