@@ -4,7 +4,7 @@ from src.configuration.bitbot_config import load_config_ini
 from src.configuration.bitbot_logging import initialise_logger 
 from src.configuration.config_observer import watch_config_dir 
 from src.log_decorator import info_log
-from src import bitbot
+from src.bitbot import BitBot
 
 # declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
@@ -14,11 +14,11 @@ initialise_logger(config_files.logging_ini)
 config = load_config_ini(config_files.config_ini)
 
 # create bitbot chart updater
-chart_updater = bitbot.chart_updater(config, config_files)
+app = BitBot(config, config_files)
 
 @info_log
 def refresh_chart(sc): 
-    chart_updater.run()
+    app.run()
     # show image in vscode for debug
     if config.shoud_show_image_in_vscode():
         os.system("code last_display.png")  

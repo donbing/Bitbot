@@ -104,3 +104,7 @@ class Inker:
             self.inky_display.show()
         except RuntimeError:
             pass # current lib has a bug that spits out RuntimeError("Timeout waiting for busy signal to clear.")
+    
+    
+    def __repr__(self):
+        return self.inky_display.colour + ' Inky: @' + str((self.inky_display.WIDTH, self.inky_display.HEIGHT))

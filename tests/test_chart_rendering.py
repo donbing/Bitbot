@@ -1,7 +1,7 @@
 import unittest, pathlib, os, sys
 from os.path import join as pjoin
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
-from src import bitbot, crypto_exchanges
+from src import bitbot
 from src.configuration.bitbot_files import use_config_dir 
 from src.configuration.bitbot_config import load_config_ini 
 
@@ -15,7 +15,7 @@ config.set('display', 'output', 'disk')
 
 class test_rendering_chart(unittest.TestCase):
     def test_with_config(self):
-        exchange = bitbot.chart_updater(config)
+        exchange = bitbot.BitBot(config, files)
         exchange.run()
         #os.system("code last_display.png")    
         # open the file in vscode for approval

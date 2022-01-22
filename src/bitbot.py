@@ -13,7 +13,10 @@ class Cartographer():
     def draw_to(self, file_stream):
         self.plot.write_to_stream(file_stream)
 
-class chart_updater:
+    def __repr__(self):
+        return 'Cartographer'
+        
+class BitBot():
     def __init__(self, config, files):
         self.config = config
         self.files = files
@@ -57,3 +60,6 @@ class chart_updater:
                 connection_error_shown = True
                 display.draw_connection_error()
             time.sleep(10)
+
+    def __repr__(self):
+        return 'BitBot inky:' + str(self.config.use_inky())
