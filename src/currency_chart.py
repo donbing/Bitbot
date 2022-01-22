@@ -22,13 +22,15 @@ font_files = font_manager.findSystemFonts(fontpaths=fonts_path)
 for font_file in font_files:
     font_manager.fontManager.addfont(font_file)
 
+local_timezone = tzlocal.get_localzone()
+
 # single instance for lifetime of app
 class crypto_chart:
     layouts = [
-        ('1d', 60, 0.01,    mdates.DayLocator(bymonthday=range(1,31,7)),    plt.NullFormatter(), mdates.MonthLocator(),             mdates.DateFormatter('%b')),
-        ('1h', 40, 0.005,   mdates.HourLocator(byhour=range(0,23,4)),       plt.NullFormatter(), mdates.DayLocator(),               mdates.DateFormatter('%a %d %b')),
-        ('1h', 24, 0.01,    mdates.HourLocator(interval=1),                 plt.NullFormatter(), mdates.HourLocator(interval=4),    mdates.DateFormatter('%-I.%p')),
-        ('5m', 60, 0.0005,  mdates.MinuteLocator(byminute=[0,30]),          plt.NullFormatter(), mdates.HourLocator(interval=1),    mdates.DateFormatter('%-I.%p'))
+        ('1d', 60, 0.01,    mdates.DayLocator(bymonthday=range(1,31,7)),    plt.NullFormatter(), mdates.MonthLocator(),             mdates.DateFormatter('%b'), local_timezone),
+        ('1h', 40, 0.005,   mdates.HourLocator(byhour=range(0,23,4)),       plt.NullFormatter(), mdates.DayLocator(),               mdates.DateFormatter('%a %d %b', local_timezone)),
+        ('1h', 24, 0.01,    mdates.HourLocator(interval=1),                 plt.NullFormatter(), mdates.HourLocator(interval=4),    mdates.DateFormatter('%-I.%p', local_timezone)),
+        ('5m', 60, 0.0005,  mdates.MinuteLocator(byminute=[0,30]),          plt.NullFormatter(), mdates.HourLocator(interval=1),    mdates.DateFormatter('%-I.%p', local_timezone))
     ]
     def __init__(self, config, display):   
         self.config = config
@@ -41,17 +43,9 @@ class crypto_chart:
         return self.layouts[random.randrange(len(self.layouts))]
 
 class charted_plot:
-    def expand_chart(self):
-        return self.config["display"]["expanded_chart"] == 'true'
-    
-    def show_volume(self):
-        return self.config["display"]["show_volume"] == 'true'
-
     def get_chart_plot(self, display, config):
         # apply global base style
         plt.style.use(base_style)
-        # may not need to do this anymore
-        plt.rcParams['timezone'] = tzlocal.get_localzone_name()
         # select mpl style
         stlye = inset_style if self.expand_chart() else default_style
         num_plots =  2 if self.show_volume() else 1
@@ -78,8 +72,8 @@ class charted_plot:
         self.candleData = chart_data_fetcher.fetch_OHLCV_chart_data(
             self.candle_width, 
             num_candles,
-            config["currency"]["exchange"], 
-            config["currency"]["instrument"])
+            self.exchange_name(), 
+            self.instrument_name())
 
         # create MPL plot
         self.fig, ax = self.get_chart_plot(display, config)
@@ -93,11 +87,6 @@ class charted_plot:
         # currency amount uses custom formatting 
         ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
 
-        # ax[1].xaxis.set_minor_locator(layout[3])
-        # ax[1].xaxis.set_minor_formatter(layout[4])
-        # ax[1].xaxis.set_major_locator(layout[5])
-        # ax[1].xaxis.set_major_formatter(layout[6])
-
         from mplfinance.original_flavor import candlestick_ohlc, volume_overlay, plot_day_summary2_ohlc, candlestick2_ohlc
         
         # draw candles to MPL plot
@@ -107,6 +96,18 @@ class charted_plot:
             ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
             dates, opens, highs, lows, closes, volumes = list(zip(*self.candleData))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
+
+    def expand_chart(self):
+        return self.config["display"]["expanded_chart"] == 'true'
+    
+    def show_volume(self):
+        return self.config["display"]["show_volume"] == 'true'
+
+    def exchange_name(self):
+        return self.config["currency"]["exchange"]
+
+    def instrument_name(self):
+        return self.config["currency"]["instrument"]
 
     def percentage_change(self):
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
