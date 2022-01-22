@@ -87,11 +87,6 @@ class charted_plot:
         # currency amount uses custom formatting 
         ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
 
-        # ax[1].xaxis.set_minor_locator(layout[3])
-        # ax[1].xaxis.set_minor_formatter(layout[4])
-        # ax[1].xaxis.set_major_locator(layout[5])
-        # ax[1].xaxis.set_major_formatter(layout[6])
-
         from mplfinance.original_flavor import candlestick_ohlc, volume_overlay, plot_day_summary2_ohlc, candlestick2_ohlc
         
         # draw candles to MPL plot
