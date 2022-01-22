@@ -50,3 +50,9 @@ class BitBotConfig():
 
     def display_rotation(self):
         return int(self.config['display']['rotation'])
+    
+    def shoud_show_image_in_vscode(self):
+        return  os.getenv('BITBOT_SHOWIMAGE') == 'true'
+
+    def is_test_run(self):
+        return  os.getenv('TESTRUN') == 'true'

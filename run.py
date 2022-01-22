@@ -1,9 +1,10 @@
-import pathlib, logging, logging.config, sched, time, sys, os
-from os.path import join as pjoin
+import pathlib, logging, logging.config, sched, time, os
 from src.configuration.bitbot_files import use_config_dir  
 from src.configuration.bitbot_config import load_config_ini 
 from src.configuration.bitbot_logging import initialise_logger 
 from src.configuration.config_observer import watch_config_dir 
+from src.log_decorator import info_log
+from src import bitbot
 
 # declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
@@ -12,46 +13,45 @@ initialise_logger(config_files.logging_ini)
 # load app config
 config = load_config_ini(config_files.config_ini)
 
-from src import bitbot
-
 # create bitbot chart updater
 chart_updater = bitbot.chart_updater(config)
-def update_chart():
+
+@info_log
+def refresh_chart(sc): 
     chart_updater.run()
     # show image in vscode for debug
-    if os.getenv('BITBOT_SHOWIMAGE') == 'true':
-        os.system("code last_display.png")    
-
-# schedule chart updates
-scheduler = sched.scheduler(time.time, time.sleep)
-secs_per_min = 60
-
-def refresh_chart(sc): 
-    global scheduler_event
-    update_chart()
+    if config.shoud_show_image_in_vscode():
+        os.system("code last_display.png")  
     # dont reschedule if testing
-    if os.getenv('TESTRUN') != 'true':
+    if not config.is_test_run():
         refresh_minutes = config.refresh_rate_minutes()
         logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-        scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
+        sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
 
-# watch for changes to logfile
-scheduler_event = None
-
-def config_changed():
-    # reload the app config
-    config.reload(config_files.config_ini)
-    # restart schedule and refresh screen for event in self.scheduler.queue:
-    for event in scheduler.queue:
+@info_log
+def cancel_schedule(sc):
+    for event in sc.queue:
         try:
-            scheduler.cancel(event)
+            sc.cancel(event)
         except ValueError:
             # This is OK because the event may have been just canceled
             pass
-    refresh_chart(scheduler)
 
-watch_config_dir(config_files.config_folder, refresh_chart)
+@info_log
+def config_changed(sc):
+    # reload the app config
+    config.reload(config_files.config_ini)
+    # cancel current schedule
+    cancel_schedule(sc)
+    # new schedule
+    refresh_chart(sc)
 
-# update chart immediately and begin update schedule
+# scheduler for regular chart updates
+scheduler = sched.scheduler(time.time, time.sleep)
+
+# refresh chart on config file change
+watch_config_dir(config_files.config_folder, on_changed = lambda: config_changed(scheduler))
+
+# update chart immediately and begin schedule
 refresh_chart(scheduler)
 scheduler.run()
