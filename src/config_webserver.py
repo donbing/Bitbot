@@ -5,7 +5,7 @@ from os.path import join as pjoin
 import cgi
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib import parse as urlparse
-from src.configuration.bitbot_files import BitBotFiles
+from configuration.bitbot_files import BitBotFiles
 
 
 base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../') 
