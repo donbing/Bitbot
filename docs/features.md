@@ -43,7 +43,7 @@
  - *Scenario:* `Bitbots config is latered to enable the volume chart`
  - *Scenario:* `Bitbots config  allows styling of the volume chart`
 
-## 💡 Make chart styles editable in the config-server
+## ✔️ Make chart styles editable in the config-server
 >**AS** Marketing  
 **In order** we can advertise bit bot as 'infinately customisable' 
 **I want** users to be able to edit the matplot lib style sheets  
