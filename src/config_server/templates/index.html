@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+        <script src="static/config_editor.js"></script>
+        <style>
+            .editableFiles {
+                list-style-type: none;
+                margin-left: 0;
+                padding-left: 0;
+            }
+            .editableFiles li { 
+                margin: 10px 0;
+                padding-left: 1em;
+                text-indent: -1em;
+            }
+            .editableFiles li:before {
+                content: "📝";
+                padding-right: 5px;
+            }
+            .editableFiles li span { 
+                cursor: pointer; 
+                border: 1px solid #203823;
+                padding: 0.2em 0.5em;
+                border-radius: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🤖 BitBot Crypto-Ticker Config</h1>
+        <section>
+            <h2>📈 Edit Chart Styles</h2>
+            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
+            <ul class="editableFiles">
+            {% for file in style_files %}
+                <li >
+                    <span onclick="editFile(this)">{{file}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>⚙️ Edit Application Config</h2>
+            <p>Here you can alter the exchange, currency, screen refresh and some overlay options</p>
+            <ul class="editableFiles">
+            {% for file in ini_files %}
+                <li>
+                    <span onclick="editFile(this)">{{file}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>🪵 View Logs </h2>
+            <p>Check here if someting isn't working!</p>
+            <ul class="editableFiles">
+            {% for file in log_files %}
+                <li>
+                    <span onclick="editFile(this)">{{file}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </body>
+</html>
