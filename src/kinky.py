@@ -1,7 +1,7 @@
 from inky.auto import auto
 import pathlib
 from PIL import Image, ImageFont, ImageDraw
-import logging
+from src.log_decorator import info_log
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
@@ -28,17 +28,22 @@ class Disker:
         self.tiny_font = tiny_font
         self.medium_font = medium_font
     
+    @info_log
     def draw_connection_error(self):
-        logging.info("No connection")
+        None
     
     def show(self, image):
-        logging.info("Saving image")
         display_image = image.rotate(0)
         
         palette_img = Image.new("P", (1, 1))
         palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
         display_image = display_image.convert('RGB').quantize(palette=palette_img)
-        display_image.save('last_display.png')
+        
+        self.save_image('last_display.png', display_image)
+    
+    @info_log
+    def save_image(self, path, image):
+        image.save(path)
         
 class Inker:
     def __init__(self, config):
@@ -51,8 +56,8 @@ class Inker:
         self.tiny_font = tiny_font
         self.medium_font = medium_font
     
+    @info_log
     def draw_connection_error(self):
-        logging.info("No connection")
         img = Image.new("P", (self.inky_display.WIDTH, self.inky_display.HEIGHT))
         draw = ImageDraw.Draw(img)
         # calculate space needed for message
@@ -79,8 +84,8 @@ class Inker:
         self.inky_display.set_image(img) 
         self.inky_display.show()
     
+    @info_log
     def show(self, image):
-        logging.info("Displaying image")
         # rotate the image 
         image_rotation = self.config.display_rotation()
         display_image = image.rotate(image_rotation)
