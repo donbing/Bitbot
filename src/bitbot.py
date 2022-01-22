@@ -4,6 +4,39 @@ from PIL import Image, ImageDraw
 import io, random, socket, logging, time, os
 from src.log_decorator import info_log
 
+# encapsulate horrid config vars
+class bitbot_config():
+    def __init__(self, config):
+        self.config = config
+
+    def exchange_name(self):
+        return self.config["currency"]["exchange"]
+
+    def instrument_name(self):
+        return self.config["currency"]["instrument"]
+
+    def use_inky(self):
+        return os.getenv('BITBOT_OUTPUT') != 'disk' and self.config["display"]["output"] == "inky"
+
+    def get_price_action_comments(self, direction):
+        return self.config.get('comments', direction).split(',')
+
+    def border_type(self):
+        return self.config["display"]["border"]
+
+    def overlay_type(self):
+        return self.config["display"]["overlay_layout"]
+
+    def show_timestamp(self):
+        return self.config["display"]["timestamp"] 
+        
+    def expand_chart(self):
+        return self.config["display"]["expanded_chart"] == 'true'
+    
+    def show_volume(self):
+        return self.config["display"]["show_volume"] == 'true'
+
+
 # test if internet is available
 def network_connected(hostname="google.com"):
     try:
@@ -46,20 +79,16 @@ def flatten(t):
 class chart_updater:
     possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
     def __init__(self, config):
-        self.config = config
+        self.config = bitbot_config(config)
         # select inky display or file output (nice for testing)
-        self.display = kinky.inker(self.config) if self.use_inky() else kinky.disker()
+        self.display = kinky.inker(self.config) if self.config.use_inky() else kinky.disker()
+        # fetch chart data
+        #self.exchange.fetch_random_for(config)
+        # draw chart to image
+        # draw overlay on image   
         # initialise chart for current display/config
         self.chart = currency_chart.crypto_chart(self.config, self.display)
-
-    def use_inky(self):
-        return os.getenv('BITBOT_OUTPUT') != 'disk' and self.config["display"]["output"] == "inky"
-
-    def get_price_action_comments(self, direction):
-        return self.config.get('comments', direction).split(',')
-
-    def configured_instrument(self):
-        return self.config["currency"]["instrument"]
+        # draw the chart on the display
 
     def run(self):
         # check internet connection
@@ -76,7 +105,7 @@ class chart_updater:
             file_stream.seek(0)
 
             plot_image = Image.open(file_stream)
-            if self.config["display"]["overlay_layout"] == "2":
+            if self.config.overlay_type() == "2":
                 self.draw_overlay2(plot_image, chartdata)
             else:
                 self.draw_overlay1(plot_image, chartdata)
@@ -84,15 +113,15 @@ class chart_updater:
             self.display.show(plot_image) 
 
     def draw_current_time(self, draw_plot_image):
-        if self.config["display"]["timestamp"] == 'true':
+        if self.config.show_timestamp() == 'true':
             formatted_time = datetime.now().strftime("%b %-d %-H:%M")
             text_width, text_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
             draw_plot_image.text((self.display.WIDTH - text_width - 1, self.display.HEIGHT - text_height - 2), formatted_time, 'black', self.display.tiny_font)
 
     # add a border if configured
     def draw_border(self, draw_plot_image):
-        border_type = self.config["display"]["border"]
-        if self.config["display"]["border"] != 'none':
+        border_type = self.config.border_type()
+        if border_type != 'none':
             draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline=border_type)
 
     def draw_overlay1(self, plot_image, chartdata):
@@ -103,7 +132,7 @@ class chart_updater:
         selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
             
         # draw instrument / candle width
-        title = self.configured_instrument() + ' (' + chartdata.candle_width + ') '
+        title = self.config.instrument_name() + ' (' + chartdata.candle_width + ') '
         draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
 
         # draw % change text
@@ -119,7 +148,7 @@ class chart_updater:
         # select some random comment depending on price action
         if random.random() < 0.5:
             direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-            messages=self.get_price_action_comments(direction)
+            messages=self.config.get_price_action_comments(direction)
             draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
         
         self.draw_border(draw_plot_image)
@@ -133,7 +162,7 @@ class chart_updater:
         selectedArea = least_intrusive_position(plot_image, self.possible_title_positions)
         
         # draw instrument name
-        title = self.configured_instrument()
+        title = self.config.configured_instrument()
         title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
         txt=Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
         d = ImageDraw.Draw(txt)
@@ -164,4 +193,3 @@ class chart_updater:
 
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
-

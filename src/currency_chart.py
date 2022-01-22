@@ -43,37 +43,18 @@ class crypto_chart:
         return self.layouts[random.randrange(len(self.layouts))]
 
 class charted_plot:
-    def get_chart_plot(self, display, config):
-        # apply global base style
-        plt.style.use(base_style)
-        # select mpl style
-        stlye = inset_style if self.expand_chart() else default_style
-        num_plots =  2 if self.show_volume() else 1
-        heights = [4,1] if self.show_volume() else [1]
-        plt.tight_layout()
-        # scope styles to just this plot
-        with plt.style.context(stlye):
-            fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
-            gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
-            ax1 = fig.add_subplot(gs[0], zorder = 0)
-            ax2 = None
-            if self.show_volume():
-                with plt.style.context(volume_style):
-                    ax2 = fig.add_subplot(gs[1], zorder = 1)
-
-            return (fig,(ax1,ax2))
 
     def __init__(self, config, display, layout):
-        # get market data
         self.candle_width = layout[0]
-        self.config = config
         num_candles = layout[1]
         candle_size = layout[2]
+        
+        # get market data
         self.candleData = chart_data_fetcher.fetch_OHLCV_chart_data(
             self.candle_width, 
             num_candles,
-            self.exchange_name(), 
-            self.instrument_name())
+            config.exchange_name(), 
+            config.instrument_name())
 
         # create MPL plot
         self.fig, ax = self.get_chart_plot(display, config)
@@ -87,27 +68,35 @@ class charted_plot:
         # currency amount uses custom formatting 
         ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
 
-        from mplfinance.original_flavor import candlestick_ohlc, volume_overlay, plot_day_summary2_ohlc, candlestick2_ohlc
+        from mplfinance.original_flavor import candlestick_ohlc, volume_overlay
         
         # draw candles to MPL plot
         candlestick_ohlc(ax[0], self.candleData, colorup='green', colordown='red', width=candle_size) 
         # draw volumes to MPL plot
-        if self.show_volume():
+        if config.show_volume():
             ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
             dates, opens, highs, lows, closes, volumes = list(zip(*self.candleData))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
 
-    def expand_chart(self):
-        return self.config["display"]["expanded_chart"] == 'true'
-    
-    def show_volume(self):
-        return self.config["display"]["show_volume"] == 'true'
+    def get_chart_plot(self, display, config):
+        # apply global base style
+        plt.style.use(base_style)
+        # select mpl style
+        stlye = inset_style if config.expand_chart() else default_style
+        num_plots =  2 if config.show_volume() else 1
+        heights = [4,1] if config.show_volume() else [1]
+        plt.tight_layout()
+        # scope styles to just this plot
+        with plt.style.context(stlye):
+            fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
+            gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
+            ax1 = fig.add_subplot(gs[0], zorder = 0)
+            ax2 = None
+            if config.show_volume():
+                with plt.style.context(volume_style):
+                    ax2 = fig.add_subplot(gs[1], zorder = 1)
 
-    def exchange_name(self):
-        return self.config["currency"]["exchange"]
-
-    def instrument_name(self):
-        return self.config["currency"]["instrument"]
+            return (fig,(ax1,ax2))
 
     def percentage_change(self):
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
