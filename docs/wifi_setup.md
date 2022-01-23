@@ -3,7 +3,7 @@
 
  * While in this state, Bitbot will ***run it's own wifi access-point*** that you may connect to.
 
- * You may ***use your phone***, or other **wifi device** to connect to this access-point, where you will be guided through the process of connecting Bitbot to your home wifi.
+ * ***Use your phone***, or other **wifi device** to connect to this access-point, where you will be **guided** through the process of connecting Bitbot to your **home wifi**.
 ---
 ## Detailed guide
  * Here we demonstrate connecting bitbot to my home wifi (NETGEAR85) using an android phone
