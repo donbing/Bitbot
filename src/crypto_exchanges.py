@@ -1,5 +1,5 @@
 import ccxt
-import datetime
+from datetime import datetime
 import random
 import collections
 import matplotlib.dates as mdates
