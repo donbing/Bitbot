@@ -68,7 +68,7 @@
 **In order** that users leave glowing reviews  
 **I want** bit bot to show a nice welcome screen before first power on  
 **So that** users feel their device is personalised to them  
- - *Scenario:* `bitbot shows a personaliused message and bingsbots logo before first powering up`
+ - *Scenario:* `bitbot shows a personalised message and logo before first powering up`
  
 ## 💡Show setup instructions on first load
 >**AS** Marketing  
