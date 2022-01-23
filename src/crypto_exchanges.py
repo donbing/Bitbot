@@ -19,23 +19,35 @@ class Exchange():
 
     def fetch_history(self):
         configred_candle_width = self.config.candle_width()
-        if(configred_candle_width == "random"):
-            candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
-        else:
-            candle_config, = (conf for conf in self.candle_configs if conf.width == configred_candle_width)
+        instrument = self.config.instrument_name()
 
-        candle_data = fetch_OHLCV_chart_data(
+        if(configred_candle_width == "random"):
+            random_index = random.randrange(len(self.candle_configs))
+            candle_config = self.candle_configs[random_index]
+        else:
+            candle_config, = (
+                conf for conf in self.candle_configs
+                if conf.width == configred_candle_width)
+
+        candle_data = fetch_OHLCV(
             candle_config.width,
             candle_config.count,
             self.config.exchange_name(),
             self.config.instrument_name()
         )
-        return CandleData(self.config.instrument_name(), candle_config.width, candle_data)
+        return CandleData(instrument, candle_config.width, candle_data)
+
+    def __repr__(self):
+        return '<ccxt crypto exchange>'
 
 
-def fetch_OHLCV_chart_data(candle_freq, num_candles, exchange_name, instrument):
+def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument):
     exchange = load_exchange(exchange_name)
-    dirty_chart_data = fetch_market_data(exchange, instrument, candle_freq, num_candles)
+    dirty_chart_data = fetch_market_data(
+        exchange,
+        instrument,
+        candle_freq,
+        num_candles)
     return list(map(make_matplotfriendly_date, dirty_chart_data))
 
 
@@ -75,7 +87,9 @@ class CandleData():
         self.candle_data = candle_data
 
     def percentage_change(self):
-        return ((self.last_close() - self.start_price()) / self.last_close()) * 100
+        current_price = self.last_close()
+        start_price = self.start_price()
+        return ((current_price - start_price) / current_price) * 100
 
     def last_close(self):
         return self.candle_data[-1][4]
