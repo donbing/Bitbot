@@ -23,7 +23,6 @@
 # 💡 Requested Features
  - 💸 Display **Transaction fees**
  - 📺 Smaller/cheaper display
- - 📉 Regular **stocks**
 
 # 📝 Docs
  - [💻 How To **Install**](docs/app_install.md)  

@@ -1,3 +1,15 @@
+todo:
+ - config candle colours
+ - config volume colours
+ - intro
+ - instructions
+ - multi-plot-figure
+ - moving averages
+ - overlapping multi-coin charts
+ - allow selecting style in config
+ - indicators
+
+
 > Build arm6 on x86
 ```bash
  docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
