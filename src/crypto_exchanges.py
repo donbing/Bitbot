@@ -10,7 +10,7 @@ class Exchange():
     def __init__(self, config):
         self.config = config
     
-    def fetch_random(self):
+    def fetch_history(self):
         candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
         candle_data = fetch_OHLCV_chart_data(
             candle_config.width, 

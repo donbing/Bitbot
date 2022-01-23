@@ -1,6 +1,6 @@
 from PIL import Image
 import io, socket, time
-from src import crypto_exchanges, kinky
+from src import crypto_exchanges, stock_exchanges, kinky
 from src.market_chart import MarketChart
 from src.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
@@ -22,14 +22,15 @@ class BitBot():
         self.files = files
         # select inky display or file output (nice for testing)
         self.display = kinky.Inker(self.config) if self.config.use_inky() else kinky.Disker()
-        # initialise exchange
-        self.exchange = crypto_exchanges.Exchange(config)
+
+    def market_exchange(self):
+        return stock_exchanges.Exchange(self.config) if self.config.stock_symbol() is not None else crypto_exchanges.Exchange(self.config)
 
     def run(self):
         # await internet connection
         self.wait_for_internet_connection(self.display)
         # fetch chart data
-        chart_data = self.exchange.fetch_random()
+        chart_data = self.market_exchange().fetch_history()
         # draw the chart on the display
         with io.BytesIO() as file_stream:
             # draw chart to image
