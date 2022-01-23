@@ -58,6 +58,18 @@ class ChartOverlay():
         if border_type != 'none':
             draw_plot_image.rectangle([(0, 0), (self.display.WIDTH -1, self.display.HEIGHT-1)], outline=border_type)
 
+    # 💬 draw a random comment depending on price action
+    def draw_price_comment(self, chartdata, draw_plot_image, selectedArea):
+        if random.random() < 0.5:
+            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
+            messages=self.config.get_price_action_comments(direction)
+            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
+
+    # 🖊️ draw current price text
+    def draw_current_price(self, chartdata, draw_plot_image, selectedArea):
+        price = price_humaniser.format_title_price(chartdata.last_close())
+        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
+
     def draw_overlay1(self, draw_plot_image, chartdata, selectedArea):
         # 🎹 🕎 draw instrument / candle width
         title = chartdata.instrument + ' (' + chartdata.candle_width + ') '
@@ -67,15 +79,9 @@ class ChartOverlay():
         change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
         change_colour = ('red' if change < 0 else 'black')
         draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
-        # 🖊️ draw current price text
-        price = price_humaniser.format_title_price(chartdata.last_close())
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
-        # 💬 select some random comment depending on price action
-        if random.random() < 0.5:
-            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-            messages=self.config.get_price_action_comments(direction)
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
         
+        self.draw_current_price(draw_plot_image, chartdata, selectedArea)
+        self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
 
@@ -97,14 +103,8 @@ class ChartOverlay():
         change = chartdata.percentage_change()
         change_colour = ('red' if change < 0 else 'black')
         draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
-        # 🖊️ draw current price text
-        price = price_humaniser.format_title_price(chartdata.last_close())
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
-        # 💬 select some random comment depending on price action
-        if random.random() < 0.5:
-            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-            messages=self.get_price_action_comments(direction)
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
 
+        self.draw_current_price(draw_plot_image, chartdata, selectedArea)
+        self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
