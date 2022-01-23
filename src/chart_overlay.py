@@ -42,9 +42,9 @@ class ChartOverlay():
         selectedArea = ChartOverlay.least_intrusive_position(chart_image, self.possible_title_positions)
         # 🖊️ draw configured overlay
         if self.config.overlay_type() == "2":
-            self.draw_overlay2(draw_plot_image, self.chart_data, selectedArea)
+            self.draw_overlay2(draw_plot_image, self.chart_data, selectedArea, chart_image)
         else:
-            self.draw_overlay1(draw_plot_image, self.chart_data, selectedArea)
+            self.draw_overlay1(draw_plot_image, self.chart_data, selectedArea, chart_image)
 
     # 🕒 add the time if configured
     def draw_current_time(self, draw_plot_image):
@@ -80,7 +80,7 @@ class ChartOverlay():
         price = price_humaniser.format_title_price(chartdata.last_close())
         draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
 
-    def draw_overlay1(self, draw_plot_image, chartdata, selectedArea):
+    def draw_overlay1(self, draw_plot_image, chartdata, selectedArea, base_plot_image):
         # 🎹 🕎 draw instrument / candle width
         title = chartdata.instrument + ' (' + chartdata.candle_width + ') '
         draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
@@ -95,7 +95,7 @@ class ChartOverlay():
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
 
-    def draw_overlay2(self, draw_plot_image, chartdata, selectedArea):
+    def draw_overlay2(self, draw_plot_image, chartdata, selectedArea, base_plot_image):
         # 🎹 draw instrument name
         title = chartdata.instrument
         title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
@@ -104,7 +104,7 @@ class ChartOverlay():
         d.text((0, 0), title, 'black', self.display.medium_font)
         w = txt.rotate(270, expand=True)
         title_paste_pos = (self.display.WIDTH-title_height - 2, int((self.display.HEIGHT - title_width) / 2))
-        draw_plot_image.paste(w, title_paste_pos, w)
+        base_plot_image.paste(w, title_paste_pos, w)
         # 🕎 candle width
         candle_width_right_padding = 2
         candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
