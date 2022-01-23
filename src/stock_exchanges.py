@@ -1,16 +1,20 @@
-import yfinance, collections, random
+import yfinance
+import collections
+import random
 from datetime import datetime, timedelta
 import matplotlib.dates as mdates
-from src.log_decorator import info_log 
+from src.log_decorator import info_log
+
 
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width duration')
-    candle_configs = [ 
-        CandleConfig('1mo', timedelta(weeks=4*24)), 
-        CandleConfig('1h', timedelta(hours=40)), 
-        CandleConfig('1wk', timedelta(weeks=60)), 
-        CandleConfig('3mo', timedelta(weeks=12*24)) 
+    candle_configs = [
+        CandleConfig('1mo', timedelta(weeks=4*24)),
+        CandleConfig('1h', timedelta(hours=40)),
+        CandleConfig('1wk', timedelta(weeks=60)),
+        CandleConfig('3mo', timedelta(weeks=12*24))
     ]
+
     def __init__(self, config):
         self.config = config
 
@@ -26,9 +30,9 @@ class Exchange():
     @info_log
     def get_stock_history(self, ticker, candle_width, start_date, end_date):
         return ticker.history(
-            interval = candle_width, 
-            start = start_date.strftime("%Y-%m-%d"), 
-            end = end_date.strftime("%Y-%m-%d"))
+            interval=candle_width,
+            start=start_date.strftime("%Y-%m-%d"),
+            end=end_date.strftime("%Y-%m-%d"))
 
     def select_candle_config(self):
         configred_candle_width = self.config.candle_width()
@@ -38,16 +42,18 @@ class Exchange():
             candle_config, = (conf for conf in self.candle_configs if conf.width == configred_candle_width)
             return candle_config
 
+
 def make_matplotfriendly_date(element):
     datetime_field = element[0]
     datetime_num = mdates.date2num(datetime_field)
     return replace_at_index(element, 0, datetime_num)
 
+
 def replace_at_index(tup, ix, val):
-   lst = list(tup)
-   lst[ix] = val
-   return tuple(lst)
-   
+    lst = list(tup)
+    lst[ix] = val
+    return tuple(lst)
+
 
 class CandleData():
     def __init__(self, instrument, candle_width, candle_data, ticker):
@@ -55,7 +61,7 @@ class CandleData():
         self.candle_width = candle_width
         candle_data.reset_index(level=0, inplace=True)
         self.candle_data = list(map(make_matplotfriendly_date, candle_data.to_numpy()))
-        
+
     def percentage_change(self):
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
 
