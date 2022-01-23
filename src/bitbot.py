@@ -25,7 +25,7 @@ class BitBot():
 
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
-        return stock_exchanges.Exchange(self.config) if self.config.stock_symbol() is not None else crypto_exchanges.Exchange(self.config)
+        return crypto_exchanges.Exchange(self.config) if not(self.config.stock_symbol()) else stock_exchanges.Exchange(self.config)
 
     # ✒️ select inky display or file output (nice for testing)
     def create_display(self):
