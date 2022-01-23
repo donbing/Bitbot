@@ -15,6 +15,7 @@
  - 👽 Reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) and [here](https://old.reddit.com/r/raspberry_pi/comments/s3dnnn/i_made_an_aluminium_stand_for_an_eink_display/)
  - 📶 Warns on **connection errors**
  - ⚙️ **Config webserver** running on port **8080** allows easy configuration
+ - ♻️ Display **refreshes when config changes**  
 
 # 💡 Requested Features
  - 📈 Show value of your portfolio
