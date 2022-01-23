@@ -34,7 +34,7 @@ test_params = [
 
 os.makedirs('tests/images/', exist_ok=True)
 
-class TestSequenceMeta(type):
+class TestRenderingMeta(type):
     def __new__(mcs, name, bases, dict):
 
         def gen_test(name, exch, token, stock, overlay, expand, volume, candle_width):
@@ -60,5 +60,5 @@ class TestSequenceMeta(type):
             dict[test_name] = gen_test(name, exchange, token, stock, overlay, expand, volume, candle_width)
         return type.__new__(mcs, name, bases, dict)
 
-class TestSequence(unittest.TestCase, metaclass=TestSequenceMeta):
-    __metaclass__ = TestSequenceMeta
+class ChartRenderingTests(unittest.TestCase, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
