@@ -9,8 +9,8 @@ from src.configuration import bitbot_config
 test_params = ["1mo", '1wk', 'random']
 
 
-class test_stock_exchange(unittest.TestCase):
-    def test_fetcing_history(self):
+class TestStockExchange(unittest.TestCase):
+    def test_fetching_history(self):
         for candle_width in test_params:
             with self.subTest(msg=candle_width):
                 stock = "TSLA"
