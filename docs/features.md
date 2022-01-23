@@ -69,6 +69,13 @@
  - *Scenario:* `✅ The config editor allows direct editing of existing MPL style sheet files`
  - *Scenario:* `🚧 Incomplete: The config editor allows new MPL style sheets to be added, and referenced in the config.ini`
 
+## ✔️ Total value of holdings can be tracked   
+>**AS** Marketing  
+**In order** that users find using Bitbot friction-free
+**I want** a config entry for the users holdings, and a total value to be drawn to screen  
+**So that** users dont have to calculate totals themselves
+ - *Scenario:* `✅ holdings are entered intot e cnfig file, and total value is displayed below the price.`
+
 # 🚧 INCOMPLETE
 
 ## 💡 Show friendly welcome screen(s) on first load

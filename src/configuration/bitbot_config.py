@@ -61,7 +61,7 @@ class BitBotConfig():
         return self.config['currency']['stock_symbol']
 
     def portfolio_size(self):
-        return float(self.config['currency']['portfolio_stack'])
+        return float(self.config['currency']['holdings'])
 
     def output_file_name(self):
         return self.config['display']['disk_file_name']

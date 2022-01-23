@@ -60,10 +60,10 @@ class CandleData():
         return ((self.last_close() - self.start_price()) / self.last_close()) * 100
 
     def last_close(self):
-        return self.candle_data[-1][4]
+        return float(self.candle_data[-1][4])
 
     def end_price(self):
-        return self.candle_data[0][3]
+        return float(self.candle_data[0][3])
 
     def start_price(self):
-        return self.candle_data[0][4]
+        return float(self.candle_data[0][4])

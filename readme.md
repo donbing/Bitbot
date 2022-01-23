@@ -7,11 +7,11 @@
 </div>
 
 # ✨ Features
- - 🏦 Capable of charting **any token** from **many different crypto-exchanges**
+ - 🏦 Capable of charting **any crypto-currency** from **many different exchanges**
  - 🏛️ Supports regular **stock prices**
  - 💲 Large **current price** header (avoids chart overlap) 
  - 🎲 randomly selected **time frames**, or configured to **your preference**
- - 💰 Supports displaying your current **portfolio value** 
+ - 💰 Supports **tracking** your current **holdings** 
  - 📈 Shows instrument details (e,g, ```(XBT/USD, +12%)```)
  - 📊 Optional **volume chart** 
  - 💬 Displays ***configurable AI commentry*** depending on **price action**
