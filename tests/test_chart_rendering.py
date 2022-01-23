@@ -14,7 +14,6 @@ def load_config():
     config.set('display', 'output', 'disk')
     return config
 
-
 # load config
 test_params = [
     ("MS 1mo defaults", "", "", "MSFT", "1", "false", "false", "1mo"),
@@ -24,14 +23,17 @@ test_params = [
     ("bitmex BTC 1d defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1d"),
 ]
 
-class test_rendering_chart(unittest.TestCase):
-    def test_render(self):
-        config = load_config()
-        for name, exchange, token, stock, overlay, expand, volume, candle_width in test_params:
-            with self.subTest(msg=name):
-                image_file_name = f'{name}.png'
+os.makedirs('tests/images/', exist_ok=True)
+
+class TestSequenceMeta(type):
+    def __new__(mcs, name, bases, dict):
+
+        def gen_test(name, exch, token, stock, overlay, expand, volume, candle_width):
+            def test(self):
+                config = load_config()
+                image_file_name = f'tests/images/{name}.png'
                 config.set('currency', 'stock_symbol', stock)
-                config.set('currency', 'exchange', exchange)
+                config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
@@ -41,3 +43,13 @@ class test_rendering_chart(unittest.TestCase):
                 exchange = bitbot.BitBot(config, files)
                 exchange.run()
                 #os.system(f"code {image_file_name}")
+
+            return test
+
+        for name, exchange, token, stock, overlay, expand, volume, candle_width in test_params:
+            test_name = "test_%s" % name
+            dict[test_name] = gen_test(name, exchange, token, stock, overlay, expand, volume, candle_width)
+        return type.__new__(mcs, name, bases, dict)
+
+class TestSequence(unittest.TestCase, metaclass=TestSequenceMeta):
+    __metaclass__ = TestSequenceMeta
