@@ -16,7 +16,7 @@ def load_config():
 
 # load config
 test_params = [
-    ("APPLE 1mo defaults", "", "", "MSFT", "1", "false", "false", "1mo", ""),
+    ("APPLE 1mo defaults", "", "", "AAPL", "1", "false", "false", "1mo", ""),
     ("APPLE 3mo defaults", "", "", "AAPL", "1", "false", "false", "3mo", ""),
 
     ("bitmex BTC 5m defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "5m", ""),
