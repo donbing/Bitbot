@@ -53,7 +53,7 @@ class PlottedChart:
         if config.show_volume():
             ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
-            volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
+            volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
@@ -67,11 +67,11 @@ class PlottedChart:
         with plt.style.context(stlye):
             fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
             gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
-            ax1 = fig.add_subplot(gs[0], zorder = 0)
+            ax1 = fig.add_subplot(gs[0], zorder = 1)
             ax2 = None
             if config.show_volume():
                 with plt.style.context(files.volume_style):
-                    ax2 = fig.add_subplot(gs[1], zorder = 1)
+                    ax2 = fig.add_subplot(gs[1], zorder = 0)
 
             return (fig,(ax1,ax2))
 

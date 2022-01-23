@@ -61,7 +61,7 @@ class ChartOverlay():
     # 💬 draw a random comment depending on price action
     def draw_price_comment(self, draw_plot_image, chartdata, selectedArea):
         if self.config.portfolio_size():
-            messages= str(self.config.portfolio_size() * chartdata.last_close())
+            messages= "{:,}".format(self.config.portfolio_size() * chartdata.last_close())
             draw_plot_image.text((selectedArea[0], selectedArea[1]+52), messages, 'black', self.display.title_font)    
         elif random.random() < 0.5:
             direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
