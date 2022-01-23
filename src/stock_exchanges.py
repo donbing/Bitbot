@@ -102,6 +102,6 @@ class CandleData():
 
     def start_price(self):
         return float(self.candle_data[0][4])
-    
+
     def __repr__(self):
         return f'<{self.instrument} {self.candle_width} candle data>'
