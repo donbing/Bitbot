@@ -22,7 +22,7 @@ class Exchange():
         instrument = self.config.stock_symbol()
         ticker = yfinance.Ticker(instrument)
         candle_config = self.select_candle_config()
-        end_date = datetime.utcnow() 
+        end_date = datetime.utcnow()
         start_date = end_date - candle_config.duration
         history = self.get_stock_history(ticker, candle_config.width, start_date, end_date)
         return CandleData(instrument, candle_config.width, history, ticker)

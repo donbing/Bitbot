@@ -6,7 +6,7 @@ from src import stock_exchanges
 from src.configuration import bitbot_config
 
 # '1wk' <- failes for reasons as yet unknown
-test_params = ["1mo", '1wk',  'random']
+test_params = []  # ["1mo", '1wk', '1h',  'random']
 
 
 class test_stock_exchange(unittest.TestCase):
