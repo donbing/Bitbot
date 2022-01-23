@@ -23,8 +23,8 @@ class MarketChart:
 
 class PlottedChart:
     layouts = {   
-        '3mo': (0.01,   mdates.YearLocator(),                           plt.NullFormatter(),    mdates.YearLocator(1),              mdates.DateFormatter('%Y'), local_timezone),
-        '1mo': (0.01,   mdates.MonthLocator(),                          plt.NullFormatter(),    mdates.YearLocator(1),              mdates.DateFormatter('%Y'), local_timezone),
+        '3mo': (20,   mdates.YearLocator(),                           plt.NullFormatter(),    mdates.YearLocator(1),             mdates.DateFormatter('%Y'), local_timezone),
+        '1mo': (0.01,   mdates.MonthLocator(),                          plt.NullFormatter(),    mdates.YearLocator(1),             mdates.DateFormatter('%Y'), local_timezone),
         '1d': (0.01,    mdates.DayLocator(bymonthday=range(1,31,7)),    plt.NullFormatter(),    mdates.MonthLocator(),             mdates.DateFormatter('%b'), local_timezone),
         '1h': (0.005,   mdates.HourLocator(byhour=range(0,23,4)),       plt.NullFormatter(),    mdates.DayLocator(),               mdates.DateFormatter('%a %d %b', local_timezone)),
         '1h': (0.01,    mdates.HourLocator(interval=1),                 plt.NullFormatter(),    mdates.HourLocator(interval=4),    mdates.DateFormatter('%-I.%p', local_timezone)),

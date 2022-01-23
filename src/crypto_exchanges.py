@@ -9,7 +9,7 @@ class Exchange():
         CandleConfig("5m", 60), 
         CandleConfig("1h", 24),
         CandleConfig("1d", 60) 
-      ]
+    ]
     
     def __init__(self, config):
         self.config = config

@@ -16,11 +16,20 @@ def load_config():
 
 # load config
 test_params = [
-    ("MS 1mo defaults", "", "", "MSFT", "1", "false", "false", "1mo"),
+    ("MSFT 1mo defaults", "", "", "MSFT", "1", "false", "false", "1mo"),
     ("APPLE 3mo defaults", "", "", "AAPL", "1", "false", "false", "3mo"),
+
     ("bitmex BTC 5m defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "5m"),
     ("bitmex BTC 1h defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1h"),
     ("bitmex BTC 1d defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1d"),
+
+    ("bitmex ETH 5m defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "5m"),
+    ("bitmex ETH 1h defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1h"),
+    ("bitmex ETH 1d defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1d"),
+
+    ("cryptocom CRO 5m defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "5m"),
+    ("cryptocom CRO 1h defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1h"),
+    ("cryptocom CRO 1d defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1d"),
 ]
 
 os.makedirs('tests/images/', exist_ok=True)
