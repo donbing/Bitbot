@@ -1,97 +1,57 @@
-import pathlib, logging, logging.config
-from os.path import join as pjoin
-curdir = pathlib.Path(__file__).parent.resolve()
-config_dir = pjoin(curdir, 'config')
+import pathlib, logging, logging.config, sched, time, os
+from src.configuration.bitbot_files import use_config_dir  
+from src.configuration.bitbot_config import load_config_ini 
+from src.configuration.bitbot_logging import initialise_logger 
+from src.configuration.config_observer import watch_config_dir 
+from src.log_decorator import info_log
+from src.bitbot import BitBot
 
+# declare config files
+config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
 # load logging config
-logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
-logging.info("App starting")
-
-import configparser
+initialise_logger(config_files.logging_ini)
 # load app config
-config_ini_path = pjoin(config_dir, 'config.ini')
-config = configparser.ConfigParser()
-config.read(config_ini_path, encoding='utf-8')
-logging.info("Loaded config from " + config_ini_path)
+config = load_config_ini(config_files.config_ini)
 
-from src import bitbot
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler, FileModifiedEvent
-import sched, time, sys,  os
-import os.path as path
+# create bitbot chart updater
+app = BitBot(config, config_files)
 
-# log unhandled exceptions
-def handle_exception(exc_type, exc_value, exc_traceback):
-    if issubclass(exc_type, KeyboardInterrupt):
-        sys.__excepthook__(exc_type, exc_value, exc_traceback)
-        return
-    logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
-sys.excepthook = handle_exception
-
-# configure bitbot chart updater
-chart_updater = bitbot.chart_updater(config) 
-def update_chart():
-    chart_updater.run()
-    # show image in vscode for debug
-    if os.getenv('BITBOT_SHOWIMAGE') == 'true':
-        os.system("code last_display.png")    
-
-# terminate after test run
-if os.getenv('TESTRUN') == 'true':
-    update_chart()
-    raise SystemExit
-
-# schedule chart updates
-scheduler = sched.scheduler(time.time, time.sleep)
-secs_per_min = 60
-
+@info_log
 def refresh_chart(sc): 
-    global scheduler_event
-    update_chart()
-    refresh_minutes = float(config['display']['refresh_time_minutes'])
-    logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-    scheduler_event = sc.enter(refresh_minutes * secs_per_min, 1, refresh_chart, (sc,))
+    app.run()
+    # show image in vscode for debug
+    if config.shoud_show_image_in_vscode():
+        os.system("code last_display.png")  
+    # dont reschedule if testing
+    if not config.is_test_run():
+        refresh_minutes = config.refresh_rate_minutes()
+        logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
+        sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
 
-# watch for changes to logfile
-scheduler_event = None
-watched_files = {}
+@info_log
+def cancel_schedule(sc):
+    for event in sc.queue:
+        try:
+            sc.cancel(event)
+        except ValueError:
+            # This is OK because the event may have been just canceled
+            pass
 
-class ConfigChangeHandler(FileSystemEventHandler):
-     def on_modified(self, event):
-        global watched_files
-        if isinstance(event, FileModifiedEvent):
-            file_path = event.src_path
+@info_log
+def config_changed(sc):
+    # reload the app config
+    config.reload(config_files.config_ini)
+    # cancel current schedule
+    cancel_schedule(sc)
+    # new schedule
+    refresh_chart(sc)
 
-            last_modified = path.getmtime(file_path)
-            cached_last_modified = watched_files.get(file_path)
-         
-            new_change = file_path not in watched_files
-            file_changed = last_modified != cached_last_modified
+# scheduler for regular chart updates
+scheduler = sched.scheduler(time.time, time.sleep)
 
-            if new_change or file_changed:
-                logging.info('Config changed')
-                watched_files[file_path] = last_modified
-                # reload the app config
-                config.read(config_ini_path, encoding='utf-8')
-                # reload log config
-                logging.config.fileConfig(pjoin(config_dir, 'logging.ini'))
-                # restart schedule and refresh screen for event in self.scheduler.queue:
-                for event in scheduler.queue:
-                    try:
-                        scheduler.cancel(event)
-                    except ValueError:
-                        # This is OK because the event may have been just canceled
-                        pass
-                refresh_chart(scheduler)
-            else:
-                logging.info('file not really changed')
+# refresh chart on config file change
+watch_config_dir(config_files.config_folder, on_changed = lambda: config_changed(scheduler))
 
-event_handler = ConfigChangeHandler()
-observer = Observer()
-observer.schedule(event_handler, config_dir)
-observer.start()
-logging.info("config observer ready")
-
-# update chart immediately and begin update schedule
+# update chart immediately and begin schedule
 refresh_chart(scheduler)
 scheduler.run()
