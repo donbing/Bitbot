@@ -18,7 +18,7 @@ def load_config():
 # load config
 test_params = [
     ("MS, defaults", "", "", "MSFT", "1", "false", "false", "1mo"),
-    ("APPLE, defaults", "", "", "AAPL", "1", "false", "false", "1y"),
+    ("APPLE, defaults", "", "", "AAPL", "1", "false", "false", "3mo"),
 ]
 
 class test_rendering_chart(unittest.TestCase):
@@ -26,7 +26,7 @@ class test_rendering_chart(unittest.TestCase):
         config = load_config()
         for name, exchange, token, stock, overlay, expand, volume, candle_width in test_params:
             with self.subTest(msg=name):
-                image_file_name = f'{uuid.uuid4().hex}.png'
+                image_file_name = f'{name}.png'
                 config.set('currency', 'stock_symbol', stock)
                 config.set('currency', 'exchange', exchange)
                 config.set('currency', 'instrument', token)

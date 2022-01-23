@@ -1,18 +1,42 @@
-import yfinance
-from datetime import datetime
+import yfinance, collections, random
+from datetime import datetime, timedelta
 import matplotlib.dates as mdates
+from src.log_decorator import info_log 
 
 class Exchange():
-    interval='1mo'
-    period='5y'
+    CandleConfig = collections.namedtuple('CandleConfig', 'width duration')
+    candle_configs = [ 
+        CandleConfig('1mo', timedelta(weeks=52*5)), 
+        CandleConfig('1h', timedelta(hours=40)), 
+        CandleConfig('1wk', timedelta(weeks=60)), 
+        CandleConfig('3mo', timedelta(weeks=4*24)) 
+    ]
     def __init__(self, config):
         self.config = config
 
     def fetch_history(self):
         instrument = self.config.stock_symbol()
         ticker = yfinance.Ticker(instrument)
-        history =ticker.history(interval=self.interval, period=self.period)
-        return CandleData(instrument, self.interval, history)
+        candle_config = self.select_candle_config()
+        end_date = datetime.utcnow() 
+        start_date = end_date - candle_config.duration
+        history = self.get_stock_history(ticker, candle_config.width, start_date, end_date)
+        return CandleData(instrument, candle_config.width, history)
+
+    @info_log
+    def get_stock_history(self, ticker, candle_width, start_date, end_date):
+        return ticker.history(
+            interval = candle_width, 
+            start = start_date.strftime("%Y-%m-%d"), 
+            end = end_date.strftime("%Y-%m-%d"))
+
+    def select_candle_config(self):
+        configred_candle_width = self.config.candle_width()
+        if(configred_candle_width == "random"):
+            return self.candle_configs[random.randrange(len(self.candle_configs))]
+        else:
+            candle_config, = (conf for conf in self.candle_configs if conf.width == configred_candle_width)
+            return candle_config
 
 def make_matplotfriendly_date(element):
     datetime_field = element[0]

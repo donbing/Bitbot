@@ -11,7 +11,12 @@ class Exchange():
         self.config = config
     
     def fetch_history(self):
-        candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
+        configred_candle_width = self.config.candle_width()
+        if(configred_candle_width == "random"):
+            candle_config = self.candle_configs[random.randrange(len(self.candle_configs))]
+        else:
+            candle_config, = (conf for conf in self.candle_configs if conf.width == configred_candle_width)
+
         candle_data = fetch_OHLCV_chart_data(
             candle_config.width, 
             candle_config.count,
