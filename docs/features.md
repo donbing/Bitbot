@@ -63,6 +63,15 @@
 
 # 🚧 INCOMPLETE
 
+## 💡Support regular stocks and shares 
+>**As** Marketing  
+**In order that** to appeal to a broad user-base   
+**I want** bit bot to support regular stocks and shares  
+**So that** people who follow non-crypto markets may also purchase a device  
+ - *Scenario:* `bit bot is configured with a stock symbol and then shows stock price.`
+ - *Scenario:* `bit bot is configured with a stock symbol and shows logo for the stock.`
+ - *Scenario:* `bit bot is configured with a stock symbol and shows news for the stock.`
+
 ## 💡 Show friendly welcome screen(s) on first load
 >**AS** Marketing  
 **In order** that users leave glowing reviews  
