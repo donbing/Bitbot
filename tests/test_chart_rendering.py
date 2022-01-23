@@ -52,8 +52,8 @@ class TestRenderingMeta(type):
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                exchange = bitbot.BitBot(config, files)
-                exchange.run()
+                app = bitbot.BitBot(config, files)
+                app.run()
                 #os.system(f"code {image_file_name}")
 
             return test
