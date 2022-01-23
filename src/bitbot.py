@@ -29,7 +29,7 @@ class BitBot():
 
     # ✒️ select inky display or file output (nice for testing)
     def create_display(self):
-        return kinky.Inker(self.config) if self.config.use_inky() else kinky.Disker()
+        return kinky.Inker(self.config) if self.config.use_inky() else kinky.Disker(self.config)
 
     def run(self):
         # 📡 await internet connection

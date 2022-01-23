@@ -20,13 +20,14 @@ connect to 'RaspPiSetup' WiFi AP
 then visit raspiwifisetup.com"""
 
 class Disker:
-    def __init__(self):
+    def __init__(self, config):
         self.WIDTH = 400
         self.HEIGHT = 300
         self.title_font = title_font
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
+        self.config = config
     
     @info_log
     def draw_connection_error(self):
@@ -39,7 +40,7 @@ class Disker:
         palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
         display_image = display_image.convert('RGB').quantize(palette=palette_img)
         
-        self.save_image('last_display.png', display_image)
+        self.save_image(self.config.output_file_name(), display_image)
     
     @info_log
     def save_image(self, path, image):

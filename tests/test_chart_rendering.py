@@ -1,4 +1,4 @@
-import unittest, pathlib, os, sys
+import unittest, pathlib, os, sys, uuid
 from os.path import join as pjoin
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from src import bitbot
@@ -9,24 +9,32 @@ from src.configuration.bitbot_config import load_config_ini
 curdir = pathlib.Path(__file__).parent.resolve()
 files = use_config_dir(pjoin(curdir, "../"))
 
+def load_config():
+    config = load_config_ini(files.config_ini)
+    config.set('display', 'output', 'disk')
+    return config
+
+
 # load config
-config = load_config_ini(files.config_ini)
-config.set('display', 'output', 'disk')
+test_params = [
+    ("MS, defaults", "", "", "MSFT", "1", "false", "false", "1mo"),
+    ("APPLE, defaults", "", "", "AAPL", "1", "false", "false", "1y"),
+]
 
 class test_rendering_chart(unittest.TestCase):
-    def test_with_config(self):
-        exchange = bitbot.BitBot(config, files)
-        exchange.run()
-        #os.system("code last_display.png")    
-        # open the file in vscode for approval
-
-def suite():
-    #chart_data = chart_data_fetcher.fetch_OHLCV_chart_data('5m', 24, 'bitmex', 'BTC/USD')
-    suite = unittest.TestSuite()
-    suite.addTest(test_rendering_chart('test_default_widget_size'))
-    suite.addTest(test_rendering_chart('test_widget_resize'))
-    return suite
-
-if __name__ == '__main__':
-    runner = unittest.TextTestRunner()
-    runner.run(suite())
+    def test_render(self):
+        config = load_config()
+        for name, exchange, token, stock, overlay, expand, volume, candle_width in test_params:
+            with self.subTest(msg=name):
+                image_file_name = f'{uuid.uuid4().hex}.png'
+                config.set('currency', 'stock_symbol', stock)
+                config.set('currency', 'exchange', exchange)
+                config.set('currency', 'instrument', token)
+                config.set('display', 'overlay_layout', overlay)
+                config.set('display', 'expanded_chart', expand)
+                config.set('display', 'show_volume', volume)
+                config.set('display', 'candle_width', candle_width)
+                config.set('display', 'disk_file_name', image_file_name)
+                exchange = bitbot.BitBot(config, files)
+                exchange.run()
+                #os.system(f"code {image_file_name}")

@@ -62,3 +62,9 @@ class BitBotConfig():
 
     def portfolio_size(self):
         return float(self.config['currency']['portfolio_stack'])
+
+    def output_file_name(self):
+        return self.config['display']['disk_file_name']
+
+    def candle_width(self):
+        return self.config['display']['candle_width']
