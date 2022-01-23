@@ -99,7 +99,7 @@
 **So that** that people can accurately track multiple currencies with one device
  - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
 
-## 💡 Show Market indicators (macd, rsi, bbands)
+## 💡 Show Market indicators (macd, rsi, bbands, fibs)
 > worth it?
 
 ## 💡Make bitbot capable of buying/selling 
