@@ -7,7 +7,7 @@
 </div>
 
 # ✨ Features
- - 🏦 Capable of charting on **many different crypto-exchanges**
+ - 🏦 Capable of charting **any token** from **many different crypto-exchanges**
  - 💲 Large **current price** header (avoids chart overlap) 
  - 📈 Shows instrument details (e,g, ```(XBT/USD, +12%)```)
  - 📊 Optional **volume chart** 
@@ -23,8 +23,8 @@
  - 📉 Regular **stocks**
 
 # 📝 Docs
- - [💻 How To Install](docs/app_install.md)  
- - [⚙️ Device Setup](docs/device_setup.md)  
- - [🔗 Device Assembly](docs/device_assembly.md)  
- - [📒 Dev Notes](docs/development.md)   
- - [🐋 Docker Setup](docs/docker_installation.md)  
+ - [💻 How To **Install**](docs/app_install.md)  
+ - [⚙️ Device **Setup**](docs/device_setup.md)  
+ - [🔗 Device **Assembly**](docs/device_assembly.md)  
+ - [📒 Dev **Notes**](docs/development.md)   
+ - [🐋 **Docker** Setup](docs/docker_installation.md)  
