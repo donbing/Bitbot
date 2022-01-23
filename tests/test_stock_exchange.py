@@ -15,7 +15,7 @@ class test_stock_exchange(unittest.TestCase):
             with self.subTest(msg=candle_width):
                 mock_config = {
                     "currency": {
-                        "stock_symbol": "AAPL"
+                        "stock_symbol": "TSLA"
                     },
                     "display": {
                         "candle_width": candle_width,
