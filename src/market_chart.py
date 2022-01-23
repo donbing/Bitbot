@@ -32,7 +32,7 @@ class PlottedChart:
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
         # 🖨️ create MPL plot
-        self.fig, ax = self.create_chart_figure(display, config, files)
+        self.fig, ax = self.create_chart_figure(config, display, files)
         # 📐 find suiteable layout for timeframe
         layout = self.layouts[self.candle_width]
         # ➖ locate/format x axis ticks for chosen layout
@@ -54,7 +54,7 @@ class PlottedChart:
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
 
-    def create_chart_figure(self, display, config, files):
+    def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
         plt.style.use(files.base_style)
         # 📏 select mpl style
