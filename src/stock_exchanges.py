@@ -6,7 +6,7 @@ from src.log_decorator import info_log
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width duration')
     candle_configs = [ 
-        CandleConfig('1mo', timedelta(weeks=52*5)), 
+        CandleConfig('1mo', timedelta(weeks=4*24)), 
         CandleConfig('1h', timedelta(hours=40)), 
         CandleConfig('1wk', timedelta(weeks=60)), 
         CandleConfig('3mo', timedelta(weeks=12*24)) 
