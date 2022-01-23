@@ -1,27 +1,26 @@
 # 🤖 **BitBot**
 > A Raspberry Pi powered e-ink crypto price chart
 <div>
-    <img height="200" src="docs/images/bit-bot.jpg">
-    <img height="200" src="docs/images/bitbot-v2.png">
-    <img height="200" src="docs/images/last_display.png">
+    <img height="100" src="docs/images/bit-bot.jpg">
+    <img height="100" src="docs/images/bitbot-v2.png">
+    <img height="100" src="docs/images/last_display.png">
 </div>
 
-# ✨ Basic features
- - 💵 Shows the **current price**
- - 📈 Shows instrument details (e,g, ```(XBTUSD, +12%)```)
+# ✨ Features
+ - 🏦 Capable of charting on **many different crypto-exchanges**
+ - 💲 Large **current price** header (avoids chart overlap) 
+ - 📈 Shows instrument details (e,g, ```(XBT/USD, +12%)```)
  - 📊 Optional **volume chart** 
- - 💬 Displays some **AI text message** depending on price action
- - 🏦 Capable of charting and trading on **many different crypto-exchanges**
+ - 💬 Displays ***configurable AI commentry*** depending on **price action**
  - 👽 Reddit discussion [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) and [here](https://old.reddit.com/r/raspberry_pi/comments/s3dnnn/i_made_an_aluminium_stand_for_an_eink_display/)
- - 📶 Warns on **connection errors**
+ - 📡 Warns on **connection errors**
  - ⚙️ **Config webserver** running on port **8080** allows easy configuration
- - ♻️ Display **refreshes when config changes**  
+ - ♻️ Display **refreshes after config changes** 
 
 # 💡 Requested Features
- - 📈 Show value of your portfolio
- - 💸 Display Transaction fees
+ - 💸 Display **Transaction fees**
  - 📺 Smaller/cheaper display
- - 📉 Regular stocks
+ - 📉 Regular **stocks**
 
 # 📝 Docs
  - [💻 How To Install](docs/app_install.md)  
