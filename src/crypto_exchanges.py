@@ -5,7 +5,11 @@ from src.log_decorator import info_log
 
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
-    candle_configs = [ CandleConfig("5m", 60), CandleConfig("1h", 24), CandleConfig("1h", 40), CandleConfig("1d", 60) ]
+    candle_configs = [ 
+        CandleConfig("5m", 60), 
+        CandleConfig("1h", 24),
+        CandleConfig("1d", 60) 
+      ]
     
     def __init__(self, config):
         self.config = config
