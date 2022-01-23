@@ -53,7 +53,7 @@
  - *Scenario:* `✅ Display is starts updating immediately after any config change`
  - *Scenario:* `✅ Logs can be viewed in the config-server web-page`
 
-## ✔️ Make chart styles editable in the config-server
+## ✔️ Chart styles are editable in the config-server
 >**AS** Marketing  
 **In order** we can advertise bit bot as 'infinately customisable' 
 **I want** users to be able to edit the matplot lib style sheets  
@@ -85,6 +85,7 @@
  - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
 
 ## 💡 Show Market indicators (macd, rsi, bbands)
+> worth it?
 
 ## 💡Make bitbot capable of buying/selling 
 >**As** Marketing  
