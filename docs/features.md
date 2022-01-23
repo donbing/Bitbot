@@ -40,8 +40,18 @@
 **I want** bit bot to show an optional volume graph below the prive chart  
 **So that**  the validity of price movements can be better assessed
  - *Scenario:* `✅ Bitbot defaults to showing no volume chart`
- - *Scenario:* `✅ Bitbots config is latered to enable the volume chart`
- - *Scenario:* `✅ Bitbots config  allows styling of the volume chart`
+ - *Scenario:* `✅ Bitbots config is altered to enable the volume chart`
+ - *Scenario:* `✅ Bitbots config allows styling of the volume chart`
+
+
+## ✔️ Config is editable via a built-in webserver
+>**AS** Marketing  
+**In order** we can advertise bit bot as 'infinately customisable' 
+**I want** users to be able to edit the matplot lib style sheets  
+**So that** they can personalise their chart to their own tastes
+ - *Scenario:* `✅ Config server defaults to port 8080`
+ - *Scenario:* `✅ Display is starts updating immediately after any config change`
+ - *Scenario:* `✅ Logs can be viewed in the config-server web-page`
 
 ## ✔️ Make chart styles editable in the config-server
 >**AS** Marketing  
