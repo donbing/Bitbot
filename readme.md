@@ -8,7 +8,9 @@
 
 # ✨ Features
  - 🏦 Capable of charting **any token** from **many different crypto-exchanges**
+ - 🏛️ Supports regular **stock prices**
  - 💲 Large **current price** header (avoids chart overlap) 
+ - 💰 Supports displaying your current **portfolio value** 
  - 📈 Shows instrument details (e,g, ```(XBT/USD, +12%)```)
  - 📊 Optional **volume chart** 
  - 💬 Displays ***configurable AI commentry*** depending on **price action**

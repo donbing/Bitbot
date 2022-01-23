@@ -9,7 +9,7 @@ matplotlib.use('Agg')
 
 local_timezone = tzlocal.get_localzone()
 
-# single instance for lifetime of app
+# ☝️ single instance for lifetime of app
 class MarketChart:
     def __init__(self, config, display, files):
         self.config = config
@@ -30,11 +30,11 @@ class PlottedChart:
     }
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
-        # create MPL plot
+        # 🖨️ create MPL plot
         self.fig, ax = self.create_chart_figure(display, config, files)
-        # find suiteable layout for timeframe
+        # 📐 find suiteable layout for timeframe
         layout = self.layouts[self.candle_width]
-        # locate/format x axis ticks for chosen layout
+        # ➖ locate/format x axis ticks for chosen layout
         ax[0].xaxis.set_minor_locator(layout[1])
         ax[0].xaxis.set_minor_formatter(layout[2])
         ax[0].xaxis.set_major_locator(layout[3])
@@ -45,23 +45,23 @@ class PlottedChart:
         self.plot_chart(config, layout, ax, chart_data.candle_data)
 
     def plot_chart(self, config, layout, ax, candle_data):
-        # draw candles to MPL plot
+        # ✒️ draw candles to MPL plot
         candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0]) 
-        # draw volumes to MPL plot
+        # ✒️ draw volumes to MPL plot
         if config.show_volume():
             ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='green', colordown='red', width=1)
 
     def create_chart_figure(self, display, config, files):
-        # apply global base style
+        # 📏 apply global base style
         plt.style.use(files.base_style)
-        # select mpl style
+        # 📏 select mpl style
         stlye = files.inset_style if config.expand_chart() else files.default_style
         num_plots = 2 if config.show_volume() else 1
         heights = [4,1] if config.show_volume() else [1]
         plt.tight_layout()
-        # scope styles to just this plot
+        # 📏 scope styles to just this plot
         with plt.style.context(stlye):
             fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
             gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)

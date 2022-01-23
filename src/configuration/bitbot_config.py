@@ -56,3 +56,6 @@ class BitBotConfig():
 
     def is_test_run(self):
         return  os.getenv('TESTRUN') == 'true'
+
+    def stock_symbol(self):
+        return self.config['currency']['stock_symbol']
