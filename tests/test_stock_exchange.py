@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'
 from src import stock_exchanges
 from src.configuration import bitbot_config
 
-test_params = []  # ["1mo", '1h', '1wk', 'random']
+test_params = ["1mo", '1h', '1wk', 'random']
 
 
 class test_stock_exchange(unittest.TestCase):
