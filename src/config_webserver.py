@@ -20,11 +20,12 @@ editable_files = {
     "volume_style": files_config.volume_style
 }
 
+
 class StoreHandler(BaseHTTPRequestHandler):
 
     def create_editor_form(self, fileKey, current_file_key):
         with open(editable_files[fileKey]) as file_handle:
-            html =  '<h2 class="collapser">⚙️ ' + fileKey + '</h2>'
+            html = '<h2 class="collapser">⚙️ ' + fileKey + '</h2>'
             html += '<form method="post" action="?fileKey=' + fileKey + '"' + ' class="' + ('open' if fileKey == current_file_key else '') + '">'
             html += '<textarea name="fileContent" rows="20" cols="80">' + str(file_handle.read()) + '</textarea>'
             html += '<div><input type="submit" value="Save"></input></div></form>'
@@ -62,7 +63,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 <h1>🤖 BitBot Crypto-Ticker Config</h1>
             '''
         for file in editable_files:
-            html+=self.create_editor_form(file, fileKey)  
+            html += self.create_editor_form(file, fileKey)
 
         # display log info if it exists
         if os.path.isfile(files_config.log_file_path):
@@ -83,7 +84,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         form = cgi.FieldStorage(
             fp=self.rfile,
             headers=self.headers,
-            environ={'REQUEST_METHOD':'POST'})
+            environ={'REQUEST_METHOD': 'POST'})
 
         # write config file to disk
         with open(editable_files[fileKey], 'w') as fh:

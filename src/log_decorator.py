@@ -1,5 +1,6 @@
 import logging
 
+
 def info_log(func):
     def wrapper(*args, **kwargs):
         args_repr = [repr(a) for a in args]

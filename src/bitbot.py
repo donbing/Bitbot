@@ -1,21 +1,25 @@
 from PIL import Image
-import io, socket, time
+import io
+import socket
+import time
 from src import crypto_exchanges, stock_exchanges, kinky
 from src.market_chart import MarketChart
 from src.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
 
+
 class Cartographer():
     def __init__(self, config, display, files):
         self.market = MarketChart(config, display, files)
-    
+
     @info_log
     def draw_to(self, chart_data, file_stream):
         self.market.create_plot(chart_data).write_to_stream(file_stream)
 
     def __repr__(self):
         return 'Cartographer'
-        
+
+
 class BitBot():
     def __init__(self, config, files):
         self.config = config
@@ -45,7 +49,7 @@ class BitBot():
             ChartOverlay(self.config, self.display, chart_data).draw_on(chart_image)
             # 📺 display the image
             self.display.show(chart_image)
-    
+
     @info_log
     def wait_for_internet_connection(self, display):
         # 📡 test if internet is available
@@ -57,11 +61,11 @@ class BitBot():
             except:
                 time.sleep(1)
             return False
-            
+
         connection_error_shown = False
-        while network_connected() == False:
+        while network_connected() is False:
             # 🚫 draw error message if not already drawn
-            if connection_error_shown == False:
+            if connection_error_shown is False:
                 connection_error_shown = True
                 display.draw_connection_error()
             time.sleep(10)

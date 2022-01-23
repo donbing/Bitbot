@@ -1,17 +1,20 @@
-import sys, os, unittest
+import sys
+import os
+import unittest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from src import stock_exchanges
 from src.configuration import bitbot_config
 
 test_params = []#["1mo", '1h', '1wk', 'random']
 
+
 class test_stock_exchange(unittest.TestCase):
     def test_fetcing_history(self):
-         for candle_width in test_params:
+        for candle_width in test_params:
             with self.subTest(msg=candle_width):
                 mock_config = {
                     "currency": {
-                        "stock_symbol": "AAPL" 
+                        "stock_symbol": "AAPL"
                     },
                     "display": {
                         "candle_width": candle_width,

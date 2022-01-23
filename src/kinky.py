@@ -10,14 +10,15 @@ title_font = ImageFont.truetype(fontPath, 16)
 medium_font = ImageFont.truetype(fontPath, 32)
 tiny_font = ImageFont.truetype(fontPath, 8)
 
-connection_error_message = """ 
+connection_error_message = """
 NO INTERNET CONNECTION
 ----------------------------
 Please check your WIFI
 ----------------------------
-To configure WiFi access, 
-connect to 'RaspPiSetup' WiFi AP 
+To configure WiFi access,
+connect to 'RaspPiSetup' WiFi AP
 then visit raspiwifisetup.com"""
+
 
 class Disker:
     def __init__(self, config):
@@ -28,24 +29,25 @@ class Disker:
         self.tiny_font = tiny_font
         self.medium_font = medium_font
         self.config = config
-    
+
     @info_log
     def draw_connection_error(self):
         None
-    
+
     def show(self, image):
         display_image = image.rotate(0)
-        
+
         palette_img = Image.new("P", (1, 1))
         palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
         display_image = display_image.convert('RGB').quantize(palette=palette_img)
-        
+
         self.save_image(self.config.output_file_name(), display_image)
-    
+
     @info_log
     def save_image(self, path, image):
         image.save(path)
-        
+
+
 class Inker:
     def __init__(self, config):
         self.config = config
@@ -56,7 +58,7 @@ class Inker:
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
-    
+
     @info_log
     def draw_connection_error(self):
         img = Image.new("P", (self.inky_display.WIDTH, self.inky_display.HEIGHT))
@@ -77,9 +79,9 @@ class Inker:
         # 🖊️ draw box at position
         draw.rectangle([(x0, y0), (x1, y1)], outline=self.inky_display.RED)
         # 📺 show the image
-        self.inky_display.set_image(img) 
+        self.inky_display.set_image(img)
         self.inky_display.show()
-    
+
     @info_log
     def show(self, image):
         # 🌀 rotate the image 
@@ -93,14 +95,13 @@ class Inker:
             palette_img = Image.new("P", (1, 1))
             palette_img.putpalette((255, 255, 255, 0, 0, 0, 255, 0, 0) + (0, 0, 0) * 252)
             display_image = display_image.convert('RGB').quantize(palette=palette_img)
-            
+
         # 📺 show the image
-        self.inky_display.set_image(display_image) 
+        self.inky_display.set_image(display_image)
         try:
             self.inky_display.show()
         except RuntimeError:
-            pass # 🪳 current lib has a bug that spits out RuntimeError("Timeout waiting for busy signal to clear.")
-    
-    
+            pass  # 🪳 current lib has a bug that spits out RuntimeError("Timeout waiting for busy signal to clear.")
+
     def __repr__(self):
         return self.inky_display.colour + ' Inky: @' + str((self.inky_display.WIDTH, self.inky_display.HEIGHT))
