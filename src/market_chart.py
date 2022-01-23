@@ -25,7 +25,7 @@ class MarketChart:
 
 class PlottedChart:
     layouts = {
-        '3mo': (20,   mdates.YearLocator(),                             plt.NullFormatter(),    mdates.YearLocator(1),             mdates.DateFormatter('%Y'), local_timezone),
+        '3mo': (20,     mdates.YearLocator(),                           plt.NullFormatter(),    mdates.YearLocator(1),             mdates.DateFormatter('%Y'), local_timezone),
         '1mo': (0.01,   mdates.MonthLocator(),                          plt.NullFormatter(),    mdates.YearLocator(1),             mdates.DateFormatter('%Y'), local_timezone),
         '1d': (0.01,    mdates.DayLocator(bymonthday=range(1, 31, 7)),  plt.NullFormatter(),    mdates.MonthLocator(),             mdates.DateFormatter('%b'), local_timezone),
         '1h': (0.005,   mdates.HourLocator(byhour=range(0, 23, 4)),     plt.NullFormatter(),    mdates.DayLocator(),               mdates.DateFormatter('%a %d %b', local_timezone)),
@@ -43,7 +43,7 @@ class PlottedChart:
         ax[0].xaxis.set_minor_formatter(layout[2])
         ax[0].xaxis.set_major_locator(layout[3])
         ax[0].xaxis.set_major_formatter(layout[4])
-        # currency amount uses custom formatting 
+        # 💲currency amount uses custom formatting
         ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
 
         self.plot_chart(config, layout, ax, chart_data.candle_data)

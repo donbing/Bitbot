@@ -47,7 +47,6 @@ class Disker:
         return f'<Disk: @{(self.WIDTH, self.HEIGHT)}>'
 
 
-
 # 🎨 create a limited pallete image for converting our chart image
 def quantise_inky(display_image):
     palette_img = Image.new("P", (1, 1))
