@@ -18,7 +18,7 @@ class Exchange():
             self.config.exchange_name(), 
             self.config.instrument_name()
         )
-        return CandleData(candle_config.width, candle_data)
+        return CandleData(self.config.instrument_name(), candle_config.width, candle_data)
 
 def fetch_OHLCV_chart_data(candle_freq, num_candles, exchange_name, instrument):
     exchange = load_exchange(exchange_name)
@@ -51,7 +51,8 @@ def replace_at_index(tup, ix, val):
    return tuple(lst)
    
 class CandleData():
-    def __init__(self, candle_width, candle_data):
+    def __init__(self, instrument, candle_width, candle_data):
+        self.instrument = instrument
         self.candle_width = candle_width
         self.candle_data = candle_data
         

@@ -60,7 +60,7 @@ class ChartOverlay():
 
     def draw_overlay1(self, draw_plot_image, chartdata, selectedArea):
         # 🎹 🕎 draw instrument / candle width
-        title = self.config.instrument_name() + ' (' + chartdata.candle_width + ') '
+        title = chartdata.instrument + ' (' + chartdata.candle_width + ') '
         draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
         # 🖊️ draw % change text
         title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
@@ -81,7 +81,7 @@ class ChartOverlay():
 
     def draw_overlay2(self, draw_plot_image, chartdata, selectedArea):
         # 🎹 draw instrument name
-        title = self.config.configured_instrument()
+        title = chartdata.instrument
         title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
         txt=Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
         d = ImageDraw.Draw(txt)
