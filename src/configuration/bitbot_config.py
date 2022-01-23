@@ -56,3 +56,19 @@ class BitBotConfig():
 
     def is_test_run(self):
         return  os.getenv('TESTRUN') == 'true'
+
+    def stock_symbol(self):
+        return self.config['currency']['stock_symbol']
+
+    def portfolio_size(self):
+        try:
+            return self.config.getfloat('currency', 'holdings', fallback=0)
+        except ValueError:
+            return 0
+        
+
+    def output_file_name(self):
+        return self.config['display']['disk_file_name']
+
+    def candle_width(self):
+        return self.config['display']['candle_width']
