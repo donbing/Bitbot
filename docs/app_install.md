@@ -32,11 +32,6 @@ python3 -m run
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
 ```
-6. The [config-server](/src/config_webserver.py) needs permission to reboot after changes
-```sh
-sudo visudo -f /etc/sudoers.d/reboot_privilege
-# enter 'pi ALL=(root) NOPASSWD: /sbin/reboot'
-```
 ## 🐳 C. Run in docker
 > 
 1. ensure that `I2C`/`SPI` are enabled on the host pi
