@@ -44,15 +44,24 @@ class Exchange():
             end=end_date.strftime("%Y-%m-%d"))
 
     def select_candle_config(self):
-        configred_candle_width = self.config.candle_width()
-        if(configred_candle_width == "random"):
-            randomised_index = random.randrange(len(self.candle_configs))
-            return self.candle_configs[randomised_index]
+        candle_width = self.config.candle_width()
+        if(candle_width == "random"):
+            return self.get_random_candle_config()
         else:
-            candle_config, = (
-                conf for conf in self.candle_configs
-                if conf.width == configred_candle_width)
+            candle_config = self.get_candle_config_matching(candle_width)
             return candle_config
+
+    def get_candle_config_matching(self, configred_candle_width):
+        candle_config, = (
+                conf for conf in self.candle_configs
+                if conf.width == configred_candle_width
+            )
+        return candle_config
+
+    def get_random_candle_config(self):
+        randomised_index = random.randrange(len(self.candle_configs))
+        new_var = self.candle_configs[randomised_index]
+        return new_var
 
     def __repr__(self):
         return '<yfinance stock Exchange>'
