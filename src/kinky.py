@@ -16,8 +16,8 @@ NO INTERNET CONNECTION
 Please check your WIFI
 ----------------------------
 To configure WiFi access,
-connect to 'RaspPiSetup' WiFi AP
-then visit raspiwifisetup.com"""
+connect to 'bitbot-<nnn>' WiFi AP
+and follow the instructions"""
 
 
 class Disker:

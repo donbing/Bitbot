@@ -16,6 +16,17 @@
 
     export TESTRUN=true BITBOT_OUTPUT=disk BITBOT_SHOWIMAGE=true
 
+## 📻 Easy WiFi config 
+> [`comitup`](https://github.com/davesteele/comitup) is used for the ***disk image***, it creates a **config hotspot** on the Pi if it **cant connect** to any wifi itself.  
+
+> The config file is located at `/etc/comitup.conf`
+```sh
+# show comitup info
+sudo comitup -i
+# open cli (easy to delete connections here)
+sudo comitup-cli
+```
+
 ## 🌳Logging 
 > BitBot will log to `StdOut` and a rolling `debug.log` file, configured in [📁logging.ini](/logging.ini)
 
@@ -50,5 +61,3 @@ docker buildx build --platform linux/arm/v6  . -t bitbot -f scripts/docker/docke
 ```sh
 docker run --privileged --platform linux/arm/v6 bitbot
 ```
-## 📻 Easy WiFi config 
-[`comitup`](https://github.com/davesteele/comitup) is used for the ***disk image***, it creates a **config hotspot** on the Pi if it **cant connect** to any wifi itself.
