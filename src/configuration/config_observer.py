@@ -12,6 +12,7 @@ def watch_config_dir(config_dir_path, on_changed):
     observer.schedule(event_handler, config_dir_path)
     observer.start()
 
+
 class ConfigChangeHandler(FileSystemEventHandler):
     def __init__(self, on_changed):
         self.on_changed = on_changed
@@ -23,7 +24,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
 
             last_modified = path.getmtime(file_path)
             cached_last_modified = self.watched_files.get(file_path)
-            
+
             new_change = file_path not in self.watched_files
             file_changed = last_modified != cached_last_modified
 

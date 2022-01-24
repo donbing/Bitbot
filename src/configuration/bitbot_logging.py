@@ -1,4 +1,7 @@
-import logging, logging.config, sys
+import logging
+import logging.config
+import sys
+
 
 def initialise_logger(logging_ini_path):
     # load log file
@@ -9,7 +12,9 @@ def initialise_logger(logging_ini_path):
         if issubclass(exc_type, KeyboardInterrupt):
             sys.__excepthook__(exc_type, exc_value, exc_traceback)
             return
-        logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
-    
+        logging.error(
+            "Uncaught exception",
+            exc_info=(exc_type, exc_value, exc_traceback))
+
     # register system exception handler
     sys.excepthook = handle_exception
