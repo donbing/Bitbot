@@ -29,11 +29,17 @@ class BitBot():
 
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
-        return crypto_exchanges.Exchange(self.config) if not(self.config.stock_symbol()) else stock_exchanges.Exchange(self.config)
+        if self.config.stock_symbol():
+            return stock_exchanges.Exchange(self.config)
+        else:
+            return crypto_exchanges.Exchange(self.config)
 
     # ✒️ select inky display or file output (nice for testing)
     def create_display(self):
-        return kinky.Inker(self.config) if self.config.use_inky() else kinky.Disker(self.config)
+        if self.config.use_inky():
+            return kinky.Inker(self.config)
+        else:
+            return kinky.Disker(self.config)
 
     def run(self):
         # 📡 await internet connection
@@ -45,8 +51,9 @@ class BitBot():
             # 🖊️ draw chart plot to image
             self.plot.draw_to(chart_data, file_stream)
             chart_image = Image.open(file_stream)
-            # 🖊️ draw overlay on image   
-            ChartOverlay(self.config, self.display, chart_data).draw_on(chart_image)
+            # 🖊️ draw overlay on image
+            overlay = ChartOverlay(self.config, self.display, chart_data)
+            overlay.draw_on(chart_image)
             # 📺 display the image
             self.display.show(chart_image)
 
