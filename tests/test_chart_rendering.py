@@ -8,7 +8,7 @@ from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 
-# check config files 
+# check config files
 curdir = pathlib.Path(__file__).parent.resolve()
 files = use_config_dir(pjoin(curdir, "../"))
 
