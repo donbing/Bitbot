@@ -1,5 +1,16 @@
 {
     "files.exclude": {
         "**/__pycache__": true
-    }
+    },
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true
 }

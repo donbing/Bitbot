@@ -1,41 +1,67 @@
-from src import update_chart
-import configparser
 import pathlib
-import sched, time
-import logging, logging.handlers
+import logging
+import logging.config
+import sched
+import time
+import os
+from src.configuration.bitbot_files import use_config_dir
+from src.configuration.bitbot_config import load_config_ini
+from src.configuration.bitbot_logging import initialise_logger
+from src.configuration.config_observer import watch_config_dir
+from src.log_decorator import info_log
+from src.bitbot import BitBot
 
-# setup our logger for std out and rolling file
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.handlers.RotatingFileHandler("debug.log", maxBytes=2000, backupCount=0),
-        logging.StreamHandler()
-    ])
-logging.info("Running")
+# declare config files
+config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
+# load logging config
+initialise_logger(config_files.logging_ini)
+# load app config
+config = load_config_ini(config_files.config_ini)
+# create bitbot chart updater
+app = BitBot(config, config_files)
 
-# get the config file data
-filePath = pathlib.Path(__file__).parent.absolute()
-config = configparser.ConfigParser()
-config.read(str(filePath)+'/config.ini')
-logging.info("Loaded config")
 
-# schedule chart updates
+@info_log
+def refresh_chart(sc):
+    app.run()
+    # show image in vscode for debug
+    if config.shoud_show_image_in_vscode():
+        os.system("code last_display.png")
+    # dont reschedule if testing
+    if not config.is_test_run():
+        refresh_minutes = config.refresh_rate_minutes()
+        logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
+        sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
+
+
+@info_log
+def cancel_schedule(sc):
+    for event in sc.queue:
+        try:
+            sc.cancel(event)
+        except ValueError:
+            # This is OK because the event may have been just canceled
+            pass
+
+
+@info_log
+def config_changed(sc):
+    # reload the app config
+    config.reload(config_files.config_ini)
+    # cancel current schedule
+    cancel_schedule(sc)
+    # new schedule
+    refresh_chart(sc)
+
+
+# scheduler for regular chart updates
 scheduler = sched.scheduler(time.time, time.sleep)
 
-def get_refresh_rate_minutes():
-     return float(config['display']['refresh_time_minutes'])
-    
-bb = update_chart.bitbot(config) 
+# refresh chart on config file change
+watch_config_dir(
+    config_files.config_folder,
+    on_changed=lambda: config_changed(scheduler))
 
-def refresh_chart(sc): 
-    bb.run()
-    logging.info("Screen update complete")
-    refresh_minutes = get_refresh_rate_minutes()
-    logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-    sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
-
-# update chart immediately and begin update schedule
+# update chart immediately and begin schedule
 refresh_chart(scheduler)
 scheduler.run()
-logging.info("Scheduler running")

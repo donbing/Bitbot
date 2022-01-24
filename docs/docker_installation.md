@@ -1,4 +1,4 @@
-# Docker setup instructions
+# 🐋 How to install Docker
 
 1. ### Update the host package manager
 ```sh
@@ -24,13 +24,13 @@ sudo shutdown -r now
 ```
 6. ### Run bitbot image
 
- - `main`
-    ```shell
-    docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:main
-    docker run -it --privileged ghcr.io/donbing/bitbot:main
-    docker-compose up -d
-    ```
- - `release` (stable)
-    ```shell
-    docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:release
-    ```
+- `main`
+   ```shell
+   docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:main
+   docker run -it --privileged ghcr.io/donbing/bitbot:main
+   docker-compose -f scripts/docker/docker-compose.yml up
+   ```
+- `release` (stable)
+   ```shell
+   docker run --restart unless-stopped --privileged ghcr.io/donbing/bitbot:release
+   ```
