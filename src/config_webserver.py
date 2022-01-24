@@ -8,7 +8,7 @@ from urllib import parse as urlparse
 from configuration.bitbot_files import BitBotFiles
 
 
-base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../') 
+base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../')
 
 files_config = BitBotFiles(base_dir)
 
@@ -32,7 +32,7 @@ class StoreHandler(BaseHTTPRequestHandler):
             return html
 
     def do_GET(self):
-        param = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey',[])
+        param = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey', [])
         fileKey = next((x for x in param), None)
         # html for config editor
         html = '''
@@ -94,6 +94,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         self.send_response(302)
         self.send_header('Location', self.path)
         self.end_headers()
+
 
 # start the webserver
 server = HTTPServer(('', 8080), StoreHandler)

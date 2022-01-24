@@ -1,4 +1,4 @@
-import matplotlib 
+import matplotlib
 import tzlocal
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
