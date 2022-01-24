@@ -68,9 +68,9 @@ class TestRenderingMeta(type):
 
             return test
 
-        for name, exchange, token, stock, overlay, expand, volume, candle_width, holdings in test_params:
-            test_name = "test_%s" % name
-            dict[test_name] = gen_test(name, exchange, token, stock, overlay, expand, volume, candle_width, holdings)
+        for test_param in test_params:
+            test_name = "test_%s" % test_param[0]
+            dict[test_name] = gen_test(*test_param)
         return type.__new__(mcs, name, bases, dict)
 
 
