@@ -2,9 +2,9 @@ import unittest
 import pathlib
 import os
 from os.path import join as pjoin
-from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
+from src import bitbot
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
