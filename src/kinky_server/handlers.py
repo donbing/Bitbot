@@ -70,7 +70,7 @@ def display_uploaded_image(handler):
 class InkyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        content_type_header = self.headers.get('content-type')
+        content_type_header = self.headers.get('accept')
         if(content_type_header == 'application/json'):
             get_json(self)
         elif(content_type_header == 'text/html'):
