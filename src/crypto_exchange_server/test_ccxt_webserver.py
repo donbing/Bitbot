@@ -3,17 +3,15 @@ import time
 import unittest
 from http.server import HTTPServer
 from urllib import request
-import sys
 import json
-sys.path.append('.')
-from src.crypto_exchange_server.handlers import CcxtExchangesHandler
+from handlers import CcxtExchangesHandler
 
 
 class TestCcxtWebServer(unittest.TestCase):
 
     def setUp(self):
         self.server = None
-        self.port = 21344
+        self.port = 21341
         self.host = ''
         self.start_server()
 
@@ -34,11 +32,17 @@ class TestCcxtWebServer(unittest.TestCase):
         self.stop_server()
 
     def test_fetch_price_history(self):
-        req = request.Request(f"http://localhost:{self.port}/?exchange=bitmex&instrument=BTC/USD&candle_width=5m")
+        query_string = 'exchange=bitmex&instrument=BTC/USD&candle_width=5m'
+        req = request.Request(f"http://localhost:{self.port}/?{query_string}")
         req.add_header('accept', 'application/json')
         response = request.urlopen(req)
-        foo = response.read().decode(response.headers.get_content_charset(failobj="utf-8"))
+        charset = response.headers.get_content_charset(failobj="utf-8")
+        foo = response.read().decode(charset)
         json_data = json.loads(foo)
         self.assertEqual(json_data['instrument'], "BTC/USD")
         self.assertGreater(len(json_data['candle_data']), 0)
         self.assertEqual(json_data['exchange'], 'bitmex')
+
+
+if(__name__ == '__main__'):
+    unittest.main()
