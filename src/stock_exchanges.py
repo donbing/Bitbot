@@ -16,22 +16,16 @@ class Exchange():
         CandleConfig('3mo', timedelta(weeks=12*24))
     ]
 
-    def __init__(self, config):
-        self.config = config
-
-    def fetch_history(self):
-        instrument = self.config.stock_symbol()
+    def fetch_history(self, instrument, candle_width):
         ticker = yfinance.Ticker(instrument)
-        candle_config = self.select_candle_config()
-        candle_width = candle_config.width
-        chart_duration = candle_config.duration
+        candle_config = self.select_candle_config(candle_width)
 
         end_date = datetime.utcnow()
-        start_date = end_date - chart_duration
+        start_date = end_date - candle_config.duration
 
         history = self.get_stock_history(
             ticker,
-            candle_width,
+            candle_config.width,
             start_date,
             end_date)
 
@@ -44,8 +38,7 @@ class Exchange():
             start=start_date.strftime("%Y-%m-%d"),
             end=end_date.strftime("%Y-%m-%d"))
 
-    def select_candle_config(self):
-        candle_width = self.config.candle_width()
+    def select_candle_config(self, candle_width):
         if(candle_width == "random"):
             return self.get_random_candle_config()
         else:
