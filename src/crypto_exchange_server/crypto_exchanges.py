@@ -2,8 +2,8 @@ import ccxt
 from datetime import datetime
 import random
 import collections
-import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
+
 
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
@@ -43,12 +43,12 @@ def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument):
     return list(map(make_matplotfriendly_date, dirty_chart_data))
 
 
-@info_log
+# @info_log
 def fetch_market_data(exchange, instrument, candle_freq, num_candles):
     return exchange.fetchOHLCV(instrument, candle_freq, limit=num_candles)
 
 
-@info_log
+# @info_log
 def load_exchange(exchange_name):
     exchange = getattr(ccxt, exchange_name)({
         # 'apiKey': '<YOUR API KEY HERE>',
