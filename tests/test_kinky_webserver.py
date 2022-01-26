@@ -1,28 +1,39 @@
 import threading
 import time
 import unittest
-import urllib.request
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
-
-class MyHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        self.wfile.write('it works!')
+from http.server import HTTPServer
+from urllib import request
+import sys
+sys.path.append('.')
+from src.kinky_server.handlers import InkyHandler
 
 
 class TestRequests(unittest.TestCase):
 
-    def test_single_request(self):
-        server = HTTPServer(("127.0.0.1", 13345), MyHandler)
-        server_thread = threading.Thread(target=server.serve_forever)
-        # Also tried this:
-        #server_thread.setDaemon(True)
-        server_thread.start()
-        # Wait a bit for the server to come up
-        time.sleep(1)
-        print(urllib.request.urlopen("http://localhost:12345/").read())
-        
-        server_thread.stop()
+    def setUp(self):
+        self.server = None
+        self.port = 21344
+        self.host = ''
+        self.start_server()
+
+    def start_server(self):
+        self.server = HTTPServer((self.host, self.port), InkyHandler)
+        self.server_thread = threading.Thread(target=self.server.serve_forever)
+        self.server_thread.daemon = True
+        self.server_thread.start()
+        time.sleep(0.25)
+
+    def stop_server(self):
+        if self.server is None:
+            return
+        self.server.shutdown()
+        self.server_thread.join()
+
+    def tearDown(self):
+        self.stop_server()
+
+    def test_get(self):
+        req = request.Request(f"http://localhost:{self.port}/")
+        req.add_header('content-type', 'application/json')
+        response = request.urlopen(req).read()
+        print(response)
