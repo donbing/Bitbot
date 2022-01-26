@@ -34,6 +34,6 @@ class TestRequests(unittest.TestCase):
 
     def test_get(self):
         req = request.Request(f"http://localhost:{self.port}/")
-        req.add_header('content-type', 'application/json')
+        req.add_header('accept', 'application/json')
         response = request.urlopen(req).read()
         print(response)

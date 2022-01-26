@@ -46,7 +46,7 @@ class CcxtExchangesHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
-        content_type = self.headers['content-type']
+        content_type = self.headers['accept']
         url_query = urlparse.urlparse(self.path)
         queries = urlparse.parse_qs(url_query.query)
 
