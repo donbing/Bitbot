@@ -71,9 +71,9 @@ class InkyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         content_type_header = self.headers.get('accept')
-        if(content_type_header == 'application/json'):
+        if('application/json' in content_type_header):
             get_json(self)
-        elif(content_type_header == 'text/html'):
+        elif('text/html' in content_type_header):
             get_html(self)
         else:
             unsupported_media_type(self, content_type_header)
