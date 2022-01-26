@@ -16,7 +16,7 @@ def get_json(handler, query):
             instrument=query["instrument"][0],
             candle_width=query["candle_width"][0]
         )
-        json_str = json.dumps(price_history.__dict__)
+        json_str = json.dumps(price_history.__dict__, default=str)
     except Exception as e:
         json_str = str(e)
 
