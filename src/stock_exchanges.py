@@ -63,8 +63,7 @@ class Exchange():
 
 def make_matplotfriendly_date(element):
     datetime_field = element[0]
-    datetime_num = mdates.date2num(datetime_field)
-    return replace_at_index(element, 0, datetime_num)
+    return replace_at_index(element, 0, datetime_field)
 
 
 def replace_at_index(tup, ix, val):
