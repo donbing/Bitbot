@@ -50,9 +50,9 @@ class CcxtExchangesHandler(BaseHTTPRequestHandler):
         url_query = urlparse.urlparse(self.path)
         queries = urlparse.parse_qs(url_query.query)
 
-        if(content_type == 'application/json'):
+        if('application/json' in content_type):
             get_json(self, queries)
-        elif(content_type == 'text/html'):
+        elif('text/html' in content_type):
             get_html(self, queries)
         else:
             unsupported_media_type(self)
