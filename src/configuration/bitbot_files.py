@@ -25,10 +25,14 @@ class BitBotFiles():
     def existing_file_path(self, file_name):
         file_path = pjoin(self.config_folder, file_name)
         if not exists(file_path):
-            raise FileNotFoundError(
+            self.file_not_found(file_path)
+        return file_path
+
+    def file_not_found(self, file_path):
+        raise FileNotFoundError(
                 errno.ENOENT,
                 os.strerror(errno.ENOENT),
-                file_name)
+                file_path)
         return file_path
 
     def __repr__(self):
