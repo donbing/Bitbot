@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler
 import json
 import urllib.parse as urlparse
-from src.crypto_exchanges import Exchange
+from crypto_exchanges import Exchange
 
 exchanges = Exchange()
 
