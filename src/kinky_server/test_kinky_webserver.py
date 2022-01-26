@@ -3,9 +3,7 @@ import time
 import unittest
 from http.server import HTTPServer
 from urllib import request
-import sys
-sys.path.append('.')
-from src.kinky_server.handlers import InkyHandler
+from handlers import InkyHandler
 
 
 class TestRequests(unittest.TestCase):
@@ -37,3 +35,7 @@ class TestRequests(unittest.TestCase):
         req.add_header('accept', 'application/json')
         response = request.urlopen(req).read()
         print(response)
+
+
+if(__name__ == '__main__'):
+    unittest.main()
