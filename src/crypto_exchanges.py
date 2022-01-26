@@ -2,7 +2,6 @@ import ccxt
 from datetime import datetime
 import random
 import collections
-import matplotlib.dates as mdates
 from src.log_decorator import info_log
 
 
@@ -63,8 +62,7 @@ def load_exchange(exchange_name):
 def make_matplotfriendly_date(element):
     datetime_field = element[0]/1000
     datetime_utc = datetime.utcfromtimestamp(datetime_field)
-    datetime_num = mdates.date2num(datetime_utc)
-    return replace_at_index(element, 0, datetime_num)
+    return replace_at_index(element, 0, datetime_utc)
 
 
 def replace_at_index(tup, ix, val):
