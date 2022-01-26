@@ -2,7 +2,6 @@ import ccxt
 from datetime import datetime
 import random
 import collections
-import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
 
 
