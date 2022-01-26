@@ -14,28 +14,21 @@ class Exchange():
         CandleConfig("1d", 60),
     ]
 
-    def __init__(self, config):
-        self.config = config
-
-    def fetch_history(self):
-        configred_candle_width = self.config.candle_width()
-        instrument = self.config.instrument_name()
-
-        if(configred_candle_width == "random"):
+    def fetch_history(self, exchange_name, instrument, candle_width):
+        if(candle_width == "random"):
             random_index = random.randrange(len(self.candle_configs))
             candle_config = self.candle_configs[random_index]
         else:
             candle_config, = (
                 conf for conf in self.candle_configs
-                if conf.width == configred_candle_width)
+                if conf.width == candle_width)
 
         candle_data = fetch_OHLCV(
             candle_config.width,
             candle_config.count,
-            self.config.exchange_name(),
-            self.config.instrument_name()
-        )
-        return CandleData(instrument, candle_config.width, candle_data)
+            exchange_name,
+            instrument)
+        return CandleData(exchange_name, instrument, candle_config.width, candle_data)
 
     def __repr__(self):
         return '<ccxt crypto exchange>'
@@ -81,7 +74,8 @@ def replace_at_index(tup, ix, val):
 
 
 class CandleData():
-    def __init__(self, instrument, candle_width, candle_data):
+    def __init__(self, exchange, instrument, candle_width, candle_data):
+        self.exchange = exchange
         self.instrument = instrument
         self.candle_width = candle_width
         self.candle_data = candle_data
