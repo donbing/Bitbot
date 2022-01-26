@@ -35,7 +35,7 @@ class TestCcxtWebServer(unittest.TestCase):
 
     def test_fetch_price_history(self):
         req = request.Request(f"http://localhost:{self.port}/?exchange=bitmex&instrument=BTC/USD&candle_width=5m")
-        req.add_header('content-type', 'application/json')
+        req.add_header('accept', 'application/json')
         response = request.urlopen(req)
         foo = response.read().decode(response.headers.get_content_charset(failobj="utf-8"))
         json_data = json.loads(foo)
