@@ -1,12 +1,10 @@
 import unittest
 import pathlib
 import os
-import sys
 from os.path import join as pjoin
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
-from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
+from src import bitbot
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
