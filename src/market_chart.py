@@ -50,8 +50,13 @@ class PlottedChart:
         # 💲currency amount uses custom formatting
         ax[0].yaxis.set_major_formatter(price_formatter)
 
-        self.plot_chart(config, layout, ax, chart_data.candle_data)
+        candles = self.replace_dates(chart_data.candle_data)
 
+        self.plot_chart(config, layout, ax, candles)
+
+    def replace_dates(self, candle_data):
+        return [(mdates.date2num(row[0]),) + row[1:] for row in candle_data]
+        
     def plot_chart(self, config, layout, ax, candle_data):
         # ✒️ draw candles to MPL plot
         candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0])
