@@ -17,7 +17,6 @@ def quantise_inky(display_image):
 def unsupported_media_type(handler, content_type_header):
     handler.wfile.write(bytes(content_type_header, "utf8"))
     handler.send_response(415)
-    handler.send_response(415)
     handler.end_headers()
 
 
