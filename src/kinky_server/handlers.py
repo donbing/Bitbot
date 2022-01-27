@@ -58,7 +58,7 @@ def display_uploaded_image(handler):
         inky_display = auto()
         fields = cgi.parse_multipart(handler.rfile, pdict)
         image = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
-        image = image.resize((400, 300))
+        image = image.resize((inky_display.HEIGHT, inky_display.WIDTH))
         inky_display.set_image(quantise_inky(image))
         inky_display.show()
         handler.send_response(200)
