@@ -59,7 +59,9 @@ def display_uploaded_image(handler):
         fields = cgi.parse_multipart(handler.rfile, pdict)
         image = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
         image = image.resize((inky_display.WIDTH, inky_display.HEIGHT))
-        inky_display.set_image(quantise_inky(image))
+        if inky_display.colour in ['red', 'yellow']:
+            image = quantise_inky(image)
+        inky_display.set_image(image)
         inky_display.show()
         handler.send_response(200)
     else:
