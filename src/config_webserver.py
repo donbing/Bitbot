@@ -33,8 +33,10 @@ class StoreHandler(BaseHTTPRequestHandler):
             <form enctype='multipart/form-data' method='post'>
                 <label for="enabled">Enabled:</label>
                 <input type="checkbox" id="enabled" name="enabled" value="true" {"checked" if config.photo_mode_enabled() else ""}/>
-                <label for="img">🖼️ Select image:</label>
-                <input type="file" id="img" name="image_file" accept="image/*"/>
+                <div>
+                    <label for="img">🖼️ Select image:</label>
+                    <input type="file" id="img" name="image_file" accept="image/*"/>
+                </div>
                 <input type="submit"/>
             </form>
         '''
@@ -43,7 +45,7 @@ class StoreHandler(BaseHTTPRequestHandler):
     def create_editor_form(self, fileKey, current_file_key):
         with open(editable_files[fileKey]) as file_handle:
             html = '<h2 class="collapser">⚙️ ' + fileKey + ' 🔃</h2>'
-            html += '<form method="post" action="?fileKey=' + fileKey + '"' + ' class="' + ('open' if fileKey == current_file_key else '') + '">'
+            html += '<form method="post" action="?fileKey=' + fileKey + '" class="' + ('open' if fileKey == current_file_key else '') + '">'
             html += '<textarea name="fileContent" rows="20" cols="80">' + str(file_handle.read()) + '</textarea>'
             html += '<div><input type="submit" value="Save"></input></div></form>'
             return html
@@ -60,7 +62,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                 <meta content="utf-8" http-equiv="encoding">
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
                 <style>
-                    form { display: none; }
+                    form, .collapsed { display: none; }
                     form.open { display:block; }
                     .collapser { cursor: pointer; }
                 </style>
@@ -69,7 +71,7 @@ class StoreHandler(BaseHTTPRequestHandler):
                         var coll = document.getElementsByClassName("collapser");
                         for (var i = 0; i < coll.length; i++) {
                             coll[i].addEventListener("click", function() {
-                                    var content = this.nextElementSibling;
+                                var content = this.nextElementSibling;
                                 content.style.display = content.style.display === "block" ? "none" : "block";
                             });
                         }
@@ -87,8 +89,12 @@ class StoreHandler(BaseHTTPRequestHandler):
         # display log info if it exists
         if os.path.isfile(files_config.log_file_path):
             with open(files_config.log_file_path) as log_file:
-                html += '<h1 class="collapser">🪵 LOG 🔃</h1><textarea name="configfile" rows="20" cols="80">' + str(log_file.read()) + '</textarea>'
-
+                html += f'''
+                    <h1 class="collapser">🪵 LOG 🔃</h1>
+                    <section class="collapsed">
+                        <textarea name="configfile" rows="20" cols="80">{str(log_file.read())}</textarea>'
+                    </section>
+                '''
         html += '</body></html>'
         # html response
         self.send_response(200)
