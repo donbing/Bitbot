@@ -43,8 +43,14 @@ class BitBotConfig():
     def expand_chart(self):
         return self.config["display"]["expanded_chart"] == 'true'
 
+    def toggle_expanded_chart(self, new_state):
+        return self.config["display"]["expanded_chart"] == new_state
+
     def show_volume(self):
         return self.config["display"]["show_volume"] == 'true'
+
+    def toggle_volume(self, new_state):
+        return self.config["display"]["show_volume"] == new_state
 
     def display_dimensions(self):
         return (
