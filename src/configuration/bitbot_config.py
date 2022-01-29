@@ -1,7 +1,7 @@
 import os
 import configparser
 from .log_decorator import info_log
-from pathlib import join as pjoin
+from os.path import join as pjoin
 
 
 @info_log
