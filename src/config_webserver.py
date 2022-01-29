@@ -29,7 +29,7 @@ class StoreHandler(BaseHTTPRequestHandler):
 
     def create_image_upload_form(self):
         html = f'''
-            <h2 class="collapser">📸 Photo Mode</h2>
+            <h1 class="collapser">📸 Photo Mode</h1>
             <form action="/image_upload" enctype='multipart/form-data' method='post'>
                 <label for="enabled">Enabled:</label>
                 <input type="checkbox" id="enabled" name="enabled" value="true" {"checked" if config.photo_mode_enabled() else ""}/>
@@ -100,27 +100,28 @@ class StoreHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_type, pdict = cgi.parse_header(self.headers['content-type'])
 
+        # handle picture frame settings
         if(content_type == 'multipart/form-data'):
             pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
             fields = cgi.parse_multipart(self.rfile, pdict)
             photo_mode_toggleState, = fields['enabled'] or 'false'
             config.toggle_photo_mode(photo_mode_toggleState)
-            
+
             picture = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
             image = picture.resize(config.display_dimensions())
             picture_file = config.photo_image_file()
             image.save(picture_file, format="png")
             config.save()
         else:
-            # form vars
+            # handle file content change
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
                 environ={'REQUEST_METHOD': 'POST'})
-            
+
             fileKey = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey', None)[0]
 
-            # write config file to disk
+            # write file to disk
             with open(editable_files[fileKey], 'w') as fh:
                 fh.write(form.getvalue('fileContent'))
 
