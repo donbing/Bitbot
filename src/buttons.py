@@ -13,7 +13,7 @@ class Buttons():
             16: self.toggle_volume,
             24: self.toggle_extended_view,
         }
-        # 🎰 Set up RPi.GPIO with the "BCM" numbering scheme
+        # 🎰 set up RPi.GPIO with the "BCM" numbering scheme
         GPIO.setmode(GPIO.BCM)
         # 🌍 buttons connect ground, so we need pullup mode
         GPIO.setup(list(self.BUTTONS.keys()), GPIO.IN, pull_up_down=GPIO.PUD_UP)
