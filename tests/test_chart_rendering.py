@@ -18,7 +18,7 @@ def load_config():
     config.set('display', 'output', 'disk')
     return config
 
-
+# name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 # load config
 test_params = [
     ("APPLE 1mo defaults", "", "", "AAPL", "1", "false", "false", "1mo", ""),
@@ -30,6 +30,7 @@ test_params = [
 
     ("BTC HOLDINGS", "bitmex", "BTC/USD", "", "1", "false", "false", "1d", "100"),
     ("BTC VOLUME", "bitmex", "BTC/USD", "", "1", "false", "true", "1d", ""),
+    ("BTC EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "false", "1d", ""),
     ("BTC VOLUME EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "true", "1d", ""),
     ("BTC VOLUME OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "true", "1d", ""),
     ("BTC OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "false", "1d", ""),
@@ -64,7 +65,7 @@ class TestRenderingMeta(type):
                 config.set('display', 'disk_file_name', image_file_name)
                 app = bitbot.BitBot(config, files)
                 app.run()
-                # os.system(f"code {image_file_name}")
+                os.system(f"code '{image_file_name}'")
 
             return test
 
