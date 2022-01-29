@@ -16,7 +16,7 @@ config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
 # load logging config
 initialise_logger(config_files.logging_ini)
 # load app config
-config = load_config_ini(config_files.config_ini)
+config = load_config_ini(config_files)
 # create bitbot chart updater
 app = BitBot(config, config_files)
 

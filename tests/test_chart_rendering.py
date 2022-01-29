@@ -14,7 +14,7 @@ files = use_config_dir(pjoin(curdir, "../"))
 
 
 def load_config():
-    config = load_config_ini(files.config_ini)
+    config = load_config_ini(files)
     config.set('display', 'output', 'disk')
     return config
 
