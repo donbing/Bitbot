@@ -1,9 +1,7 @@
-import RPi.GPIO as GPIO
 from src.configuration.log_decorator import info_log
 
 
 class Buttons():
-
     def __init__(self, config):
         self.config = config
         # 👆 map button actions
@@ -13,18 +11,22 @@ class Buttons():
             16: self.toggle_volume,
             24: self.toggle_extended_view,
         }
-        # 🎰 set up RPi.GPIO with the "BCM" numbering scheme
-        GPIO.setmode(GPIO.BCM)
-        # 🌍 buttons connect ground, so we need pullup mode
-        GPIO.setup(list(self.BUTTONS.keys()), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        # ⛏️ register handler for each button, falling edge, 250ms debounce
-        for pin in self.BUTTONS.keys():
-            GPIO.add_event_detect(
-                pin,
-                GPIO.FALLING,
-                lambda pin: self.BUTTONS[pin](),
-                bouncetime=250
-            )
+        try:
+            import RPi.GPIO as GPIO
+            # 🎰 set up RPi.GPIO with the "BCM" numbering scheme
+            GPIO.setmode(GPIO.BCM)
+            # 🌍 buttons connect ground, so we need pullup mode
+            GPIO.setup(list(self.BUTTONS.keys()), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            # ⛏️ register handler for each button, falling edge, 250ms debounce
+            for pin in self.BUTTONS.keys():
+                GPIO.add_event_detect(
+                    pin,
+                    GPIO.FALLING,
+                    lambda pin: self.BUTTONS[pin](),
+                    bouncetime=250
+                )
+        except RuntimeError:
+            pass
 
     @info_log
     def toggle_picure_frame_mode(self):
