@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib import parse as urlparse
 from configuration.bitbot_files import BitBotFiles
 from configuration.bitbot_config import load_config_ini
-from PIL import Image
+from PIL import Image, ImageOps
 
 base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../')
 
@@ -107,8 +107,12 @@ class StoreHandler(BaseHTTPRequestHandler):
             photo_mode_toggleState, = fields['enabled'] or 'false'
             config.toggle_photo_mode(photo_mode_toggleState)
             if(photo_mode_toggleState == 'true'):
-                picture = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
-                image = picture.resize(config.display_dimensions())
+                image_bytes = io.BytesIO(fields['image_file'][0])
+                picture = Image.open(image_bytes, mode='r')
+                image = ImageOps.fit(
+                    picture,
+                    config.display_dimensions(),
+                    centering=(0.5, 0.5))
                 picture_file = config.photo_image_file()
                 image.save(picture_file, format="png")
             config.save()
