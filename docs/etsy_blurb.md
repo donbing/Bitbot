@@ -11,10 +11,10 @@ Contents:
  - 16GB micro-sd card, with custom software designed for ease of use, low maintainance and reliability.
 
 Features:
- - Bitbot is continually being developed, we are very receptive to new feature suggestions!
  - Configuration web-page, allows you to select you preferred currency or stock, as well as full access to styling the chart plots and other fun enhancements.
  - Easy to connect to your home WiFi. Bit-Bot has a bitlt-in WiFi access point that will allow you to easily connect it from any WiFi enabled device.
  - Attractive candle graph of varying timeframes/candle widths.
+ - Picture-Frame mode allows the device to display images for your choice
  - Current price displayed in large easy to read text.
  - Instrument name next to price (e.g. **BTC/USD**).
  - Percentage change within visible time period.
@@ -24,3 +24,4 @@ Features:
    - 5 min candles over 5 hours
    - 1 hour candles over the last day
    - 1 day candles over 3 months
+ - Bitbot is continually being developed, we are very receptive to new feature suggestions!
