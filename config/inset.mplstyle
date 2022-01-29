@@ -4,8 +4,8 @@ axes.spines.top:    False
 axes.spines.right:  False
 
 axes.autolimit_mode: data
-axes.xmargin: 0
-axes.ymargin: 0
+axes.xmargin: 0.1
+axes.ymargin: 0.1
 xtick.major.size:   5
 ytick.major.size:   5
 xtick.direction:    in
