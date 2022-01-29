@@ -129,12 +129,13 @@ class StoreHandler(BaseHTTPRequestHandler):
                 headers=self.headers,
                 environ={'REQUEST_METHOD': 'POST'})
 
-            fileKey = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey', None)[0]
+            query = urlparse.urlparse(self.path).query
+            fileKey = urlparse.parse_qs(query).get('fileKey', None)[0]
 
             # write file to disk
             with open(editable_files[fileKey], 'w') as fh:
                 fh.write(form.getvalue('fileContent'))
-        
+
         # ensure config in memory is up to date
         config.reload()
         # redirect to get action
