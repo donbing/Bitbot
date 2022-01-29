@@ -86,7 +86,7 @@ class BitBotConfig():
         return self.config['display']['candle_width']
 
     def save(self):
-        with open(self.config_path, 'w') as f:
+        with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
 
     # 🎞️ photo frame mode
