@@ -1,6 +1,6 @@
 import os
 import configparser
-from configuration.log_decorator import info_log
+from .log_decorator import info_log
 
 
 @info_log
