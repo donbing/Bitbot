@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from src.configuration.log_decorator import info_log
 
 
 class Buttons():
@@ -25,19 +26,23 @@ class Buttons():
                 bouncetime=250
             )
 
+    @info_log
     def toggle_picure_frame_mode(self):
         newstate = 'false' if self.config.photo_mode_enabled() else 'true'
         self.config.toggle_photo_mode(newstate)
         self.config.save()
 
+    @info_log
     def refresh_display(self):
         self.config.save()
 
+    @info_log
     def toggle_volume(self):
         newstate = 'false' if self.config.show_volume() else 'true'
         self.config.toggle_volume(newstate)
         self.config.save()
 
+    @info_log
     def toggle_extended_view(self):
         newstate = 'false' if self.config.expand_chart() else 'true'
         self.config.toggle_expanded_chart(newstate)
