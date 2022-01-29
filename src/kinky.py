@@ -1,7 +1,7 @@
 from inky.auto import auto
 import pathlib
 from PIL import Image, ImageFont, ImageDraw
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'

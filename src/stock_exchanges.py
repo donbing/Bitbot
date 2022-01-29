@@ -3,7 +3,7 @@ import collections
 import random
 from datetime import datetime, timedelta
 import matplotlib.dates as mdates
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 
 
 class Exchange():
