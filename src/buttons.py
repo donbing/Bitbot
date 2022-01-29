@@ -5,18 +5,18 @@ class Buttons():
 
     def __init__(self, config):
         self.config = config
-        # map button actions
+        # 👆 map button actions
         self.BUTTONS = {
             5: self.toggle_picure_frame_mode,
             6: self.refresh_display,
             16: self.toggle_volume,
             24: self.toggle_extended_view,
         }
-        # Set up RPi.GPIO with the "BCM" numbering scheme
+        # 🎰 Set up RPi.GPIO with the "BCM" numbering scheme
         GPIO.setmode(GPIO.BCM)
-        # buttons connect ground, so we need pullup mode
+        # 🌍 buttons connect ground, so we need pullup mode
         GPIO.setup(self.BUTTONS.keys(), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        # register handler for each button, falling edge, 250ms debounce
+        # ⛏️ register handler for each button, falling edge, 250ms debounce
         for pin in self.BUTTONS.keys():
             GPIO.add_event_detect(
                 pin,
