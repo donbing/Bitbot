@@ -21,7 +21,7 @@ class Buttons():
             GPIO.add_event_detect(
                 pin,
                 GPIO.FALLING,
-                self.BUTTONS[pin],
+                lambda pin: self.BUTTONS[pin](),
                 bouncetime=250
             )
 
