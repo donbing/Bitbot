@@ -30,7 +30,7 @@ class StoreHandler(BaseHTTPRequestHandler):
     def create_image_upload_form(self):
         html = f'''
             <h1 class="collapser">📸 Photo Mode 🔃</h1>
-            <form action="/image_upload" enctype='multipart/form-data' method='post'>
+            <form enctype='multipart/form-data' method='post'>
                 <label for="enabled">Enabled:</label>
                 <input type="checkbox" id="enabled" name="enabled" value="true" {"checked" if config.photo_mode_enabled() else ""}/>
                 <label for="img">🖼️ Select image:</label>
@@ -124,7 +124,9 @@ class StoreHandler(BaseHTTPRequestHandler):
             # write file to disk
             with open(editable_files[fileKey], 'w') as fh:
                 fh.write(form.getvalue('fileContent'))
-
+        
+        # ensure config in memory is up to date
+        config.reload()
         # redirect to get action
         self.send_response(302)
         self.send_header('Location', self.path)
