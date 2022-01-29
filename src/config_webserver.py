@@ -106,11 +106,11 @@ class StoreHandler(BaseHTTPRequestHandler):
             fields = cgi.parse_multipart(self.rfile, pdict)
             photo_mode_toggleState, = fields['enabled'] or 'false'
             config.toggle_photo_mode(photo_mode_toggleState)
-
-            picture = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
-            image = picture.resize(config.display_dimensions())
-            picture_file = config.photo_image_file()
-            image.save(picture_file, format="png")
+            if(photo_mode_toggleState == 'true'):
+                picture = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
+                image = picture.resize(config.display_dimensions())
+                picture_file = config.photo_image_file()
+                image.save(picture_file, format="png")
             config.save()
         else:
             # handle file content change
