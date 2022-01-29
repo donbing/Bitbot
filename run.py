@@ -8,7 +8,7 @@ from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.configuration.bitbot_logging import initialise_logger
 from src.configuration.config_observer import watch_config_dir
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 from src.bitbot import BitBot
 
 # declare config files

@@ -3,14 +3,18 @@ import os
 import os.path
 from os.path import join as pjoin
 import cgi
+import io
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib import parse as urlparse
 from configuration.bitbot_files import BitBotFiles
-
+from configuration.bitbot_config import load_config_ini
+from PIL import Image
 
 base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../')
 
 files_config = BitBotFiles(base_dir)
+
+config = load_config_ini(files_config.config_ini)
 
 editable_files = {
     "config_ini": files_config.config_ini,
@@ -22,6 +26,19 @@ editable_files = {
 
 
 class StoreHandler(BaseHTTPRequestHandler):
+
+    def create_image_upload_form(self):
+        html = f'''
+            <h2 class="collapser">📸 Photo Mode</h2>
+            <form action="/image_upload" enctype='multipart/form-data' method='post'>
+                <label for="enabled">Enabled:</label>
+                <input type="checkbox" id="enabled" name="enabled" value="true" {"checked" if config.photo_mode_enabled() else ""}/>
+                <label for="img">🖼️ Select image:</label>
+                <input type="file" id="img" name="image_file" accept="image/*"/>
+                <input type="submit"/>
+            </form>
+        '''
+        return html
 
     def create_editor_form(self, fileKey, current_file_key):
         with open(editable_files[fileKey]) as file_handle:
@@ -65,6 +82,8 @@ class StoreHandler(BaseHTTPRequestHandler):
         for file in editable_files:
             html += self.create_editor_form(file, fileKey)
 
+        html += self.create_image_upload_form()
+
         # display log info if it exists
         if os.path.isfile(files_config.log_file_path):
             with open(files_config.log_file_path) as log_file:
@@ -79,16 +98,31 @@ class StoreHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(html, "utf8"))
 
     def do_POST(self):
-        fileKey = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey', None)[0]
-        # form vars
-        form = cgi.FieldStorage(
-            fp=self.rfile,
-            headers=self.headers,
-            environ={'REQUEST_METHOD': 'POST'})
+        content_type, pdict = cgi.parse_header(self.headers['content-type'])
 
-        # write config file to disk
-        with open(editable_files[fileKey], 'w') as fh:
-            fh.write(form.getvalue('fileContent'))
+        if(content_type == 'multipart/form-data'):
+            pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
+            fields = cgi.parse_multipart(self.rfile, pdict)
+            photo_mode_toggleState, = fields['enabled'] or 'false'
+            config.toggle_photo_mode(photo_mode_toggleState)
+            
+            picture = Image.open(io.BytesIO(fields['image_file'][0]), mode='r')
+            image = picture.resize(config.display_dimensions())
+            picture_file = config.photo_image_file()
+            image.save(picture_file, format="png")
+            config.save()
+        else:
+            # form vars
+            form = cgi.FieldStorage(
+                fp=self.rfile,
+                headers=self.headers,
+                environ={'REQUEST_METHOD': 'POST'})
+            
+            fileKey = urlparse.parse_qs(urlparse.urlparse(self.path).query).get('fileKey', None)[0]
+
+            # write config file to disk
+            with open(editable_files[fileKey], 'w') as fh:
+                fh.write(form.getvalue('fileContent'))
 
         # redirect to get action
         self.send_response(302)
