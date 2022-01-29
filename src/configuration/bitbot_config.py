@@ -1,20 +1,21 @@
 import os
 import configparser
 from .log_decorator import info_log
+from pathlib import join as pjoin
 
 
 @info_log
-def load_config_ini(config_ini_path):
+def load_config_ini(config_files):
     config = configparser.ConfigParser()
-    config.read(config_ini_path, encoding='utf-8')
-    return BitBotConfig(config, config_ini_path)
+    config.read(config_files.config_ini, encoding='utf-8')
+    return BitBotConfig(config, config_files)
 
 
 # encapsulate horrid config vars
 class BitBotConfig():
-    def __init__(self, config, path):
+    def __init__(self, config, config_files):
         self.config = config
-        self.config_path = path
+        self.config_files = config_files
 
     def exchange_name(self):
         return self.config["currency"]["exchange"]
@@ -91,9 +92,12 @@ class BitBotConfig():
     # 🎞️ photo frame mode
     def toggle_photo_mode(self, newState):
         self.config['picture_frame_mode']["enabled"] = newState
-    
+
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
 
     def photo_image_file(self):
-        return self.config['picture_frame_mode']["picture_file_name"]
+        return pjoin(
+            self.config_files.config_folder,
+            self.config['picture_frame_mode']["picture_file_name"]
+        )

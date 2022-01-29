@@ -14,7 +14,7 @@ base_dir = pjoin(pathlib.Path(__file__).parent.resolve(), '../')
 
 files_config = BitBotFiles(base_dir)
 
-config = load_config_ini(files_config.config_ini)
+config = load_config_ini(files_config)
 
 editable_files = {
     "config_ini": files_config.config_ini,
