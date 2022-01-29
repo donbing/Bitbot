@@ -22,17 +22,26 @@ app = BitBot(config, config_files)
 
 
 @info_log
-def refresh_chart(sc):
-    app.run()
-    # show image in vscode for debug
-    if config.shoud_show_image_in_vscode():
-        os.system("code last_display.png")
+def refresh_chart(sc, reason):
+    # in picture frame mode, do not refresh on schedule
+    if config.photo_mode_enabled():
+        if reason != "scheduled":
+            app.display_photo()
+    else:
+        app.display_chart()
+        # show image in vscode for debug
+        if config.shoud_show_image_in_vscode():
+            os.system("code last_display.png")
 
     # dont reschedule if testing
-    if not config.is_test_run() and not config.photo_mode_enabled():
+    if not config.is_test_run():
         refresh_minutes = config.refresh_rate_minutes()
         logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-        sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
+        sc.enter(
+            refresh_minutes * 60,
+            1,
+            lambda: refresh_chart(scheduler, "scheduled"),
+            (sc,))
 
 
 @info_log
@@ -46,13 +55,13 @@ def cancel_schedule(sc):
 
 
 @info_log
-def config_changed(sc):
+def config_changed(sc, reason):
     # reload the app config
     config.reload(config_files.config_ini)
     # cancel current schedule
     cancel_schedule(sc)
     # new schedule
-    refresh_chart(sc)
+    refresh_chart(sc, reason)
 
 
 # scheduler for regular chart updates
@@ -61,8 +70,8 @@ scheduler = sched.scheduler(time.time, time.sleep)
 # refresh chart on config file change
 watch_config_dir(
     config_files.config_folder,
-    on_changed=lambda: config_changed(scheduler))
+    on_changed=lambda: config_changed(scheduler, "file_change"))
 
 # update chart immediately and begin schedule
-refresh_chart(scheduler)
+refresh_chart(scheduler, "startup")
 scheduler.run()
