@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    </head>
+    <body>
+        <h1>🤖 BitBot Exchanges</h1>
+        <section>
+            <h2>📈 Available Exchanges</h2>
+            <p>all supported exchanges from ccxt</p>
+            <ul>
+            {% for exchange in exchanges %}
+                <li >
+                    <span><a href="exchanges/{{exchange}}">{{exchange}}</a></span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </body>
+</html>

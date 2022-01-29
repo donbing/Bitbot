@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    </head>
+    <body>
+        <h1>🏦 {{exchange.id}}</h1>
+        <p><a href="{{exchange.urls['www']}}">{{exchange.urls['www']}}</a></p>
+        <section>
+            <h2>💲 Available Currencies</h2>
+            <ul>
+            {% for currency in exchange.currencies %}
+                <li>
+                    <span >{{currency}}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>💲 Available Markets</h2>
+            <ul>
+            {% for market_key in exchange.markets if exchange.markets[market_key].active %}
+                <li>
+                    <span>
+                    {{ market_key | urlencode}}
+                    {% for timeframe in exchange.timeframes %}
+                        <a href="/exchanges/{{exchange.id}}/markets/{{ exchange.markets[market_key].id}}/{{timeframe}}/24">
+                            {{timeframe}}
+                        </a>
+                    {% endfor %}
+                    </span>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </body>
+</html>

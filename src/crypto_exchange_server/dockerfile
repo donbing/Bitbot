@@ -6,10 +6,10 @@ RUN apt update && \
     python3-pip \
     && rm -rf /var/lib/apt/lists/* 
 
-COPY ../../requirements.txt .
+COPY requirements.txt .
 RUN pip3 install --user --prefer-binary --no-cache-dir -r requirements.txt
 
 WORKDIR /code
 COPY . .
 
-CMD [ "python3", "server.py" ]
+CMD [ "python3", "__main__.py" ]

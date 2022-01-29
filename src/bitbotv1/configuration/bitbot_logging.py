@@ -4,7 +4,7 @@ import sys
 
 
 def initialise_logger(logging_ini_path):
-    # load log file
+    # load log config from ini file
     logging.config.fileConfig(logging_ini_path)
 
     # log unhandled exceptions

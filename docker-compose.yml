@@ -1,0 +1,40 @@
+version: "2.1"
+
+services:
+
+    charting-api:
+        image: bitbot/charting-api:${TAG:-latest}
+        build:
+            context: ./src/plotting_server
+            dockerfile: dockerfile
+        ports: [8082:5000]
+
+    crypto-api:
+        image: bitbot/crypto-api:${TAG:-latest}
+        build:
+            context: ./src/crypto_exchange_server
+            dockerfile: dockerfile
+        ports: [8080:8080]
+
+    kinky-api:
+        image: bitbot/inky-api:${TAG:-latest}
+        build:
+            context: ./src/kinky_server
+            dockerfile: dockerfile
+        ports: [8081:8081]
+
+    syslog-ng:
+        image: lscr.io/linuxserver/syslog-ng
+        container_name: syslog-ng
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Europe/London
+        volumes:
+            - ./config:/config
+            - ./log:/var/log #optional
+        ports:
+            - 514:5514/udp
+            - 601:6601/tcp
+            - 6514:6514/tcp
+        restart: unless-stopped

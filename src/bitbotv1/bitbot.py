@@ -3,7 +3,7 @@ import io
 import socket
 import time
 from src import stock_exchanges, kinky
-from src.crypto_exchange_server import crypto_exchanges
+from src import crypto_exchanges
 from src.market_chart import MarketChart
 from src.log_decorator import info_log
 from src.chart_overlay import ChartOverlay

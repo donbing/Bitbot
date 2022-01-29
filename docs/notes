@@ -1,3 +1,7 @@
+tofix: 
+ - configurations for the plotting service are stubbed atm
+ - 
+
 todo:
  - config candle colours
  - config volume colours

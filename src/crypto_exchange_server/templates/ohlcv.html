@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+
+<body>
+    <h1>🤖 OHCLV</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>date</th>
+                <th>open</th>
+                <th>low</th>
+                <th>close</th>
+                <th>volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candle in candles %}
+            <tr>
+                <td>{{candle[0] | ctime}}</td>
+                <td>{{candle[1]}}</td>
+                <td>{{candle[2]}}</td>
+                <td>{{candle[3]}}</td>
+                <td>{{candle[4]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
