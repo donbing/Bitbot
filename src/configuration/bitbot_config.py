@@ -98,6 +98,6 @@ class BitBotConfig():
 
     def photo_image_file(self):
         return pjoin(
-            self.config_files.config_folder,
+            self.config_files.base_path,
             self.config['picture_frame_mode']["picture_file_name"]
         )
