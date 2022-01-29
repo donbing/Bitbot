@@ -29,5 +29,9 @@ class ConfigChangeHandler(FileSystemEventHandler):
             file_changed = last_modified != cached_last_modified
 
             if new_change or file_changed:
-                self.watched_files[file_path] = last_modified
-                self.on_changed()
+                self.config_changed(file_path, last_modified)
+
+    @info_log
+    def config_changed(self, file_path, last_modified):
+        self.watched_files[file_path] = last_modified
+        self.on_changed()
