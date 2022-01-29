@@ -27,8 +27,9 @@ def refresh_chart(sc):
     # show image in vscode for debug
     if config.shoud_show_image_in_vscode():
         os.system("code last_display.png")
+
     # dont reschedule if testing
-    if not config.is_test_run():
+    if not config.is_test_run() and not config.photo_mode_enabled():
         refresh_minutes = config.refresh_rate_minutes()
         logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
         sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))

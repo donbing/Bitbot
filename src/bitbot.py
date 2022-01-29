@@ -42,20 +42,23 @@ class BitBot():
             return kinky.Disker(self.config)
 
     def run(self):
-        # 📡 await internet connection
-        self.wait_for_internet_connection(self.display)
-        # 📈 fetch chart data
-        chart_data = self.market_exchange().fetch_history()
-        # 🖊️ draw the chart on the display
-        with io.BytesIO() as file_stream:
-            # 🖊️ draw chart plot to image
-            self.plot.draw_to(chart_data, file_stream)
-            chart_image = Image.open(file_stream)
-            # 🖊️ draw overlay on image
-            overlay = ChartOverlay(self.config, self.display, chart_data)
-            overlay.draw_on(chart_image)
-            # 📺 display the image
-            self.display.show(chart_image)
+        if self.config.photo_mode_enabled():
+            self.display.show(Image.open(self.config.photo_image_file()))
+        else:
+            # 📡 await internet connection
+            self.wait_for_internet_connection(self.display)
+            # 📈 fetch chart data
+            chart_data = self.market_exchange().fetch_history()
+            # 🖊️ draw the chart on the display
+            with io.BytesIO() as file_stream:
+                # 🖊️ draw chart plot to image
+                self.plot.draw_to(chart_data, file_stream)
+                chart_image = Image.open(file_stream)
+                # 🖊️ draw overlay on image
+                overlay = ChartOverlay(self.config, self.display, chart_data)
+                overlay.draw_on(chart_image)
+                # 📺 display the image
+                self.display.show(chart_image)
 
     @info_log
     def wait_for_internet_connection(self, display):
