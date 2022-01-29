@@ -4,7 +4,7 @@ import socket
 import time
 from src import crypto_exchanges, stock_exchanges, kinky
 from src.market_chart import MarketChart
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
 
 
@@ -41,7 +41,8 @@ class BitBot():
         else:
             return kinky.Disker(self.config)
 
-    def run(self):
+    @info_log
+    def display_chart(self):
         # 📡 await internet connection
         self.wait_for_internet_connection(self.display)
         # 📈 fetch chart data
@@ -56,6 +57,10 @@ class BitBot():
             overlay.draw_on(chart_image)
             # 📺 display the image
             self.display.show(chart_image)
+
+    @info_log
+    def display_photo(self):
+        self.display.show(Image.open(self.config.photo_image_file()))
 
     @info_log
     def wait_for_internet_connection(self, display):

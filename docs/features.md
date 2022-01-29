@@ -74,7 +74,15 @@
 **In order** that users find using Bitbot friction-free
 **I want** a config entry for the users holdings, and a total value to be drawn to screen  
 **So that** users dont have to calculate totals themselves
- - *Scenario:* `✅ holdings are entered intot e cnfig file, and total value is displayed below the price.`
+ - *Scenario:* `✅ holdings are entered into the config file, and total value is displayed below the price.`
+ 
+## ✔️ User selected images can be displayed 
+>**AS** Marketing  
+**In order** so that we can advertise Bitbot as a digital picture-frame
+**I want** users to be able to upload images for permanent display
+**So that** Bitbot fulfills multiple purposes for them 
+ - *Scenario:* `✅ picture-mode is enabled and an image uploaded, which is then dislplayed`
+ - *Scenario:* `✅ picture-mode is disabled, the device returns to displaying a price chart`
 
 # 🚧 INCOMPLETE
 

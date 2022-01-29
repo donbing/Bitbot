@@ -1,19 +1,21 @@
 import os
 import configparser
-from src.log_decorator import info_log
+from .log_decorator import info_log
+from os.path import join as pjoin
 
 
 @info_log
-def load_config_ini(config_ini_path):
+def load_config_ini(config_files):
     config = configparser.ConfigParser()
-    config.read(config_ini_path, encoding='utf-8')
-    return BitBotConfig(config)
+    config.read(config_files.config_ini, encoding='utf-8')
+    return BitBotConfig(config, config_files)
 
 
 # encapsulate horrid config vars
 class BitBotConfig():
-    def __init__(self, config):
+    def __init__(self, config, config_files):
         self.config = config
+        self.config_files = config_files
 
     def exchange_name(self):
         return self.config["currency"]["exchange"]
@@ -44,11 +46,17 @@ class BitBotConfig():
     def show_volume(self):
         return self.config["display"]["show_volume"] == 'true'
 
+    def display_dimensions(self):
+        return (
+            int(self.config["display"]["width"]),
+            int(self.config["display"]["height"])
+        )
+
     def set(self, section, key, value):
         self.config.set(section, key, value)
 
-    def reload(self, config_ini_path):
-        self.config.read(config_ini_path, encoding='utf-8')
+    def reload(self):
+        self.config.read(self.config_files.config_ini, encoding='utf-8')
 
     def refresh_rate_minutes(self):
         return float(self.config['display']['refresh_time_minutes'])
@@ -76,3 +84,20 @@ class BitBotConfig():
 
     def candle_width(self):
         return self.config['display']['candle_width']
+
+    def save(self):
+        with open(self.config_files.config_ini, 'w') as f:
+            self.config.write(f)
+
+    # 🎞️ photo frame mode
+    def toggle_photo_mode(self, newState):
+        self.config['picture_frame_mode']["enabled"] = newState
+
+    def photo_mode_enabled(self):
+        return self.config['picture_frame_mode']["enabled"] == 'true'
+
+    def photo_image_file(self):
+        return pjoin(
+            self.config_files.base_path,
+            self.config['picture_frame_mode']["picture_file_name"]
+        )

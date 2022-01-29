@@ -8,7 +8,7 @@ from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.configuration.bitbot_logging import initialise_logger
 from src.configuration.config_observer import watch_config_dir
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 from src.bitbot import BitBot
 
 # declare config files
@@ -16,22 +16,32 @@ config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
 # load logging config
 initialise_logger(config_files.logging_ini)
 # load app config
-config = load_config_ini(config_files.config_ini)
+config = load_config_ini(config_files)
 # create bitbot chart updater
 app = BitBot(config, config_files)
 
 
 @info_log
-def refresh_chart(sc):
-    app.run()
-    # show image in vscode for debug
-    if config.shoud_show_image_in_vscode():
-        os.system("code last_display.png")
+def refresh_display(sc, reason):
+    # in picture frame mode, do not refresh on schedule
+    if config.photo_mode_enabled():
+        if reason != "scheduled":
+            app.display_photo()
+    else:
+        app.display_chart()
+        # show image in vscode for debug
+        if config.shoud_show_image_in_vscode():
+            os.system("code last_display.png")
+
     # dont reschedule if testing
     if not config.is_test_run():
         refresh_minutes = config.refresh_rate_minutes()
         logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-        sc.enter(refresh_minutes * 60, 1, refresh_chart, (sc,))
+        sc.enter(
+            refresh_minutes * 60,
+            1,
+            lambda s: refresh_display(s, "scheduled"),
+            (sc,))
 
 
 @info_log
@@ -45,13 +55,13 @@ def cancel_schedule(sc):
 
 
 @info_log
-def config_changed(sc):
+def config_changed(sc, reason):
     # reload the app config
-    config.reload(config_files.config_ini)
+    config.reload()
     # cancel current schedule
     cancel_schedule(sc)
     # new schedule
-    refresh_chart(sc)
+    refresh_display(sc, reason)
 
 
 # scheduler for regular chart updates
@@ -60,8 +70,8 @@ scheduler = sched.scheduler(time.time, time.sleep)
 # refresh chart on config file change
 watch_config_dir(
     config_files.config_folder,
-    on_changed=lambda: config_changed(scheduler))
+    on_changed=lambda: config_changed(scheduler, "file_change"))
 
 # update chart immediately and begin schedule
-refresh_chart(scheduler)
+refresh_display(scheduler, "startup")
 scheduler.run()

@@ -2,7 +2,7 @@ from datetime import datetime
 from PIL import Image, ImageDraw
 import random
 from src import price_humaniser
-from src.log_decorator import info_log
+from src.configuration.log_decorator import info_log
 
 
 class ChartOverlay():
