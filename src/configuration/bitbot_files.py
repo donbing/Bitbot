@@ -1,4 +1,3 @@
-
 from os.path import join as pjoin, exists
 import errno
 import os

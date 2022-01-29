@@ -1,19 +1,20 @@
 import os
 import configparser
-from src.log_decorator import info_log
+from configuration.log_decorator import info_log
 
 
 @info_log
 def load_config_ini(config_ini_path):
     config = configparser.ConfigParser()
     config.read(config_ini_path, encoding='utf-8')
-    return BitBotConfig(config)
+    return BitBotConfig(config, config_ini_path)
 
 
 # encapsulate horrid config vars
 class BitBotConfig():
-    def __init__(self, config):
+    def __init__(self, config, path):
         self.config = config
+        self.config_path = path
 
     def exchange_name(self):
         return self.config["currency"]["exchange"]
@@ -43,6 +44,12 @@ class BitBotConfig():
 
     def show_volume(self):
         return self.config["display"]["show_volume"] == 'true'
+
+    def display_dimensions(self):
+        return (
+            int(self.config["display"]["width"]),
+            int(self.config["display"]["height"])
+        )
 
     def set(self, section, key, value):
         self.config.set(section, key, value)
@@ -76,3 +83,17 @@ class BitBotConfig():
 
     def candle_width(self):
         return self.config['display']['candle_width']
+
+    def save(self):
+        with open(self.config_path, 'w') as f:
+            self.config.write(f)
+
+    # 🎞️ photo frame mode
+    def toggle_photo_mode(self, newState):
+        self.config['picture_frame_mode']["enabled"] = newState
+    
+    def photo_mode_enabled(self):
+        return self.config['picture_frame_mode']["enabled"] == 'true'
+
+    def photo_image_file(self):
+        return self.config['picture_frame_mode']["picture_file_name"]
