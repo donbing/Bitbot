@@ -57,7 +57,7 @@ def cancel_schedule(sc):
 @info_log
 def config_changed(sc, reason):
     # reload the app config
-    config.reload(config_files.config_ini)
+    config.reload()
     # cancel current schedule
     cancel_schedule(sc)
     # new schedule
