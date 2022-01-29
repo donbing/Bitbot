@@ -55,8 +55,8 @@ class BitBotConfig():
     def set(self, section, key, value):
         self.config.set(section, key, value)
 
-    def reload(self, config_ini_path):
-        self.config.read(config_ini_path, encoding='utf-8')
+    def reload(self):
+        self.config.read(self.config_files.config_ini, encoding='utf-8')
 
     def refresh_rate_minutes(self):
         return float(self.config['display']['refresh_time_minutes'])
