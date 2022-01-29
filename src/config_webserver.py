@@ -29,7 +29,7 @@ class StoreHandler(BaseHTTPRequestHandler):
 
     def create_image_upload_form(self):
         html = f'''
-            <h1 class="collapser">📸 Photo Mode</h1>
+            <h1 class="collapser">📸 Photo Mode 🔃</h1>
             <form action="/image_upload" enctype='multipart/form-data' method='post'>
                 <label for="enabled">Enabled:</label>
                 <input type="checkbox" id="enabled" name="enabled" value="true" {"checked" if config.photo_mode_enabled() else ""}/>
@@ -42,7 +42,7 @@ class StoreHandler(BaseHTTPRequestHandler):
 
     def create_editor_form(self, fileKey, current_file_key):
         with open(editable_files[fileKey]) as file_handle:
-            html = '<h2 class="collapser">⚙️ ' + fileKey + '</h2>'
+            html = '<h2 class="collapser">⚙️ ' + fileKey + ' 🔃</h2>'
             html += '<form method="post" action="?fileKey=' + fileKey + '"' + ' class="' + ('open' if fileKey == current_file_key else '') + '">'
             html += '<textarea name="fileContent" rows="20" cols="80">' + str(file_handle.read()) + '</textarea>'
             html += '<div><input type="submit" value="Save"></input></div></form>'
@@ -87,7 +87,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         # display log info if it exists
         if os.path.isfile(files_config.log_file_path):
             with open(files_config.log_file_path) as log_file:
-                html += '<h1 class="collapser">🪵 LOG</h1><textarea name="configfile" rows="20" cols="80">' + str(log_file.read()) + '</textarea>'
+                html += '<h1 class="collapser">🪵 LOG 🔃</h1><textarea name="configfile" rows="20" cols="80">' + str(log_file.read()) + '</textarea>'
 
         html += '</body></html>'
         # html response
