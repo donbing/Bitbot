@@ -22,7 +22,7 @@ app = BitBot(config, config_files)
 
 
 @info_log
-def refresh_chart(sc, reason):
+def refresh_display(sc, reason):
     # in picture frame mode, do not refresh on schedule
     if config.photo_mode_enabled():
         if reason != "scheduled":
@@ -40,7 +40,7 @@ def refresh_chart(sc, reason):
         sc.enter(
             refresh_minutes * 60,
             1,
-            lambda: refresh_chart(scheduler, "scheduled"),
+            lambda s: refresh_display(s, "scheduled"),
             (sc,))
 
 
@@ -61,7 +61,7 @@ def config_changed(sc, reason):
     # cancel current schedule
     cancel_schedule(sc)
     # new schedule
-    refresh_chart(sc, reason)
+    refresh_display(sc, reason)
 
 
 # scheduler for regular chart updates
@@ -73,5 +73,5 @@ watch_config_dir(
     on_changed=lambda: config_changed(scheduler, "file_change"))
 
 # update chart immediately and begin schedule
-refresh_chart(scheduler, "startup")
+refresh_display(scheduler, "startup")
 scheduler.run()
