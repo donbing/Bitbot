@@ -64,8 +64,8 @@ class TestRenderingMeta(type):
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
                 app = bitbot.BitBot(config, files)
-                app.run()
-                os.system(f"code '{image_file_name}'")
+                app.display_chart()
+                # os.system(f"code '{image_file_name}'")
 
             return test
 
