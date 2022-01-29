@@ -81,7 +81,7 @@
 **In order** so that we can advertise Bitbot as a digital picture-frame
 **I want** users to be able to upload images for permanent display
 **So that** Bitbot fulfills multiple purposes for them 
- - *Scenario:* `✅ picture-mode is enabled and an image uploaded, which is then dislplayed`
+ - *Scenario:* `✅ picture-mode is enabled and an image uploaded, which is then displayed`
  - *Scenario:* `✅ picture-mode is disabled, the device returns to displaying a price chart`
 
 # 🚧 INCOMPLETE
