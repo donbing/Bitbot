@@ -120,4 +120,4 @@ class ChartOverlay():
         self.draw_current_time(draw_plot_image)
 
     def __repr__(self):
-        return 'Overlay: ' + self.config.overlay_type()
+        return f'<Overlay: {self.config.overlay_type()}>'

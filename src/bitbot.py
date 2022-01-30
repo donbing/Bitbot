@@ -17,7 +17,7 @@ class Cartographer():
         self.market.create_plot(chart_data).write_to_stream(file_stream)
 
     def __repr__(self):
-        return 'Cartographer'
+        return '<Cartographer>'
 
 
 class BitBot():
@@ -83,4 +83,4 @@ class BitBot():
             time.sleep(10)
 
     def __repr__(self):
-        return 'BitBot inky:' + str(self.config.use_inky())
+        return f'<BitBot inky: {str(self.config.use_inky())}>'
