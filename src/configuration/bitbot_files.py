@@ -30,3 +30,6 @@ class BitBotFiles():
                 os.strerror(errno.ENOENT),
                 file_name)
         return file_path
+
+    def __repr__(self):
+        return 'Bitbot files:' + self.base_path

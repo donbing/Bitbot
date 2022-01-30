@@ -44,7 +44,7 @@ class Disker:
         image.save(path)
 
     def __repr__(self):
-        return f'<Disk: @{(self.WIDTH, self.HEIGHT)}>'
+        return f'<Image to Disk: @{(self.WIDTH, self.HEIGHT)}>'
 
 
 # 🎨 create a limited pallete image for converting our chart image
