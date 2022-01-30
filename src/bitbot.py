@@ -37,7 +37,7 @@ class BitBot():
     # ✒️ select inky display or file output (nice for testing)
     def create_display(self):
         if self.config.use_inky():
-            return kinky.Disker(self.config)
+            return kinky.Inker(self.config)
         else:
             return kinky.Disker(self.config)
 
