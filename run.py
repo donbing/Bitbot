@@ -57,7 +57,6 @@ def cancel_schedule(sc):
             pass
 
 
-@info_log
 def config_changed(sc, reason):
     # 🔁 reload the app config
     config.reload()
