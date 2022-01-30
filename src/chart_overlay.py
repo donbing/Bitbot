@@ -118,3 +118,6 @@ class ChartOverlay():
         self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
+
+    def __repr__(self):
+        return 'Overlay: ' + self.config.overlay_type()
