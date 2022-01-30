@@ -109,8 +109,8 @@ class Inker:
 
         # 🖼️ crop and rescale image if it doesnt match the display dims
         if image.size != self.size:
-            image = ImageOps.fit(
-                    image,
+            display_image = ImageOps.fit(
+                    display_image,
                     self.size,
                     centering=(0.5, 0.5))
 
