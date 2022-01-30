@@ -1,7 +1,7 @@
 from inky.auto import auto
 import pathlib
-from PIL import Image, ImageFont, ImageDraw
-from src.configuration.log_decorator import info_log
+from PIL import Image, ImageFont, ImageDraw, ImageOps
+from .configuration.log_decorator import info_log
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
@@ -105,6 +105,13 @@ class Inker:
 
         if self.display.colour in three_colour_screen_types:
             display_image = quantise_inky(display_image)
+
+        # 🖼️ crop and rescale image if it doesnt match the display dims
+        if image.size != (self.display.WIDHT, self.display.HEIGHT):
+            image = ImageOps.fit(
+                    image,
+                    (self.display.WIDHT, self.display.HEIGHT),
+                    centering=(0.5, 0.5))
 
         # 📺 show the image
         self.display.set_image(display_image)
