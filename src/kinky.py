@@ -108,7 +108,7 @@ class Inker:
             display_image = quantise_inky(display_image)
 
         # 🖼️ crop and rescale image if it doesnt match the display dims
-        if image.size != self.size:
+        if display_image.size != self.size:
             display_image = ImageOps.fit(
                     display_image,
                     self.size,
