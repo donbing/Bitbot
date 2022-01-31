@@ -1,5 +1,6 @@
 from inky.auto import auto
 import pathlib
+import threading
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 from .configuration.log_decorator import info_log
 
@@ -57,6 +58,7 @@ def quantise_inky(display_image):
 
 class Inker:
     def __init__(self, config):
+        self.lock = threading.Lock()
         self.config = config
         self.display = auto()
         self.WIDTH = self.display.WIDTH
@@ -114,6 +116,7 @@ class Inker:
         if self.display.colour in three_colour_screen_types:
             display_image = quantise_inky(display_image)
 
+        self.lock.acquire()
         # 📺 show the image
         self.display.set_image(display_image)
         try:
@@ -122,6 +125,8 @@ class Inker:
             # 🪳 inky 1.3.0 bug:
             # RuntimeError("Timeout waiting for busy signal to clear.")
             pass
+        finally:
+            self.lock.release()
 
     def __repr__(self):
         return f'<{self.display.colour} Inky: @{self.size}>'
