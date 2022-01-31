@@ -23,7 +23,7 @@ class ConfigChangeHandler(FileSystemEventHandler):
         self.watched_files = {}
 
     def on_modified(self, event):
-        file_content = open(event.src_path, 'rb')
+        file_content = open(event.src_path, 'rb').read()
         if isinstance(event, FileModifiedEvent) and len(file_content) > 0:
             cached_hash = self.watched_files.get(event.src_path)
             current_hash = compute_hash(file_content)
