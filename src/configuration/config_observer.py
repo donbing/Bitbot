@@ -6,6 +6,7 @@ import hashlib
 BLOCK_SIZE = 65536
 
 
+@info_log
 def get_hash(file_path):
     with open(file_path, 'rb') as f:
         return compute_hash(f.read())
