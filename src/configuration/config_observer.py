@@ -25,11 +25,15 @@ class ConfigChangeHandler(FileSystemEventHandler):
             self.compare_content_hash(event.src_path)
 
     def compare_content_hash(self, src_path):
-        file_content = open(src_path, 'rb').read()
+        file_content = self.get_file_content(src_path)
         if len(file_content) > 0:
             cached_hash = self.watched_files.get(src_path)
             current_hash = compute_hash(file_content)
             self.check_file_changed(src_path, cached_hash, current_hash)
+
+    def get_file_content(self, src_path):
+        with open(src_path, 'rb') as file:
+            return file.read()
 
     @info_log
     def check_file_changed(self, file_path, cached_file_hash, file_hash):
