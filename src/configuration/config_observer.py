@@ -8,7 +8,12 @@ BLOCK_SIZE = 65536
 
 def get_hash(file_path):
     with open(file_path, 'rb') as f:
-        return hashlib.md5(f.read()).hexdigest()
+        return compute_hash(f.read())
+
+
+@info_log
+def compute_hash(text):
+    return hashlib.md5(text).hexdigest()
 
 
 @info_log
