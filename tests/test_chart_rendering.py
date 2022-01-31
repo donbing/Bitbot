@@ -58,6 +58,7 @@ class TestRenderingMeta(type):
                 config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
                 config.set('currency', 'holdings', holdings)
+                config.set('currency', 'timestamp', 'true')
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)

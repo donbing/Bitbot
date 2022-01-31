@@ -1,7 +1,7 @@
 from inky.auto import auto
 import pathlib
-from PIL import Image, ImageFont, ImageDraw
-from src.configuration.log_decorator import info_log
+from PIL import Image, ImageFont, ImageDraw, ImageOps
+from .configuration.log_decorator import info_log
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
@@ -44,7 +44,7 @@ class Disker:
         image.save(path)
 
     def __repr__(self):
-        return f'<Disk: @{(self.WIDTH, self.HEIGHT)}>'
+        return f'<Image to Disk: @{(self.WIDTH, self.HEIGHT)}>'
 
 
 # 🎨 create a limited pallete image for converting our chart image
@@ -65,10 +65,11 @@ class Inker:
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
+        self.size = (self.WIDTH, self.HEIGHT)
 
     @info_log
     def draw_connection_error(self):
-        img = Image.new("P", (self.WIDTH, self.HEIGHT))
+        img = Image.new("P", self.size)
         draw = ImageDraw.Draw(img)
         # 🌌 calculate space needed for message
         message_width, message_height = draw.textsize(
@@ -106,6 +107,13 @@ class Inker:
         if self.display.colour in three_colour_screen_types:
             display_image = quantise_inky(display_image)
 
+        # 🖼️ crop and rescale image if it doesnt match the display dims
+        if display_image.size != self.size:
+            display_image = ImageOps.fit(
+                    display_image,
+                    self.size,
+                    centering=(0.5, 0.5))
+
         # 📺 show the image
         self.display.set_image(display_image)
         try:
@@ -116,4 +124,4 @@ class Inker:
             pass
 
     def __repr__(self):
-        return f'<{self.display.colour} Inky: @{(self.WIDTH, self.HEIGHT)}>'
+        return f'<{self.display.colour} Inky: @{self.size}>'
