@@ -104,15 +104,15 @@ class Inker:
 
         three_colour_screen_types = ["yellow", "red"]
 
-        if self.display.colour in three_colour_screen_types:
-            display_image = quantise_inky(display_image)
-
         # 🖼️ crop and rescale image if it doesnt match the display dims
         if display_image.size != self.size:
             display_image = ImageOps.fit(
                     display_image,
                     self.size,
                     centering=(0.5, 0.5))
+
+        if self.display.colour in three_colour_screen_types:
+            display_image = quantise_inky(display_image)
 
         # 📺 show the image
         self.display.set_image(display_image)
