@@ -9,6 +9,10 @@ from src import price_humaniser
 matplotlib.use('Agg')
 local_timezone = tzlocal.get_localzone()
 
+price_formatter = matplotlib.ticker.FuncFormatter(
+    price_humaniser.format_scale_price
+)
+
 
 # ☝️ single instance for lifetime of app
 class MarketChart:
@@ -44,7 +48,7 @@ class PlottedChart:
         ax[0].xaxis.set_major_locator(layout[3])
         ax[0].xaxis.set_major_formatter(layout[4])
         # 💲currency amount uses custom formatting
-        ax[0].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
+        ax[0].yaxis.set_major_formatter(price_formatter)
 
         self.plot_chart(config, layout, ax, chart_data.candle_data)
 
@@ -53,7 +57,7 @@ class PlottedChart:
         candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0])
         # ✒️ draw volumes to MPL plot
         if config.show_volume():
-            ax[1].yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(price_humaniser.format_scale_price))
+            ax[1].yaxis.set_major_formatter(price_formatter)
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
 
