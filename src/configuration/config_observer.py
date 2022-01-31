@@ -4,12 +4,10 @@ from src.configuration.log_decorator import info_log
 import hashlib
 
 
-@info_log
 def compute_hash(text):
     return hashlib.md5(text).hexdigest()
 
 
-@info_log
 def watch_config_dir(config_dir_path, on_changed):
     event_handler = ConfigChangeHandler(on_changed)
     observer = Observer()
@@ -24,11 +22,14 @@ class ConfigChangeHandler(FileSystemEventHandler):
 
     def on_modified(self, event):
         if isinstance(event, FileModifiedEvent):
-            file_content = open(event.src_path, 'rb').read()
-            if len(file_content) > 0:
-                cached_hash = self.watched_files.get(event.src_path)
-                current_hash = compute_hash(file_content)
-                self.check_file_changed(event.src_path, cached_hash, current_hash)
+            self.compare_content_hash(event.src_path)
+
+    def compare_content_hash(self, src_path):
+        file_content = open(src_path, 'rb').read()
+        if len(file_content) > 0:
+            cached_hash = self.watched_files.get(src_path)
+            current_hash = compute_hash(file_content)
+            self.check_file_changed(src_path, cached_hash, current_hash)
 
     @info_log
     def check_file_changed(self, file_path, cached_file_hash, file_hash):
