@@ -3,14 +3,6 @@ from watchdog.events import FileSystemEventHandler, FileModifiedEvent
 from src.configuration.log_decorator import info_log
 import hashlib
 
-BLOCK_SIZE = 65536
-
-
-@info_log
-def get_hash(file_path):
-    with open(file_path, 'rb') as f:
-        return compute_hash(f.read())
-
 
 @info_log
 def compute_hash(text):
@@ -31,16 +23,14 @@ class ConfigChangeHandler(FileSystemEventHandler):
         self.watched_files = {}
 
     def on_modified(self, event):
-        if isinstance(event, FileModifiedEvent):
-            file_path = event.src_path
-
-            cached_file_hash = self.watched_files.get(file_path)
-            file_hash = get_hash(file_path)
-
-            self.check_if_file_changed(file_path, cached_file_hash, file_hash)
+        file_content = open(event.src_path, 'rb')
+        if isinstance(event, FileModifiedEvent) and len(file_content) > 0:
+            cached_hash = self.watched_files.get(event.src_path)
+            current_hash = compute_hash(file_content)
+            self.check_file_changed(event.src_path, cached_hash, current_hash)
 
     @info_log
-    def check_if_file_changed(self, file_path, cached_file_hash, file_hash):
+    def check_file_changed(self, file_path, cached_file_hash, file_hash):
         new_change = file_path not in self.watched_files
         file_changed = file_hash != cached_file_hash
 
