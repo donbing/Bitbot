@@ -110,7 +110,7 @@ class StoreHandler(BaseHTTPRequestHandler):
         if(content_type == 'multipart/form-data'):
             pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
             fields = cgi.parse_multipart(self.rfile, pdict)
-            photo_mode_toggleState, = fields['enabled'] or 'false'
+            photo_mode_toggleState, = fields.get('enabled', 'false')
             config.toggle_photo_mode(photo_mode_toggleState)
             if(photo_mode_toggleState == 'true'):
                 image_bytes = io.BytesIO(fields['image_file'][0])
