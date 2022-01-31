@@ -63,12 +63,6 @@ class BitBotConfig():
     def toggle_volume(self, new_state):
         self.config["display"]["show_volume"] = new_state
 
-    def display_dimensions(self):
-        return (
-            int(self.config["display"]["width"]),
-            int(self.config["display"]["height"])
-        )
-
     def refresh_rate_minutes(self):
         return float(self.config['display']['refresh_time_minutes'])
 
