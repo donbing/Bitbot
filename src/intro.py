@@ -41,25 +41,31 @@ def IntroPlayer(display):
 
 
 class Intro:
-    def __init__(self, size, font):
+    def __init__(self, size, font, config):
         self.clear = Image.new("P", size, 7)
         self.display_size = size
         self.font = font
         self.centre = tuple(dim / 2 for dim in self.display_size)
         self.page_duration = 30
+        self.intro_background = config.intro_background()
 
     def play(self):
+        background = Image.open(self.intro_background)
+        background = background.resize(self.display_size)
         img = Image.new("P", self.display_size, white)
+        img.paste(background)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page1, self.font, self.display_size)
         yield img
         time.sleep(self.page_duration)
         img = Image.new("P", self.display_size, white)
+        img.paste(background)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page2, self.font, self.display_size)
         yield img
         wait_for_internet_connection(self.no_op)
         img = Image.new("P", self.display_size, white)
+        img.paste(background)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page3, self.font, self.display_size)
         yield img
