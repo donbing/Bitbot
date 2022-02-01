@@ -11,6 +11,8 @@ from src.configuration.config_observer import watch_config_dir
 from src.configuration.log_decorator import info_log
 from src.buttons import Buttons
 from src.bitbot import BitBot
+from src.intro import IntroPlayer
+from src.kinky import picker
 
 # 🗂️ declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
@@ -22,6 +24,9 @@ config = load_config_ini(config_files)
 app = BitBot(config, config_files)
 # 👉 button handlers
 buttons = Buttons(config)
+
+# oobex
+config.on_first_run(lambda: IntroPlayer(picker(config)))
 
 
 @info_log

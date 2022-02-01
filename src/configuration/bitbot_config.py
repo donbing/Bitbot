@@ -110,3 +110,9 @@ class BitBotConfig():
     def save(self):
         with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
+
+    def on_first_run(self, action):
+        if self.config["first_run"]['enabled'] == "true":
+            action()
+            self.set('first_run', 'enabled', "false")
+            self.save()
