@@ -1,11 +1,11 @@
 from PIL import Image
 import io
-import socket
-import time
-from src import crypto_exchanges, stock_exchanges, kinky
+from src import crypto_exchanges, stock_exchanges
 from src.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
+from src.kinky import picker as display_picker
+from src.network_utils import wait_for_internet_connection
 
 
 class Cartographer():
@@ -24,7 +24,7 @@ class BitBot():
     def __init__(self, config, files):
         self.config = config
         self.files = files
-        self.display = self.create_display()
+        self.display = display_picker(config)
         self.plot = Cartographer(self.config, self.display, self.files)
 
     # 🏛️ stock or crypto exchange
@@ -34,17 +34,10 @@ class BitBot():
         else:
             return crypto_exchanges.Exchange(self.config)
 
-    # ✒️ select inky display or file output (nice for testing)
-    def create_display(self):
-        if self.config.use_inky():
-            return kinky.Inker(self.config)
-        else:
-            return kinky.Disker(self.config)
-
     @info_log
     def display_chart(self):
         # 📡 await internet connection
-        self.wait_for_internet_connection(self.display)
+        wait_for_internet_connection(self.display.draw_connection_error)
         # 📈 fetch chart data
         chart_data = self.market_exchange().fetch_history()
         # 🖊️ draw the chart on the display
@@ -61,26 +54,6 @@ class BitBot():
     @info_log
     def display_photo(self):
         self.display.show(Image.open(self.config.photo_image_file()))
-
-    @info_log
-    def wait_for_internet_connection(self, display):
-        # 📡 test if internet is available
-        def network_connected(hostname="google.com"):
-            try:
-                host = socket.gethostbyname(hostname)
-                socket.create_connection((host, 80), 2).close()
-                return True
-            except:
-                time.sleep(1)
-            return False
-
-        connection_error_shown = False
-        while network_connected() is False:
-            # 🚫 draw error message if not already drawn
-            if connection_error_shown is False:
-                connection_error_shown = True
-                display.draw_connection_error()
-            time.sleep(10)
 
     def __repr__(self):
         return f'<BitBot inky: {str(self.config.use_inky())}>'
