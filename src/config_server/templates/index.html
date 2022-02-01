@@ -30,22 +30,22 @@
     <body>
         <h1>🤖 BitBot Crypto-Ticker Config</h1>
         <section>
-            <h2>📈 Edit Chart Styles</h2>
-            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
+            <h2>⚙️ Edit Application Config</h2>
+            <p>Here you can alter the exchange, currency, screen refresh and some overlay options</p>
             <ul class="editableFiles">
-            {% for file in style_files %}
-                <li >
+            {% for file in ini_files %}
+                <li>
                     <span onclick="editFile(this)">{{file}}</span>
                 </li>
             {% endfor %}
             </ul>
         </section>
         <section>
-            <h2>⚙️ Edit Application Config</h2>
-            <p>Here you can alter the exchange, currency, screen refresh and some overlay options</p>
+            <h2>📈 Edit Chart Styles</h2>
+            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
             <ul class="editableFiles">
-            {% for file in ini_files %}
-                <li>
+            {% for file in style_files %}
+                <li >
                     <span onclick="editFile(this)">{{file}}</span>
                 </li>
             {% endfor %}
