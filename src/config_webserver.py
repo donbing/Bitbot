@@ -111,14 +111,14 @@ class StoreHandler(BaseHTTPRequestHandler):
         if(content_type == 'multipart/form-data'):
             pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
             fields = cgi.parse_multipart(self.rfile, pdict)
-            photo_mode_toggleState, = photo_mode_toggleState, = fields.get('enabled', ['false'])
+            photo_mode_toggleState, = fields.get('enabled', ['false'])
             image_bytes = fields['image_file'][0]
             config.toggle_photo_mode(photo_mode_toggleState)
             if(photo_mode_toggleState == 'true' and len(image_bytes) > 0):
                 unique_file_name = uuid.uuid4().hex
                 image_bytes = io.BytesIO(image_bytes)
                 picture = Image.open(image_bytes, mode='r')
-                picture_file = config.photo_image_file(unique_file_name)
+                picture_file = config.set_photo_image_file(unique_file_name)
                 picture.save(picture_file, format="png")
             config.save()
         else:
