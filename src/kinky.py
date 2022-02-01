@@ -1,4 +1,4 @@
-from inky.auto import auto
+from inky.auto import auto, InkyWHAT
 import pathlib
 import threading
 from PIL import Image, ImageFont, ImageDraw, ImageOps
@@ -23,9 +23,9 @@ and follow the instructions"""
 
 
 # ✒️ select inky display or file output (nice for testing)
-def picker(config):
+def picker(config, type=None):
     if config.use_inky():
-        return Inker(config)
+        return Inker(config, type)
     else:
         return Disker(config)
 
@@ -67,10 +67,10 @@ def quantise_inky(display_image):
 
 
 class Inker:
-    def __init__(self, config):
+    def __init__(self, config, type=None):
         self.lock = threading.Lock()
         self.config = config
-        self.display = auto()
+        self.display = auto() if type is None else InkyWHAT(type)
         self.WIDTH = self.display.WIDTH
         self.HEIGHT = self.display.HEIGHT
         self.title_font = title_font
