@@ -20,7 +20,7 @@ class MarketChart:
         self.config = config
         self.display = display
         self.files = files
-        for font_file in font_manager.findSystemFonts(fontpaths=files.fonts_folder):
+        for font_file in font_manager.findSystemFonts(fontpaths=files.resource_folder):
             font_manager.fontManager.addfont(font_file)
 
     def create_plot(self, chart_data):

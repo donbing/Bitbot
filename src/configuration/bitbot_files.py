@@ -13,7 +13,7 @@ class BitBotFiles():
         self.log_file_path = pjoin(base_path, 'debug.log')
 
         self.config_folder = pjoin(base_path, 'config/')
-        self.fonts_folder = pjoin(base_path, 'src/resources')
+        self.resource_folder = pjoin(base_path, 'src/resources')
 
         self.logging_ini = self.existing_file_path('logging.ini')
         self.config_ini = self.existing_file_path('config.ini')
