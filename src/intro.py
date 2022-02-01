@@ -34,8 +34,8 @@ Have fun!
 white = (255, 255, 255)
 
 
-def IntroPlayer(display):
-    intro = Intro(display.size, display.title_font)
+def IntroPlayer(display, config):
+    intro = Intro(display.size, display.title_font, config)
     for image in intro.play():
         display.show(image)
 
