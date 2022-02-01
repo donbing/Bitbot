@@ -35,7 +35,7 @@ white = (255, 255, 255)
 
 
 def IntroPlayer(display):
-    intro = Intro(display.size, display.medium_font)
+    intro = Intro(display.size, display.title_font)
     for image in intro.play():
         display.show(image)
 
