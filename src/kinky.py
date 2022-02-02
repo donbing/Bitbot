@@ -1,4 +1,4 @@
-from inky.auto import auto, InkyWHAT
+from inky.auto import auto
 import pathlib
 import threading
 from PIL import Image, ImageFont, ImageDraw, ImageOps
