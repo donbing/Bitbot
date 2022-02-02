@@ -29,8 +29,8 @@ python3 -m run
 ```
 5. Add cron jobs to start the [app](/run.py) and [config-server](/src/config_webserver.py) after reboot
 ```sh
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py 2>&1 | /usr/bin/logger -t bitbot.charts")| crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py") | crontab -
 ```
 ## 🐳 C. Run in docker
 > 
