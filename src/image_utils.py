@@ -1,6 +1,7 @@
 
 padding = 10
 
+
 def draw_centered_text(draw, message, font, display_size, pos='centre'):
     # 🌌 calculate space needed for message
     message_size = draw.textsize(
