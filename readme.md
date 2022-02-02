@@ -6,6 +6,9 @@
     <img height="100" src="docs/images/last_display.png">
 </div>
 
+![example workflow](https://github.com/donbing/bitbot/actions/workflows/lint-and-test-python/badge.svg)
+
+
 # ✨ Features
  - 🏦 Capable of charting **any crypto-currency** from **many different exchanges**
  - 🏛️ Supports regular **stock prices**
