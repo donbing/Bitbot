@@ -89,7 +89,7 @@ class BitBotConfig():
 
     def photo_image_file(self):
         return pjoin(
-            self.config_files.base_path,
+            self.config_files.photos_folder,
             self.config['picture_frame_mode']['picture_file_name']
         )
 
@@ -111,7 +111,7 @@ class BitBotConfig():
         with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
 
-    # intro setup
+    # 🌱 intro setup
     def on_first_run(self, action):
         if self.config["first_run"]['enabled'] == "true":
             action()
