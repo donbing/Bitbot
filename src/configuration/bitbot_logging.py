@@ -12,7 +12,7 @@ def initialise_logger(logging_ini_path):
         if issubclass(exc_type, KeyboardInterrupt):
             sys.__excepthook__(exc_type, exc_value, exc_traceback)
             return
-        logging.error(
+        logging.critical(
             "Uncaught exception",
             exc_info=(exc_type, exc_value, exc_traceback))
 
