@@ -6,7 +6,9 @@
     <img height="100" src="docs/images/last_display.png">
 </div>
 
-![example workflow](https://github.com/donbing/bitbot/actions/workflows/lint-and-test-python/badge.svg)
+![lint and test](https://github.com/donbing/bitbot/actions/workflows/lint-and-test-python.yml/badge.svg)
+![docker image](https://github.com/donbing/bitbot/actions/workflows/build-and-push-image.yaml/badge.svg)
+
 
 
 # ✨ Features
