@@ -3,6 +3,7 @@ import pathlib
 import threading
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 from .configuration.log_decorator import info_log
+from .image_utils import draw_centered_text
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
@@ -11,7 +12,7 @@ title_font = ImageFont.truetype(fontPath, 16)
 medium_font = ImageFont.truetype(fontPath, 32)
 tiny_font = ImageFont.truetype(fontPath, 8)
 
-connection_error_message = """
+connection_message = """
 NO INTERNET CONNECTION
 ----------------------------
 Please check your WIFI
@@ -19,6 +20,14 @@ Please check your WIFI
 To configure WiFi access,
 connect to 'bitbot-<nnn>' WiFi AP
 and follow the instructions"""
+
+
+# ✒️ select inky display or file output (nice for testing)
+def picker(config):
+    if config.use_inky():
+        return Inker(config)
+    else:
+        return Disker(config)
 
 
 class Disker:
@@ -30,6 +39,7 @@ class Disker:
         self.tiny_font = tiny_font
         self.medium_font = medium_font
         self.config = config
+        self.size = (self.WIDTH, self.HEIGHT)
 
     @info_log
     def draw_connection_error(self):
@@ -73,27 +83,7 @@ class Inker:
     def draw_connection_error(self):
         img = Image.new("P", self.size)
         draw = ImageDraw.Draw(img)
-        # 🌌 calculate space needed for message
-        message_width, message_height = draw.textsize(
-            connection_error_message,
-            title_font)
-        # 📏 where to position the message
-        message_y = (self.HEIGHT - message_height) / 2
-        message_x = (self.WIDTH - message_width) / 2
-        # 🖊️ draw the message at position
-        draw.multiline_text(
-            (message_x, message_y),
-            connection_error_message,
-            fill=self.display.BLACK,
-            font=title_font,
-            align="center")
-        # 📏 position  for surrounding box
-        padding = 10
-        x0, y0 = (message_x - padding, message_y - padding)
-        x1 = message_x + message_width + padding
-        y1 = message_y + message_height + padding
-        # 🖊️ draw box at position
-        draw.rectangle([(x0, y0), (x1, y1)], outline=self.display.RED)
+        draw_centered_text(draw, connection_message, title_font, self.size)
         # 📺 show the image
         self.display.set_image(img)
         self.display.show()
@@ -104,8 +94,6 @@ class Inker:
         image_rotation = self.config.display_rotation()
         display_image = image.rotate(image_rotation)
 
-        three_colour_screen_types = ["yellow", "red"]
-
         # 🖼️ crop and rescale image if it doesnt match the display dims
         if display_image.size != self.size:
             display_image = ImageOps.fit(
@@ -113,7 +101,7 @@ class Inker:
                     self.size,
                     centering=(0.5, 0.5))
 
-        if self.display.colour in three_colour_screen_types:
+        if self.display.colour in ["yellow", "red", 'black']:
             display_image = quantise_inky(display_image)
 
         self.lock.acquire()

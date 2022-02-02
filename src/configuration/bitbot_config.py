@@ -110,3 +110,16 @@ class BitBotConfig():
     def save(self):
         with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
+
+    # intro setup
+    def on_first_run(self, action):
+        if self.config["first_run"]['enabled'] == "true":
+            action()
+            self.set('first_run', 'enabled', "false")
+            self.save()
+
+    def intro_background(self):
+        return pjoin(
+            self.config_files.resource_folder,
+            self.config['first_run']['intro_background_image']
+        )
