@@ -31,7 +31,7 @@ I'll show the Bitcoin chart for you
 Have fun!
 '''
 
-white = (255, 255, 255)
+transparent = (255, 0, 0, 0)
 
 
 def IntroPlayer(display, config):
@@ -42,33 +42,43 @@ def IntroPlayer(display, config):
 
 class Intro:
     def __init__(self, size, font, config):
-        self.clear = Image.new("P", size, 7)
         self.display_size = size
         self.font = font
         self.centre = tuple(dim / 2 for dim in self.display_size)
         self.page_duration = 30
         self.intro_background = config.intro_background()
 
-    def play(self):
+    def get_background(self):
         background = Image.open(self.intro_background)
         background = background.resize(self.display_size)
-        img = Image.new("P", self.display_size, white)
-        img.paste(background)
+        return background
+
+    def play(self):
+        background = self.get_background()
+        img = Image.new("RGBA", self.display_size, transparent)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page1, self.font, self.display_size)
-        yield img
+        background.paste(img, (0, 0), img)
+        yield background
+
+        background = self.get_background()
         time.sleep(self.page_duration)
-        img = Image.new("P", self.display_size, white)
+        img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page2, self.font, self.display_size)
-        yield img
+        background.paste(img, (0, 0), img)
+        yield background
+
+        background = self.get_background()
         wait_for_internet_connection(self.no_op)
-        img = Image.new("P", self.display_size, white)
+        img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
         draw_centered_text(draw, page3, self.font, self.display_size)
-        yield img
+        background.paste(img, (0, 0), img)
+        yield background
+
         time.sleep(self.page_duration)
 
     def no_op(self):
