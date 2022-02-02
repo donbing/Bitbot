@@ -76,29 +76,32 @@
 **So that** users dont have to calculate totals themselves
  - *Scenario:* `✅ holdings are entered into the config file, and total value is displayed below the price.`
  
-## ✔️ User selected images can be displayed 
+## ✔️ Can be uses as a digital picture frame
 >**AS** Marketing  
 **In order** so that we can advertise Bitbot as a digital picture-frame
 **I want** users to be able to upload images for permanent display
 **So that** Bitbot fulfills multiple purposes for them 
  - *Scenario:* `✅ picture-mode is enabled and an image uploaded, which is then displayed`
  - *Scenario:* `✅ picture-mode is disabled, the device returns to displaying a price chart`
+ - *Scenario:* `🚧 cycle picture-mode is enabled, the device cycles throught all uploaded images using refresh interval`
 
-# 🚧 INCOMPLETE
-
-## 💡 Show friendly welcome screen(s) on first load
->**AS** Marketing  
-**In order** that users leave glowing reviews  
-**I want** bit bot to show a nice welcome screen before first power on  
-**So that** users feel their device is personalised to them  
- - *Scenario:* `Bitbot shows a personalised message and logo before first powering up`
- 
 ## 💡Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
 **I want** bit bot to guide the user through settting up the device when if first powers on  
 **So that** users have an easy on-boarding experience and leave glowing reviews  
- - *Scenario:* `on first power on, Bitbot displays a friendly welcome message and explains how to configure the wifi`
+ - *Scenario:* `✅ on first power on, Bitbot displays a friendly welcome message and explains how to configure the wifi`
+ - *Scenario:* `🚧 before power on, Bitbot displays a simple graphinc showing assemblly instructions`
+
+# 🚧 INCOMPLETE
+
+## 💡Updates are easy to install
+>**AS** Support  
+**In order** fixes can easily be installed by end users
+**I want** the config server to trigger software updates  
+**So that** users do not have to use ssh and git to update
+ - *Scenario:* `An alert is displayed in the config server when a new version is available`
+ - *Scenario:* `clicking the **update** button on the config server performs a git pull and reboots`
 
 ## 💡 Support muiltiple chart plots on one display
 >**AS** Marketing  
