@@ -8,8 +8,7 @@ todo:
  - overlapping multi-coin charts
  - allow selecting style in config
  - indicators
- - live syslog in config server
- - move uploaded images to a /images folder
+ - show live syslog output in config server
 
 
 > Build arm6 on x86
