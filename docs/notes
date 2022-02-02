@@ -1,13 +1,15 @@
 todo:
  - config candle colours
  - config volume colours
- - intro
- - instructions
+ - assembly instructions
+ - config instructions
  - multi-plot-figure
  - moving averages
  - overlapping multi-coin charts
  - allow selecting style in config
  - indicators
+ - live syslog in config server
+ - move uploaded images to a /images folder
 
 
 > Build arm6 on x86
