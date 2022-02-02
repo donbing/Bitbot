@@ -14,7 +14,7 @@ class BitBotFiles():
 
         self.config_folder = pjoin(base_path, 'config/')
         self.resource_folder = pjoin(base_path, 'src/resources')
-        self.photos_folder = pjoin(base_path, '/pictures')
+        self.photos_folder = pjoin(base_path, 'pictures/')
         os.makedirs(self.photos_folder, exist_ok=True)
 
         self.logging_ini = self.existing_file_path('logging.ini')
