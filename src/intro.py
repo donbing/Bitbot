@@ -8,7 +8,8 @@ I can chart crypto and stock markets.
 
 If you fancy a change,
 I can also display pictures.
-'''
+
+I'll guide you through setup in a moment.'''
 
 page2 = '''First, I need to connect to your WiFi.
 
@@ -17,8 +18,7 @@ sign-in to the Bitbot WiFi
 and follow the instructions on-screen.
 
 Once I have internet access,
-I will load the next page...
-'''
+I will load the next page...'''
 
 page3 = '''Good job! I'm connected :D
 
@@ -28,8 +28,7 @@ from any device in your network.
 
 In 30 seconds time,
 I'll show the Bitcoin chart for you
-Have fun!
-'''
+Have fun!'''
 
 transparent = (255, 0, 0, 0)
 
@@ -57,7 +56,7 @@ class Intro:
         background = self.get_background()
         img = Image.new("RGBA", self.display_size, transparent)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page1, self.font, self.display_size)
+        draw_centered_text(draw, page1, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 
@@ -66,7 +65,7 @@ class Intro:
         img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page2, self.font, self.display_size)
+        draw_centered_text(draw, page2, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 
@@ -75,7 +74,7 @@ class Intro:
         img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page3, self.font, self.display_size)
+        draw_centered_text(draw, page3, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 

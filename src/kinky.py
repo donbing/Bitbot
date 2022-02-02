@@ -23,9 +23,9 @@ and follow the instructions"""
 
 
 # ✒️ select inky display or file output (nice for testing)
-def picker(config, type=None):
+def picker(config):
     if config.use_inky():
-        return Inker(config, type)
+        return Inker(config)
     else:
         return Disker(config)
 
@@ -67,10 +67,10 @@ def quantise_inky(display_image):
 
 
 class Inker:
-    def __init__(self, config, type=None):
+    def __init__(self, config):
         self.lock = threading.Lock()
         self.config = config
-        self.display = auto() if type is None else InkyWHAT(type)
+        self.display = auto()
         self.WIDTH = self.display.WIDTH
         self.HEIGHT = self.display.HEIGHT
         self.title_font = title_font
