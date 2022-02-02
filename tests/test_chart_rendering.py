@@ -1,9 +1,7 @@
 import unittest
 import pathlib
 import os
-import sys
 from os.path import join as pjoin
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
@@ -17,6 +15,7 @@ def load_config():
     config = load_config_ini(files)
     config.set('display', 'output', 'disk')
     return config
+
 
 # name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 # load config
@@ -67,7 +66,6 @@ class TestRenderingMeta(type):
                 app = bitbot.BitBot(config, files)
                 app.display_chart()
                 # os.system(f"code '{image_file_name}'")
-
             return test
 
         for test_param in test_params:
