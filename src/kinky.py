@@ -94,8 +94,6 @@ class Inker:
         image_rotation = self.config.display_rotation()
         display_image = image.rotate(image_rotation)
 
-        three_colour_screen_types = ["yellow", "red"]
-
         # 🖼️ crop and rescale image if it doesnt match the display dims
         if display_image.size != self.size:
             display_image = ImageOps.fit(
@@ -103,7 +101,7 @@ class Inker:
                     self.size,
                     centering=(0.5, 0.5))
 
-        if self.display.colour in three_colour_screen_types:
+        if self.display.colour in ["yellow", "red", 'black']:
             display_image = quantise_inky(display_image)
 
         self.lock.acquire()
