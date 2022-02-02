@@ -11,6 +11,6 @@ def info_log(func):
         # 🔨 do the real work
         result = func(*args, **kwargs)
         # 🪵 log result to debug
-        logging.debug(result)
+        logging.critical(result)
         return result
     return wrapper
