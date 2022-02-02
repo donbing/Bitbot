@@ -26,7 +26,7 @@ app = BitBot(config, config_files)
 buttons = Buttons(config)
 
 # oobex
-config.on_first_run(lambda: IntroPlayer(picker(config, 'black'), config))
+config.on_first_run(lambda: IntroPlayer(picker(config), config))
 
 
 @info_log
