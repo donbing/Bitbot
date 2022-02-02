@@ -15,6 +15,7 @@
  - 🏦 Capable of charting **any crypto-currency** from **many different exchanges**
  - 🏛️ Supports regular **stock prices**
  - 🖼️ **Picture-frame mode** allows any image to be easily ***uploaded for display.***
+ - 🆘 A **friendly intro** sequence will guide you through **setup**
  - 💲 Large **current price** header (avoids chart overlap) 
  - 🎲 randomly selected **time frames**, or configured to **your preference**
  - 💰 Supports **tracking** your current **holdings** 
