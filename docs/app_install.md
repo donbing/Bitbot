@@ -10,7 +10,7 @@
 1. Make sure python, pip, git and other dependancies are installed
 ```sh
 sudo apt update -y
-sudo apt install -y git python3-pip python3-matplotlib python3-rpi.gpio python3-pil
+sudo apt install -y git python3-pip python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev
 ```  
 2. Clone this repo and install [pip requirements](/requirements.txt)
 ```sh
