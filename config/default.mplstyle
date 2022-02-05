@@ -2,6 +2,4 @@ axes.xmargin:           0.02
 axes.ymargin:           0.1
 axes.autolimit_mode:    round_numbers
 
-figure.subplot.right:  0.95    
-
-figure.constrained_layout.use: True
+# figure.constrained_layout.use: True
