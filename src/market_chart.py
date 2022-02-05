@@ -60,6 +60,7 @@ class PlottedChart:
             ax[1].yaxis.set_major_formatter(price_formatter)
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
+            self.fig.subplots_adjust(bottom=0.01)
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
