@@ -21,13 +21,21 @@ class ChartOverlay():
 
         rgb_im = img.convert('RGB')
         height_of_section = 60
-        ordredByAveColour = sorted(possibleTextPositions, key=lambda item: (count_white_pixels(*item, height_of_section, rgb_im), item[0]))
+        ordredByAveColour = sorted(
+            possibleTextPositions,
+            key=lambda item: (
+                count_white_pixels(*item, height_of_section, rgb_im),
+                item[0])
+            )
+
         return ordredByAveColour[-1]
 
     def flatten(t):
         return [item for sublist in t for item in sublist]
 
-    possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
+    possible_title_positions = flatten(
+        map(lambda y:
+            map(lambda x: (x, y), range(60, 220, 10)), [6, 150, 220]))
 
     def __init__(self, config, display, chart_data):
         self.config = config
