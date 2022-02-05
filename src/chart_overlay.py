@@ -27,7 +27,7 @@ class ChartOverlay():
     def flatten(t):
         return [item for sublist in t for item in sublist]
 
-    possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
+    possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 220, 10)), [6, 220]))
 
     def __init__(self, config, display, chart_data):
         self.config = config
