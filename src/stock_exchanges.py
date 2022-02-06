@@ -96,7 +96,10 @@ class CandleData():
         return ((current_price - starting_price) / current_price) * 100
 
     def last_close(self):
-        all_closes = [candle[4] for candle in self.candle_data if not math.isnan(candle[4])]
+        all_closes = [
+            candle[4]
+            for candle in self.candle_data
+            if not math.isnan(candle[4])]
 
         return float(all_closes[-1])
 
