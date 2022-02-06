@@ -83,7 +83,7 @@ class Inker:
     def draw_connection_error(self):
         img = Image.new("P", self.size)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, connection_message, title_font, self.size)
+        draw_centered_text(draw, connection_message, title_font, self.size, border=True)
         # 📺 show the image
         self.display.set_image(img)
         self.display.show()
