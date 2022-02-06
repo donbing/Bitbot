@@ -16,8 +16,8 @@ class IntroTests(unittest.TestCase):
 
     def test_showing_intro_messages(self):
 
-        int = Intro(self.display_size, title_font, config)
-        int.page_duration = 1
+        intro = Intro(self.display_size, title_font, config)
+        intro.page_duration = 1
 
-        for idx, image in enumerate(int.play()):
-            image.save(f'testimage{idx}.png')
+        for idx, image in enumerate(intro.play()):
+            image.save(f'tests/images/intro{idx}.png')
