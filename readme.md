@@ -37,3 +37,4 @@
  - [🔗 Device **Assembly**](docs/device_assembly.md)  
  - [📒 Dev **Notes**](docs/development.md)   
  - [🐋 **Docker** Setup](docs/docker_installation.md)  
+ - [📈 current charting examples](docs/test_results.md)
