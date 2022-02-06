@@ -96,18 +96,19 @@ class CandleData():
         return ((current_price - starting_price) / current_price) * 100
 
     def last_close(self):
-        all_closes = [
-            candle[4]
-            for candle in self.candle_data
-            if not math.isnan(candle[4])]
+        all_closes = self.select_index_if_number(self.candle_data, 4)
 
         return float(all_closes[-1])
 
-    def end_price(self):
-        return float(self.candle_data[0][3])
-
     def start_price(self):
-        return float(self.candle_data[0][4])
+        all_closes = self.select_index_if_number(self.candle_data, 4)
+        return float(all_closes[0])
+
+    def select_index_if_number(list, index):
+        return [
+            item[index]
+            for item in index
+            if not math.isnan(item[index])]
 
     def __repr__(self):
         return f'<{self.instrument} {self.candle_width} candle data>'
