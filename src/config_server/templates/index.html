@@ -2,8 +2,7 @@
     <head>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
-        <script src="static/config_editor.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
         <style>
             .editableFiles {
                 list-style-type: none;
@@ -30,23 +29,24 @@
     <body>
         <h1>🤖 BitBot Crypto-Ticker Config</h1>
         <section>
-            <h2>📈 Edit Chart Styles</h2>
-            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
-            <ul class="editableFiles">
-            {% for file in style_files %}
-                <li >
-                    <span onclick="editFile(this)">{{file}}</span>
-                </li>
-            {% endfor %}
-            </ul>
-        </section>
-        <section>
             <h2>⚙️ Edit Application Config</h2>
             <p>Here you can alter the exchange, currency, screen refresh and some overlay options</p>
             <ul class="editableFiles">
             {% for file in ini_files %}
                 <li>
-                    <span onclick="editFile(this)">{{file}}</span>
+                    <a onclick="return editFile(this)" href="/file/{{file}}">{{file}}</a>
+                    <dialog closed></dialog>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2>📈 Edit Chart Styles</h2>
+            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
+            <ul class="editableFiles">
+            {% for file in style_files %}
+                <li >
+                    <span onclick="editFile(event)">{{file}}</span>
                 </li>
             {% endfor %}
             </ul>
@@ -62,5 +62,6 @@
             {% endfor %}
             </ul>
         </section>
+        <script src="/static/config_editor.js"></script>
     </body>
 </html>
