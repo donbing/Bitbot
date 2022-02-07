@@ -15,10 +15,12 @@ class BitBotFiles():
         self.config_folder = pjoin(base_path, 'config/')
         self.resource_folder = pjoin(base_path, 'src/resources')
         self.photos_folder = pjoin(base_path, 'pictures/')
+        
         os.makedirs(self.photos_folder, exist_ok=True)
 
         self.logging_ini = self.existing_file_path('logging.ini')
         self.config_ini = self.existing_file_path('config.ini')
+
         self.base_style = self.existing_file_path('base.mplstyle')
         self.inset_style = self.existing_file_path('inset.mplstyle')
         self.default_style = self.existing_file_path('default.mplstyle')
@@ -37,4 +39,4 @@ class BitBotFiles():
                 file_path)
 
     def __repr__(self):
-        return f'<Bitbot configs files:{str(self.base_path)}>'
+        return f'<Bitbot config files:{str(self.base_path)}>'
