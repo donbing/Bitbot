@@ -37,7 +37,7 @@
         <h1>🤖 BitBot Crypto-Ticker Config</h1>
         <section>
             <h2>⚙️ Edit Application Config</h2>
-            <p>Here you can alter the exchange, currency, screen refresh and some overlay options</p>
+            <p>Choose the exchange, currency, screen refresh, overlay and layout options</p>
             <ul class="editableFiles">
             {% for file in ini_files %}
                 <li>
@@ -46,6 +46,20 @@
                 </li>
             {% endfor %}
             </ul>
+        </section>
+        <section>
+            <h1 class="collapser">📸 Picture Mode</h1>
+            <form enctype='multipart/form-data' method='post' action="/modes/picture">
+                <label for="enable_picture_mode">Enabled:</label>
+                <input type="checkbox" id="enable_picture_mode" name="enable_picture_mode" value="true" {{"checked" if config.photo_mode_enabled() else ""}}></imput>
+                <label for="cycle_pictures">Cycle:</label>
+                <input type="checkbox" id="cycle_pictures" name="cycle_pictures" value="true" {{"checked" if config.cycle_pictures_enabled() else ""}}></imput>
+                <div>
+                    <label for="img">🖼️ Upload image:</label>
+                    <input type="file" id="img" name="image_file" accept="image/*"/>
+                </div>
+                <input type="submit"/>
+            </form>
         </section>
         <section>
             <h2>📈 Edit Chart Styles</h2>
