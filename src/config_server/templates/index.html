@@ -23,12 +23,6 @@
                 content: "📝";
                 padding-right: 5px;
             }
-            .editableFiles li span { 
-                cursor: pointer; 
-                border: 1px solid #203823;
-                padding: 0.2em 0.5em;
-                border-radius: 20px;
-            }
         </style>
     </head>
     <body>
@@ -47,8 +41,9 @@
             {% endfor %}
             </ul>
         </section>
+        <hr/>
         <section>
-            <h1 class="collapser">📸 Picture Mode</h1>
+            <h2 class="collapser">📸 Picture Mode</h2>
             <form enctype='multipart/form-data' method='post' action="/modes/picture">
                 <label for="enable_picture_mode">Enabled:</label>
                 <input type="checkbox" id="enable_picture_mode" name="enable_picture_mode" value="true" {{"checked" if config.photo_mode_enabled() else ""}}></imput>
@@ -61,6 +56,7 @@
                 <input type="submit"/>
             </form>
         </section>
+        <hr/>
         <section>
             <h2>📈 Edit Chart Styles</h2>
             <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
@@ -73,6 +69,7 @@
             {% endfor %}
             </ul>
         </section>
+        <hr/>
         <section>
             <h2>🪵 View Logs </h2>
             <p>Check here if someting isn't working!</p>
@@ -84,6 +81,7 @@
             {% endfor %}
             </ul>
         </section>
+        <hr/>
         <script src="/static/config_editor.js"></script>
     </body>
 </html>
