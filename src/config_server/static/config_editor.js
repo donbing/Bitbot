@@ -1,3 +1,4 @@
+
 // 🔗 open element href in a modal dialog
 function editFile(element)
 {
@@ -16,12 +17,29 @@ function editFile(element)
 }
 
 // ❌ close dialog on click outside
-document.querySelectorAll('dialog').forEach(item => 
-    item.addEventListener('click', event => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        if (event.clientY < rect.top || event.clientY > rect.bottom ||
-            event.clientX < rect.left || event.clientX > rect.right) {
-                event.currentTarget.close();
+document.querySelectorAll('dialog').forEach(dialog => {
+    
+    // register with polyfill for FF/iOS supporrt
+    dialogPolyfill.registerDialog(dialog)
+
+    dialog.addEventListener('click', click => {
+        const rect = dialog.getBoundingClientRect();
+        if (click.clientY < rect.top || click.clientY > rect.bottom ||
+            click.clientX < rect.left || click.clientX > rect.right) {
+                dialog.close();
         }
-    })
-);
+    });
+
+    dialog.addEventListener('submit', submit => {
+        submit.preventDefault();
+
+        var form = dialog.querySelector('form');
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", form.action);
+        xhr.send(new FormData(form));
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4)
+                dialog.close();
+        };
+    });
+});
