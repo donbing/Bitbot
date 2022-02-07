@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import os
 
-
 app = Flask(__name__)
-
 
 
 def find_config_directory_path():
@@ -20,6 +18,11 @@ config_file_paths = [
     if os.path.isfile(os.path.join(config_dir, file))]
 
 
+def get_file(file):
+    print(file)
+    return os.path.join(config_dir, config_files_ending_with(file)[0])
+
+
 def config_files_ending_with(ending):
     return list(filter(lambda file: file.endswith(ending), os.listdir(config_dir)))
 
@@ -34,21 +37,20 @@ def index():
     return render_template(
         'index.html',
         style_files=style_files,
-        ini_files=ini_files
-    )
+        ini_files=ini_files)
 
 
 @app.route('/file/<file>', methods=['POST', 'GET'])
 def file(file):
     if request.method == 'POST':
-        fileContent = request.form['file']
+        file_path = get_file(file)
+        with open(file_path, 'w') as fh:
+            fh.write(request.form['file'])
         return redirect(request.url)
     else:
-        file_path = os.path.join(config_dir, config_files_ending_with(file)[0])
-        with open(file_path) as f:
-            return render_template('file.html', file=f.read())
-
-
+        file_path = get_file(file)
+        with open(file_path) as fh:
+            return render_template('file.html', file=fh.read(), file_name=file)
 
 
 if __name__ == '__main__':
