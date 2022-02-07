@@ -82,6 +82,9 @@ class BitBotConfig():
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
 
+    def cycle_pictures_enabled(self):
+        return self.config['picture_frame_mode']["cycle"] == 'true'
+
     def set_photo_image_file(self, unique_file_id):
         unique_file_name = f'{unique_file_id}.png'
         self.set('picture_frame_mode', 'picture_file_name', unique_file_name)
