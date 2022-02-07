@@ -1,8 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <title>🤖 Bitbot</title>
+        <meta name="viewport" content="width=device-width">
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.css" integrity="sha512-J2+1q+RsZuJXabBfH1q/fgRr6jMy9By5SwVLk7bScEW7NFJkMUXxfeOyyxtDe6fsaJ4jsciexSlGrPYn9YbBIg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.js" integrity="sha512-qUIG93zKzcLBVD5RGRbx2PBmbVRu+tJIl+EPLTus0z8I1AMru9sQYdlf6cBacSzYmZVncB9rcc8rYBnazqgrxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
             .editableFiles {
                 list-style-type: none;
@@ -27,6 +32,8 @@
         </style>
     </head>
     <body>
+        <div class="event-log"></div>
+
         <h1>🤖 BitBot Crypto-Ticker Config</h1>
         <section>
             <h2>⚙️ Edit Application Config</h2>
@@ -45,8 +52,9 @@
             <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
             <ul class="editableFiles">
             {% for file in style_files %}
-                <li >
-                    <span onclick="editFile(event)">{{file}}</span>
+                <li>
+                    <a onclick="return editFile(this)" href="/file/{{file}}">{{file}}</a>
+                    <dialog closed></dialog>
                 </li>
             {% endfor %}
             </ul>
