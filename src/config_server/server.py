@@ -1,5 +1,11 @@
-from flask import Flask, render_template, request, redirect
 import os
+import pathlib
+import uuid
+from src.configuration.bitbot_files import BitBotFiles
+from src.configuration.bitbot_config import load_config_ini
+from flask import Flask, render_template, request, redirect
+from PIL import Image
+
 
 app = Flask(__name__)
 
@@ -32,12 +38,20 @@ style_files = config_files_ending_with("mplstyle")
 ini_files = config_files_ending_with("ini")
 
 
+base_dir = os.path.join(pathlib.Path(__file__).parent.resolve(), '../')
+
+files_config = BitBotFiles(base_dir)
+
+app_config = load_config_ini(files_config)
+
+
 @app.route('/')
 def index():
     return render_template(
         'index.html',
         style_files=style_files,
-        ini_files=ini_files)
+        ini_files=ini_files,
+        config=app_config)
 
 
 @app.route('/file/<file>', methods=['POST', 'GET'])
@@ -53,5 +67,13 @@ def file(file):
             return render_template('file.html', file=fh.read(), file_name=file)
 
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+@app.route('/modes/picture', methods=['POST'])
+def picture_mode():
+    photo_mode_toggleState, = request.form.get('enabled', ['false'])
+    image_file = request.files['image_file'][0]
+    app_config.toggle_photo_mode(photo_mode_toggleState)
+    if(photo_mode_toggleState == 'true' and image_file):
+        picture = Image.open(file.read(), mode='r')
+        picture_file = app_config.set_photo_image_file(uuid.uuid4().hex)
+        picture.save(picture_file, format="png")
+    app_config.save()
