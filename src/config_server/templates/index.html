@@ -51,10 +51,7 @@
                 <input type="checkbox" id="enable_picture_mode" name="enable_picture_mode" value="true" {{"checked" if config.photo_mode_enabled() else ""}}></imput>
                 <label for="cycle_pictures">Cycle:</label>
                 <input type="checkbox" id="cycle_pictures" name="cycle_pictures" value="true" {{"checked" if config.cycle_pictures_enabled() else ""}}></imput>
-                <div>
-                    <label for="img">Upload image:</label>
-                    <input type="file" id="img" name="image_file" accept="image/*" />
-                </div>
+                <input type="file" id="img" name="image_file" accept="image/*" />
                 <input type="submit"/>
             </form>
         </section>
