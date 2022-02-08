@@ -75,12 +75,19 @@ class BitBotConfig():
     def candle_width(self):
         return self.config['display']['candle_width']
 
+    def show_ip(self):
+        return self.config['display']['show_ip']
+
     # 🎞️ picture frame mode
-    def toggle_photo_mode(self, newState):
-        self.config['picture_frame_mode']["enabled"] = newState
+    def toggle_photo_mode(self, enabled_state, cycle_state):
+        self.config['picture_frame_mode']["enabled"] = enabled_state
+        self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
 
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
+
+    def cycle_pictures_enabled(self):
+        return self.config['picture_frame_mode']["cycle"] == 'true'
 
     def set_photo_image_file(self, unique_file_id):
         unique_file_name = f'{unique_file_id}.png'

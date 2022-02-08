@@ -17,7 +17,7 @@
     </tr>
 </table>
 
-* **Once completed** your phone will disconnect, Bitbot will then reboot and ***show a chart*** a minute or so later
+* **Once completed** your phone will disconnect, Bitbot will then proceed to ***show a chart***  
 ---
 ## Troubleshooting
  >  ### I dont see my home wifi in step 3

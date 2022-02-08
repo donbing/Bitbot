@@ -66,7 +66,7 @@ class PlottedChart:
         # 📏 apply global base style
         plt.style.use(files.base_style)
         # 📏 select mpl style
-        stlye = files.inset_style if config.expand_chart() else files.default_style
+        stlye = files.expanded_style if config.expand_chart() else files.default_style
         num_plots = 2 if config.show_volume() else 1
         heights = [4, 1] if config.show_volume() else [1]
         plt.tight_layout()

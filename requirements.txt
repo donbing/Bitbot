@@ -7,3 +7,4 @@ watchdog==2.1.6
 numpy==1.22
 Pillow==7.0.0
 yfinance==0.1.69
+Flask==2.0.2

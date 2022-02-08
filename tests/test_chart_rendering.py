@@ -1,14 +1,13 @@
 import unittest
-import pathlib
-import os
-from os.path import join as pjoin
-from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
+from src.bitbot import BitBot
+import os
+import pathlib
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(pjoin(curdir, "../"))
+files = use_config_dir(os.path.join(curdir, "../"))
 
 
 def load_config():
@@ -63,7 +62,8 @@ class TestRenderingMeta(type):
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                app = bitbot.BitBot(config, files)
+                config.set('display', 'show_ip', 'true')
+                app = BitBot(config, files)
                 app.display_chart()
                 # os.system(f"code '{image_file_name}'")
             return test
