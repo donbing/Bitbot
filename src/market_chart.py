@@ -56,7 +56,7 @@ class PlottedChart:
 
     def replace_dates(self, candle_data):
         return [(mdates.date2num(row[0]),) + row[1:] for row in candle_data]
-        
+
     def plot_chart(self, config, layout, ax, candle_data):
         # ✒️ draw candles to MPL plot
         candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0])
