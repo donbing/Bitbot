@@ -20,11 +20,11 @@ class BitBotFiles():
 
         os.makedirs(self.photos_folder, exist_ok=True)
 
-        self.logging_ini = self.existing_file_path('logging.ini')
         self.config_ini = self.existing_file_path('config.ini')
+        self.logging_ini = self.existing_file_path('logging.ini')
 
         self.base_style = self.existing_file_path('base.mplstyle')
-        self.inset_style = self.existing_file_path('inset.mplstyle')
+        self.expanded_style = self.existing_file_path('expanded.mplstyle')
         self.default_style = self.existing_file_path('default.mplstyle')
         self.volume_style = self.existing_file_path('volume.mplstyle')
 
