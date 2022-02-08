@@ -1,4 +1,5 @@
 import unittest
+from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 import os
