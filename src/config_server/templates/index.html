@@ -45,6 +45,7 @@
         <section>
             <h2 class="collapser">📸 Picture Mode</h2>
             <hr/>
+            <p>Have Bitbot diplay a picture of your choice</p>
             <form enctype='multipart/form-data' method='post' action="/modes/picture">
                 <label for="enable_picture_mode">Enabled:</label>
                 <input type="checkbox" id="enable_picture_mode" name="enable_picture_mode" value="true" {{"checked" if config.photo_mode_enabled() else ""}}></imput>
@@ -73,7 +74,7 @@
         <section>
             <h2>🌳 Logs</h2>
             <hr/>
-            <p>Check here if someting isn't working!</p>
+            <p>Check here if something isn't working!</p>
             <textarea rows="10" id="log_output" data-source="{{ url_for('logs') }}"></textarea>
         </section>
         <script src="/static/config_editor.js"></script>
