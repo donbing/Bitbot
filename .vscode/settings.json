@@ -3,7 +3,9 @@
         "**/__pycache__": true
     },
     "python.testing.unittestArgs": [
-        "-v",
+        "-v",     
+        "-s",
+        "./tests",
         "-p",
         "test*.py"
     ],
