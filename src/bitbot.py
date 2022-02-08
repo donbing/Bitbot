@@ -35,11 +35,7 @@ class BitBot():
                 candle_width=self.config.candle_width()
             )
         else:
-            return lambda: crypto_exchanges.Exchange().fetch_history(
-                exchange_name=self.config.exchange_name(),
-                instrument=self.config.instrument_name(),
-                candle_width=self.config.candle_width()
-            )
+            return lambda: crypto_exchanges.Exchange().fetch_history()
 
     @info_log
     def display_chart(self):
