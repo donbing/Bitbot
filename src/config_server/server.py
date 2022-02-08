@@ -67,7 +67,7 @@ def logs():
             while True:
                 line = f.readline()
                 if not line:
-                    time.sleep(0.1)
+                    time.sleep(1)
                     continue
 
                 yield line
