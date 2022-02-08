@@ -3,16 +3,16 @@
 function editFile(element)
 {
     let dialog = element.nextElementSibling;
-    var request = new XMLHttpRequest();
-    request.open("GET", element.href, true);
-    request.send(null);
-    request.onreadystatechange = function() {
-        if (request.readyState == 4)
-        {
-            dialog.innerHTML = request.responseText;
+    fetch(element.href)
+        .then(response => response.text())
+        .then(html => {
+            dialog.innerHTML = html;
             dialog.showModal();
-        };
-    };
+        })
+        .catch(function (err) {
+            console.warn('Something went wrong.', err);
+        });
+
     return false;
 }
 
@@ -43,3 +43,21 @@ document.querySelectorAll('dialog').forEach(dialog => {
         };
     });
 });
+
+
+(() => {
+    fetch('/logs')
+      .then(response => {
+        const elem = document.getElementById('log_output');
+        const reader = response.body.getReader();
+        const readStream = ({ done,value }) => {
+          if (done) {
+            return;
+          }
+          let chunk = String.fromCharCode.apply(null, value);
+          elem.textContent += chunk + '\n';
+          return reader.read().then(readStream);
+        };
+        reader.read().then(readStream);
+      });
+})();
