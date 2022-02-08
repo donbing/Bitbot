@@ -41,5 +41,10 @@ class BitBotFiles():
                 os.strerror(errno.ENOENT),
                 file_path)
 
+    def files_ending_with(self, ending):
+        return list(
+            filter(lambda f: f.endswith(ending), self.all_files.keys())
+        )
+
     def __repr__(self):
         return f'<Bitbot config files:{str(self.base_path)}>'

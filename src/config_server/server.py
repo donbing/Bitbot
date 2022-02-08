@@ -8,24 +8,19 @@ from configuration.bitbot_config import load_config_ini
 from flask import Flask, render_template, request, redirect, url_for
 from PIL import Image
 
-
 app = Flask(__name__)
 
-# 🗂️ setup config
+# 🗂️ load up app config
 base_dir = os.path.join(pathlib.Path(__file__).parent.resolve(), '../../')
 files_config = BitBotFiles(base_dir)
 app_config = load_config_ini(files_config)
 
-
-def config_files_ending_with(ending):
-    return list(filter(lambda f: f.endswith(ending), files_config.all_files.keys()))
-
-
 # 🗂️ list style and config files
-style_files = config_files_ending_with("mplstyle")
-ini_files = config_files_ending_with("ini")
+style_files = files_config.files_ending_with("mplstyle")
+ini_files = files_config.files_ending_with("ini")
 
 
+# ⚙️ config index page
 @app.route('/')
 def index():
     return render_template(
@@ -35,6 +30,7 @@ def index():
         config=app_config)
 
 
+# 📝 read/write to config files 
 @app.route('/file/<file>', methods=['POST', 'GET'])
 def file(file):
     if request.method == 'POST':
@@ -48,11 +44,13 @@ def file(file):
             return render_template('file.html', file=fh.read(), file_name=file)
 
 
+# 🖼️ confiure picture frame mode settings
 @app.route('/modes/picture', methods=['POST'])
 def picture_mode():
     photo_mode_state = request.form.get('enable_picture_mode') or 'false'
+    cycle_pictures = request.form.get('cycle_pictures') or 'false'
+    app_config.toggle_photo_mode(photo_mode_state, cycle_pictures)
     image_file = request.files['image_file']
-    app_config.toggle_photo_mode(photo_mode_state)
     if(photo_mode_state == 'true' and image_file):
         picture = Image.open(io.BytesIO(image_file.read()), mode='r')
         picture_file = app_config.set_photo_image_file(uuid.uuid4().hex)
@@ -61,6 +59,7 @@ def picture_mode():
     return redirect(url_for('index'))
 
 
+# 🌳 stream log file output
 @app.route('/logs')
 def logs():
     def generate():
