@@ -2,7 +2,7 @@
 1. Optionally, remove the screen protoector that is covering the e-paper display (there is a red tab at the bottom-left)
 2. **Connect a micro-usb** cable to the raspberry pi board on your crypto-watcher
 3. **Wait a minute** or so for it to boot up
-4. The device will display a **`NO INTERNET CONNECTION`** message
+4. The device will display a short **intro sequence** for you to follow
 5. From another device, **connect** to the `bitbot-{nnn}` access point 
 6. Select your home **wifi access point name**
 7. Enter your **wifi password**
