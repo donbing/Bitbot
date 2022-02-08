@@ -1,3 +1,4 @@
+import datetime
 import os
 import configparser
 from .log_decorator import info_log
@@ -32,6 +33,13 @@ class BitBotConfig():
             return self.config.getfloat('currency', 'holdings', fallback=0)
         except ValueError:
             return 0
+
+    def chart_since(self):
+        date_string = self.config.get('currency', 'chart_since')
+        if date_string is not None:
+            return datetime.datetime.fromisoformat(date_string)
+        else:
+            return datetime.datetime.utcnow()
 
     # 📈 display options
     def use_inky(self):
