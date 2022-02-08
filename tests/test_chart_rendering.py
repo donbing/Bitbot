@@ -65,7 +65,7 @@ class TestRenderingMeta(type):
                 config.set('display', 'show_ip', 'true')
                 app = BitBot(config, files)
                 app.display_chart()
-                os.system(f"code '{image_file_name}'")
+                # os.system(f"code '{image_file_name}'")
             return test
 
         for test_param in test_params:
