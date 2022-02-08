@@ -104,10 +104,10 @@ class CandleData():
         all_closes = self.select_index_if_number(self.candle_data, 4)
         return float(all_closes[0])
 
-    def select_index_if_number(list, index):
+    def select_index_if_number(self, list, index):
         return [
             item[index]
-            for item in index
+            for item in list
             if not math.isnan(item[index])]
 
     def __repr__(self):
