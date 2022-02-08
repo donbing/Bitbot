@@ -1,14 +1,12 @@
 import unittest
-import pathlib
-import os
-from os.path import join as pjoin
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
-from src import bitbot
+import os
+import pathlib
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(pjoin(curdir, "../"))
+files = use_config_dir(os.path.join(curdir, "../"))
 
 
 def load_config():
