@@ -1,6 +1,7 @@
 import io
 import os
 import pathlib
+import time
 import uuid
 from configuration.bitbot_files import BitBotFiles
 from configuration.bitbot_config import load_config_ini
@@ -58,3 +59,18 @@ def picture_mode():
         picture.save(picture_file, format="png")
     app_config.save()
     return redirect(url_for('index'))
+
+
+@app.route('/logs')
+def logs():
+    def generate():
+        with open(files_config.log_file_path) as f:
+            while True:
+                line = f.readline()
+                if not line:
+                    time.sleep(0.1)
+                    continue
+
+                yield line
+
+    return app.response_class(generate(), mimetype='text/plain')
