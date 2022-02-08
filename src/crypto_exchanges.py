@@ -59,7 +59,7 @@ def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
         instrument,
         candle_freq,
         limit=num_candles,
-        since=since)
+        since=exchange.parse8601(since))
 
 
 @info_log

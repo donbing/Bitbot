@@ -57,7 +57,7 @@ class TestRenderingMeta(type):
                 config.set('currency', 'instrument', token)
                 config.set('currency', 'holdings', holdings)
                 config.set('currency', 'timestamp', 'true')
-                config.set('currency', 'chart_since', '2021-08-22T00:00:00')
+                config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
