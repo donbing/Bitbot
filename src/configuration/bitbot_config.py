@@ -76,8 +76,9 @@ class BitBotConfig():
         return self.config['display']['candle_width']
 
     # 🎞️ picture frame mode
-    def toggle_photo_mode(self, newState):
-        self.config['picture_frame_mode']["enabled"] = newState
+    def toggle_photo_mode(self, enabled_state, cycle_state):
+        self.config['picture_frame_mode']["enabled"] = enabled_state
+        self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
 
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
