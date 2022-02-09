@@ -110,7 +110,7 @@ class Inker:
         try:
             self.display.show()
         except RuntimeError:
-            # 🪳 inky 1.3.0 bug:
+            # 🐞 inky 1.3.0 bug:
             # RuntimeError("Timeout waiting for busy signal to clear.")
             pass
         finally:

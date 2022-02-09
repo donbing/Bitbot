@@ -30,7 +30,17 @@ def index():
         config=app_config)
 
 
-# 📝 read/write to config files 
+# ⚙️ user-friendly config.ini editor
+@app.route('/configure')
+def configure():
+    if request.method == 'GET':
+        return render_template('config.html', config=app_config)
+    else:
+        app_config.set_currency(request.form)
+        app_config.set_display(request.form)
+
+
+# 📝 read/write to config files
 @app.route('/file/<file>', methods=['POST', 'GET'])
 def file(file):
     if request.method == 'POST':
