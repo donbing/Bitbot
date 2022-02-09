@@ -1,5 +1,6 @@
 # 🤖 **BitBot**
-> A Raspberry Pi powered e-ink crypto price chart
+> A Raspberry Pi powered e-ink crypto price chart  
+> [Hardware may be purchased on Etsy here](https://www.etsy.com/uk/listing/989665092)
 <div>
     <img height="100" src="docs/images/bit-bot.jpg">
     <img height="100" src="docs/images/bitbot-v2.png">
