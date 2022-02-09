@@ -63,7 +63,7 @@ def picture_mode():
 @app.route('/logs')
 def logs():
     def generate():
-        with open(files_config.log_file_path) as f:
+        with open(files_config.log_file_path, 'r') as f:
             while True:
                 line = f.readline()
                 if not line:
