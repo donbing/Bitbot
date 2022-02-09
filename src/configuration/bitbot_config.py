@@ -38,7 +38,7 @@ class BitBotConfig():
         return self.config.get(
             'currency', 
             'chart_since', 
-            fallback=datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
+            fallback=None)
 
     # 📈 display options
     def use_inky(self):
