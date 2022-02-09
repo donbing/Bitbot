@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+        <style>
+            label{
+                display: block;
+            }
+            .sources  {
+                display: flex;
+                flex-direction: row;
+                -webkit-justify-content: space-between;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            .sources > label, .source{
+                border-radius: 0.3em;
+                background-color: var(--background-alt);
+                width: 48%;
+                padding: 0.3em;
+            }
+            select, input{
+                display: inline;
+            }
+        </style>
+    </head>
+    <body>
+     <form action="{{ request.path  }}" method="post">
+         <fieldset>
+            <h2>🤑 Currency</h2>
+            <hr/>
+            <div class="sources">
+                <div class="source">
+                    <label for="Exchange">
+                        Crypto Exchange
+                        <select name="exchange" id="exchange">
+                            <option value="Bitmex">Bitmex</option>
+                        </select>
+                    </label>
+                    <label for="instrument">
+                        Instrument
+                        <select name="instrument" id="instrument">
+                            <option value="BTC/USD">BTC/USD</option>
+                            <option value="BTC/USD">ETH/USD</option>
+                        </select>
+                    </label>  
+                </div>
+                <div class="source">
+                    <label for="stock_symbol">
+                        Stock Symbol
+                        <select name="stock_symbol" id="stock_symbol">
+                            <option value="AAPL">Apple</option>
+                            <option value="MSFT">Microsoft</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            
+            <label for="holdings">
+                Your holdings
+                <input type="number" name="holdings"></input>
+            </label>
+        </fieldset>
+        
+        <fieldset>
+            <h2>📏 Layout</h2>
+            <hr/>
+            <div class="sources">
+                <label for="border">
+                    <h3>⏹️ Border</h3>
+                    <p> 
+                        <select name="border" id="border">
+                            <option value="none">None</option>
+                            <option value="red">Red</option>  
+                            <option value="black">Black</option>  
+                        </select>
+                    Set a coloured border around the edge of the display
+                </p>
+                   
+                </label>
+
+                <label for="overlay_layout">
+                    <h3>📐 Overlay type</h3>
+                    <p>
+                        <select name="overlay_layout" id="overlay_layout">
+                            <option value="1">Compact</option>
+                            <option value="2">Modern</option>  
+                        </select>
+                        Change the current price and instrument text layout
+                    </p>
+                    
+                </label>
+
+                <label for="timestamp">
+                    <h3>🕘 Show timestamp</h3>
+                    <p>
+                        <input type="checkbox" name="timestamp" id="timestamp"/>
+                        Show the last refresh time at the bottom right 
+                    </p>
+                </label>
+                
+                <label for="expanded_chart">
+                    <h3>📈 Expand axis lines</h3>
+                    <p>
+                        <input type="checkbox" name="expanded_chart" id="expanded_chart"/>
+                        Move the axis lines to the edge of the display
+                    </p>
+                </label>
+
+                <label for="show_volume">
+                    <h3>📊 Show volume</h3>
+                    <p>
+                        <input type="checkbox" name="show_volume" id="show_volume"/>
+                        Add a volume chart to the bottom
+                    </p>
+                </label>
+                
+                <label for="show_ip">
+                    <h3>📡 Show IP address</h3>
+                    <p>
+                        <input type="checkbox" name="show_ip" id="show_ip"/>
+                        Show the device IP at the bottom left
+                    </p>
+                </label>
+
+                <label for="refresh_time_minutes">
+                    <h3>🔄 Refresh interval (mins)</h3>
+                    <p>
+                        <input type="number" name="refresh_time_minutes" min="5" max="999" id="refresh_time_minutes"/>
+                        How long to wait between screen refreshes
+                    </p>
+                </label>
+                
+                <label for="candle_width">
+                    <h3>🎂 Candle width</h3>
+                    <p>
+                        <select name="candle_width" id="candle_width">
+                            <option value="5m">5m</option>
+                            <option value="15m">15m</option>  
+                            <option value="1h">1h</option>    
+                            <option value="4h">4h</option>  
+                        </select>
+                        Time frame for each candle, affects the size of the chart
+                    </p>
+                </label>
+            </div>
+        </fieldset>
+
+         <input type="submit"/>
+     </form>
+    </body>
+</html>
