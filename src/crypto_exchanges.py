@@ -33,7 +33,8 @@ class Exchange():
             candle_config.width,
             candle_config.count,
             self.config.exchange_name(),
-            self.config.instrument_name()
+            self.config.instrument_name(),
+            self.config.chart_since()
         )
         return CandleData(instrument, candle_config.width, candle_data)
 
@@ -41,19 +42,24 @@ class Exchange():
         return '<ccxt crypto exchange>'
 
 
-def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument):
+def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
     exchange = load_exchange(exchange_name)
     dirty_chart_data = fetch_market_data(
         exchange,
         instrument,
         candle_freq,
-        num_candles)
+        num_candles,
+        since)
     return list(map(make_matplotfriendly_date, dirty_chart_data))
 
 
 @info_log
-def fetch_market_data(exchange, instrument, candle_freq, num_candles):
-    return exchange.fetchOHLCV(instrument, candle_freq, limit=num_candles)
+def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
+    return exchange.fetchOHLCV(
+        instrument,
+        candle_freq,
+        limit=num_candles,
+        since=exchange.parse8601(since))
 
 
 @info_log
