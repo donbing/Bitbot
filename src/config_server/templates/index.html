@@ -31,7 +31,7 @@
             <h2>⚙️ Application Config</h2>
             <hr/>
             <p>Edit 'config.ini' to set the exchange, currency, screen refresh, overlay and layout options</p>
-            <a href="/configure">Friendly!</a>
+            
             <ul class="editableFiles">
             {% for file in ini_files %}
                 <li>
@@ -39,6 +39,10 @@
                     <dialog closed></dialog>
                 </li>
             {% endfor %}
+                <li>
+                    <a onclick="return editFile(this)" href="/configure">Friendly!</a>
+                    <dialog closed></dialog>
+                </li>
             </ul>
         </section>
         <section>

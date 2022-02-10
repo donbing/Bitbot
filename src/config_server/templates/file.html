@@ -6,10 +6,10 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
     </head>
     <body>
-     <form action="{{ request.path  }}" method="post">
-         <h1>📝 {{file_name}}</h1>
-         <textarea name="file" cols="80" rows="30" spellcheck="false" autofocus>{{file}}</textarea>
-         <input type="submit"/>
-     </form>
+        <form action="{{ request.path  }}" method="post">
+            <h1>📝 {{file_name}}</h1>
+            <textarea name="file" cols="80" rows="30" spellcheck="false" autofocus>{{file}}</textarea>
+            <input type="submit"/>
+        </form>
     </body>
 </html>
