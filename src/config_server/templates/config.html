@@ -4,6 +4,7 @@
         <meta content="utf-8" http-equiv="encoding">
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+        
         <style>
             label{
                 display: block;
@@ -17,12 +18,15 @@
             }
             .sources > label, .source{
                 border-radius: 0.3em;
-                background-color: var(--background-alt);
-                width: 48%;
+                border: 0.2em solid var(--background-alt);
+                width: 47.5%;
                 padding: 0.3em;
             }
             select, input{
                 display: inline;
+            }
+            h1,h2,h3{
+                margin-top: 0.3em;
             }
         </style>
     </head>
@@ -34,34 +38,39 @@
             <div class="sources">
                 <div class="source">
                     <label for="Exchange">
-                        Crypto Exchange
+                        <h3>🏛️ Crypto Exchange</h3>
                         <select name="exchange" id="exchange">
                             <option value="Bitmex">Bitmex</option>
                         </select>
+                        The exchange to gather chart data from
                     </label>
                     <label for="instrument">
-                        Instrument
+                        <h3>💸 Instrument</h3>
                         <select name="instrument" id="instrument">
                             <option value="BTC/USD">BTC/USD</option>
-                            <option value="BTC/USD">ETH/USD</option>
+                            <option value="ETH/USD">ETH/USD</option>
                         </select>
+                        The token/currency to chart
                     </label>  
                 </div>
                 <div class="source">
                     <label for="stock_symbol">
-                        Stock Symbol
+                        <h3>📈 Stock Symbol</h3>
                         <select name="stock_symbol" id="stock_symbol">
-                            <option value="AAPL">Apple</option>
-                            <option value="MSFT">Microsoft</option>
+                            <option value="AAPL" {{"selected" if config.stock_symbol() == 'AAPL'}}>Apple</option>
+                            <option value="MSFT" {{"selected" if config.stock_symbol() == 'MSFT'}}>Microsoft</option>
                         </select>
+                        Chart stock price instead of crypto
                     </label>
                 </div>
+                
+                <label for="holdings" class="source">
+                    <h3>💰 Your holdings</h3>
+                    <input type="number" name="holdings" value="{{ config.portfolio_size() }}"/>
+                </label>
+                
             </div>
             
-            <label for="holdings">
-                Your holdings
-                <input type="number" name="holdings"></input>
-            </label>
         </fieldset>
         
         <fieldset>
@@ -72,9 +81,9 @@
                     <h3>⏹️ Border</h3>
                     <p> 
                         <select name="border" id="border">
-                            <option value="none">None</option>
-                            <option value="red">Red</option>  
-                            <option value="black">Black</option>  
+                            <option value="none" {{"selected" if config.border_type() == 'none'}}>None</option>
+                            <option value="red" {{"selected" if config.border_type() == 'red'}}>Red</option>  
+                            <option value="black" {{"selected" if config.border_type() == 'black'}}>Black</option>  
                         </select>
                     Set a coloured border around the edge of the display
                 </p>
@@ -85,8 +94,8 @@
                     <h3>📐 Overlay type</h3>
                     <p>
                         <select name="overlay_layout" id="overlay_layout">
-                            <option value="1">Compact</option>
-                            <option value="2">Modern</option>  
+                            <option value="1" {{"selected" if config.overlay_type() == '1'}}>Compact</option>
+                            <option value="2" {{"selected" if config.overlay_type() == '2'}}>Modern</option>  
                         </select>
                         Change the current price and instrument text layout
                     </p>
@@ -96,7 +105,7 @@
                 <label for="timestamp">
                     <h3>🕘 Show timestamp</h3>
                     <p>
-                        <input type="checkbox" name="timestamp" id="timestamp"/>
+                        <input type="checkbox" name="timestamp" id="timestamp" {{"checked" if config.show_timestamp()}}/>
                         Show the last refresh time at the bottom right 
                     </p>
                 </label>
@@ -104,7 +113,7 @@
                 <label for="expanded_chart">
                     <h3>📈 Expand axis lines</h3>
                     <p>
-                        <input type="checkbox" name="expanded_chart" id="expanded_chart"/>
+                        <input type="checkbox" name="expanded_chart" id="expanded_chart" {{"checked" if config.expand_chart()}}/>
                         Move the axis lines to the edge of the display
                     </p>
                 </label>
@@ -112,7 +121,7 @@
                 <label for="show_volume">
                     <h3>📊 Show volume</h3>
                     <p>
-                        <input type="checkbox" name="show_volume" id="show_volume"/>
+                        <input type="checkbox" name="show_volume" id="show_volume" {{"checked" if config.show_volume()}}/>
                         Add a volume chart to the bottom
                     </p>
                 </label>
@@ -120,7 +129,7 @@
                 <label for="show_ip">
                     <h3>📡 Show IP address</h3>
                     <p>
-                        <input type="checkbox" name="show_ip" id="show_ip"/>
+                        <input type="checkbox" name="show_ip" id="show_ip" {{"checked" if config.show_ip()}}/>
                         Show the device IP at the bottom left
                     </p>
                 </label>
@@ -128,7 +137,7 @@
                 <label for="refresh_time_minutes">
                     <h3>🔄 Refresh interval (mins)</h3>
                     <p>
-                        <input type="number" name="refresh_time_minutes" min="5" max="999" id="refresh_time_minutes"/>
+                        <input type="number" name="refresh_time_minutes" min="5" max="999" id="refresh_time_minutes" value="{{config.refresh_rate_minutes()}}"/>
                         How long to wait between screen refreshes
                     </p>
                 </label>
