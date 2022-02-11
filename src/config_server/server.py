@@ -5,8 +5,9 @@ import time
 import uuid
 from configuration.bitbot_files import BitBotFiles
 from configuration.bitbot_config import load_config_ini
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from PIL import Image
+import ccxt
 
 app = Flask(__name__)
 
@@ -83,3 +84,34 @@ def logs():
                 yield line
 
     return app.response_class(generate(), mimetype='text/plain')
+
+
+def create_exchange(exchange_name):
+    exchange = getattr(ccxt, exchange_name)()
+    exchange.loadMarkets()
+    return exchange
+
+
+def get_market(exchange_name, market_id):
+    exchange = create_exchange(exchange_name)
+    markets = {
+        key: value
+        for (key, value) in exchange.markets.items()
+        if market_id in key.lower() and value['active']
+    }
+    print(markets)
+    return exchange, markets
+
+
+# 🏛️ search for crypto exchange by name
+@app.route('/exchanges/search')
+def exchange_search():
+    filtered = filter(lambda e: request.args['q'] in e.lower(), ccxt.exchanges)
+    return jsonify(list(filtered)), '200 OK'
+
+
+# 🎺 search exchanges instruments
+@app.route('/exchanges/<exchange>/instruments/')
+def instrument_search(exchange):
+    exchange, instruments = get_market(exchange, request.args['q'])
+    return jsonify(instruments), '200 OK'
