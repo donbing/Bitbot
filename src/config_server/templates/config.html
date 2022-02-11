@@ -4,7 +4,6 @@
         <meta content="utf-8" http-equiv="encoding">
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
-        
         <style>
             label{
                 display: block;
@@ -31,7 +30,7 @@
         </style>
     </head>
     <body>
-     <form action="{{ request.path  }}" method="post">
+     <form action="{{ request.path  }}" method="post" spellcheck="false">
          <fieldset>
             <h2>🤑 Currency</h2>
             <hr/>
@@ -39,9 +38,7 @@
                 <div class="source">
                     <label for="Exchange">
                         <h3>🏛️ Crypto Exchange</h3>
-                        <select name="exchange" id="exchange">
-                            <option value="Bitmex">Bitmex</option>
-                        </select>
+                        <input type="text" name="exchange" id="exchange" data-autocomplete="/exchanges/search" value="{{ config.exchange_name() }}"/>
                         The exchange to gather chart data from
                     </label>
                     <label for="instrument">
