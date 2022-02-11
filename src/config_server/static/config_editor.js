@@ -8,6 +8,7 @@ function editFile(element)
         .then(html => {
             dialog.innerHTML = html;
             dialog.showModal();
+            AutoComplete();
         })
         .catch(function (err) {
             console.warn('Something went wrong.', err);
