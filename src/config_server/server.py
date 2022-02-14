@@ -32,13 +32,21 @@ def index():
 
 
 # ⚙️ user-friendly config.ini editor
-@app.route('/configure')
+@app.route('/configure', methods=['POST', 'GET'])
 def configure():
     if request.method == 'GET':
-        return render_template('config.html', config=app_config)
+        exchange = create_exchange(app_config.exchange_name())
+        exchanges = ccxt.exchanges
+        return render_template(
+            'config.html',
+            config=app_config,
+            exchanges=exchanges,
+            markets=exchange.load_markets()
+        )
     else:
         app_config.set_currency(request.form)
         app_config.set_display(request.form)
+        return '200 OK'
 
 
 # 📝 read/write to config files
@@ -111,7 +119,7 @@ def exchange_search():
 
 
 # 🎺 search exchanges instruments
-@app.route('/exchanges/<exchange>/instruments/')
+@app.route('/exchanges/<exchange>/markets')
 def instrument_search(exchange):
     exchange, instruments = get_market(exchange, request.args['q'])
-    return jsonify(instruments), '200 OK'
+    return jsonify(list(instruments.keys())), '200 OK'

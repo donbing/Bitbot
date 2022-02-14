@@ -17,12 +17,9 @@
             }
             .sources > label, .source{
                 border-radius: 0.3em;
-                border: 0.2em solid var(--background-alt);
+                border: 0.2em solid var(--border);
                 width: 47.5%;
                 padding: 0.3em;
-            }
-            select, input{
-                display: inline;
             }
             h1,h2,h3{
                 margin-top: 0.3em;
@@ -38,25 +35,22 @@
                 <div class="source">
                     <label for="Exchange">
                         <h3>🏛️ Crypto Exchange</h3>
-                        <input type="text" name="exchange" id="exchange" data-autocomplete="/exchanges/search" value="{{ config.exchange_name() }}"/>
-                        The exchange to gather chart data from
+                        <input type="search" name="exchange" id="exchange" value="{{ config.exchange_name() }}"
+                        dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off"
+                        data-autocomplete="/exchanges/search" />
                     </label>
                     <label for="instrument">
-                        <h3>💸 Instrument</h3>
-                        <select name="instrument" id="instrument">
-                            <option value="BTC/USD">BTC/USD</option>
-                            <option value="ETH/USD">ETH/USD</option>
-                        </select>
-                        The token/currency to chart
+                        <h3>💸 Market</h3>
+                        <input type="search" name="instrument" id="instrument" value="{{ config.instrument_name() }}"
+                        dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off"
+                        data-autocomplete="/exchanges" />
                     </label>  
                 </div>
                 <div class="source">
                     <label for="stock_symbol">
                         <h3>📈 Stock Symbol</h3>
-                        <select name="stock_symbol" id="stock_symbol">
-                            <option value="AAPL" {{"selected" if config.stock_symbol() == 'AAPL'}}>Apple</option>
-                            <option value="MSFT" {{"selected" if config.stock_symbol() == 'MSFT'}}>Microsoft</option>
-                        </select>
+                        <input type="text" name="stock_symbol" id="stock_symbol" value="{{ config.stock_symbol() }}"
+                            dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off"/>
                         Chart stock price instead of crypto
                     </label>
                 </div>
