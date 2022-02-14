@@ -1,3 +1,100 @@
+AutoComplete = () => {
+    const exchangeAutoComplete = new autoComplete({ 
+        placeHolder: "Search for exchange",
+        selector: '#exchange',
+        data:{
+            src: async (query) => {
+                try {
+                    const exchangeInput = document.getElementById("exchange");
+                    exchangeInput.setAttribute("placeholder", "Loading...");
+                    const source = await fetch(exchangeInput.dataset.autocomplete + '?q=' + query);
+                    const fetchedData = await source.json();
+                    exchangeInput.setAttribute("placeholder", exchangeAutoComplete.placeHolder);
+                    return fetchedData;
+                } catch (error) {
+                    return error;
+                }
+              },
+        },
+        resultsList: {
+            element: (list, data) => {
+                if (!data.results.length) {
+                    const message = document.createElement("div");
+                    message.setAttribute("class", "no_result");
+                    message.innerHTML = `Found No Results for "${data.query}"`;
+                    list.prepend(message);
+                }
+            },
+            noResults: true,
+        },
+        resultItem: {
+            highlight: {
+                render: true
+            }
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const instrumentInput = document.getElementById("instrument");
+                    const selection = event.detail.selection.value;
+                    exchangeAutoComplete.input.value = selection;
+                    instrumentInput.value = null;
+                }
+            }
+        }
+      });
+      const instrumentAutoComplete = new autoComplete({ 
+        placeHolder: "Search for instrument",
+        selector: '#instrument',
+        data:{
+            src: async (query) => {
+                try {
+                    const instrumentInput = document.getElementById("instrument");
+                    const exchangeInput = document.getElementById("exchange");
+                    instrumentInput.setAttribute("placeholder", "Loading...");
+                    // Fetch External Data Source
+                    const source = await fetch(instrumentInput.dataset.autocomplete + "/" + exchangeInput.value + '/markets?q=' + query);
+                    const data = await source.json();
+                    // Post Loading placeholder text
+                    instrumentInput.setAttribute("placeholder", instrumentAutoComplete.placeHolder);
+                    // Returns Fetched data
+                    return data;
+                } catch (error) {
+                    return error;
+                }
+              },
+        },
+        resultsList: {
+            element: (list, data) => {
+                if (!data.results.length) {
+                    // Create "No Results" message element
+                    const message = document.createElement("div");
+                    // Add class to the created element
+                    message.setAttribute("class", "no_result");
+                    // Add message text content
+                    message.innerHTML = `Found No Results for "${data.query}"`;
+                    // Append message element to the results list
+                    list.prepend(message);
+                }
+            },
+            noResults: true,
+        },
+        resultItem: {
+            highlight: {
+                render: true
+            }
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const instrumentInput = document.getElementById("instrument");
+                    const selection = event.detail.selection.value;
+                    instrumentInput.value = selection;
+                }
+            }
+        }
+      });
+}
 
 // 🔗 open element href in a modal dialog
 function editFile(element)

@@ -88,7 +88,7 @@ class BitBotConfig():
 
     def set_display(self, formData):
         for key in ['border', 'overlay', 'show_timestamp', 'expanded_chart', 'show_volume', 'show_ip', 'refresh_time_minutes', 'candle_width']:
-            self.config["display"][key] = formData[key]
+            self.config["display"][key] = formData.get(key, 'false')
         self.save()
 
     # 🖼️ picture frame mode
