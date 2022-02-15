@@ -5,8 +5,9 @@ import time
 import uuid
 from configuration.bitbot_files import BitBotFiles
 from configuration.bitbot_config import load_config_ini
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from PIL import Image
+import ccxt
 
 app = Flask(__name__)
 
@@ -30,7 +31,25 @@ def index():
         config=app_config)
 
 
-# 📝 read/write to config files 
+# ⚙️ user-friendly config.ini editor
+@app.route('/configure', methods=['POST', 'GET'])
+def configure():
+    if request.method == 'GET':
+        exchange = create_exchange(app_config.exchange_name())
+        exchanges = ccxt.exchanges
+        return render_template(
+            'config.html',
+            config=app_config,
+            exchanges=exchanges,
+            markets=exchange.load_markets()
+        )
+    else:
+        app_config.set_currency(request.form)
+        app_config.set_display(request.form)
+        return '200 OK'
+
+
+# 📝 read/write to config files
 @app.route('/file/<file>', methods=['POST', 'GET'])
 def file(file):
     if request.method == 'POST':
@@ -73,3 +92,34 @@ def logs():
                 yield line
 
     return app.response_class(generate(), mimetype='text/plain')
+
+
+def create_exchange(exchange_name):
+    exchange = getattr(ccxt, exchange_name)()
+    exchange.loadMarkets()
+    return exchange
+
+
+def get_market(exchange_name, market_id):
+    exchange = create_exchange(exchange_name)
+    markets = {
+        key: value
+        for (key, value) in exchange.markets.items()
+        if market_id in key.lower() and value['active']
+    }
+    print(markets)
+    return exchange, markets
+
+
+# 🏛️ search for crypto exchange by name
+@app.route('/exchanges/search')
+def exchange_search():
+    filtered = filter(lambda e: request.args['q'] in e.lower(), ccxt.exchanges)
+    return jsonify(list(filtered)), '200 OK'
+
+
+# 🎺 search exchanges instruments
+@app.route('/exchanges/<exchange>/markets')
+def instrument_search(exchange):
+    exchange, instruments = get_market(exchange, request.args['q'])
+    return jsonify(list(instruments.keys())), '200 OK'
