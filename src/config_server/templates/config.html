@@ -117,25 +117,25 @@
 
                 <label for="timestamp">
                     <h3>🕘 Show timestamp</h3>
-                    <input type="checkbox" name="timestamp" id="timestamp" {{"checked" if config.show_timestamp()}}/>
+                    <input type="checkbox" name="timestamp" id="timestamp" {{"checked" if config.show_timestamp()}} value="true"/>
                     Show the last refresh time at the bottom right 
                 </label>
                 
                 <label for="expanded_chart">
                     <h3>📈 Expand axis lines</h3>
-                    <input type="checkbox" name="expanded_chart" id="expanded_chart" {{"checked" if config.expand_chart()}}/>
+                    <input type="checkbox" name="expanded_chart" id="expanded_chart" {{"checked" if config.expand_chart()}} value="true"/>
                     Move the axis lines to the edge of the display
                 </label>
 
                 <label for="show_volume">
                     <h3>📊 Show volume</h3>
-                    <input type="checkbox" name="show_volume" id="show_volume" {{"checked" if config.show_volume()}}/>
+                    <input type="checkbox" name="show_volume" id="show_volume" {{"checked" if config.show_volume()}} value="true"/>
                     Add a volume chart to the bottom
                 </label>
                 
                 <label for="show_ip">
                     <h3>📡 Show IP address</h3>
-                    <input type="checkbox" name="show_ip" id="show_ip" {{"checked" if config.show_ip()}}/>
+                    <input type="checkbox" name="show_ip" id="show_ip" {{"checked" if config.show_ip()}} value="true"/>
                     Show the device IP at the bottom left
                 </label>
 
