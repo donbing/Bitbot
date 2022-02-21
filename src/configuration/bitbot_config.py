@@ -33,6 +33,14 @@ class BitBotConfig():
         except ValueError:
             return 0
 
+    def chart_since(self):
+        return self.config.get('currency', 'chart_since', fallback=None)
+
+    def set_currency(self, formData):
+        for key in ['exchange', 'instrument', 'stock_symbol', 'holdings']:
+            self.config["currency"][key] = formData[key]
+        self.save()
+
     # 📈 display options
     def use_inky(self):
         dont_write_to_disk = os.getenv('BITBOT_OUTPUT') != 'disk'
@@ -75,12 +83,24 @@ class BitBotConfig():
     def candle_width(self):
         return self.config['display']['candle_width']
 
-    # 🎞️ picture frame mode
-    def toggle_photo_mode(self, newState):
-        self.config['picture_frame_mode']["enabled"] = newState
+    def show_ip(self):
+        return self.config['display']['show_ip']
+
+    def set_display(self, formData):
+        for key in ['border', 'overlay_layout', 'timestamp', 'expanded_chart', 'show_volume', 'show_ip', 'refresh_time_minutes', 'candle_width']:
+            self.config["display"][key] = formData.get(key, 'false')
+        self.save()
+
+    # 🖼️ picture frame mode
+    def toggle_photo_mode(self, enabled_state, cycle_state):
+        self.config['picture_frame_mode']["enabled"] = enabled_state
+        self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
 
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
+
+    def cycle_pictures_enabled(self):
+        return self.config['picture_frame_mode']["cycle"] == 'true'
 
     def set_photo_image_file(self, unique_file_id):
         unique_file_name = f'{unique_file_id}.png'
@@ -93,7 +113,7 @@ class BitBotConfig():
             self.config['picture_frame_mode']['picture_file_name']
         )
 
-    # 🪳 debug helpers
+    # 🐞 debug helpers
     def shoud_show_image_in_vscode(self):
         return os.getenv('BITBOT_SHOWIMAGE') == 'true'
 

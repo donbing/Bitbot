@@ -60,12 +60,13 @@ class PlottedChart:
             ax[1].yaxis.set_major_formatter(price_formatter)
             dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
+            self.fig.subplots_adjust(bottom=0.01)
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
         plt.style.use(files.base_style)
         # 📏 select mpl style
-        stlye = files.inset_style if config.expand_chart() else files.default_style
+        stlye = files.expanded_style if config.expand_chart() else files.default_style
         num_plots = 2 if config.show_volume() else 1
         heights = [4, 1] if config.show_volume() else [1]
         plt.tight_layout()

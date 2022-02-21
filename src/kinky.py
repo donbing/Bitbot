@@ -83,7 +83,7 @@ class Inker:
     def draw_connection_error(self):
         img = Image.new("P", self.size)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, connection_message, title_font, self.size)
+        draw_centered_text(draw, connection_message, title_font, self.size, border=True)
         # 📺 show the image
         self.display.set_image(img)
         self.display.show()
@@ -110,7 +110,7 @@ class Inker:
         try:
             self.display.show()
         except RuntimeError:
-            # 🪳 inky 1.3.0 bug:
+            # 🐞 inky 1.3.0 bug:
             # RuntimeError("Timeout waiting for busy signal to clear.")
             pass
         finally:

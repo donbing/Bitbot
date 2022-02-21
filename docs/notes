@@ -1,14 +1,22 @@
 todo:
- - config candle colours
- - config volume colours
- - assembly instructions
- - config instructions
- - multi-plot-figure
- - moving averages
- - overlapping multi-coin charts
- - allow selecting style in config
- - indicators
- - show live syslog output in config server
+ 
+ - impression:
+    - better button actions!
+    - larger intro font
+    - larger label fonts
+    - config candle colours
+    - config volume colours
+
+ - config server
+    - use friendly config forms
+    - allow selecting style in config
+
+ - general
+    - on-screen assembly instructions
+    - multi-plot-figure
+    - moving averages
+    - overlapping multi-coin charts
+    - indicators
 
 
 > Build arm6 on x86

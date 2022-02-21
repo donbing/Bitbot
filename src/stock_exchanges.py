@@ -4,6 +4,7 @@ import random
 from datetime import datetime, timedelta
 import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
+import math
 
 
 class Exchange():
@@ -95,13 +96,19 @@ class CandleData():
         return ((current_price - starting_price) / current_price) * 100
 
     def last_close(self):
-        return float(self.candle_data[-1][4])
+        all_closes = self.select_index_if_number(self.candle_data, 4)
 
-    def end_price(self):
-        return float(self.candle_data[0][3])
+        return float(all_closes[-1])
 
     def start_price(self):
-        return float(self.candle_data[0][4])
+        all_closes = self.select_index_if_number(self.candle_data, 4)
+        return float(all_closes[0])
+
+    def select_index_if_number(self, list, index):
+        return [
+            item[index]
+            for item in list
+            if not math.isnan(item[index])]
 
     def __repr__(self):
         return f'<{self.instrument} {self.candle_width} candle data>'

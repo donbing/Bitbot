@@ -30,3 +30,8 @@ jobs:
     - name: Test with unittest
       run: |
         python3 -m unittest discover -s tests -v
+    - name: Commit & Push changes
+      uses: actions-js/push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}

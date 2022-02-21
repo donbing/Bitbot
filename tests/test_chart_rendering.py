@@ -1,14 +1,13 @@
 import unittest
-import pathlib
-import os
-from os.path import join as pjoin
-from src import bitbot
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
+from src.bitbot import BitBot
+import os
+import pathlib
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(pjoin(curdir, "../"))
+files = use_config_dir(os.path.join(curdir, "../"))
 
 
 def load_config():
@@ -57,13 +56,15 @@ class TestRenderingMeta(type):
                 config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
                 config.set('currency', 'holdings', holdings)
-                config.set('currency', 'timestamp', 'true')
+                config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                app = bitbot.BitBot(config, files)
+                config.set('display', 'show_ip', 'false')
+                config.set('display', 'timestamp', 'false')
+                app = BitBot(config, files)
                 app.display_chart()
                 # os.system(f"code '{image_file_name}'")
             return test

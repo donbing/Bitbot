@@ -1,8 +1,23 @@
+import socket
+import random
 from datetime import datetime
 from PIL import Image, ImageDraw
-import random
 from src import price_humaniser
 from src.configuration.log_decorator import info_log
+
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.settimeout(0)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
 
 
 class ChartOverlay():
@@ -21,13 +36,21 @@ class ChartOverlay():
 
         rgb_im = img.convert('RGB')
         height_of_section = 60
-        ordredByAveColour = sorted(possibleTextPositions, key=lambda item: (count_white_pixels(*item, height_of_section, rgb_im), item[0]))
+        ordredByAveColour = sorted(
+            possibleTextPositions,
+            key=lambda item: (
+                count_white_pixels(*item, height_of_section, rgb_im),
+                item[0])
+            )
+
         return ordredByAveColour[-1]
 
     def flatten(t):
         return [item for sublist in t for item in sublist]
 
-    possible_title_positions = flatten(map(lambda y: map(lambda x: (x, y), range(60, 200, 10)), [6, 200]))
+    possible_title_positions = flatten(
+        map(lambda y:
+            map(lambda x: (x, y), range(60, 220, 10)), [6, 150, 220]))
 
     def __init__(self, config, display, chart_data):
         self.config = config
@@ -54,6 +77,17 @@ class ChartOverlay():
             draw_plot_image.text(
                 (self.display.WIDTH - text_width - 1, self.display.HEIGHT - text_height - 2),
                 formatted_time,
+                'black',
+                self.display.tiny_font)
+
+    # 🕒 add the ip address if configured
+    def draw_ip(self, draw):
+        if self.config.show_ip() == 'true':
+            ip = get_ip()
+            text_width, text_height = draw.textsize(ip, self.display.tiny_font)
+            draw.text(
+                (1, self.display.HEIGHT - text_height - 2),
+                ip,
                 'black',
                 self.display.tiny_font)
 
@@ -94,6 +128,7 @@ class ChartOverlay():
         self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
+        self.draw_ip(draw_plot_image)
 
     def draw_overlay2(self, draw_plot_image, chartdata, selectedArea, base_plot_image):
         # 🎹 draw instrument name
@@ -118,6 +153,7 @@ class ChartOverlay():
         self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
         self.draw_border(draw_plot_image)
         self.draw_current_time(draw_plot_image)
+        self.draw_ip(draw_plot_image)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
