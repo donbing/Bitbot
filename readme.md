@@ -32,7 +32,8 @@
 
 # 💡 Requested Features
  - 💸 Display **Transaction fees**
- - 📺 Smaller/cheaper display
+ - 📺 Support waveshare displays
+ - 👶 Support smaller displays
 
 # 📝 Docs
  - [💻 How To **Install**](docs/app_install.md)  
