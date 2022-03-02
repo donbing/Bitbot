@@ -42,10 +42,8 @@ class BitBotConfig():
         self.save()
 
     # 📈 display options
-    def use_inky(self):
-        dont_write_to_disk = os.getenv('BITBOT_OUTPUT') != 'disk'
-        do_write_to_inky = self.config["display"]["output"] == "inky"
-        return dont_write_to_disk and do_write_to_inky
+    def output_device_name(self):
+        return os.getenv('BITBOT_OUTPUT') or self.config["display"]["output"]
 
     def get_price_action_comments(self, direction):
         return self.config.get('comments', direction).split(',')
