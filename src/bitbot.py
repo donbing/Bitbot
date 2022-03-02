@@ -56,4 +56,4 @@ class BitBot():
         self.display.show(Image.open(self.config.photo_image_file()))
 
     def __repr__(self):
-        return f'<BitBot inky: {str(self.config.use_inky())}>'
+        return f'<BitBot output: {str(self.config.output_device_name())}>'

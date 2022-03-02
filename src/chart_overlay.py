@@ -26,20 +26,26 @@ class ChartOverlay():
     @staticmethod
     def least_intrusive_position(img, possibleTextPositions):
         # 🔢 count the white pixels in an area of the image
-        def count_white_pixels(x, y, n, image):
+        def count_white_pixels(x, y, height, width, image):
             count = 0
-            for s in range(x, x+(n*3)+1):
-                for t in range(y, y+n+1):
-                    pix = image.getpixel((s, t))
+            print("width:" + str((width,height)))
+            x_range = range(x, x + width)
+            print("x:" + str(x_range))
+            y_range = range(y, y + height)
+            print("y:" + str(x_range))
+            for x in x_range:
+                for y in y_range:
+                    pix = image.getpixel((x, y))
                     count += 1 if pix == (255, 255, 255) else 0
             return count
 
         rgb_im = img.convert('RGB')
         height_of_section = 60
+        width_of_section = 60
         ordredByAveColour = sorted(
             possibleTextPositions,
             key=lambda item: (
-                count_white_pixels(*item, height_of_section, rgb_im),
+                count_white_pixels(item[0], item[1], height_of_section, width_of_section, rgb_im),
                 item[0])
             )
 
@@ -48,9 +54,12 @@ class ChartOverlay():
     def flatten(t):
         return [item for sublist in t for item in sublist]
 
-    possible_title_positions = flatten(
-        map(lambda y:
-            map(lambda x: (x, y), range(60, 220, 10)), [6, 150, 220]))
+    def possible_title_positions(self):
+        x_range = range(60, self.display.WIDTH - 70, 10)
+        y_range = [6, self.display.HEIGHT // 2 , self.display.HEIGHT - 80]
+        return ChartOverlay.flatten(
+            map(lambda y: 
+                map(lambda x: (x, y), x_range), y_range))
 
     def __init__(self, config, display, chart_data):
         self.config = config
@@ -62,7 +71,7 @@ class ChartOverlay():
         # 🖊️ handles drawing over our chart image
         draw_plot_image = ImageDraw.Draw(chart_image)
         # 🏳️ find some empty space in the image to place our text
-        selectedArea = ChartOverlay.least_intrusive_position(chart_image, self.possible_title_positions)
+        selectedArea = ChartOverlay.least_intrusive_position(chart_image, self.possible_title_positions())
         # 🖊️ draw configured overlay
         if self.config.overlay_type() == "2":
             self.draw_overlay2(draw_plot_image, self.chart_data, selectedArea, chart_image)
