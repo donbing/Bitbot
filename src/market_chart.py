@@ -72,7 +72,8 @@ class PlottedChart:
         plt.tight_layout()
         # 📏 scope styles to just this plot
         with plt.style.context(stlye):
-            fig = plt.figure(figsize=(display.WIDTH / 100, display.HEIGHT / 100))
+            display_width, display_height = display.size()
+            fig = plt.figure(figsize=(display_width / 100, display_height / 100))
             gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
             ax1 = fig.add_subplot(gs[0], zorder=1)
             ax2 = None
