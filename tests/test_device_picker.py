@@ -33,7 +33,7 @@ class TestDevicePicker(unittest.TestCase):
         device = get_device('waveshare.epd2in7b_V2')
 
         image = Image.open('tests/images/APPLE 1mo defaults.png')
-        image = image.resize((device.WIDTH, device.HEIGHT))
+        image = image.resize(device.size())
         image = image.convert('P', palette=Image.ADAPTIVE, colors=3)
         device.show(image)
        
