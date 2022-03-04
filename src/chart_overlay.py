@@ -55,8 +55,9 @@ class ChartOverlay():
         return [item for sublist in t for item in sublist]
 
     def possible_title_positions(self):
-        x_range = range(60, self.display.WIDTH - 70, 10)
-        y_range = [6, self.display.HEIGHT // 2 , self.display.HEIGHT - 80]
+        width, height = self.display.size()
+        x_range = range(60, width - 70, 10)
+        y_range = [6, height // 2 , height - 80]
         return ChartOverlay.flatten(
             map(lambda y: 
                 map(lambda x: (x, y), x_range), y_range))
@@ -83,8 +84,9 @@ class ChartOverlay():
         if self.config.show_timestamp() == 'true':
             formatted_time = datetime.now().strftime("%b %-d %-H:%M")
             text_width, text_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
+            display_width, display_height = self.display.size()
             draw_plot_image.text(
-                (self.display.WIDTH - text_width - 1, self.display.HEIGHT - text_height - 2),
+                (display_width - text_width - 1, display_height - text_height - 2),
                 formatted_time,
                 'black',
                 self.display.tiny_font)
@@ -94,8 +96,9 @@ class ChartOverlay():
         if self.config.show_ip() == 'true':
             ip = get_ip()
             text_width, text_height = draw.textsize(ip, self.display.tiny_font)
+            display_width, display_height = self.display.size()
             draw.text(
-                (1, self.display.HEIGHT - text_height - 2),
+                (1, display_height - text_height - 2),
                 ip,
                 'black',
                 self.display.tiny_font)
@@ -104,8 +107,9 @@ class ChartOverlay():
     def draw_border(self, draw_plot_image):
         border_type = self.config.border_type()
         if border_type != 'none':
+            display_width, display_height = self.display.size()
             draw_plot_image.rectangle(
-                [(0, 0), (self.display.WIDTH - 1, self.display.HEIGHT - 1)],
+                [(0, 0), (display_width - 1, display_height - 1)],
                 outline=border_type)
 
     # 💬 draw a random comment depending on price action
@@ -147,12 +151,13 @@ class ChartOverlay():
         d = ImageDraw.Draw(txt)
         d.text((0, 0), title, 'black', self.display.medium_font)
         w = txt.rotate(270, expand=True)
-        title_paste_pos = (self.display.WIDTH-title_height - 2, int((self.display.HEIGHT - title_width) / 2))
+        display_width, display_height = self.display.size()
+        title_paste_pos = (display_width - title_height - 2, int((display_height - title_width) / 2))
         base_plot_image.paste(w, title_paste_pos, w)
         # 🕎 candle width
         candle_width_right_padding = 2
         candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
-        draw_plot_image.text((self.display.WIDTH-candle_width_width, candle_width_right_padding), chartdata.candle_width, 'red', self.display.medium_font)
+        draw_plot_image.text((display_height-candle_width_width, candle_width_right_padding), chartdata.candle_width, 'red', self.display.medium_font)
         # 🖊️ draw % change text
         change = chartdata.percentage_change()
         change_colour = ('red' if change < 0 else 'black')

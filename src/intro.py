@@ -34,7 +34,7 @@ transparent = (255, 0, 0, 0)
 
 
 def IntroPlayer(display, config):
-    intro = Intro(display.size, display.title_font, config)
+    intro = Intro(display.size(), display.title_font, config)
     for image in intro.play():
         display.show(image)
 

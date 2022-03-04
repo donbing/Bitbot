@@ -53,7 +53,9 @@ class Disker:
         self.tiny_font = tiny_font
         self.medium_font = medium_font
         self.config = config
-        self.size = (self.WIDTH, self.HEIGHT)
+
+    def size(self):
+        return (self.WIDTH, self.HEIGHT)
 
     @info_log
     def draw_connection_error(self):
@@ -84,19 +86,21 @@ class Waver:
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
-        self.size = (self.WIDTH, self.HEIGHT)
 
     def load_device_class(self, device_name):
         waveshare_module = __import__('waveshare_epd.' + device_name)
         device_class = getattr(waveshare_module, device_name).EPD
         return device_class
 
+    def size(self):
+        return (self.WIDTH, self.HEIGHT)
+
     @info_log
     # 📺 show error image
     def draw_connection_error(self):
-        img = Image.new("P", self.size)
+        img = Image.new("P", self.size())
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, connection_message, title_font, self.size, border=True)
+        draw_centered_text(draw, connection_message, title_font, self.size(), border=True)
         self.show(img)
 
     # 📺 show the image
@@ -131,17 +135,20 @@ class Inker:
         self.lock = threading.Lock()
         self.config = config
         self.display = auto()
-        self.WIDTH, self.HEIGHT = self.size = self.display.resolution
+        self.WIDTH, self.HEIGHT = self.display.resolution
         self.title_font = title_font
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
 
+    def size(self):
+        return self.display.resolution
+
     @info_log
     def draw_connection_error(self):
-        img = Image.new("P", self.size)
+        img = Image.new("P", self.size())
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, connection_message, title_font, self.size, border=True)
+        draw_centered_text(draw, connection_message, title_font, self.size(), border=True)
         # 📺 show the image
         self.display.set_image(img)
         self.display.show()
@@ -153,10 +160,10 @@ class Inker:
         display_image = image.rotate(image_rotation)
 
         # 🖼️ crop and rescale image if needed
-        if display_image.size != self.size:
+        if display_image.size != self.size():
             display_image = ImageOps.fit(
                     display_image,
-                    self.size,
+                    self.size(),
                     centering=(0.5, 0.5))
 
         if self.display.colour in ["yellow", "red", 'black']:
@@ -175,4 +182,4 @@ class Inker:
             self.lock.release()
 
     def __repr__(self):
-        return f'<Inky {self.display.colour}: @{self.size}>'
+        return f'<Inky {self.display.colour}: @{self.size()}>'
