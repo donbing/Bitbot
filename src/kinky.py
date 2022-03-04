@@ -131,13 +131,11 @@ class Inker:
         self.lock = threading.Lock()
         self.config = config
         self.display = auto()
-        self.WIDTH = self.display.WIDTH
-        self.HEIGHT = self.display.HEIGHT
+        self.WIDTH, self.HEIGHT = self.size = self.display.resolution
         self.title_font = title_font
         self.price_font = price_font
         self.tiny_font = tiny_font
         self.medium_font = medium_font
-        self.size = (self.WIDTH, self.HEIGHT)
 
     @info_log
     def draw_connection_error(self):
