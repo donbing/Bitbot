@@ -1,7 +1,11 @@
 
+two_dp = '{:,.2f}'
+three_dp = '{:,.3f}'
+no_dp = '{:,.0f}'
+
 
 def format_title_price(price):
-    price_format = '{:,.0f}' if price > 100 else '{:,.2f}' if price > 10 else '{:,.3f}'
+    price_format = no_dp if price > 100 else two_dp if price > 10 else three_dp
     return price_format.format(price)
 
 
@@ -18,4 +22,5 @@ def format_scale_price(num, pos):
     while abs(num) >= 1000:
         magnitude += 1
         num /= 1000.0
-    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+    magnitude_char = ['', 'K', 'M', 'B', 'T'][magnitude]
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), magnitude_char)
