@@ -18,7 +18,7 @@ class Waver(DisplayBase):
         device_class = getattr(waveshare_module, device_name).EPD
         return device_class
 
-    def size(self):
+    def _size(self):
         return (self.display.width, self.display.height)
 
     # 📺 show the image
