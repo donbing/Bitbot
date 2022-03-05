@@ -30,7 +30,7 @@ class Buttons():
 
     @info_log
     def toggle_picure_frame_mode(self):
-        newstate = 'false' if self.config.photo_mode_enabled() else 'true'
+        newstate = str(not self.config.photo_mode_enabled()).lower()
         self.config.toggle_photo_mode(newstate)
         self.config.save()
 
@@ -40,12 +40,12 @@ class Buttons():
 
     @info_log
     def toggle_volume(self):
-        newstate = 'false' if self.config.show_volume() else 'true'
+        newstate = str(not self.config.show_volume()).lower()
         self.config.toggle_volume(newstate)
         self.config.save()
 
     @info_log
     def toggle_extended_view(self):
-        newstate = 'false' if self.config.expand_chart() else 'true'
+        newstate = str(not self.config.expand_chart()).lower()
         self.config.toggle_expanded_chart(newstate)
         self.config.save()
