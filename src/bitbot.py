@@ -4,7 +4,7 @@ from src.exchanges import crypto_exchanges, stock_exchanges
 from src.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
-from src.kinky import picker as display_picker
+from src.display.kinky import picker as display_picker
 from src.network_utils import wait_for_internet_connection
 
 

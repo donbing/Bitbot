@@ -1,5 +1,5 @@
 import unittest
-from src.kinky import title_font
+from src.display.kinky import title_font
 from src.intro import Intro
 from os.path import join as pjoin
 import pathlib
