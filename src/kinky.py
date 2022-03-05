@@ -25,6 +25,7 @@ and follow the instructions"""
 
 white_black_red = (255, 255, 255, 0, 0, 0, 255, 0, 0)
 
+
 # ✒️ select EPD display or file output (nice for testing)
 def picker(config):
     # todo: name classes to match config values
@@ -37,11 +38,13 @@ def picker(config):
     manufacturer, device_name, *_ = output_device.split('.') + [None]
     return typeMap[manufacturer](device_name, config)
 
+
 # 🎨 create a limited pallete image for converting our image
 def quantise_image(image, palette):
     palette_img = Image.new("P", (1, 1))
     palette_img.putpalette(palette + (0, 0, 0) * 252)
     return image.convert('RGB').quantize(palette=palette_img)
+
 
 class Disker:
     def __init__(self, device_name, config):
@@ -63,8 +66,8 @@ class Disker:
 
     def show(self, image):
         rotated_image = image.rotate(self.config.display_rotation())
-        quatised_image = quantise_image(rotated_image)
-        self.save_image(self.config.output_file_name(), quatised_image)
+        quantised_image = quantise_image(rotated_image, white_black_red)
+        self.save_image(self.config.output_file_name(), quantised_image)
 
     @info_log
     def save_image(self, path, image):
@@ -72,6 +75,7 @@ class Disker:
 
     def __repr__(self):
         return f'<Image to Disk: @{(self.WIDTH, self.HEIGHT)}>'
+
 
 class Waver:
     def __init__(self, device_name, config):
@@ -107,7 +111,7 @@ class Waver:
     def show(self, image):
         image = image.rotate(self.config.display_rotation())
         image = image.convert('P')
-        
+
         # create a bw image frm our source
         black_image = image.copy()
         black_image.putpalette((255, 255, 255, 0, 0, 0))
@@ -128,7 +132,8 @@ class Waver:
 
     def __repr__(self):
         return f'<{self.device_name}: @{(self.WIDTH, self.HEIGHT)}>'
-    
+
+
 class Inker:
     def __init__(self, device_name, config):
         self.device_name = device_name
