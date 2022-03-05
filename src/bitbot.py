@@ -1,6 +1,6 @@
 from PIL import Image
 import io
-from src import crypto_exchanges, stock_exchanges
+from src.exchanges import crypto_exchanges, stock_exchanges
 from src.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
 from src.chart_overlay import ChartOverlay
