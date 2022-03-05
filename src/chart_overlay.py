@@ -61,41 +61,45 @@ class ChartOverlay():
             border(draw_plot_image, border_type)
 
     # 💬 draw a random comment depending on price action
-    def draw_price_comment(self, chartdata, config):
+    def draw_price_comment(self, chartdata, config, font):
         if config.portfolio_size():
             portfolio_value = config.portfolio_size() * chartdata.last_close()
             formatted_value = "{:,}".format(portfolio_value)
-            return DrawText(formatted_value, self.display.title_font, 'black')
+            return DrawText(formatted_value, font, 'black')
         else:
             trending_up = chartdata.start_price() < chartdata.last_close()
             direction = 'up' if trending_up else 'down'
             trend_comments = config.get_price_action_comments(direction)
             comments = random.choice(trend_comments)
-            return DrawText(comments, self.display.title_font, 'red')
+            return DrawText(comments, font, 'red')
 
     # 🎹 draw instrument name and cangle width text
-    def instrument_and_timeframe(self, chartdata):
+    def instrument_and_timeframe(self, chartdata, font):
         text = chartdata.instrument + ' (' + chartdata.candle_width + ') '
-        return DrawText(text, self.display.title_font)
+        return DrawText(text, font)
 
     # 🎹 draw percentage change text
-    def percentage_change(self, chartdata):
-        return DrawText.percentage(chartdata.percentage_change(), self.display.title_font)
+    def percentage_change(self, chartdata, font):
+        percentage = chartdata.percentage_change()
+        return DrawText.percentage(percentage, font)
 
     # 🖊️ draw current price text
-    def current_price(self, chartdata):
-        return DrawText(price_humaniser.format_title_price(chartdata.last_close()), self.display.price_font)
+    def current_price(self, chartdata, font):
+        last_close = chartdata.last_close()
+        himanised_price = price_humaniser.format_title_price(last_close)
+        return DrawText(himanised_price, font)
 
     def draw_overlay1(self, image_draw, chartdata):
+        title_font = self.display.title_font
+        price_font = self.display.price_font
         tb = TextBlock([
             [
-                self.instrument_and_timeframe(chartdata),
-                self.percentage_change(chartdata),
+                self.instrument_and_timeframe(chartdata, title_font),
+                self.percentage_change(chartdata, title_font),
             ],
-            [self.current_price(chartdata)],
-            [self.draw_price_comment(chartdata, self.config)],
+            [self.current_price(chartdata, price_font)],
+            [self.draw_price_comment(chartdata, self.config, title_font)],
         ])
-
         # 🏳️ find some empty space in the image and place our title block
         selectedArea = least_intrusive_position(image_draw.im, tb)
         tb.draw_on(image_draw, selectedArea)
@@ -105,20 +109,22 @@ class ChartOverlay():
         self.draw_ip(image_draw)
 
     def draw_overlay2(self, image_draw, chartdata):
+        title_font = self.display.title_font
+        price_font = self.display.price_font
+        medium_font = self.display.medium_font
         tb = TextBlock([
-            [self.percentage_change(chartdata)],
-            [self.current_price(chartdata)],
-            [self.draw_price_comment(chartdata, self.config)],
+            [self.percentage_change(chartdata, title_font)],
+            [self.current_price(chartdata, price_font)],
+            [self.draw_price_comment(chartdata, self.config, title_font)],
         ])
-
         # 🏳️ find some empty space in the image and place our title block
         selectedArea = least_intrusive_position(image_draw.im, tb)
         tb.draw_on(image_draw, selectedArea)
 
         # 🎹 draw instrument name
-        rotated_center_right_text(image_draw, chartdata.instrument, self.display.medium_font)
+        rotated_center_right_text(image_draw, chartdata.instrument, medium_font)
         # 🕎 candle width
-        top_right_text(image_draw, chartdata.candle_width, self.display.medium_font)
+        top_right_text(image_draw, chartdata.candle_width, medium_font)
 
         self.draw_border(image_draw)
         self.draw_current_time(image_draw)
