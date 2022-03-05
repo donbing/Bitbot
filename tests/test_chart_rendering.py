@@ -12,7 +12,7 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 def load_config():
     config = load_config_ini(files)
-    config.set('display', 'output', 'disk')
+    config.set('display', 'output', 'inky')
     return config
 
 
@@ -62,6 +62,7 @@ class TestRenderingMeta(type):
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
+                config.set('display', 'rotation', '0')
                 config.set('display', 'show_ip', 'false')
                 config.set('display', 'timestamp', 'false')
                 app = BitBot(config, files)
