@@ -12,7 +12,6 @@ class Inker(DisplayBase):
         self.lock = threading.Lock()
         self.config = config
         self.display = auto()
-        self.WIDTH, self.HEIGHT = self.display.resolution
 
     def size(self):
         return self.display.resolution

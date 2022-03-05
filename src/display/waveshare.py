@@ -12,8 +12,6 @@ class Waver(DisplayBase):
         self.device_name = device_name
         self.lock = threading.Lock()
         self.config = config
-        self.WIDTH = self.display.width
-        self.HEIGHT = self.display.height
 
     def load_device_class(self, device_name):
         waveshare_module = __import__('waveshare_epd.' + device_name)
@@ -21,7 +19,7 @@ class Waver(DisplayBase):
         return device_class
 
     def size(self):
-        return (self.WIDTH, self.HEIGHT)
+        return (self.display.width, self.display.height)
 
     # 📺 show the image
     def show(self, image):
@@ -51,4 +49,4 @@ class Waver(DisplayBase):
         epd.sleep()
 
     def __repr__(self):
-        return f'<{self.device_name}: @{(self.WIDTH, self.HEIGHT)}>'
+        return f'<{self.device_name}: @{self.size()}>'

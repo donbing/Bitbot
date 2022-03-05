@@ -27,4 +27,4 @@ class Disker(DisplayBase):
         image.save(path)
 
     def __repr__(self):
-        return f'<Image to Disk: @{(self.WIDTH, self.HEIGHT)}>'
+        return f'<Image to Disk: @{self.size()}>'
