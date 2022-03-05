@@ -1,5 +1,5 @@
 import unittest
-from src import stock_exchanges
+from src.exchanges import stock_exchanges
 from src.configuration import bitbot_config
 
 # 🪳 ''1h',' <- fails on weekends due to short chart duration

@@ -21,14 +21,17 @@ class TestDevicePicker(unittest.TestCase):
         device = get_device('disk')
         assert type(device) is kinky.Disker, "should pick disk output"
 
+    @unittest.skip("inky device must be connected")
     def test_can_create_inky(self):
         device = get_device('inky')
         assert type(device) is kinky.Inker, "should pick inky output"
 
+    @unittest.skip("waveshare device must be connected")
     def test_can_create_waveshare(self):
         device = get_device('waveshare.epd2in7b_V2')
         assert type(device) is kinky.Waver, "should pick waveshare output"
 
+    @unittest.skip("waveshare device must be connected")
     def test_draw_image_to_waveshare(self):
         device = get_device('waveshare.epd2in7b_V2')
 
@@ -36,4 +39,3 @@ class TestDevicePicker(unittest.TestCase):
         image = image.resize(device.size())
         image = image.convert('P', palette=Image.ADAPTIVE, colors=3)
         device.show(image)
-       
