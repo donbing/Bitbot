@@ -1,9 +1,13 @@
 import socket
 import random
 from datetime import datetime
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 from src import price_humaniser
 from src.configuration.log_decorator import info_log
+from src.image_utils import bottom_right_text, bottom_left_text, top_right_text, border, rotated_center_right_text, DrawText, TextBlock, least_intrusive_position
+
+
+padding = 2
 
 
 def get_ip():
@@ -22,46 +26,6 @@ def get_ip():
 
 class ChartOverlay():
 
-    # 🏳️ select image area with the most white pixels
-    @staticmethod
-    def least_intrusive_position(img, possibleTextPositions):
-        # 🔢 count the white pixels in an area of the image
-        def count_white_pixels(x, y, height, width, image):
-            count = 0
-            print("width:" + str((width,height)))
-            x_range = range(x, x + width)
-            print("x:" + str(x_range))
-            y_range = range(y, y + height)
-            print("y:" + str(x_range))
-            for x in x_range:
-                for y in y_range:
-                    pix = image.getpixel((x, y))
-                    count += 1 if pix == (255, 255, 255) else 0
-            return count
-
-        rgb_im = img.convert('RGB')
-        height_of_section = 60
-        width_of_section = 60
-        ordredByAveColour = sorted(
-            possibleTextPositions,
-            key=lambda item: (
-                count_white_pixels(item[0], item[1], height_of_section, width_of_section, rgb_im),
-                item[0])
-            )
-
-        return ordredByAveColour[-1]
-
-    def flatten(t):
-        return [item for sublist in t for item in sublist]
-
-    def possible_title_positions(self):
-        width, height = self.display.size()
-        x_range = range(60, width - 70, 10)
-        y_range = [6, height // 2 , height - 80]
-        return ChartOverlay.flatten(
-            map(lambda y: 
-                map(lambda x: (x, y), x_range), y_range))
-
     def __init__(self, config, display, chart_data):
         self.config = config
         self.display = display
@@ -71,103 +35,94 @@ class ChartOverlay():
     def draw_on(self, chart_image):
         # 🖊️ handles drawing over our chart image
         draw_plot_image = ImageDraw.Draw(chart_image)
-        # 🏳️ find some empty space in the image to place our text
-        selectedArea = ChartOverlay.least_intrusive_position(chart_image, self.possible_title_positions())
         # 🖊️ draw configured overlay
         if self.config.overlay_type() == "2":
-            self.draw_overlay2(draw_plot_image, self.chart_data, selectedArea, chart_image)
+            self.draw_overlay2(draw_plot_image, self.chart_data)
         else:
-            self.draw_overlay1(draw_plot_image, self.chart_data, selectedArea, chart_image)
+            self.draw_overlay1(draw_plot_image, self.chart_data)
 
     # 🕒 add the time if configured
     def draw_current_time(self, draw_plot_image):
         if self.config.show_timestamp() == 'true':
-            formatted_time = datetime.now().strftime("%b %-d %-H:%M")
-            text_width, text_height = draw_plot_image.textsize(formatted_time, self.display.tiny_font)
-            display_width, display_height = self.display.size()
-            draw_plot_image.text(
-                (display_width - text_width - 1, display_height - text_height - 2),
-                formatted_time,
-                'black',
+            bottom_right_text(
+                draw_plot_image,
+                datetime.now().strftime("%b %-d %-H:%M"),
                 self.display.tiny_font)
 
     # 🕒 add the ip address if configured
     def draw_ip(self, draw):
         if self.config.show_ip() == 'true':
-            ip = get_ip()
-            text_width, text_height = draw.textsize(ip, self.display.tiny_font)
-            display_width, display_height = self.display.size()
-            draw.text(
-                (1, display_height - text_height - 2),
-                ip,
-                'black',
-                self.display.tiny_font)
+            bottom_left_text(draw, get_ip(), self.display.tiny_font)
 
     # 🔲 add a border if configured
     def draw_border(self, draw_plot_image):
         border_type = self.config.border_type()
         if border_type != 'none':
-            display_width, display_height = self.display.size()
-            draw_plot_image.rectangle(
-                [(0, 0), (display_width - 1, display_height - 1)],
-                outline=border_type)
+            border(draw_plot_image, border_type)
 
     # 💬 draw a random comment depending on price action
-    def draw_price_comment(self, draw_plot_image, chartdata, selectedArea):
-        if self.config.portfolio_size():
-            messages = "{:,}".format(self.config.portfolio_size() * chartdata.last_close())
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), messages, 'black', self.display.title_font)
-        elif random.random() < 0.5:
-            direction = 'up' if chartdata.start_price() < chartdata.last_close() else 'down'
-            messages = self.config.get_price_action_comments(direction)
-            draw_plot_image.text((selectedArea[0], selectedArea[1]+52), random.choice(messages), 'red', self.display.title_font)
+    def draw_price_comment(self, chartdata, config):
+        if config.portfolio_size():
+            portfolio_value = config.portfolio_size() * chartdata.last_close()
+            formatted_value = "{:,}".format(portfolio_value)
+            return DrawText(formatted_value, self.display.title_font, 'black')
+        else:
+            trending_up = chartdata.start_price() < chartdata.last_close()
+            direction = 'up' if trending_up else 'down'
+            trend_comments = config.get_price_action_comments(direction)
+            comments = random.choice(trend_comments)
+            return DrawText(comments, self.display.title_font, 'red')
+
+    # 🎹 draw instrument name and cangle width text
+    def instrument_and_timeframe(self, chartdata):
+        text = chartdata.instrument + ' (' + chartdata.candle_width + ') '
+        return DrawText(text, self.display.title_font)
+
+    # 🎹 draw percentage change text
+    def percentage_change(self, chartdata):
+        return DrawText.percentage(chartdata.percentage_change(), self.display.title_font)
 
     # 🖊️ draw current price text
-    def draw_current_price(self, draw_plot_image, chartdata, selectedArea):
-        price = price_humaniser.format_title_price(chartdata.last_close())
-        draw_plot_image.text((selectedArea[0], selectedArea[1]+11), price, 'black', self.display.price_font)
+    def current_price(self, chartdata):
+        return DrawText(price_humaniser.format_title_price(chartdata.last_close()), self.display.price_font)
 
-    def draw_overlay1(self, draw_plot_image, chartdata, selectedArea, base_plot_image):
-        # 🎹 🕎 draw instrument / candle width
-        title = chartdata.instrument + ' (' + chartdata.candle_width + ') '
-        draw_plot_image.text(selectedArea, title, 'black', self.display.title_font)
-        # 🖊️ draw % change text
-        title_width, title_height = draw_plot_image.textsize(title, self.display.title_font)
-        change = ((chartdata.last_close() - chartdata.start_price()) / chartdata.last_close())*100
-        change_colour = ('red' if change < 0 else 'black')
-        draw_plot_image.text((selectedArea[0]+title_width, selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+    def draw_overlay1(self, image_draw, chartdata):
+        tb = TextBlock([
+            [
+                self.instrument_and_timeframe(chartdata),
+                self.percentage_change(chartdata),
+            ],
+            [self.current_price(chartdata)],
+            [self.draw_price_comment(chartdata, self.config)],
+        ])
 
-        self.draw_current_price(draw_plot_image, chartdata, selectedArea)
-        self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
-        self.draw_border(draw_plot_image)
-        self.draw_current_time(draw_plot_image)
-        self.draw_ip(draw_plot_image)
+        # 🏳️ find some empty space in the image and place our title block
+        selectedArea = least_intrusive_position(image_draw.im, tb)
+        tb.draw_on(image_draw, selectedArea)
 
-    def draw_overlay2(self, draw_plot_image, chartdata, selectedArea, base_plot_image):
+        self.draw_border(image_draw)
+        self.draw_current_time(image_draw)
+        self.draw_ip(image_draw)
+
+    def draw_overlay2(self, image_draw, chartdata):
+        tb = TextBlock([
+            [self.percentage_change(chartdata)],
+            [self.current_price(chartdata)],
+            [self.draw_price_comment(chartdata, self.config)],
+        ])
+
+        # 🏳️ find some empty space in the image and place our title block
+        selectedArea = least_intrusive_position(image_draw.im, tb)
+        tb.draw_on(image_draw, selectedArea)
+
         # 🎹 draw instrument name
-        title = chartdata.instrument
-        title_width, title_height = draw_plot_image.textsize(title, self.display.medium_font)
-        txt = Image.new('RGBA', (title_width, title_height), (0, 0, 0, 0))
-        d = ImageDraw.Draw(txt)
-        d.text((0, 0), title, 'black', self.display.medium_font)
-        w = txt.rotate(270, expand=True)
-        display_width, display_height = self.display.size()
-        title_paste_pos = (display_width - title_height - 2, int((display_height - title_width) / 2))
-        base_plot_image.paste(w, title_paste_pos, w)
+        rotated_center_right_text(image_draw, chartdata.instrument, self.display.medium_font)
         # 🕎 candle width
-        candle_width_right_padding = 2
-        candle_width_width, candle_width_height = draw_plot_image.textsize(chartdata.candle_width, self.display.medium_font)
-        draw_plot_image.text((display_height-candle_width_width, candle_width_right_padding), chartdata.candle_width, 'red', self.display.medium_font)
-        # 🖊️ draw % change text
-        change = chartdata.percentage_change()
-        change_colour = ('red' if change < 0 else 'black')
-        draw_plot_image.text((selectedArea[0], selectedArea[1]), '{:+.2f}'.format(change) + '%', change_colour, self.display.title_font)
+        top_right_text(image_draw, chartdata.candle_width, self.display.medium_font)
 
-        self.draw_current_price(draw_plot_image, chartdata, selectedArea)
-        self.draw_price_comment(draw_plot_image, chartdata, selectedArea)
-        self.draw_border(draw_plot_image)
-        self.draw_current_time(draw_plot_image)
-        self.draw_ip(draw_plot_image)
+        self.draw_border(image_draw)
+        self.draw_current_time(image_draw)
+        self.draw_ip(image_draw)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
