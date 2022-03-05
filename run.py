@@ -12,7 +12,7 @@ from src.configuration.log_decorator import info_log
 from src.buttons import Buttons
 from src.bitbot import BitBot
 from src.intro import IntroPlayer
-from src.kinky import picker
+from src.display.kinky import picker
 
 # 🗂️ declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())

@@ -1,5 +1,5 @@
 import unittest
-import src.kinky as kinky
+import src.display.kinky as kinky
 from os.path import join as pjoin
 import pathlib
 from PIL import Image

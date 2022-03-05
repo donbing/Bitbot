@@ -4,14 +4,14 @@ from inky.auto import auto
 import pathlib
 import threading
 from PIL import Image, ImageFont, ImageDraw, ImageOps
-from .configuration.log_decorator import info_log
-from .image_utils import draw_centered_text
+from ..configuration.log_decorator import info_log
+from ..image_utils import draw_centered_text
 
 filePath = pathlib.Path(__file__).parent.absolute()
 fontPath = str(filePath)+'/resources/04B_03__.TTF'
 price_font = ImageFont.truetype(fontPath, 48)
-title_font = ImageFont.truetype(fontPath, 16)
 medium_font = ImageFont.truetype(fontPath, 32)
+title_font = ImageFont.truetype(fontPath, 16)
 tiny_font = ImageFont.truetype(fontPath, 8)
 
 connection_message = """
