@@ -16,7 +16,8 @@ class Buttons():
             # 🎰 set up RPi.GPIO with the "BCM" numbering scheme
             GPIO.setmode(GPIO.BCM)
             # 🌍 buttons connect ground, so we need pullup mode
-            GPIO.setup(list(self.BUTTONS.keys()), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            button_keys = self.BUTTONS.keys()
+            GPIO.setup(list(button_keys), GPIO.IN, pull_up_down=GPIO.PUD_UP)
             # ⛏️ register handler for each button, falling edge, 250ms debounce
             for pin in self.BUTTONS.keys():
                 GPIO.add_event_detect(
