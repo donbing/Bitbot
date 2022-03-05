@@ -35,6 +35,11 @@ class DisplayBase:
     tiny_font = tiny_font
     medium_font = medium_font
 
+    def size(self):
+        if self.config.display_rotation() % 90 == 0:
+            return self._size
+        return self._size()[::-1]
+
     @info_log
     # 📺 show error image
     def draw_connection_error(self):
@@ -42,4 +47,3 @@ class DisplayBase:
         draw = ImageDraw.Draw(img)
         centered_text(draw, connection_message, title_font, self.size(), True)
         self.show(img)
-

@@ -13,7 +13,7 @@ class Inker(DisplayBase):
         self.config = config
         self.display = auto()
 
-    def size(self):
+    def _size(self):
         return self.display.resolution
 
     @info_log
