@@ -1,7 +1,6 @@
 import threading
 from . import DisplayBase
 import time
-from PIL import ImageOps
 
 
 # 🌊 supports waveshare EPDs
@@ -23,12 +22,9 @@ class Waver(DisplayBase):
 
     # 📺 show the image
     def show(self, image):
-        image = image.rotate(self.config.display_rotation())
+        image = self.apply_rotation(image)
         image = image.convert('P')
-
-        # 🖼️ crop and rescale image if needed
-        if image.size != self.size():
-            image = ImageOps.fit(image, self.size(), centering=(0.5, 0.5))
+        image = self.resize_image(image)
 
         # create a bw image frm our source
         black_image = image.copy()
