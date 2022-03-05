@@ -29,6 +29,38 @@ class ChartOverlay():
         self.draw_current_time(draw_plot_image)
         self.draw_ip(draw_plot_image)
 
+    def draw_overlay1(self, image_draw, chartdata):
+        title_font = self.display.title_font
+        price_font = self.display.price_font
+        tb = TextBlock([
+            [
+                self.instrument_and_timeframe(chartdata, title_font),
+                self.percentage_change(chartdata, title_font),
+            ],
+            [self.current_price(chartdata, price_font)],
+            [self.draw_price_comment(chartdata, self.config, title_font)],
+        ])
+        # 🏳️ find some empty space in the image and place our title block
+        selectedArea = least_intrusive_position(image_draw.im, tb)
+        tb.draw_on(image_draw, selectedArea)
+
+    def draw_overlay2(self, image_draw, chartdata):
+        title_font = self.display.title_font
+        price_font = self.display.price_font
+        medium_font = self.display.medium_font
+        tb = TextBlock([
+            [self.percentage_change(chartdata, title_font)],
+            [self.current_price(chartdata, price_font)],
+            [self.draw_price_comment(chartdata, self.config, title_font)],
+        ])
+        # 🏳️ find some empty space in the image and place our title block
+        selectedArea = least_intrusive_position(image_draw.im, tb)
+        tb.draw_on(image_draw, selectedArea)
+        # 🎹 draw instrument name
+        rotated_center_right_text(image_draw, chartdata.instrument, medium_font)
+        # 🕎 candle width
+        top_right_text(image_draw, chartdata.candle_width, medium_font)
+
     # 🕒 add the time if configured
     def draw_current_time(self, draw_plot_image):
         if self.config.show_timestamp() == 'true':
@@ -76,39 +108,6 @@ class ChartOverlay():
         last_close = chartdata.last_close()
         himanised_price = price_humaniser.format_title_price(last_close)
         return DrawText(himanised_price, font)
-
-    def draw_overlay1(self, image_draw, chartdata):
-        title_font = self.display.title_font
-        price_font = self.display.price_font
-        tb = TextBlock([
-            [
-                self.instrument_and_timeframe(chartdata, title_font),
-                self.percentage_change(chartdata, title_font),
-            ],
-            [self.current_price(chartdata, price_font)],
-            [self.draw_price_comment(chartdata, self.config, title_font)],
-        ])
-        # 🏳️ find some empty space in the image and place our title block
-        selectedArea = least_intrusive_position(image_draw.im, tb)
-        tb.draw_on(image_draw, selectedArea)
-
-    def draw_overlay2(self, image_draw, chartdata):
-        title_font = self.display.title_font
-        price_font = self.display.price_font
-        medium_font = self.display.medium_font
-        tb = TextBlock([
-            [self.percentage_change(chartdata, title_font)],
-            [self.current_price(chartdata, price_font)],
-            [self.draw_price_comment(chartdata, self.config, title_font)],
-        ])
-        # 🏳️ find some empty space in the image and place our title block
-        selectedArea = least_intrusive_position(image_draw.im, tb)
-        tb.draw_on(image_draw, selectedArea)
-
-        # 🎹 draw instrument name
-        rotated_center_right_text(image_draw, chartdata.instrument, medium_font)
-        # 🕎 candle width
-        top_right_text(image_draw, chartdata.candle_width, medium_font)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
