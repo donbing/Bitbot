@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw
 import time
 from .image_utils import centered_text
-from .network_utils import wait_for_internet_connection
+from ..configuration.network_utils import wait_for_internet_connection
 page1 = '''Hi, I'm your new Bitbot.
 
 I can chart crypto and stock markets.

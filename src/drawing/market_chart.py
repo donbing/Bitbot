@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.font_manager as font_manager
 from mplfinance.original_flavor import candlestick_ohlc, volume_overlay
-from src import price_humaniser
+from src.drawing import price_humaniser
 
 matplotlib.use('Agg')
 local_timezone = tzlocal.get_localzone()

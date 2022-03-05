@@ -1,4 +1,4 @@
-from .configuration.log_decorator import info_log
+from .log_decorator import info_log
 import socket
 import time
 

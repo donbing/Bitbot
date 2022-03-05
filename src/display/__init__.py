@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from ..configuration.log_decorator import info_log
-from ..image_utils import centered_text
+from ..drawing.image_utils import centered_text
 import pathlib
 white_black_red = (255, 255, 255, 0, 0, 0, 255, 0, 0)
 

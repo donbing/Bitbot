@@ -1,5 +1,5 @@
 import unittest
-from src.price_humaniser import format_title_price, format_scale_price
+from src.drawing.price_humaniser import format_title_price, format_scale_price
 
 
 class test_title_price_humaniser(unittest.TestCase):
