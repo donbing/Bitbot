@@ -6,7 +6,7 @@ transparent = (0, 0, 0, 0)
 
 # 🏳️ select image area with the most white pixels
 def least_intrusive_position(img, block):
-    possiblePositions = possible_title_positions(img, block)
+    possiblePositions = possible_block_positions(img, block)
 
     # 🔢 count the white pixels in an area of the image
     def count_white_pixels(x, y, height, width, image):
@@ -32,7 +32,7 @@ def least_intrusive_position(img, block):
     return ordredByAveColour[-1]
 
 
-def possible_title_positions(image, text_block):
+def possible_block_positions(image, text_block):
     width, height = image.size
     left_pad = 60
     top_pad = 6

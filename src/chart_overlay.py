@@ -7,9 +7,6 @@ from src.configuration.log_decorator import info_log
 from src.image_utils import bottom_right_text, bottom_left_text, top_right_text, border, rotated_center_right_text, DrawText, TextBlock, least_intrusive_position
 
 
-padding = 2
-
-
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.settimeout(0)
@@ -33,13 +30,17 @@ class ChartOverlay():
 
     @info_log
     def draw_on(self, chart_image):
-        # 🖊️ handles drawing over our chart image
+        # 🖊️ handles drawing on top of our chart image
         draw_plot_image = ImageDraw.Draw(chart_image)
         # 🖊️ draw configured overlay
         if self.config.overlay_type() == "2":
             self.draw_overlay2(draw_plot_image, self.chart_data)
         else:
             self.draw_overlay1(draw_plot_image, self.chart_data)
+
+        self.draw_border(draw_plot_image)
+        self.draw_current_time(draw_plot_image)
+        self.draw_ip(draw_plot_image)
 
     # 🕒 add the time if configured
     def draw_current_time(self, draw_plot_image):
@@ -49,7 +50,7 @@ class ChartOverlay():
                 datetime.now().strftime("%b %-d %-H:%M"),
                 self.display.tiny_font)
 
-    # 🕒 add the ip address if configured
+    # 📡 add the ip address if configured
     def draw_ip(self, draw):
         if self.config.show_ip() == 'true':
             bottom_left_text(draw, get_ip(), self.display.tiny_font)
@@ -78,7 +79,7 @@ class ChartOverlay():
         text = chartdata.instrument + ' (' + chartdata.candle_width + ') '
         return DrawText(text, font)
 
-    # 🎹 draw percentage change text
+    # 🔀 draw percentage change text
     def percentage_change(self, chartdata, font):
         percentage = chartdata.percentage_change()
         return DrawText.percentage(percentage, font)
@@ -104,10 +105,6 @@ class ChartOverlay():
         selectedArea = least_intrusive_position(image_draw.im, tb)
         tb.draw_on(image_draw, selectedArea)
 
-        self.draw_border(image_draw)
-        self.draw_current_time(image_draw)
-        self.draw_ip(image_draw)
-
     def draw_overlay2(self, image_draw, chartdata):
         title_font = self.display.title_font
         price_font = self.display.price_font
@@ -125,10 +122,6 @@ class ChartOverlay():
         rotated_center_right_text(image_draw, chartdata.instrument, medium_font)
         # 🕎 candle width
         top_right_text(image_draw, chartdata.candle_width, medium_font)
-
-        self.draw_border(image_draw)
-        self.draw_current_time(image_draw)
-        self.draw_ip(image_draw)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
