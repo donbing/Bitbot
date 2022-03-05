@@ -78,3 +78,24 @@ class TestRenderingMeta(type):
 
 class ChartRenderingTests(unittest.TestCase, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
+
+
+# class TestTextBlocks(unittest.TestCase):
+#     fontPath = str(files.resource_folder) + '/04B_03__.TTF'
+#     title_font = ImageFont.truetype(fontPath, 16)
+#     price_font = ImageFont.truetype(fontPath, 32)
+
+#     def test_text_block(self):
+#         lines = [
+#             [
+#                 DrawText('balls' + ' (' + 'arse' + ') ', self.title_font),
+#                 DrawText.percentage(-50, self.title_font),
+#             ],
+#             [
+#                 DrawText("48,000", self.price_font),
+#             ],
+#         ]
+
+#         block = TextBlock(lines)
+#         image = block.create_image()
+#         image.save('arse.png')
