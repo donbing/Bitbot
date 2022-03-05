@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from ..configuration.log_decorator import info_log
 from ..drawing.image_utils import centered_text
 import pathlib
@@ -38,7 +38,7 @@ class DisplayBase:
     def size(self):
         size = self._size()
         rotation = self.config.display_rotation()
-        return size if rotation % 90 == 0 else size[::-1]
+        return size if rotation % 180 == 0 else size[::-1]
 
     @info_log
     # 📺 show error image
@@ -47,3 +47,19 @@ class DisplayBase:
         draw = ImageDraw.Draw(img)
         centered_text(draw, connection_message, title_font, self.size(), True)
         self.show(img)
+
+    # 🔁 apply rotation (see size() for why this is weird)
+    def apply_rotation(self, image):
+        image_rotation = self.config.display_rotation()
+        if(image_rotation == 180):
+            return image.rotate(180)
+        elif(image_rotation == 270):
+            return image.rotate(180)
+        else:
+            return image
+
+    # 🖼️ crop and rescale image if needed
+    def resize_image(self, image):
+        if image.size != self.size():
+            return ImageOps.fit(image, self.size(), centering=(0.5, 0.5))
+        return image
