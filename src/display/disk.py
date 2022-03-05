@@ -6,12 +6,11 @@ from . import DisplayBase, quantise_image, white_black_red
 class Disker(DisplayBase):
     def __init__(self, device_name, config):
         self.device_name = device_name
-        self.WIDTH = 400
-        self.HEIGHT = 300
+        self.width, self.height = (400, 300)
         self.config = config
 
-    def size(self):
-        return (self.WIDTH, self.HEIGHT)
+    def _size(self):
+        return (self.width, self.height)
 
     @info_log
     def draw_connection_error(self):
