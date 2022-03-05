@@ -36,9 +36,9 @@ class DisplayBase:
     medium_font = medium_font
 
     def size(self):
-        if self.config.display_rotation() % 90 == 0:
-            return self._size
-        return self._size()[::-1]
+        size = self._size()
+        rotation = self.config.display_rotation()
+        return size if rotation % 90 == 0 else size[::-1]
 
     @info_log
     # 📺 show error image
