@@ -134,7 +134,7 @@ def border(draw, border_type):
     draw.rectangle(rect_pos, outline=border_type)
 
 
-def draw_centered_text(draw, text, font, size, pos='centre', border=False):
+def centered_text(draw, text, font, size, pos='centre', border=False):
     # 🌌 calculate space needed for message
     message_size = draw.textsize(text, font)
 
