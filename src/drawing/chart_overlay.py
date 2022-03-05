@@ -1,11 +1,12 @@
-import socket
 import random
 from datetime import datetime
 from PIL import ImageDraw
-from src import price_humaniser
+from src.drawing import price_humaniser
 from src.configuration.log_decorator import info_log
-from src.image_utils import bottom_right_text, bottom_left_text, top_right_text, border, rotated_center_right_text, DrawText, TextBlock, least_intrusive_position
-from src.network_utils import get_ip
+from src.drawing.image_utils import bottom_right_text, bottom_left_text, top_right_text
+from src.drawing.image_utils import border, rotated_center_right_text, DrawText
+from src.drawing.image_utils import TextBlock, least_intrusive_position
+from src.configuration.network_utils import get_ip
 
 
 class ChartOverlay():

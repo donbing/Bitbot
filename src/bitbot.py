@@ -1,11 +1,11 @@
 from PIL import Image
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
-from src.market_chart import MarketChart
+from src.drawing.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
-from src.chart_overlay import ChartOverlay
+from src.drawing.chart_overlay import ChartOverlay
 from src.display.picker import picker as display_picker
-from src.network_utils import wait_for_internet_connection
+from src.configuration.network_utils import wait_for_internet_connection
 
 
 class Cartographer():
