@@ -12,7 +12,7 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 def load_config():
     config = load_config_ini(files)
-    config.set('display', 'output', 'inky')
+    config.set('display', 'output', 'disk')
     return config
 
 
