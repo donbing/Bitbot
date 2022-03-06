@@ -31,10 +31,10 @@ class ChartOverlay():
     def get_common_display_elements(self):
         # 🕒 add the time if configured
         if self.config.show_timestamp() == 'true':
-            yield DrawText(datetime.now().strftime("%b %-d %-H:%M"), Align.bottom_right)
+            yield DrawText(datetime.now().strftime("%b %-d %-H:%M"), Align.BottomRight)
         # 📡 add the ip address if configured
         if self.config.show_ip() == 'true':
-            yield DrawText(get_ip(), Align.bottom_left)
+            yield DrawText(get_ip(), Align.BottomLeft)
         # 🔲 add a border if configured
         yield Border(self.config.border_type())
         # 🖊️ add configured overlay
@@ -60,7 +60,7 @@ class ChartOverlay():
             [DrawText.number(portfolio_value, self.title_font) 
                 if portfolio_value 
                 else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
-        ], align = Align.least_intrusive_position)
+        ], align = Align.LeastIntrusive)
 
     def overlay2(self, chartdata):
         portfolio_value = self.value_held(chartdata)
@@ -74,11 +74,11 @@ class ChartOverlay():
             [DrawText.number(portfolio_value, self.title_font) 
                 if portfolio_value 
                 else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
-        ], align=Align.least_intrusive_position)
+        ], align=Align.LeastIntrusive)
         # 🎹 draw instrument name
         yield RotatedTextBlock(chartdata.instrument, self.medium_font) 
         # 🕎 candle width
-        yield DrawText(chartdata.candle_width, self.medium_font, align=Align.top_right)
+        yield DrawText(chartdata.candle_width, self.medium_font, align=Align.TopRight)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
