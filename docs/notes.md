@@ -34,6 +34,9 @@ docker buildx build --platform linux/arm/v6 . -t bitbot --progress string
 # run it, have to specify which chip QEMU should emulate
 docker run -e QEMU_CPU=arm1176 --privileged --rm -t --platform linux/arm/v6 navikey/raspbian-buster:latest bash
 
+docker buildx build --platform linux/arm/v6 . -t bitbot -f scripts/docker/dockerfile --progress string
+docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 bitbot
+
 # remove all containers
 docker container rm $(docker container ls -q -a)
 #' which cpus to use for the build 
