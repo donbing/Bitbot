@@ -1,8 +1,8 @@
 from PIL import Image, ImageDraw
 from src.drawing.price_humaniser import format_title_price
 import random
-from datetime import datetime
-padding = 10
+
+padding = 0
 transparent = (0, 0, 0, 0)
 
 
@@ -174,8 +174,9 @@ class Align:
                 count_white_pixels(*item, block_height, block_width, rgb_im),
                 item[0])
             )
-
-        return ordredByAveColour[-1]
+        if len(ordredByAveColour) > 0:
+            return ordredByAveColour[-1]
+        return (0, 0)
 
     def possible_block_positions(image, text_size):
         image_width, image_height = image.size
