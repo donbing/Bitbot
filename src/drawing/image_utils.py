@@ -27,11 +27,6 @@ class DrawText:
     def number(value, font):
         return DrawText("{:,}".format(value), font, 'black')
 
-    # 🏷️ number text
-    @staticmethod  
-    def top_right(value, font):
-        return DrawText("{:,}".format(value), font, 'black')
-
     # 🎲 randomly selected up/down comment 
     @staticmethod  
     def random_from_bool(options, up_or_down, font):
@@ -90,6 +85,7 @@ class Border:
     def border_rect(draw):
         return [(0, 0), (draw.im.size[0] - 1, draw.im.size[1] - 1)]
 
+
 class RotatedTextBlock:
     def __init__(self, text, font):
         self.text = text
@@ -112,35 +108,16 @@ class RotatedTextBlock:
         draw._image.paste(rotated_text, title_paste_pos, rotated_text)
 
 
-def top_right_text(draw, text, font):
-    text_pos = Align.top_right(draw.im.size, draw.textsize(text, font))
-    draw.text(text_pos, text, 'red', font)
-
-
-def bottom_right_text(draw, text, font):
-    text_pos = Align.bottom_right(draw.im.size, draw.textsize(text, font))
-    draw.text(text_pos, text, 'black', font)
-
-
-def bottom_left_text(draw, text, font):
-    text_pos = thank(draw, text, font, Align.bottom_left)
-    draw.text(text_pos, text, 'black', font)
-
-
-def thank(draw, text, font, act):
-    act(draw.im.size, draw.textsize(text, font))
-
-
 def centered_text(draw, text, font, container_size, pos='centre', border=False):
     # 🌌 calculate space needed for message
     message_size = draw.textsize(text, font)
     # 📏 where to position the message
     if pos == 'centre':
-        message_x, message_y = Align.centre(container_size, message_size)
+        message_x, message_y = Align.Centre(container_size, message_size)
     elif pos == 'topright':
-        message_x, message_y = Align.top_right(container_size, message_size)
+        message_x, message_y = Align.TopRight(container_size, message_size)
     elif pos == 'topleft':
-        message_x, message_y = Align.top_left(container_size, message_size)
+        message_x, message_y = Align.TopLeft(container_size, message_size)
     # 🖊️ draw the message at position
     draw.multiline_text(
         (message_x, message_y),
@@ -158,26 +135,25 @@ def centered_text(draw, text, font, container_size, pos='centre', border=False):
 
 
 class Align:
-    def top_right(display, message_size):
+    def TopRight(display, message_size):
         return (display.size[0] - message_size[0] - padding - 1, padding)
 
-    def bottom_right(display, message_size):
+    def BottomRight(display, message_size):
         return (display.size[0] - message_size[0], display.size[1] - message_size[1])
 
-    def bottom_left(display, message_size):
+    def BottomLeft(display, message_size):
         return (0, display.size[1] - message_size[1])
 
-    def top_left(display, message_size):
+    def TopLeft(display, message_size):
         return (0 + padding + 1, 0 + padding + 1)
 
-    def centre(display, message_size):
+    def Centre(display, message_size):
         message_y = (display.size[1] - message_size[1]) / 2
         message_x = (display.size[0] - message_size[0]) / 2
         return (message_y, message_x)
 
-        
     # 🏳️ select image area with the most white pixels
-    def least_intrusive_position(display, block):
+    def LeastIntrusive(display, block):
         possiblePositions = Align.possible_block_positions(display, block)
         block_width, block_height = block
         # 🔢 count the white pixels in an area of the image
@@ -201,7 +177,6 @@ class Align:
 
         return ordredByAveColour[-1]
 
-
     def possible_block_positions(image, text_size):
         image_width, image_height = image.size
         text_width, text_height = text_size
@@ -212,7 +187,6 @@ class Align:
         return Align.flatten(
             map(lambda y: map(lambda x: (x, y), x_range), y_range)
         )
-
 
     def flatten(t):
         return [item for sublist in t for item in sublist]
