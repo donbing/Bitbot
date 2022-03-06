@@ -11,6 +11,7 @@ class Waver(DisplayBase):
         self.device_name = device_name
         self.lock = threading.Lock()
         self.config = config
+        self.set_fonts()
 
     def load_device_class(self, device_name):
         waveshare_module = __import__('waveshare_epd.' + device_name)

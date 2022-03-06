@@ -40,6 +40,12 @@ class DisplayBase:
         rotation = self.config.display_rotation()
         return size if rotation % 180 == 0 else size[::-1]
 
+    def set_fonts(self):
+        if(self.size()[0] < 300):
+            self.price_font = medium_font
+            self.medium_font = title_font
+            self.title_font = tiny_font
+
     @info_log
     # 📺 show error image
     def draw_connection_error(self):
