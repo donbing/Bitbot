@@ -9,10 +9,10 @@ from src.configuration.bitbot_config import load_config_ini
 from src.configuration.bitbot_logging import initialise_logger
 from src.configuration.config_observer import watch_config_dir
 from src.configuration.log_decorator import info_log
-from src.buttons import Buttons
+from src.input.buttons import Buttons
 from src.bitbot import BitBot
-from src.intro import IntroPlayer
-from src.kinky import picker
+from src.drawing.intro import IntroPlayer
+from src.display.picker import picker
 
 # 🗂️ declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())

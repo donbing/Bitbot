@@ -16,7 +16,8 @@ class Buttons():
             # 🎰 set up RPi.GPIO with the "BCM" numbering scheme
             GPIO.setmode(GPIO.BCM)
             # 🌍 buttons connect ground, so we need pullup mode
-            GPIO.setup(list(self.BUTTONS.keys()), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            button_keys = self.BUTTONS.keys()
+            GPIO.setup(list(button_keys), GPIO.IN, pull_up_down=GPIO.PUD_UP)
             # ⛏️ register handler for each button, falling edge, 250ms debounce
             for pin in self.BUTTONS.keys():
                 GPIO.add_event_detect(
@@ -30,7 +31,7 @@ class Buttons():
 
     @info_log
     def toggle_picure_frame_mode(self):
-        newstate = 'false' if self.config.photo_mode_enabled() else 'true'
+        newstate = str(not self.config.photo_mode_enabled()).lower()
         self.config.toggle_photo_mode(newstate)
         self.config.save()
 
@@ -40,12 +41,12 @@ class Buttons():
 
     @info_log
     def toggle_volume(self):
-        newstate = 'false' if self.config.show_volume() else 'true'
+        newstate = str(not self.config.show_volume()).lower()
         self.config.toggle_volume(newstate)
         self.config.save()
 
     @info_log
     def toggle_extended_view(self):
-        newstate = 'false' if self.config.expand_chart() else 'true'
+        newstate = str(not self.config.expand_chart()).lower()
         self.config.toggle_expanded_chart(newstate)
         self.config.save()

@@ -27,6 +27,7 @@ class BitBotFiles():
         self.expanded_style = self.existing_file_path('expanded.mplstyle')
         self.default_style = self.existing_file_path('default.mplstyle')
         self.volume_style = self.existing_file_path('volume.mplstyle')
+        self.small_screen_style = self.existing_file_path('small_screen.mplstyle')
 
     def existing_file_path(self, file_name):
         file_path = pjoin(self.config_folder, file_name)

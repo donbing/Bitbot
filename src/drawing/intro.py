@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw
 import time
-from .image_utils import draw_centered_text
-from .network_utils import wait_for_internet_connection
+from .image_utils import centered_text
+from ..configuration.network_utils import wait_for_internet_connection
 page1 = '''Hi, I'm your new Bitbot.
 
 I can chart crypto and stock markets.
@@ -34,7 +34,7 @@ transparent = (255, 0, 0, 0)
 
 
 def IntroPlayer(display, config):
-    intro = Intro(display.size, display.title_font, config)
+    intro = Intro(display.size(), display.title_font, config)
     for image in intro.play():
         display.show(image)
 
@@ -56,7 +56,7 @@ class Intro:
         background = self.get_background()
         img = Image.new("RGBA", self.display_size, transparent)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page1, self.font, img.size, 'topleft')
+        centered_text(draw, page1, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 
@@ -65,7 +65,7 @@ class Intro:
         img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page2, self.font, img.size, 'topleft')
+        centered_text(draw, page2, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 
@@ -74,7 +74,7 @@ class Intro:
         img = Image.new("RGBA", self.display_size, transparent)
         img.paste(background)
         draw = ImageDraw.Draw(img)
-        draw_centered_text(draw, page3, self.font, img.size, 'topleft')
+        centered_text(draw, page3, self.font, img.size, 'topleft')
         background.paste(img, (0, 0), img)
         yield background
 
