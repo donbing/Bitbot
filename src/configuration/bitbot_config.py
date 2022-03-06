@@ -45,8 +45,8 @@ class BitBotConfig():
     def output_device_name(self):
         return os.getenv('BITBOT_OUTPUT') or self.config["display"]["output"]
 
-    def get_price_action_comments(self, direction):
-        return self.config.get('comments', direction).split(',')
+    def get_price_action_comments(self):
+        return self.config['comments']
 
     def border_type(self):
         return self.config["display"]["border"]
