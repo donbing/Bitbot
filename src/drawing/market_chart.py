@@ -68,7 +68,7 @@ class PlottedChart:
         else:
              yield files.default_style
         if display.size()[0] < 300:
-             yield files.small_style
+             yield files.small_screen_style
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
