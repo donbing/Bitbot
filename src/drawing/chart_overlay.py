@@ -52,7 +52,7 @@ class ChartOverlay():
                 DrawText.percentage(chartdata.percentage_change(), self.title_font),
             ],
             # 🐘 large font price text
-            [DrawText.humanised_price(chartdata.last_close(),  self.price_font)],
+            [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
@@ -78,10 +78,10 @@ class ChartOverlay():
         yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
 
     def ai_comments(self):
-        self.config.get_price_action_comments()
+        return self.config.get_price_action_comments()
 
     def value_held(self, market):
-        self.config.portfolio_size() * market.last_close()
+        return self.config.portfolio_size() * market.last_close()
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'
