@@ -14,13 +14,21 @@
 > More detailed [instructions with screenshots can be found here](wifi_setup.md)
 
 # ⚙️ Advanced Configuration
-Configuration for your crypto-watcher is stored in a config.ini file on the raspberry Pi  
+### Configuration for your crypto-watcher is stored in a `config.ini` file on the raspberry Pi 
 
-> visit [http://bitbot:8080](http://bitbot:8080) in your browser to **edit the configuration** file  
+ - Visit [http://bitbot:8080](http://bitbot:8080) in your browser to **edit the configuration**  
+ - Edit the config file directly see [💾 **Config** Options](docs/config_options.md)
+ - A list of **supported crypto-exchanges** can be found [here](https://github.com/ccxt/ccxt/wiki/Exchange-Markets)  
+   - Please see your selected exchange for the ***instruments that it supports***
 
-> A list of **supported crypto-exchanges** can be found here https://github.com/ccxt/ccxt/wiki/Exchange-Markets - Please see your selected exchange for the ***instruments that it supports***
+### Bitbot uses [Style Files](../config/base.mplstyle) to control the chart layout. 
+ - If you're feeling experimental.. you can edit these! Examples of the ***styling*** options can be [found here](https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file)
 
-> Bitbot uses [Style Files](../config/base.mplstyle) to generate the charts. If you're feeling experimental.. you can edit these! Examples of the ***styling*** options can be [found here](https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file)
+### Inky Impression **Button** support
+ - toggle_picure_frame_mode
+ - refresh_display
+ - toggle_volume
+ - toggle_extended_view
 
 # 💻 Help
 > **Source code** for the application can be found at: https://github.com/donbing/bitbot  

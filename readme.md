@@ -38,10 +38,10 @@
  - 👆 `Configurable` and/or `state based` **button actions**
 
 # 📝 Docs
- - [💻 How To **Install**](docs/app_install.md)
- - [💾 **Config** Options](docs/config_options.md)
- - [⚙️ Device **Setup**](docs/device_setup.md)
  - [🔗 Device **Assembly**](docs/device_assembly.md)
+ - [💻 How To **Install**](docs/app_install.md)
+ - [⚙️ Device **Setup**](docs/device_setup.md)
+ - [💾 **Config** Options](docs/config_options.md)
  - [📒 Dev **Notes**](docs/development.md)
  - [🐋 **Docker** Setup](docs/docker_installation.md)
  - [📈 current charting examples](docs/test_results.md)
