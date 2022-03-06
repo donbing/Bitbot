@@ -1,5 +1,6 @@
-from PIL import ImageFont, Image, ImageDraw
+from PIL import ImageFont, Image, ImageDraw, ImageChops
 from src.drawing.image_utils import DrawText, TextBlock
+from src.configuration.bitbot_files import use_config_dir
 import unittest
 import os
 import pathlib
@@ -10,13 +11,13 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 transparent = (0, 0, 0, 0)
 white = (255, 255, 255)
+image_file_name = f'tests/images/title_block.png'
 
 
 class TestTextBlocks(unittest.TestCase):
     fontPath = str(files.resource_folder) + '/04B_03__.TTF'
     title_font = ImageFont.truetype(fontPath, 16)
     price_font = ImageFont.truetype(fontPath, 32)
-    image_file_name = f'tests/images/title_block.png'
 
     def test_text_block(self):
         block = TextBlock([
@@ -36,11 +37,10 @@ class TestTextBlocks(unittest.TestCase):
 
         previous_image = Image.open(image_file_name)
         image.save(image_file_name)
-
         diff = ImageChops.difference(image, previous_image)
 
         if diff.getbbox():
             diff.save('diff.png')
-            assert False "images were different, see 'diff.png'"
-            
+            assert False, "images were different, see 'diff.png'"
+
         # os.system(f"code '{image_file_name}'")
