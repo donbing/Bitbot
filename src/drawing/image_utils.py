@@ -71,14 +71,13 @@ class TextBlock:
         pos = self.align(draw.im, self.size()) if self.align else pos
         last_y_pos = pos[1]
         for row in self.texts:
-            self.draw_text_row(draw, pos, last_y_pos, row)
+            self.draw_text_row(draw, pos[0], last_y_pos, row)
             last_y_pos += max(map(DrawText.height, row))
 
-    def draw_text_row(self, draw, pos, y_pos, row):
-        last_x_pos = pos[0]
+    def draw_text_row(self, draw, x_pos, y_pos, row):
         for text in row:
-            text.draw_on(draw, (y_pos, last_x_pos))
-            last_x_pos += text.size[0]
+            text.draw_on(draw, (x_pos, y_pos))
+            x_pos += DrawText.width(text)
 
 class Border:
     def __init__(self, border_type):
