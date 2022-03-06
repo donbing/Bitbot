@@ -7,11 +7,8 @@ from src.drawing.image_utils import DrawText, RotatedTextBlock
 from src.drawing.image_utils import TextBlock, Border
 from src.configuration.network_utils import get_ip
 
+
 class ChartOverlay():
-
-    ai_comments = lambda self: self.config.get_price_action_comments()
-    value_held = lambda self, market: self.config.portfolio_size() * market.last_close()
-
     def __init__(self, config, display, chart_data):
         self.config = config
         self.display = display
@@ -57,10 +54,10 @@ class ChartOverlay():
             # 🐘 large font price text
             [DrawText.humanised_price(chartdata.last_close(),  self.price_font)],
             # 💬 draw holdings or comment
-            [DrawText.number(portfolio_value, self.title_font) 
-                if portfolio_value 
+            [DrawText.number(portfolio_value, self.title_font)
+                if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
-        ], align = Align.LeastIntrusive)
+        ], align=Align.LeastIntrusive)
 
     def overlay2(self, chartdata):
         portfolio_value = self.value_held(chartdata)
@@ -71,14 +68,20 @@ class ChartOverlay():
             # 🐘 large font price text
             [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
-            [DrawText.number(portfolio_value, self.title_font) 
-                if portfolio_value 
+            [DrawText.number(portfolio_value, self.title_font)
+                if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
         ], align=Align.LeastIntrusive)
         # 🎹 draw instrument name
-        yield RotatedTextBlock(chartdata.instrument, self.medium_font) 
+        yield RotatedTextBlock(chartdata.instrument, self.medium_font)
         # 🕎 candle width
         yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
+
+    def ai_comments(self):
+        self.config.get_price_action_comments()
+
+    def value_held(self, market):
+        self.config.portfolio_size() * market.last_close()
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'

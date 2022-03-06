@@ -20,7 +20,8 @@ class MarketChart:
         self.config = config
         self.display = display
         self.files = files
-        for font_file in font_manager.findSystemFonts(fontpaths=files.resource_folder):
+        fonts = font_manager.findSystemFonts(fontpaths=files.resource_folder)
+        for font_file in fonts:
             font_manager.fontManager.addfont(font_file)
 
     def create_plot(self, chart_data):
@@ -58,7 +59,7 @@ class PlottedChart:
         # ✒️ draw volumes to MPL plot
         if config.show_volume():
             ax[1].yaxis.set_major_formatter(price_formatter)
-            dates, opens, highs, lows, closes, volumes = list(zip(*candle_data))
+            _, opens, _, _, closes, volumes = list(zip(*candle_data))
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
             self.fig.subplots_adjust(bottom=0.01)
 
@@ -66,19 +67,18 @@ class PlottedChart:
         if config.expand_chart():
             yield files.expanded_style
         else:
-             yield files.default_style
+            yield files.default_style
         if display.size()[0] < 300:
-             yield files.small_screen_style
+            yield files.small_screen_style
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
         plt.style.use(files.base_style)
-        # 📏 select mpl style
-        stlyes = list(self.get_default_styles(config, display, files))
-
         num_plots = 2 if config.show_volume() else 1
         heights = [4, 1] if config.show_volume() else [1]
         plt.tight_layout()
+        # 📏 select mpl style
+        stlyes = list(self.get_default_styles(config, display, files))
         # 📏 scope styles to just this plot
         with plt.style.context(stlyes):
             display_width, display_height = display.size()
