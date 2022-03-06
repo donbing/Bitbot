@@ -25,10 +25,10 @@ class ChartOverlay():
         # 🖊️ handles drawing on top of our chart image
         draw_plot_image = ImageDraw.Draw(chart_image)
         # 🖊️ draw each of the configured display elements  
-        for elem in self.get_common_display_elements():
+        for elem in self.display_elements():
             elem.draw_on(draw_plot_image)
 
-    def get_common_display_elements(self):
+    def display_elements(self):
         # 🕒 add the time if configured
         if self.config.show_timestamp() == 'true':
             yield DrawText(datetime.now().strftime("%b %-d %-H:%M"), Align.BottomRight)
@@ -78,7 +78,7 @@ class ChartOverlay():
         # 🎹 draw instrument name
         yield RotatedTextBlock(chartdata.instrument, self.medium_font) 
         # 🕎 candle width
-        yield DrawText(chartdata.candle_width, self.medium_font, align=Align.TopRight)
+        yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'

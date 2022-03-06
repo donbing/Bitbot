@@ -8,6 +8,7 @@ class Disker(DisplayBase):
         self.device_name = device_name
         self.width, self.height = (400, 300)
         self.config = config
+        self.set_fonts()
 
     def _size(self):
         return (self.width, self.height)
