@@ -21,14 +21,14 @@ class ChartOverlay():
     def draw_on(self, chart_image):
         # 🖊️ handles drawing on top of our chart image
         draw_plot_image = ImageDraw.Draw(chart_image)
-        # 🖊️ draw each of the configured display elements  
+        # 🖊️ draw each of the configured display elements
         for elem in self.display_elements():
             elem.draw_on(draw_plot_image)
 
     def display_elements(self):
         # 🕒 add the time if configured
         if self.config.show_timestamp() == 'true':
-            yield DrawText(datetime.now().strftime("%b %-d %-H:%M"), Align.BottomRight)
+            yield DrawText(self.format_time(), Align.BottomRight)
         # 📡 add the ip address if configured
         if self.config.show_ip() == 'true':
             yield DrawText(get_ip(), Align.BottomLeft)
@@ -76,6 +76,9 @@ class ChartOverlay():
         yield RotatedTextBlock(chartdata.instrument, self.medium_font)
         # 🕎 candle width
         yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
+
+    def format_time(self):
+        datetime.now().strftime("%b %-d %-H:%M")
 
     def ai_comments(self):
         return self.config.get_price_action_comments()
