@@ -1,5 +1,4 @@
 import unittest
-from PIL import ImageFont, Image, ImageDraw
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.bitbot import BitBot
