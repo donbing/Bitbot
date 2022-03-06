@@ -1,11 +1,10 @@
-import unittest
+from PIL  import Image, ImageChops
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.bitbot import BitBot
 import os
 import pathlib
-
-from src.drawing.image_utils import DrawText, TextBlock
+import unittest
 
 # check config files
 curdir = pathlib.Path(__file__).parent.resolve()
@@ -18,7 +17,6 @@ def load_config():
     return config
 
 
-# name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 # load config
 test_params = [
     ("APPLE 1mo defaults", "", "", "AAPL", "1", "false", "false", "1mo", ""),
@@ -42,14 +40,13 @@ test_params = [
     ("cryptocom CRO 5m defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "5m", ""),
     ("cryptocom CRO 1h defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1h", ""),
     ("cryptocom CRO 1d defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1d", ""),
-]
+]  # name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 
 os.makedirs('tests/images/', exist_ok=True)
 
 
 class TestRenderingMeta(type):
     def __new__(mcs, name, bases, dict):
-
         def gen_test(name, exch, token, stock, overlay, expand, volume, candle_width, holdings):
             def test(self):
                 config = load_config()
@@ -64,14 +61,25 @@ class TestRenderingMeta(type):
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                config.set('display', 'rotation', '0')
+                config.set('display', 'rotation', '90')
                 config.set('display', 'show_ip', 'false')
                 config.set('display', 'timestamp', 'false')
-                config.set('comments', 'up', 'goinup,up')
-                config.set('comments', 'down', 'goindown,down')
+                config.set('comments', 'up', 'moon')
+                config.set('comments', 'down', 'doom')
                 app = BitBot(config, files)
-                app.display_chart()
-                # os.system(f"code '{image_file_name}'")
+
+                image_should_not_change_when(app.display_chart, image_file_name)
+
+            def image_should_not_change_when(action, image_file_name):
+                # previous_image = Image.open(image_file_name)
+                action()
+                # new_image = Image.open(image_file_name)
+                # diff = ImageChops.difference(new_image, previous_image)
+                # if diff.getbbox():
+                #     diff.save(image_file_name)
+                os.system(f"code '{image_file_name}'")
+                #     assert False, f"images diff '{image_file_name}'"
+
             return test
 
         for test_param in test_params:
