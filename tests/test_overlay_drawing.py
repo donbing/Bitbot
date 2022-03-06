@@ -10,7 +10,7 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 transparent = (0, 0, 0, 0)
 white = (255, 255, 255)
-image_file_name = f'tests/images/title_block.png'
+image_file_name = 'tests/images/title_block.png'
 
 
 class TestTextBlocks(unittest.TestCase):
@@ -42,5 +42,4 @@ class TestTextBlocks(unittest.TestCase):
             assert False, "images were different, see 'diff.png'"
             # os.system(f"code 'diff.png'")
 
-        #image.save(image_file_name)
-
+        # image.save(image_file_name)

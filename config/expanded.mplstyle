@@ -13,7 +13,7 @@ ytick.direction:    in
 
 ytick.minor.visible: False
 xtick.major.pad:     -15
-ytick.major.pad:     -38
+ytick.major.pad:     -15
 
 figure.subplot.left:   0  
 figure.subplot.right:  1    
