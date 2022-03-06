@@ -23,7 +23,7 @@ def network_connected(hostname="google.com"):
         host = socket.gethostbyname(hostname)
         socket.create_connection((host, 80), 2).close()
         return True
-    except:
+    except Exception:
         time.sleep(1)
     return False
 
