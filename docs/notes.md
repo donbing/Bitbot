@@ -1,21 +1,28 @@
 todo:
  
- - impression:
+ - ## layout 
+   - fit candle count to screen size
+      - work out margins, calc mad candles that can fit and generate date to provide set of candles
+
+ - ## multi-currency support
+   - button to toggle between curencies
+   - multi-plot display 
+   - overlapping coloured multi-coin charts
+ - ## impression:
     - better button actions!
+     - make these state-based, so photo mode behaves different to chart mode
     - larger intro font
     - larger label fonts
     - config candle colours
     - config volume colours
 
- - config server
+ - ## config server
     - use friendly config forms
     - allow selecting style in config
 
- - general
+ - ## general
     - on-screen assembly instructions
-    - multi-plot-figure
     - moving averages
-    - overlapping multi-coin charts
     - indicators
 
 
@@ -65,15 +72,17 @@ git config --global --unset user.password
  git config --global alias.br branch
  git config --global alias.ci commit
  git config --global alias.st status
- 
+```
 > check cpu arch 
-`dpkg --print-architecture`
+```sh
+dpkg --print-architecture
+```
 
 
 ## fonts
 > place in `~/.fonts` or `/usr/local/share/fonts` for system wide access
     mkdir ~/.fonts && cp ~/bitbot/src/resources/04B_03__.TTF ~/.fonts/04B_03__.TTF
-> manually rebuild the font cache with `fc-cache -f -v`
 
+> manually rebuild the font cache with `fc-cache -f -v`
 
 > list fonts with `fc-list`
