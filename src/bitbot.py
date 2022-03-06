@@ -1,11 +1,11 @@
 from PIL import Image
 import io
-from src import crypto_exchanges, stock_exchanges
-from src.market_chart import MarketChart
+from src.exchanges import crypto_exchanges, stock_exchanges
+from src.drawing.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
-from src.chart_overlay import ChartOverlay
-from src.kinky import picker as display_picker
-from src.network_utils import wait_for_internet_connection
+from src.drawing.chart_overlay import ChartOverlay
+from src.display.picker import picker as display_picker
+from src.configuration.network_utils import wait_for_internet_connection
 
 
 class Cartographer():
@@ -56,4 +56,4 @@ class BitBot():
         self.display.show(Image.open(self.config.photo_image_file()))
 
     def __repr__(self):
-        return f'<BitBot inky: {str(self.config.use_inky())}>'
+        return f'<BitBot output: {str(self.config.output_device_name())}>'

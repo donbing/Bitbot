@@ -13,6 +13,11 @@ def load_config_ini(config_files):
 
 # 🙈 encapsulate horrid config vars
 class BitBotConfig():
+    display_keys = ['border', 'overlay_layout', 'timestamp', 'expanded_chart',
+                    'show_volume', 'show_ip', 'refresh_time_minutes',
+                    'candle_width']
+    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings']
+
     def __init__(self, config, config_files):
         self.config = config
         self.config_files = config_files
@@ -37,18 +42,16 @@ class BitBotConfig():
         return self.config.get('currency', 'chart_since', fallback=None)
 
     def set_currency(self, formData):
-        for key in ['exchange', 'instrument', 'stock_symbol', 'holdings']:
+        for key in BitBotConfig.currency_keys:
             self.config["currency"][key] = formData[key]
         self.save()
 
     # 📈 display options
-    def use_inky(self):
-        dont_write_to_disk = os.getenv('BITBOT_OUTPUT') != 'disk'
-        do_write_to_inky = self.config["display"]["output"] == "inky"
-        return dont_write_to_disk and do_write_to_inky
+    def output_device_name(self):
+        return os.getenv('BITBOT_OUTPUT') or self.config["display"]["output"]
 
-    def get_price_action_comments(self, direction):
-        return self.config.get('comments', direction).split(',')
+    def get_price_action_comments(self):
+        return self.config['comments']
 
     def border_type(self):
         return self.config["display"]["border"]
@@ -87,7 +90,7 @@ class BitBotConfig():
         return self.config['display']['show_ip']
 
     def set_display(self, formData):
-        for key in ['border', 'overlay_layout', 'timestamp', 'expanded_chart', 'show_volume', 'show_ip', 'refresh_time_minutes', 'candle_width']:
+        for key in BitBotConfig.display_keys:
             self.config["display"][key] = formData.get(key, 'false')
         self.save()
 

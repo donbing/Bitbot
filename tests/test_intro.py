@@ -1,6 +1,6 @@
 import unittest
-from src.kinky import title_font
-from src.intro import Intro
+from src.display import title_font
+from src.drawing.intro import Intro
 from os.path import join as pjoin
 import pathlib
 from src.configuration.bitbot_files import use_config_dir
