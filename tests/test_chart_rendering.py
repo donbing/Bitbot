@@ -14,7 +14,7 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 def load_config():
     config = load_config_ini(files)
-    config.set('display', 'output', 'waveshare.epd2in7b_V2')
+    config.set('display', 'output', 'disk')
     return config
 
 
@@ -60,11 +60,11 @@ class TestRenderingMeta(type):
                 config.set('currency', 'holdings', holdings)
                 config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'overlay_layout', overlay)
-                config.set('display', 'expanded_chart', 'true')
-                config.set('display', 'show_volume', 'false')
+                config.set('display', 'expanded_chart', expand)
+                config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                config.set('display', 'rotation', '90')
+                config.set('display', 'rotation', '0')
                 config.set('display', 'show_ip', 'false')
                 config.set('display', 'timestamp', 'false')
                 app = BitBot(config, files)
