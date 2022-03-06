@@ -6,29 +6,28 @@ padding = 0
 transparent = (0, 0, 0, 0)
 
 
-
 class DrawText:
     width = lambda text: text.size[0]
     height = lambda text: text.size[1]
 
     # 🔀 coloured percentage change text
-    @staticmethod  
+    @staticmethod
     def percentage(percentage, font):
         text_color = 'red' if percentage < 0 else 'black'
         return DrawText('{:+.2f}'.format(percentage) + '%', font, text_color)
 
     # 🏷️ human-readable price text
-    @staticmethod  
+    @staticmethod
     def humanised_price(price, font):
         return DrawText(format_title_price(price), font)
 
     # 🏷️ number text
-    @staticmethod  
+    @staticmethod
     def number(value, font):
         return DrawText("{:,}".format(value), font, 'black')
 
-    # 🎲 randomly selected up/down comment 
-    @staticmethod  
+    # 🎲 randomly selected up/down comment
+    @staticmethod
     def random_from_bool(options, up_or_down, font):
         direction = 'up' if up_or_down else 'down'
         comments = random.choice(options[direction].split(','))
@@ -41,10 +40,10 @@ class DrawText:
         self.size = font.getsize(text)
         self.align = align
 
-    def draw_on(self, draw, pos=(0,0)):
+    def draw_on(self, draw, pos=(0, 0)):
         pos = self.align(draw.im, self.size) if self.align else pos
         draw.text(pos, self.text, self.colour, self.font)
-     
+
 
 class TextBlock:
     def __init__(self, texts, align=None):
@@ -74,11 +73,12 @@ class TextBlock:
             text.draw_on(draw, (x_pos, y_pos))
             x_pos += DrawText.width(text)
 
+
 class Border:
     def __init__(self, border_type):
         self.border_type = border_type
 
-    def draw_on(self, draw, pos=(0,0)):
+    def draw_on(self, draw, pos=(0, 0)):
         if self.border_type != 'none':
             draw.rectangle(Border.border_rect(draw), outline=self.border_type)
 
@@ -94,13 +94,13 @@ class RotatedTextBlock:
     def size(self):
         return self.font.get_size(self.text)
 
-    def draw_on(self, draw, pos=(0,0)):
+    def draw_on(self, draw, pos=(0, 0)):
         text_width, text_height = draw.textsize(self.text, self.font)
         text_image = Image.new('RGBA', (text_width, text_height), transparent)
         text_image_draw = ImageDraw.Draw(text_image)
         text_image_draw.text((0, 0), self.text, 'black', self.font)
         rotated_text = text_image.rotate(270, expand=True)
-        
+
         display_width, display_height = draw.im.size
         title_bottom_left = display_width - text_height - 2
         vertical_center = int((display_height - text_width) / 2)
@@ -156,6 +156,7 @@ class Align:
     def LeastIntrusive(display, block):
         possiblePositions = Align.possible_block_positions(display, block)
         block_width, block_height = block
+
         # 🔢 count the white pixels in an area of the image
         def count_white_pixels(x, y, height, width, image):
             count = 0
@@ -182,7 +183,7 @@ class Align:
         image_width, image_height = image.size
         text_width, text_height = text_size
         left_pad, top_pad = (0, 0)
-        
+
         x_range = range(left_pad, image_width - text_width, 10)
         y_range = [top_pad, image_height // 2, image_height - text_height]
         return Align.flatten(
