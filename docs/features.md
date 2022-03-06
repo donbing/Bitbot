@@ -76,7 +76,7 @@
 **So that** users dont have to calculate totals themselves
  - *Scenario:* `✅ holdings are entered into the config file, and total value is displayed below the price`
  
-## ✔️ Can be uses as a digital picture frame
+## ✔️ Can be used as a digital picture frame
 >**AS** Marketing  
 **In order** so that we can advertise Bitbot as a digital picture-frame
 **I want** users to be able to upload images for permanent display
@@ -84,6 +84,17 @@
  - *Scenario:* `✅ picture-mode is enabled and an image uploaded, which is then displayed`
  - *Scenario:* `✅ picture-mode is disabled, the device returns to displaying a price chart`
  - *Scenario:* `🚧 cycle picture-mode is enabled, the device cycles throught all uploaded images using refresh interval`
+
+## ✔️ Support Inky Impression buttons
+>**As** Support
+**In order that** users find bitbot easy to use
+**I want** button presses for changing configuration values
+**So that** users can conveniently change common config options
+ - *Scenario:* `A button is presses to toggle between picture-frame and chart modes.`
+ - *Scenario:* `A button is pressed to refresh the current chart data.`
+ - *Scenario:* `A button is pressed to toggle the volume graph.`
+ - *Scenario:* `A button is pressed to toggle between extended and normal layouts.`
+
 
 ## 💡Show setup instructions on first load
 >**AS** Marketing  
@@ -120,3 +131,4 @@
 **So that** users can use DCA trading strategies  
  - *Scenario:* `Bitbot is configured with trading account details, buy frequencey and amount.`
  - *Scenario:* `Bitbot used configured trading info to automatically place orders for the customer.`
+
