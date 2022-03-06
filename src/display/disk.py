@@ -6,7 +6,7 @@ from . import DisplayBase, quantise_image, white_black_red
 class Disker(DisplayBase):
     def __init__(self, device_name, config):
         self.device_name = device_name
-        self.width, self.height = (400, 300)
+        self.width, self.height = config.disk_display_res()
         self.config = config
         self.set_fonts()
 
