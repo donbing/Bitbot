@@ -1,11 +1,11 @@
-# Setup Options
+# ⚙️ Installation Options
 
-## 🎴 A. Burn the Bitbot image to a new SD card
+# 🎴 **A**. Burn the Bitbot image to a new SD card
 > Simple installation that anyone can complete
 1. download the latest release from [releases page](https://github.com/donbing/bitbot/releases)  
 2. use [Balena Etcher](https://www.balena.io/etcher/) to burn the zipped image to your SD card.
 3. insert SD, power up and wait for the screen to refresh
-## 🍓B. Add Bitbot to an existing PiOS install
+# 🍓 **B**. Add Bitbot to an existing PiOS install
 > tested on buster, seems to work on bullseye too 
 1. Make sure python, pip, git and other dependancies are installed
 ```sh
@@ -32,7 +32,7 @@ python3 -m run
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py") | crontab -
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py") | crontab -
 ```
-## 🐳 C. Run in docker
+# 🐳 **C**. Run in docker
 > 
 1. ensure that `I2C`/`SPI` are enabled on the host pi
 ```sh
