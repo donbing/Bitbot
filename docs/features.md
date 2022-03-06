@@ -95,7 +95,6 @@
  - *Scenario:* `A button is pressed to toggle the volume graph.`
  - *Scenario:* `A button is pressed to toggle between extended and normal layouts.`
 
-
 ## ✔️ Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
