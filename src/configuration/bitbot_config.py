@@ -13,6 +13,11 @@ def load_config_ini(config_files):
 
 # 🙈 encapsulate horrid config vars
 class BitBotConfig():
+    display_keys = ['border', 'overlay_layout', 'timestamp', 'expanded_chart',
+                    'show_volume', 'show_ip', 'refresh_time_minutes',
+                    'candle_width']
+    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings']
+
     def __init__(self, config, config_files):
         self.config = config
         self.config_files = config_files
@@ -37,7 +42,7 @@ class BitBotConfig():
         return self.config.get('currency', 'chart_since', fallback=None)
 
     def set_currency(self, formData):
-        for key in ['exchange', 'instrument', 'stock_symbol', 'holdings']:
+        for key in BitBotConfig.currency_keys:
             self.config["currency"][key] = formData[key]
         self.save()
 
@@ -85,7 +90,7 @@ class BitBotConfig():
         return self.config['display']['show_ip']
 
     def set_display(self, formData):
-        for key in ['border', 'overlay_layout', 'timestamp', 'expanded_chart', 'show_volume', 'show_ip', 'refresh_time_minutes', 'candle_width']:
+        for key in BitBotConfig.display_keys:
             self.config["display"][key] = formData.get(key, 'false')
         self.save()
 

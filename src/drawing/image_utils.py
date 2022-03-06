@@ -7,8 +7,11 @@ transparent = (0, 0, 0, 0)
 
 
 class DrawText:
-    width = lambda text: text.size[0]
-    height = lambda text: text.size[1]
+    @staticmethod
+    def width(text): return text.size[0]
+
+    @staticmethod
+    def height(text): return text.size[1]
 
     # 🔀 coloured percentage change text
     @staticmethod
