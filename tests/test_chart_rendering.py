@@ -1,4 +1,5 @@
 import unittest
+from PIL import ImageFont, Image, ImageDraw
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.bitbot import BitBot
@@ -83,9 +84,9 @@ class TestRenderingMeta(type):
 class ChartRenderingTests(unittest.TestCase, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
-from PIL import ImageFont, Image, ImageDraw
+
 transparent = (0, 0, 0, 0)
-white = (255,255,255)
+white = (255, 255, 255)
 
 
 class TestTextBlocks(unittest.TestCase):
@@ -103,9 +104,9 @@ class TestTextBlocks(unittest.TestCase):
                 DrawText("48,000", self.price_font),
             ],
         ]
-        
+
         block = TextBlock(lines)
-        image = Image.new('RGBA', block.size(), (0, 0, 0, 0))
+        image = Image.new('RGBA', block.size(), transparent)
         draw = ImageDraw.Draw(image)
 
         block.draw_on(draw)
