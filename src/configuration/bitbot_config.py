@@ -53,6 +53,9 @@ class BitBotConfig():
     def get_price_action_comments(self):
         return self.config['comments']
 
+    def disk_display_res(self):
+        return (264, 176)
+
     def border_type(self):
         return self.config["display"]["border"]
 
