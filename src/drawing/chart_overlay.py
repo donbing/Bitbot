@@ -16,6 +16,7 @@ class ChartOverlay():
         self.title_font = self.display.title_font
         self.price_font = self.display.price_font
         self.medium_font = self.display.medium_font
+        self.tiny_font = self.display.tiny_font
 
     @info_log
     def draw_on(self, chart_image):
@@ -28,10 +29,10 @@ class ChartOverlay():
     def display_elements(self):
         # 🕒 add the time if configured
         if self.config.show_timestamp() == 'true':
-            yield DrawText(self.format_time(), Align.BottomRight)
+            yield DrawText(self.format_time(), self.tiny_font, align=Align.BottomRight)
         # 📡 add the ip address if configured
         if self.config.show_ip() == 'true':
-            yield DrawText(get_ip(), Align.BottomLeft)
+            yield DrawText(get_ip(), self.tiny_font, align=Align.BottomLeft)
         # 🔲 add a border if configured
         yield Border(self.config.border_type())
         # 🖊️ add configured overlay
@@ -81,7 +82,7 @@ class ChartOverlay():
         return chartdata.start_price() < chartdata.last_close()
 
     def format_time(self):
-        datetime.now().strftime("%b %-d %-H:%M")
+        return datetime.now().strftime("%b %-d %-H:%M")
 
     def ai_comments(self):
         return self.config.get_price_action_comments()
