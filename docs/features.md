@@ -96,7 +96,7 @@
  - *Scenario:* `A button is pressed to toggle between extended and normal layouts.`
 
 
-## 💡Show setup instructions on first load
+## ✔️ Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
 **I want** bit bot to guide the user through settting up the device when if first powers on  
