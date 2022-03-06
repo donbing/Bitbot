@@ -61,7 +61,7 @@ class TextBlock:
     def size(self):
         return (self.width, self.height)
 
-    def draw_on(self, draw, pos=(0,0)):
+    def draw_on(self, draw, pos=(0, 0)):
         pos = self.align(draw.im, self.size()) if self.align else pos
         last_y_pos = pos[1]
         for row in self.texts:
