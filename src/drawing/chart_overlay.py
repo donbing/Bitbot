@@ -56,7 +56,7 @@ class ChartOverlay():
             # 💬 draw holdings or comment
             [DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
-                else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
+                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font)]
         ], align=Align.LeastIntrusive)
 
     def overlay2(self, chartdata):
@@ -70,12 +70,15 @@ class ChartOverlay():
             # 💬 draw holdings or comment
             [DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
-                else DrawText.random_from_bool(self.ai_comments(), chartdata.start_price() < chartdata.last_close(), self.title_font)]
+                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font)]
         ], align=Align.LeastIntrusive)
         # 🎹 draw instrument name
         yield RotatedTextBlock(chartdata.instrument, self.medium_font)
         # 🕎 candle width
         yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
+
+    def price_increasing(self, chartdata):
+        return chartdata.start_price() < chartdata.last_close()
 
     def format_time(self):
         datetime.now().strftime("%b %-d %-H:%M")
