@@ -45,8 +45,8 @@ class PlottedChart:
         layout = self.layouts[self.candle_width]
         # ➖ locate/format x axis ticks for chosen layout
         ax[0].xaxis.set_minor_locator(layout[1])
-        ax[0].xaxis.set_minor_formatter(layout[2])
-        ax[0].xaxis.set_major_locator(plt.NullFormatter())
+        ax[0].xaxis.set_minor_formatter(plt.NullFormatter())
+        ax[0].xaxis.set_major_locator(layout[2])
         ax[0].xaxis.set_major_formatter(layout[3])
         # 💲currency amount uses custom formatting
         ax[0].yaxis.set_major_formatter(price_formatter)
