@@ -91,7 +91,7 @@
 **I want** bit bot to guide the user through settting up the device when if first powers on  
 **So that** users have an easy on-boarding experience and leave glowing reviews  
  - *Scenario:* `✅ on first power on, Bitbot displays a friendly welcome message and explains how to configure the wifi`
- - *Scenario:* `🚧 before power on, Bitbot displays a simple graphinc showing assemblly instructions`
+ - *Scenario:* `🚧 before power on, Bitbot displays a simple graphinc showing assembly instructions`
 
 # 🚧 INCOMPLETE
 
