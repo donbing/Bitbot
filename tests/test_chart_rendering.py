@@ -83,33 +83,3 @@ class TestRenderingMeta(type):
 
 class ChartRenderingTests(unittest.TestCase, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
-
-
-transparent = (0, 0, 0, 0)
-white = (255, 255, 255)
-
-
-class TestTextBlocks(unittest.TestCase):
-    fontPath = str(files.resource_folder) + '/04B_03__.TTF'
-    title_font = ImageFont.truetype(fontPath, 16)
-    price_font = ImageFont.truetype(fontPath, 32)
-
-    def test_text_block(self):
-        lines = [
-            [
-                DrawText('balls' + ' (' + 'arse' + ') ', self.title_font, colour=white),
-                DrawText.percentage(-50, self.title_font),
-            ],
-            [
-                DrawText("48,000", self.price_font),
-            ],
-        ]
-
-        block = TextBlock(lines)
-        image = Image.new('RGBA', block.size(), transparent)
-        draw = ImageDraw.Draw(image)
-
-        block.draw_on(draw)
-        image_file_name = "arse.png"
-        image.save(image_file_name)
-        # os.system(f"code '{image_file_name}'")
