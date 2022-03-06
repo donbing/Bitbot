@@ -5,7 +5,6 @@ import unittest
 import os
 import pathlib
 
-# check config files
 curdir = pathlib.Path(__file__).parent.resolve()
 files = use_config_dir(os.path.join(curdir, "../"))
 
@@ -36,11 +35,12 @@ class TestTextBlocks(unittest.TestCase):
         block.draw_on(draw)
 
         previous_image = Image.open(image_file_name)
-        image.save(image_file_name)
         diff = ImageChops.difference(image, previous_image)
 
         if diff.getbbox():
             diff.save('diff.png')
             assert False, "images were different, see 'diff.png'"
+            # os.system(f"code 'diff.png'")
 
-        # os.system(f"code '{image_file_name}'")
+        #image.save(image_file_name)
+
