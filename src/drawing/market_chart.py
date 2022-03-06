@@ -62,21 +62,31 @@ class PlottedChart:
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
             self.fig.subplots_adjust(bottom=0.01)
 
+    def get_default_styles(self, config, display, files):
+        if config.expand_chart():
+            yield files.expanded_style
+        else:
+             yield files.default_style
+        if display.size()[0] < 300:
+             yield files.small_style
+
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
         plt.style.use(files.base_style)
         # 📏 select mpl style
-        stlye = files.expanded_style if config.expand_chart() else files.default_style
+        stlyes = list(self.get_default_styles(config, display, files))
+
         num_plots = 2 if config.show_volume() else 1
         heights = [4, 1] if config.show_volume() else [1]
         plt.tight_layout()
         # 📏 scope styles to just this plot
-        with plt.style.context(stlye):
+        with plt.style.context(stlyes):
             display_width, display_height = display.size()
             fig = plt.figure(figsize=(display_width / 100, display_height / 100))
             gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
             ax1 = fig.add_subplot(gs[0], zorder=1)
             ax2 = None
+
             if config.show_volume():
                 with plt.style.context(files.volume_style):
                     ax2 = fig.add_subplot(gs[1], zorder=0)
