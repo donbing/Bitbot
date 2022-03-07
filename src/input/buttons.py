@@ -26,7 +26,7 @@ class Buttons():
                     lambda pin: self.BUTTONS[pin](),
                     bouncetime=250
                 )
-        except RuntimeError:
+        except Exception:
             pass
 
     @info_log
