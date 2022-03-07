@@ -54,7 +54,8 @@ class BitBotConfig():
         return self.config['comments']
 
     def disk_display_res(self):
-        return (264, 176)
+        val = self.config.get("display", "resolution", fallback="400,300")
+        return tuple(map(int, val.split(',')))
 
     def border_type(self):
         return self.config["display"]["border"]
