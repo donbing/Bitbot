@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:experimental
 
-FROM arm32v7/debian:bullseye-slim as base-image
+FROM navikey/raspbian-bullseye:latest as base-image
 
 RUN apt update && \
     apt install -y \
@@ -14,8 +14,10 @@ RUN apt update && \
     --no-install-recommends \
     python3-pip git  \
     && rm -rf /var/lib/apt/lists/* 
+
+RUN pip3 install --upgrade pip
 COPY ../../requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip pip3 install --user -r requirements.txt --index-url https://www.piwheels.org/simple
+RUN --mount=type=cache,target=/root/.cache/pip pip3 install -v --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt 
 
 FROM base-image AS release-image
 COPY --from=build-image /root/.local /root/.local
