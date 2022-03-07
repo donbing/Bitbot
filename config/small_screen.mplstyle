@@ -1,10 +1,7 @@
 
-xtick.labelsize:    8
-ytick.labelsize:    8
+xtick.labelsize:    6
+ytick.labelsize:    6
 
-axes.xmargin:       0
-axes.ymargin:       0
-
-
-xtick.major.pad:     -8
-ytick.major.pad:     -20
+axes.xmargin:       0.15
+axes.ymargin:       0.15
+axes.zmargin:       0.1
