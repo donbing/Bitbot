@@ -1,4 +1,4 @@
-from PIL  import Image, ImageChops
+from PIL import Image, ImageChops
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.bitbot import BitBot
@@ -13,8 +13,19 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 def load_config():
     config = load_config_ini(files)
-    config.set('display', 'output', 'disk')
     return config
+
+
+class disks:
+    disk_small = {'output': 'disk', 'resolution': "264,176"}
+    disk_med = {'output': 'disk', 'resolution': "400,300"}
+    disk_large = {'output': 'disk', 'resolution': "640,448"}
+    all = [disk_small, disk_med, disk_large]
+
+
+class screens:
+    wave27b = {'output': 'waveshare.epd2in7b_V2'}
+    inky = {'output': 'inky'}
 
 
 # load config
@@ -46,7 +57,7 @@ os.makedirs('tests/images/', exist_ok=True)
 
 
 class TestRenderingMeta(type):
-    def __new__(mcs, name, bases, dict):
+    def __new__(mcs, name, bases, dict, output):
         def gen_test(name, exch, token, stock, overlay, expand, volume, candle_width, holdings):
             def test(self):
                 config = load_config()
@@ -56,12 +67,14 @@ class TestRenderingMeta(type):
                 config.set('currency', 'instrument', token)
                 config.set('currency', 'holdings', holdings)
                 config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
+                config.set('display', 'output', output['output'])
+                config.set('display', 'resolution', output['resolution'])
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
                 config.set('display', 'disk_file_name', image_file_name)
-                config.set('display', 'rotation', '90')
+                config.set('display', 'rotation', '0')
                 config.set('display', 'show_ip', 'false')
                 config.set('display', 'timestamp', 'false')
                 config.set('comments', 'up', 'moon')
@@ -81,12 +94,30 @@ class TestRenderingMeta(type):
                 #     assert False, f"images diff '{image_file_name}'"
 
             return test
-
         for test_param in test_params:
-            test_name = "test_%s" % test_param[0]
+            test_name = f"test_{output.get('resolution', output['output'].split('.')[-1])}_{test_param[0]}"
+
             dict[test_name] = gen_test(*test_param)
         return type.__new__(mcs, name, bases, dict)
 
 
-class ChartRenderingTests(unittest.TestCase, metaclass=TestRenderingMeta):
+class SmallChartRenderingTests(unittest.TestCase, output=disks.disk_small, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
+
+
+class MediumChartRenderingTests(unittest.TestCase, output=disks.disk_med, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
+
+
+class LargeChartRenderingTests(unittest.TestCase, output=disks.disk_large, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
+
+
+@unittest.skip("needs a waveshare display")
+class Wave27bChartRenderingTests(unittest.TestCase, output=screens.wave27b, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
+
+
+@unittest.skip("needs an inky display")
+class InkyChartRenderingTests(unittest.TestCase, output=screens.inky, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
