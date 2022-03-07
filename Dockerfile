@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:experimental
-
 FROM navikey/raspbian-bullseye:latest as base-image
 
 RUN apt update && \
@@ -17,7 +15,7 @@ RUN apt update && \
 
 RUN pip3 install --upgrade pip
 COPY requirements.txt .
-RUN --mount=type=cache,target=/root/.cache/pip pip3 install -v --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt 
+RUN pip3 install -v --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt 
 
 FROM base-image AS release-image
 COPY --from=build-image /root/.local /root/.local
