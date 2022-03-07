@@ -1,19 +1,25 @@
-FROM navikey/raspbian-bullseye:latest
+# syntax=docker/dockerfile:experimental
 
-ENV TESTRUN='false'
-ENV BITBOT_OUTPUT='inky'
-ENV BITBOT_SHOWIMAGE='false'
+FROM arm32v7/debian:bullseye-slim as base-image
 
 RUN apt update && \
     apt install -y \
     --no-install-recommends \
-    python3-pip python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev git \
+    python3 libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/* 
 
+FROM base-image AS build-image
+RUN apt update && \
+    apt install -y \
+    --no-install-recommends \
+    python3-pip git  \
+    && rm -rf /var/lib/apt/lists/* 
 COPY ../../requirements.txt .
-RUN pip3 install --user --prefer-binary --no-cache-dir -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip pip3 install --user -r requirements.txt --index-url https://www.piwheels.org/simple
 
+FROM base-image AS release-image
+COPY --from=build-image /root/.local /root/.local
+ENV PATH=/root/.local/bin:$PATH
 WORKDIR /code
 COPY ../../ .
-
 CMD [ "python3", "./run.py" ]
