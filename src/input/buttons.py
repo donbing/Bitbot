@@ -32,7 +32,7 @@ class Buttons():
     @info_log
     def toggle_picure_frame_mode(self):
         newstate = str(not self.config.photo_mode_enabled()).lower()
-        self.config.toggle_photo_mode(newstate, False)
+        self.config.toggle_photo_mode(newstate, 'false')
         self.config.save()
 
     @info_log
