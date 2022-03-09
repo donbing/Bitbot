@@ -68,7 +68,7 @@ class TestRenderingMeta(type):
                 config.set('currency', 'holdings', holdings)
                 config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'output', output['output'])
-                config.set('display', 'resolution', output['resolution'])
+                config.set('display', 'resolution', output.get('resolution', ''))
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
@@ -119,7 +119,6 @@ class LargeChartRenderingTests(unittest.TestCase, output=disks.disk_large, metac
 @unittest.skip("needs a waveshare display")
 class Wave27bChartRenderingTests(unittest.TestCase, output=screens.wave27b, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
-
 
 @unittest.skip("needs an inky display")
 class InkyChartRenderingTests(unittest.TestCase, output=screens.inky, metaclass=TestRenderingMeta):
