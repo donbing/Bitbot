@@ -90,15 +90,15 @@
 **In order that** users find bitbot easy to use
 **I want** button presses for changing configuration values
 **So that** users can conveniently change common config options
- - *Scenario:* `A button is presses to toggle between picture-frame and chart modes.`
- - *Scenario:* `A button is pressed to refresh the current chart data.`
- - *Scenario:* `A button is pressed to toggle the volume graph.`
- - *Scenario:* `A button is pressed to toggle between extended and normal layouts.`
+ - *Scenario:* `✅ A button is pressed to toggle between picture-frame and chart modes.`
+ - *Scenario:* `✅ A button is pressed to cycle between configured currencies.`
+ - *Scenario:* `✅ A button is pressed to toggle the volume graph.`
+ - *Scenario:* `✅ A button is pressed to toggle between extended and normal layouts.`
 
 ## ✔️ Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
-**I want** bit bot to guide the user through settting up the device when if first powers on  
+**I want** Bitbot to guide the user through settting up the device when if first powers on  
 **So that** users have an easy on-boarding experience and leave glowing reviews  
  - *Scenario:* `✅ on first power on, Bitbot displays a friendly welcome message and explains how to configure the wifi`
  - *Scenario:* `🚧 before power on, Bitbot displays a simple graphinc showing assembly instructions`
@@ -126,8 +126,16 @@
 ## 💡Make bitbot capable of buying/selling 
 >**As** Marketing  
 **In order that** we can promote the device as a trading bot  
-**I want** bit bot to be configurable to make orders at regular intervals  
+**I want** Bitbot to be configurable to make orders at regular intervals  
 **So that** users can use DCA trading strategies  
  - *Scenario:* `Bitbot is configured with trading account details, buy frequencey and amount.`
  - *Scenario:* `Bitbot used configured trading info to automatically place orders for the customer.`
+
+
+
+## 💡cycle through configured instruments on a timer
+>**As** Marketing  
+**In order that** we can promote the device as supporting multiple currencies
+**I want** an option to enable displaying a different instrument on each refresh
+**So that** users can track multiple currencies
 
