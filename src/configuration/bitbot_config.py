@@ -2,7 +2,7 @@ import os
 import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
-
+import logging
 
 @info_log
 def load_config_ini(config_files):
@@ -32,21 +32,26 @@ class BitBotConfig():
         line = line.split(',')
         return [x.strip() for x in line if x]
 
+    def set_instruments(self, instruments):
+        self.config["currency"]["instruments"] = ','.join(instruments)
+
     def cycle_currency(self):
-        # take old currency and add to end of ccurrency list
+        # take old currency and add to end of currency list
         instruments = self.get_instruments()
         old_instrument = self.instrument_name()
-        next_instrument = instruments.pop(0, old_instrument)
+        next_instrument = next(iter(instruments), old_instrument)
 
         if next_instrument != old_instrument:
+            instruments.remove(next_instrument)
             instruments.append(old_instrument)
             self.set_instrument(next_instrument)
-
+            self.set_instruments(instruments)
         self.save()
 
     def instrument_name(self):
         return self.config["currency"]["instrument"]
-
+    
+    @info_log
     def set_instrument(self, val):
         self.config["currency"]["instrument"] = val
 
