@@ -13,10 +13,11 @@ def load_config_ini(config_files):
 
 # 🙈 encapsulate horrid config vars
 class BitBotConfig():
+    # lame hacks to match up web form data, sorry!
     display_keys = ['border', 'overlay_layout', 'timestamp', 'expanded_chart',
                     'show_volume', 'show_ip', 'refresh_time_minutes',
                     'candle_width']
-    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings']
+    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings', 'instruments']
 
     def __init__(self, config, config_files):
         self.config = config
@@ -26,8 +27,28 @@ class BitBotConfig():
     def exchange_name(self):
         return self.config["currency"]["exchange"]
 
+    def get_instruments(self):
+        line = self.config.get("currency", "instruments", fallback='')
+        line = line.split(',')
+        return [x.strip() for x in line if x]
+
+    def cycle_currency(self):
+        # take old currency and add to end of ccurrency list
+        instruments = self.get_instruments()
+        old_instrument = self.instrument_name()
+        next_instrument = instruments.pop(0, old_instrument)
+
+        if next_instrument != old_instrument:
+            instruments.append(old_instrument)
+            self.set_instrument(next_instrument)
+
+        self.save()
+
     def instrument_name(self):
         return self.config["currency"]["instrument"]
+
+    def set_instrument(self, val):
+        self.config["currency"]["instrument"] = val
 
     def stock_symbol(self):
         return self.config['currency']['stock_symbol']
