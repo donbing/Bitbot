@@ -1,16 +1,8 @@
 # ⚙️ Configuration file options
 Config options can be found in [config/config.ini](config/config.ini), there are 5 headings in the file.
 
-```ini
-[currency]
-[display]
-[picture_frame_mode]
-[comments]
-[first_run]
-```
-
 ## `[currency]`
- - `exchange`: the exchange to read prices from see [CCXT](https://github.com/ccxt/ccxt/wiki/Exchange-Markets).
+ - `exchange`: the exchange to read prices from, see [CCXT](https://github.com/ccxt/ccxt/wiki/Exchange-Markets).
  - `instrument`: name of the market to track.
  - `stock_symbol`: overrides the instrument and tracks stock symbols instead.
  - `holdings`: track the total value of your investment be entering how much you own.
@@ -36,4 +28,4 @@ Config options can be found in [config/config.ini](config/config.ini), there are
  - `down`: comma separated list of `down` comments, will be chosen from randomly.
 
 ## `[first_run]`
- - `enabled`: tracks displaying the intro pages the first time that bitbot runs.
+ - `enabled`: tracks displaying the intro pages the first time that Bitbot runs.
