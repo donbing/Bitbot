@@ -30,7 +30,7 @@
  - ♻️ Display `refreshes` **after config changes** 
  - 👶 Support `2.7"` displays
  - 📺 Support `waveshare` displays
- - 👆 **Inky Impression** `buttons` perform various actions
+ - 👆 **Inky Impression** `buttons` (cycle currency, change view, show volume, toggle photo-mode)
  - 👽 *Reddit discussion* [here](https://www.reddit.com/r/raspberry_pi/comments/mrne5p/my_eink_cryptowatcher/) and [here](https://old.reddit.com/r/raspberry_pi/comments/s3dnnn/i_made_an_aluminium_stand_for_an_eink_display/)
 
 # 💡 Requested Features
