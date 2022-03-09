@@ -29,6 +29,7 @@ class Buttons():
         except RuntimeError:
             pass
 
+    @info_log
     def cycle_currency(self):
         self.config.cycle_currency()
         self.config.save()

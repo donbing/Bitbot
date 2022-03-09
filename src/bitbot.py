@@ -1,4 +1,5 @@
 from PIL import Image
+from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
 from src.drawing.market_chart import MarketChart
@@ -53,7 +54,9 @@ class BitBot():
 
     @info_log
     def display_photo(self):
-        self.display.show(Image.open(self.config.photo_image_file()))
+        image_path = self.config.photo_image_file()
+        if(exists(image_path)):
+            self.display.show(Image.open(image_path))
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
