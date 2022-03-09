@@ -7,7 +7,7 @@ class Buttons():
         # 👆 map button actions
         self.BUTTONS = {
             5: self.toggle_picure_frame_mode,
-            6: self.refresh_display,
+            6: self.cycle_currency,  # self.refresh_display,
             16: self.toggle_volume,
             24: self.toggle_extended_view,
         }
@@ -28,6 +28,10 @@ class Buttons():
                 )
         except RuntimeError:
             pass
+
+    def cycle_currency(self):
+        self.config.cycle_currency()
+        self.config.save()
 
     @info_log
     def toggle_picure_frame_mode(self):
