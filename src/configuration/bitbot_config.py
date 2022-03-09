@@ -28,8 +28,7 @@ class BitBotConfig():
         return self.config["currency"]["exchange"]
 
     def get_instruments(self):
-        line = self.config.get("currency", "instruments", fallback='')
-        line = line.split(',')
+        line = self.config.get("currency", "instruments", fallback='').split(',')
         return [x.strip() for x in line if x]
 
     def set_instruments(self, instruments):
@@ -46,7 +45,6 @@ class BitBotConfig():
             instruments.append(old_instrument)
             self.set_instrument(next_instrument)
             self.set_instruments(instruments)
-        self.save()
 
     def instrument_name(self):
         return self.config["currency"]["instrument"]
