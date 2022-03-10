@@ -58,10 +58,10 @@ os.makedirs('tests/images/', exist_ok=True)
 
 class TestRenderingMeta(type):
     def __new__(mcs, name, bases, dict, output):
-        def gen_test(name, exch, token, stock, overlay, expand, volume, candle_width, holdings):
+        def gen_test(file_name, test_name, exch, token, stock, overlay, expand, volume, candle_width, holdings):
             def test(self):
                 config = load_config()
-                image_file_name = f'tests/images/{name}.png'
+                image_file_name = f'tests/images/{file_name}.png'
                 config.set('currency', 'stock_symbol', stock)
                 config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
@@ -83,7 +83,7 @@ class TestRenderingMeta(type):
 
                 image_should_not_change_when(app.display_chart, image_file_name)
 
-                if config.shoud_show_image_in_vscode():
+                if True:  #  config.shoud_show_image_in_vscode():
                     os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, image_file_name):
@@ -100,7 +100,7 @@ class TestRenderingMeta(type):
         for test_param in test_params:
             test_name = f"test_{output.get('resolution', output['output'].split('.')[-1])}_{test_param[0]}"
 
-            dict[test_name] = gen_test(*test_param)
+            dict[test_name] = gen_test(test_name, *test_param)
         return type.__new__(mcs, name, bases, dict)
 
 
