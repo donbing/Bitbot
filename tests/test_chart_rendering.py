@@ -83,18 +83,19 @@ class TestRenderingMeta(type):
 
                 image_should_not_change_when(app.display_chart, image_file_name)
 
-                if True:  #  config.shoud_show_image_in_vscode():
+                if config.shoud_show_image_in_vscode():
                     os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, image_file_name):
-                # previous_image = Image.open(image_file_name)
+                previous_image = Image.open(image_file_name)
                 action()
-                # new_image = Image.open(image_file_name)
-                # diff = ImageChops.difference(new_image, previous_image)
-                # if diff.getbbox():
-                #     diff.save(image_file_name)
-
-                #     assert False, f"images diff '{image_file_name}'"
+                new_image = Image.open(image_file_name)
+                diff = ImageChops.difference(new_image, previous_image)
+                if diff.getbbox():
+                    diff.save(image_file_name)
+                    if False:
+                        os.system(f"code '{image_file_name}'")
+                    assert False, f"images diff '{image_file_name}'"
 
             return test
         for test_param in test_params:
