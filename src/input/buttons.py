@@ -7,7 +7,7 @@ class Buttons():
         # 👆 map button actions
         self.BUTTONS = {
             5: self.toggle_picure_frame_mode,
-            6: self.refresh_display,
+            6: self.cycle_currency,  # self.refresh_display,
             16: self.toggle_volume,
             24: self.toggle_extended_view,
         }
@@ -30,9 +30,14 @@ class Buttons():
             pass
 
     @info_log
+    def cycle_currency(self):
+        self.config.cycle_currency()
+        self.config.save()
+
+    @info_log
     def toggle_picure_frame_mode(self):
         newstate = str(not self.config.photo_mode_enabled()).lower()
-        self.config.toggle_photo_mode(newstate, False)
+        self.config.toggle_photo_mode(newstate, 'false')
         self.config.save()
 
     @info_log

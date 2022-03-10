@@ -68,7 +68,7 @@ class TestRenderingMeta(type):
                 config.set('currency', 'holdings', holdings)
                 config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'output', output['output'])
-                config.set('display', 'resolution', output['resolution'])
+                config.set('display', 'resolution', output.get('resolution', ''))
                 config.set('display', 'overlay_layout', overlay)
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
@@ -83,6 +83,9 @@ class TestRenderingMeta(type):
 
                 image_should_not_change_when(app.display_chart, image_file_name)
 
+                if config.shoud_show_image_in_vscode():
+                    os.system(f"code '{image_file_name}'")
+
             def image_should_not_change_when(action, image_file_name):
                 # previous_image = Image.open(image_file_name)
                 action()
@@ -90,7 +93,7 @@ class TestRenderingMeta(type):
                 # diff = ImageChops.difference(new_image, previous_image)
                 # if diff.getbbox():
                 #     diff.save(image_file_name)
-                os.system(f"code '{image_file_name}'")
+
                 #     assert False, f"images diff '{image_file_name}'"
 
             return test
@@ -116,7 +119,6 @@ class LargeChartRenderingTests(unittest.TestCase, output=disks.disk_large, metac
 @unittest.skip("needs a waveshare display")
 class Wave27bChartRenderingTests(unittest.TestCase, output=screens.wave27b, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
-
 
 @unittest.skip("needs an inky display")
 class InkyChartRenderingTests(unittest.TestCase, output=screens.inky, metaclass=TestRenderingMeta):

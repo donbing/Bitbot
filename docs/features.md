@@ -17,7 +17,7 @@
  - *Scenario:* `✅ Bitbot defaults to showing bitmex BTC/USD ticker.`
  - *Scenario:* `✅ Bitbot is re-configured to show an ETH/USD chart.`
 
-## ✔️ Stocks and shares charts can be shown 
+## ✔️🏗️ Stocks and shares charts can be shown 
 >**As** Marketing  
 **In order that** to appeal to a broad user-base   
 **I want** Bitbot to support regular stocks and shares  
@@ -61,7 +61,7 @@
  - *Scenario:* `✅ Display is starts updating immediately after any config change`
  - *Scenario:* `✅ Logs can be viewed in the config-server web-page`
 
-## ✔️ Chart styles are editable in the config-server
+## ✔️🏗️ Chart styles are editable in the config-server
 >**AS** Marketing  
 **In order** we can advertise bit bot as 'infinately customisable' 
 **I want** users to be able to edit the matplot lib style sheets  
@@ -76,7 +76,7 @@
 **So that** users dont have to calculate totals themselves
  - *Scenario:* `✅ holdings are entered into the config file, and total value is displayed below the price`
  
-## ✔️ Can be used as a digital picture frame
+## ✔️🏗️ Can be used as a digital picture frame
 >**AS** Marketing  
 **In order** so that we can advertise Bitbot as a digital picture-frame
 **I want** users to be able to upload images for permanent display
@@ -90,35 +90,44 @@
 **In order that** users find bitbot easy to use
 **I want** button presses for changing configuration values
 **So that** users can conveniently change common config options
- - *Scenario:* `A button is presses to toggle between picture-frame and chart modes.`
- - *Scenario:* `A button is pressed to refresh the current chart data.`
- - *Scenario:* `A button is pressed to toggle the volume graph.`
- - *Scenario:* `A button is pressed to toggle between extended and normal layouts.`
+ - *Scenario:* `✅ A button is pressed to toggle between picture-frame and chart modes.`
+ - *Scenario:* `✅ A button is pressed to cycle between configured currencies.`
+ - *Scenario:* `✅ A button is pressed to toggle the volume graph.`
+ - *Scenario:* `✅ A button is pressed to toggle between extended and normal layouts.`
 
-## ✔️ Show setup instructions on first load
+## ✔️🏗️ Show setup instructions on first load
 >**AS** Marketing  
 **In order** to avoid sending printed setup instructions with each device  
-**I want** bit bot to guide the user through settting up the device when if first powers on  
+**I want** Bitbot to guide the user through settting up the device when if first powers on  
 **So that** users have an easy on-boarding experience and leave glowing reviews  
  - *Scenario:* `✅ on first power on, Bitbot displays a friendly welcome message and explains how to configure the wifi`
  - *Scenario:* `🚧 before power on, Bitbot displays a simple graphinc showing assembly instructions`
 
-# 🚧 INCOMPLETE
+## 💡🏗️ Cycle through list of configured instruments 
+>**As** Marketing  
+**In order that** we can promote the device as supporting multiple currencies  
+**I want** users to be able to configure a new instrument to be shown on each refresh   
+**So that** potential buyers may track their many shitcoins  
+ - *Scenario:* `🚧 Configured instruments may be cycled between on each screen refresh.`
+ - *Scenario:* `✅ Pressing button 3 immediately cycles to the next instrument.`
+ - *Scenario:* `🚧 When no instruments configured, Pressing button 3 immediately cycles to the next timeframe.`
+
+# 🚧 Spawning Area
 
 ## 💡Updates are easy to install
 >**AS** Support  
 **In order** fixes can easily be installed by end users
 **I want** the config server to trigger software updates  
 **So that** users do not have to use ssh and git to update
- - *Scenario:* `An alert is displayed in the config server when a new version is available`
- - *Scenario:* `clicking the **update** button on the config server performs a git pull and reboots`
+ - *Scenario:* `An alert is displayed in the config server when a new version is available.`
+ - *Scenario:* `clicking the **update** button on the config server performs a git pull and reboots.`
 
 ## 💡 Support muiltiple chart plots on one display
 >**AS** Marketing  
 **In order** to appeal to a broad user-base  
 **I want** multiple charts to be displayed on one screen  
 **So that** that people can accurately track multiple currencies with one device
- - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen`
+ - *Scenario:* `two currencies may be added to config, and both have charts displayed on-screen.`
 
 ## 💡 Show Market indicators (macd, rsi, bbands, fibs)
 > worth it?
@@ -126,8 +135,7 @@
 ## 💡Make bitbot capable of buying/selling 
 >**As** Marketing  
 **In order that** we can promote the device as a trading bot  
-**I want** bit bot to be configurable to make orders at regular intervals  
+**I want** Bitbot to be configurable to make orders at regular intervals  
 **So that** users can use DCA trading strategies  
  - *Scenario:* `Bitbot is configured with trading account details, buy frequencey and amount.`
  - *Scenario:* `Bitbot used configured trading info to automatically place orders for the customer.`
-
