@@ -24,8 +24,7 @@ config = load_config_ini(config_files)
 app = BitBot(config, config_files)
 # 👉 button handlers
 buttons = Buttons(config)
-
-# oobex
+# 🎁 oobex
 config.on_first_run(lambda: IntroPlayer(picker(config), config))
 
 
