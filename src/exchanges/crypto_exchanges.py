@@ -7,6 +7,7 @@ from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
 import logging
 
+
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
     candle_configs = [
@@ -66,6 +67,7 @@ def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
     except BadSymbol:
         logging.warning(f'"{instrument}" is not available')
         return []
+
 
 @info_log
 def load_exchange(exchange_name):

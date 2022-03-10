@@ -12,8 +12,7 @@ files = use_config_dir(os.path.join(curdir, "../"))
 
 
 def load_config():
-    config = load_config_ini(files)
-    return config
+    return load_config_ini(files)
 
 
 class disks:
@@ -61,7 +60,7 @@ class TestRenderingMeta(type):
         def gen_test(file_name, test_name, exch, token, stock, overlay, expand, volume, candle_width, holdings):
             def test(self):
                 config = load_config()
-                image_file_name = f'tests/images/{file_name}.png'
+                image_file_path = f'tests/images/{file_name}.png'
                 config.set('currency', 'stock_symbol', stock)
                 config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
@@ -73,7 +72,7 @@ class TestRenderingMeta(type):
                 config.set('display', 'expanded_chart', expand)
                 config.set('display', 'show_volume', volume)
                 config.set('display', 'candle_width', candle_width)
-                config.set('display', 'disk_file_name', image_file_name)
+                config.set('display', 'disk_file_name', image_file_path)
                 config.set('display', 'rotation', '0')
                 config.set('display', 'show_ip', 'false')
                 config.set('display', 'timestamp', 'false')
@@ -81,21 +80,22 @@ class TestRenderingMeta(type):
                 config.set('comments', 'down', 'doom')
                 app = BitBot(config, files)
 
-                image_should_not_change_when(app.display_chart, image_file_name)
+                image_should_not_change_when(app.display_chart, file_name, image_file_path)
 
                 if config.shoud_show_image_in_vscode():
-                    os.system(f"code '{image_file_name}'")
+                    os.system(f"code '{image_file_path}'")
 
-            def image_should_not_change_when(action, image_file_name):
-                previous_image = Image.open(image_file_name)
+            def image_should_not_change_when(action, file_name, image_file_path):
+                previous_image = Image.open(image_file_path)
                 action()
-                new_image = Image.open(image_file_name)
+                new_image = Image.open(image_file_path)
                 diff = ImageChops.difference(new_image, previous_image)
                 if diff.getbbox():
-                    diff.save(image_file_name)
+                    failure_file_path = f'tests/images/failed_{file_name}.png'
+                    diff.save(failure_file_path)
                     if False:
-                        os.system(f"code '{image_file_name}'")
-                    assert False, f"images diff '{image_file_name}'"
+                        os.system(f"code '{failure_file_path}'")
+                    assert False, f"images diff '{failure_file_path}'"
 
             return test
         for test_param in test_params:
