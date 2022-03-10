@@ -51,7 +51,7 @@ docker run --network=host -v /run/dbus/:/run/dbus/ balenablocks/wifi-connect:rpi
 = badly ordered docker args, envs must come before image name
 
 # test run 
-docker run --rm --env TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false  bb
+docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false  bb
 ```
 
 > get linux os version

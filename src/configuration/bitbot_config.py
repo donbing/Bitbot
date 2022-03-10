@@ -149,7 +149,7 @@ class BitBotConfig():
         return os.getenv('BITBOT_SHOWIMAGE') == 'true'
 
     def is_test_run(self):
-        return os.getenv('TESTRUN') == 'true'
+        return os.getenv('BITBOT_TESTRUN') == 'true'
 
     # ⚙️ config management options
     def set(self, section, key, value):
