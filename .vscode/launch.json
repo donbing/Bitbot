@@ -10,11 +10,11 @@
             "request": "launch",
             "module": "run",
             "env" : {
-                "TESTRUN": "true",
+                "BITBOT_TESTRUN": "true",
                 "BITBOT_OUTPUT": "disk",
                 "BITBOT_SHOWIMAGE": "true"
             },
-            "justMyCode": false   
+            "justMyCode": false
         }
     ]
 }
