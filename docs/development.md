@@ -8,13 +8,13 @@
     python3 -m unittest discover tests -v
 
 ## ✉️ Env vars 
-> `TESTRUN` loads one chart and then exits
+> `BITBOT_TESTRUN` loads one chart and then exits
 
 > `BITBOT_SHOWIMAGE` [opens the image in vscode](/run.py) after loading the chart
 
 > `BITBOT_OUTPUT` may be set to `disk` to write to disk rather than the e-ink display
 
-    export TESTRUN=true BITBOT_OUTPUT=disk BITBOT_SHOWIMAGE=true
+    export BITBOT_TESTRUN=true BITBOT_OUTPUT=disk BITBOT_SHOWIMAGE=true
 
 ## 📻 Easy WiFi config 
 > [`comitup`](https://github.com/davesteele/comitup) is used for the ***disk image***, it creates a **config hotspot** on the Pi if it **cant connect** to any wifi itself.  
