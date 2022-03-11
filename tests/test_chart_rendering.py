@@ -86,8 +86,13 @@ class TestRenderingMeta(type):
                     os.system(f"code '{image_file_path}'")
 
             def image_should_not_change_when(action, file_name, image_file_path):
+                try:
                 previous_image = Image.open(image_file_path)
+                except FileNotFoundError:
+                    pass
+
                 action()
+
                 new_image = Image.open(image_file_path)
                 diff = ImageChops.difference(new_image, previous_image)
                 if diff.getbbox():
@@ -95,7 +100,7 @@ class TestRenderingMeta(type):
                     diff.save(failure_file_path)
                     if False:
                         os.system(f"code '{failure_file_path}'")
-                    assert False, f"images diff '{failure_file_path}'"
+                    assert False, f"images differ '{failure_file_path}'"
 
             return test
         for test_param in test_params:
@@ -120,6 +125,7 @@ class LargeChartRenderingTests(unittest.TestCase, output=disks.disk_large, metac
 @unittest.skip("needs a waveshare display")
 class Wave27bChartRenderingTests(unittest.TestCase, output=screens.wave27b, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
+
 
 @unittest.skip("needs an inky display")
 class InkyChartRenderingTests(unittest.TestCase, output=screens.inky, metaclass=TestRenderingMeta):
