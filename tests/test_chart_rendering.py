@@ -87,12 +87,11 @@ class TestRenderingMeta(type):
 
             def image_should_not_change_when(action, file_name, image_file_path):
                 try:
-                previous_image = Image.open(image_file_path)
+                    previous_image = Image.open(image_file_path)
                 except FileNotFoundError:
                     pass
 
                 action()
-
                 new_image = Image.open(image_file_path)
                 diff = ImageChops.difference(new_image, previous_image)
                 if diff.getbbox():
