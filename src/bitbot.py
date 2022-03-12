@@ -58,7 +58,6 @@ class BitBot():
             draw.text((0, 0), f'{self.config.instrument_name()} was not found on {self.config.exchange_name()}')
             self.display.show(img)
 
-
     @info_log
     def display_photo(self):
         image_path = self.config.photo_image_file()
