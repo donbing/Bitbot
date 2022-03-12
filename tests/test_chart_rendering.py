@@ -47,9 +47,9 @@ test_params = [
     ("bitmex ETH 1h defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1h", ""),
     ("bitmex ETH 1d defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1d", ""),
 
-    ("cryptocom CRO 5m defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "5m", ""),
-    ("cryptocom CRO 1h defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1h", ""),
-    ("cryptocom CRO 1d defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1d", ""),
+    ("bitmex SHIB 5m defaults", "bitmex", "SHIB/USD", "", "1", "false", "false", "5m", ""),
+    ("bitmex SHIB 1h defaults", "bitmex", "SHIB/USD", "", "1", "false", "false", "1h", ""),
+    ("bitmex SHIB 1d defaults", "bitmex", "SHIB/USDT", "", "1", "false", "false", "1d", ""),
 ]  # name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 
 os.makedirs('tests/images/', exist_ok=True)
