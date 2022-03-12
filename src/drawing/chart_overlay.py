@@ -62,6 +62,10 @@ class ChartOverlay():
 
     def overlay2(self, chartdata):
         portfolio_value = self.value_held(chartdata)
+        # 🎹 draw instrument name
+        yield RotatedTextBlock(chartdata.instrument, self.medium_font)
+        # 🕎 candle width
+        yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
         # 🏳️ title block
         yield TextBlock([
             # ➗ draw coloured change percentage
@@ -73,10 +77,6 @@ class ChartOverlay():
                 if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font)]
         ], align=Align.LeastIntrusive)
-        # 🎹 draw instrument name
-        yield RotatedTextBlock(chartdata.instrument, self.medium_font)
-        # 🕎 candle width
-        yield DrawText(chartdata.candle_width, self.medium_font, colour='red', align=Align.TopRight)
 
     def price_increasing(self, chartdata):
         return chartdata.start_price() < chartdata.last_close()
