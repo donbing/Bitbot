@@ -4,7 +4,8 @@ import random
 import collections
 import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
-
+from ccxt.base.errors import BadSymbol
+import logging
 
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
@@ -50,17 +51,21 @@ def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
         candle_freq,
         num_candles,
         since)
-    return list(map(make_matplotfriendly_date, dirty_chart_data))
+    clean_chart_data = map(make_matplotfriendly_date, dirty_chart_data)
+    return list(clean_chart_data)
 
 
 @info_log
 def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
-    return exchange.fetchOHLCV(
-        instrument,
-        candle_freq,
-        limit=num_candles,
-        since=since and exchange.parse8601(since))
-
+    try:
+        return exchange.fetchOHLCV(
+            instrument,
+            candle_freq,
+            limit=num_candles,
+            since=since and exchange.parse8601(since))
+    except BadSymbol:
+        logging.warning(f'"{instrument}" is not available')
+        return []
 
 @info_log
 def load_exchange(exchange_name):

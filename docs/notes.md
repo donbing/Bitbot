@@ -49,6 +49,9 @@ docker run --network=host -v /run/dbus/:/run/dbus/ balenablocks/wifi-connect:rpi
 
 # error exec "--env" "executable file not found in $PATH: unknown"
 = badly ordered docker args, envs must come before image name
+
+# test run 
+docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false  bb
 ```
 
 > get linux os version
@@ -89,3 +92,25 @@ dpkg --print-architecture
 > manually rebuild the font cache with `fc-cache -f -v`
 
 > list fonts with `fc-list`
+
+
+
+# balena
+```
+# install gbalena cli
+wget https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-linux-x64-standalone.zip
+unzip balena-cli-v13.3.0-linux-x64-standalone.zip
+# balena cli
+balena login
+balena push gh_donbing/teste
+# git
+# add pud key to balena
+balena key add Main ~/.ssh/id_rsa.pub
+# list keys
+balena keys
+# push to balena
+git remote add balena gh_donbing@git.balena-cloud.com:gh_donbing/teste.git
+# push our main branch to balena master branch
+git push balena main:master
+```
+

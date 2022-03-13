@@ -51,7 +51,7 @@ class DisplayBase:
     def draw_connection_error(self):
         img = Image.new("P", self.size())
         draw = ImageDraw.Draw(img)
-        centered_text(draw, connection_message, title_font, self.size(), True)
+        centered_text(draw, connection_message, title_font, self.size(), border=True)
         self.show(img)
 
     # 🔁 apply rotation (see size() for why this is weird)

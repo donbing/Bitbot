@@ -63,13 +63,22 @@ class PlottedChart:
             volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
             self.fig.subplots_adjust(bottom=0.01)
 
+    # 📑 styles overide each other left to right?
     def get_default_styles(self, config, display, files):
+        small_display = self.is_small_display(display)
+
+        if small_display:
+            yield files.small_screen_style
+        yield files.default_style
+
         if config.expand_chart():
             yield files.expanded_style
-        else:
-            yield files.default_style
-        if display.size()[0] < 300:
-            yield files.small_screen_style
+            if small_display:
+                yield files.small_expanded_style
+
+    def is_small_display(self, display):
+        small_display = display.size()[0] < 300
+        return small_display
 
     def create_chart_figure(self, config, display, files):
         # 📏 apply global base style
@@ -86,6 +95,10 @@ class PlottedChart:
             gs = fig.add_gridspec(num_plots, hspace=0, height_ratios=heights)
             ax1 = fig.add_subplot(gs[0], zorder=1)
             ax2 = None
+
+            # 📏 align price tick labels for expanded chart
+            if(config.expand_chart()):
+                ax1.set_yticklabels(ax1.get_yticklabels(), ha='left')
 
             if config.show_volume():
                 with plt.style.context(files.volume_style):

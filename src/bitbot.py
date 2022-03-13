@@ -1,4 +1,5 @@
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
 from src.drawing.market_chart import MarketChart
@@ -40,20 +41,29 @@ class BitBot():
         wait_for_internet_connection(self.display.draw_connection_error)
         # 📈 fetch chart data
         chart_data = self.market_exchange().fetch_history()
-        # 🖊️ draw the chart on the display
-        with io.BytesIO() as file_stream:
-            # 🖊️ draw chart plot to image
-            self.plot.draw_to(chart_data, file_stream)
-            chart_image = Image.open(file_stream)
-            # 🖊️ draw overlay on image
-            overlay = ChartOverlay(self.config, self.display, chart_data)
-            overlay.draw_on(chart_image)
-            # 📺 display the image
-            self.display.show(chart_image)
+        if(any(chart_data.candle_data)):
+            # 🖊️ draw the chart on the display
+            with io.BytesIO() as file_stream:
+                # 🖊️ draw chart plot to image
+                self.plot.draw_to(chart_data, file_stream)
+                chart_image = Image.open(file_stream)
+                # 🖊️ draw overlay on image
+                overlay = ChartOverlay(self.config, self.display, chart_data)
+                overlay.draw_on(chart_image)
+                # 📺 display the image
+                self.display.show(chart_image)
+        else:
+            img = Image.new('RGBA', self.display.size())
+            draw = ImageDraw.Draw(img)
+            draw.text((0, 0), f'{self.config.instrument_name()} was not found on {self.config.exchange_name()}')
+            self.display.show(img)
+
 
     @info_log
     def display_photo(self):
-        self.display.show(Image.open(self.config.photo_image_file()))
+        image_path = self.config.photo_image_file()
+        if(exists(image_path)):
+            self.display.show(Image.open(image_path))
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
