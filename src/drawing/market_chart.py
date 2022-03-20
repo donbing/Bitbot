@@ -4,9 +4,6 @@ import matplotlib.font_manager as font_manager
 from src.drawing.legacy_mpf_plotted_chart import PlottedChart
 from src.drawing.mpf_plotted_chart import NewPlottedChart
 
-matplotlib.use('Agg')
-local_tz = tzlocal.get_localzone()
-
 
 # ☝️ single instance for lifetime of app
 class MarketChart:
