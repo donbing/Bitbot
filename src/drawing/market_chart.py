@@ -75,9 +75,9 @@ class PlottedChart:
             update_width_config=dict(candle_linewidth=0.4),
             returnfig=True, 
             type='candle', 
-            # mav=(10, 20), 
+            #mav=(10, 20), 
             style=s, 
-            tight_layout=True,
+            #tight_layout=True,
             figsize=figsize,
             xrotation=0
         )
