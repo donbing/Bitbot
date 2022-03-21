@@ -52,11 +52,13 @@ class BitBot():
                 overlay.draw_on(chart_image)
                 # 📺 display the image
                 self.display.show(chart_image)
+                return chart_image
         else:
             img = Image.new('RGBA', self.display.size())
             draw = ImageDraw.Draw(img)
             draw.text((0, 0), f'{self.config.instrument_name()} was not found on {self.config.exchange_name()}')
             self.display.show(img)
+            return img
 
 
     @info_log
