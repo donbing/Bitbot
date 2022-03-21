@@ -53,35 +53,35 @@ class PlottedChart:
 
         mc = mpf.make_marketcolors(
                 alpha=1.0,
-                up='white', down='red', 
-                edge={'up': 'black', 'down': 'red'},# 'none',
+                up='white', down='red',
+                edge={'up': 'black', 'down': 'red'},  # 'none',
                 wick={'up': 'black', 'down': 'red'},
                 volume={'up': 'black', 'down': 'red'})
-        
+
         s = mpf.make_mpf_style(
-            marketcolors=mc, 
-            base_mpl_style=files.base_style, 
-            mavcolors=['#1f77b4','#ff7f0e','#2ca02c'], 
+            marketcolors=mc,
+            base_mpl_style=files.base_style,
+            mavcolors=['#1f77b4', '#ff7f0e', '#2ca02c'],
           )
 
         display_width, display_height = display.size()
-        figsize=(display_width / 100, display_height / 100)
+        figsize = (display_width / 100, display_height / 100)
 
         # 📏 scope styles to just this plot
         # with plt.style.context(stlyes):
         self.fig, ax = mpf.plot(
-            data_frame, 
-            scale_width_adjustment=dict(volume=0.4,candle=0.8, lines=0.5),
+            data_frame,
+            scale_width_adjustment=dict(volume=0.4, candle=0.8, lines=0.5),
             update_width_config=dict(candle_linewidth=0.4),
-            returnfig=True, 
-            type='candle', 
-            #mav=(10, 20), 
-            style=s, 
-            #tight_layout=True,
+            returnfig=True,
+            type='candle',
+            # mav=(10, 20),
+            style=s,
+            # tight_layout=True,
             figsize=figsize,
             xrotation=0
         )
-        ax[0].yaxis.set_major_formatter(EngFormatter(sep=''))       
+        ax[0].yaxis.set_major_formatter(EngFormatter(sep=''))
 
         # 📐 find suiteable layout for timeframe
         # layout = self.layouts[self.candle_width]
