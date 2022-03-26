@@ -63,8 +63,9 @@ class NewPlottedChart:
 
     # 📑 styles overide each other left to right?
     def get_default_styles(self, config, display, files):
+        yield files.base_style
+        
         small_display = self.is_small_display(display)
-
         if small_display:
             yield files.small_screen_style
         yield files.default_style
