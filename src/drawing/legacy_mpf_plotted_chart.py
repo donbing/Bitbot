@@ -1,20 +1,16 @@
 import matplotlib
 import tzlocal
-import matplotlib.font_manager as font_manager
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from mplfinance.original_flavor import candlestick_ohlc, volume_overlay
+from src.drawing import price_humaniser
 
+matplotlib.use('Agg')
+local_tz = tzlocal.get_localzone()
 
-# ☝️ single instance for lifetime of app
-class MarketChart:
-    def __init__(self, config, display, files):
-        self.config = config
-        self.display = display
-        self.files = files
-        fonts = font_manager.findSystemFonts(fontpaths=files.resource_folder)
-        for font_file in fonts:
-            font_manager.fontManager.addfont(font_file)
-
-    def create_plot(self, chart_data):
-        return PlottedChart(self.config, self.display, self.files, chart_data)
+price_formatter = matplotlib.ticker.FuncFormatter(
+    price_humaniser.format_scale_price
+)
 
 
 class PlottedChart:
