@@ -1,6 +1,6 @@
 figure.dpi:         100
 #figure.autolayout: True
-#savefig.pad_inches:   0
+savefig.pad_inches:   0
 font.family: sans-serif
 font.sans-serif: 04b03
 font.weight: light
@@ -20,7 +20,7 @@ axes.spines.top:    False
 axes.spines.right:  False
 axes.grid:          False
 
-grid.linestyle:     -
+grid.linestyle:     :
 grid.linewidth:     0.5
 grid.color:         black
 axes.edgecolor:     red

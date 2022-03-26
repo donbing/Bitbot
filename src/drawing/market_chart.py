@@ -1,5 +1,11 @@
 import matplotlib
 import tzlocal
+<<<<<<< HEAD
+=======
+import matplotlib.pyplot as plt
+import numpy
+import matplotlib.dates as mdates
+>>>>>>> add proto formatting to real chart
 import matplotlib.font_manager as font_manager
 from src.drawing.legacy_mpf_plotted_chart import PlottedChart
 from src.drawing.mpf_plotted_chart import NewPlottedChart
@@ -30,6 +36,14 @@ class PlottedChart:
     #     '1h': (0.005, mdates.HourLocator(byhour=range(0, 23, 4)), mdates.DayLocator(), mdates.DateFormatter('%a %d %b', local_tz)),
     #     "5m": (0.0005, mdates.MinuteLocator(byminute=[0, 30]), mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p', local_tz)),
     # }
+    def date_format(self, df):
+        candle_time_delta = df.index.values[1] - df.index.values[0]
+        if(candle_time_delta <= numpy.timedelta64(1,'h')):
+            return '%H:%M'
+        elif(candle_time_delta <= numpy.timedelta64(1,'D')): 
+            return '%b.%d'
+        else:
+            return '%b'
 
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
@@ -39,12 +53,11 @@ class PlottedChart:
         data_frame = pd.DataFrame(
             chart_data.candle_data,
             columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-
         data_frame.index = pd.DatetimeIndex(data_frame['date'])
 
         mc = mpf.make_marketcolors(
                 alpha=1.0,
-                up='white', down='red',
+                up='black', down='red',
                 edge={'up': 'black', 'down': 'red'},  # 'none',
                 wick={'up': 'black', 'down': 'red'},
                 volume={'up': 'black', 'down': 'red'})
@@ -55,24 +68,30 @@ class PlottedChart:
             mavcolors=['#1f77b4', '#ff7f0e', '#2ca02c'],
           )
 
-        display_width, display_height = display.size()
-        figsize = (display_width / 100, display_height / 100)
-
         # 📏 scope styles to just this plot
         # with plt.style.context(stlyes):
-        self.fig, ax = mpf.plot(
+        fig, ax = mpf.plot(
             data_frame,
-            scale_width_adjustment=dict(volume=0.4, candle=0.8, lines=0.5),
-            update_width_config=dict(candle_linewidth=0.4),
+            scale_width_adjustment=dict(volume=0.9, candle=0.7, lines=0.05),
+            update_width_config=dict(candle_linewidth=0.6),
             returnfig=True,
             type='candle',
             # mav=(10, 20),
+            # volume=True,
             style=s,
-            # tight_layout=True,
-            figsize=figsize,
-            xrotation=0
+            tight_layout=True,
+            figsize=tuple(dim/100 for dim in display.size()),
+            xrotation=0,
+            datetime_format=format,
         )
-        ax[0].yaxis.set_major_formatter(EngFormatter(sep=''))
+
+        for a in ax:
+            a.yaxis.set_major_formatter(EngFormatter(sep=''))
+            a.autoscale(enable=True, axis="x", tight=True)
+            a.autoscale(enable=True, axis="y", tight=True)
+            a.margins(0.05, 0.2)
+            _ = a.set_ylabel("")
+            _ = a.set_xlabel("")
 
         # 📐 find suiteable layout for timeframe
         # layout = self.layouts[self.candle_width]
