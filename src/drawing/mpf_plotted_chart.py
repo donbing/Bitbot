@@ -19,17 +19,20 @@ class NewPlottedChart:
         data_frame.index = pd.DatetimeIndex(data_frame['date'])
 
         # 🎨 chart colours
-        mc = mpf.make_marketcolors(
+        mpf_colours = mpf.make_marketcolors(
                 alpha=1.0,
                 up='black', down='red',
                 edge={'up': 'black', 'down': 'red'},  # 'none',
                 wick={'up': 'black', 'down': 'red'},
                 volume={'up': 'black', 'down': 'red'})
 
+        # 📏 MPF doesnt support multiple styles, so we hack them into rcparams
+        style_files = list(self.get_default_styles(config, display, files))
+
         # 📏 setup MLF styling
-        s = mpf.make_mpf_style(
-            marketcolors=mc,
-            base_mpl_style=files.base_style,
+        mpf_style = mpf.make_mpf_style(
+            marketcolors=mpf_colours,
+            base_mpl_style=style_files,
             mavcolors=['#1f77b4', '#ff7f0e', '#2ca02c'])
 
         # 📈 create the chart plot
@@ -41,7 +44,7 @@ class NewPlottedChart:
             type='candle',
             # mav=(10, 20),
             # volume=True,
-            style=s,
+            style=mpf_style,
             tight_layout=True,
             figsize=tuple(dim/100 for dim in display.size()),
             xrotation=0,
@@ -56,7 +59,24 @@ class NewPlottedChart:
             a.margins(0.05, 0.2)
             _ = a.set_ylabel("")
             _ = a.set_xlabel("")
-    
+
+    # 📑 styles overide each other left to right?
+    def get_default_styles(self, config, display, files):
+        small_display = self.is_small_display(display)
+
+        if small_display:
+            yield files.small_screen_style
+        yield files.default_style
+
+        if config.expand_chart():
+            yield files.expanded_style
+            if small_display:
+                yield files.small_expanded_style
+
+    def is_small_display(self, display):
+        small_display = display.size()[0] < 300
+        return small_display
+
     # 🕐 format for date axis labels
     def date_format(self, df):
         candle_time_delta = df.index.values[1] - df.index.values[0]
