@@ -13,10 +13,11 @@ class NewPlottedChart:
         self.candle_width = chart_data.candle_width
 
         # 🖼️ prep chart data frame
-        data_frame = pd.DataFrame(
-            chart_data.candle_data,
-            columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-        data_frame.index = pd.DatetimeIndex(data_frame['date'])
+        data_frame = pd.DataFrame(chart_data.candle_data)
+        data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
+        data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+        data_frame.index = pd.DatetimeIndex(data_frame['date'].astype('datetime64[ms]'))
+        # data_frame.index = pd.DatetimeIndex(data_frame['date'])
 
         # 🎨 chart colours
         mpf_colours = mpf.make_marketcolors(
