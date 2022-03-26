@@ -70,7 +70,7 @@ class PlottedChart:
 
         # 📏 scope styles to just this plot
         # with plt.style.context(stlyes):
-        fig, ax = mpf.plot(
+        self.fig, ax = mpf.plot(
             data_frame,
             scale_width_adjustment=dict(volume=0.9, candle=0.7, lines=0.05),
             update_width_config=dict(candle_linewidth=0.6),
