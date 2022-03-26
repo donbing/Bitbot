@@ -82,7 +82,7 @@ class PlottedChart:
             tight_layout=True,
             figsize=tuple(dim/100 for dim in display.size()),
             xrotation=0,
-            datetime_format=format,
+            datetime_format=self.date_format(data_frame),
         )
 
         for a in ax:
