@@ -2,7 +2,6 @@ import yfinance
 import collections
 import random
 from datetime import datetime, timedelta
-import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
 import math
 
@@ -69,9 +68,8 @@ class Exchange():
 
 
 def make_matplotfriendly_date(element):
-    datetime_field = element[0]
-    datetime_num = mdates.date2num(datetime_field)
-    return replace_at_index(element, 0, datetime_num)
+    datetime = element[0]
+    return replace_at_index(element, 0, datetime)
 
 
 def replace_at_index(tup, ix, val):
