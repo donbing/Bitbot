@@ -1,4 +1,4 @@
-mplfinance==0.12.8b6
+git+https://github.com/donbing/mplfinance.git
 matplotlib==3.5.1
 tzlocal
 ccxt==1.66.90
