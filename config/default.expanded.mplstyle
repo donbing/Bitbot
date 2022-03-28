@@ -4,16 +4,14 @@ axes.spines.top:    False
 axes.spines.right:  False
 
 axes.autolimit_mode: data
-axes.xmargin: 0.1
-axes.ymargin: 0.1
 xtick.major.size:   5
 ytick.major.size:   5
 xtick.direction:    in
 ytick.direction:    in
 
 ytick.minor.visible: False
-xtick.major.pad:     -20
-ytick.major.pad:     -5
+xtick.major.pad:     -5
+ytick.major.pad:     -0
 
 figure.subplot.left:   0  
 figure.subplot.right:  1    
