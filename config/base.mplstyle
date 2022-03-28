@@ -25,7 +25,6 @@ grid.linewidth:     0.5
 grid.color:         black
 axes.edgecolor:     red
 
-ytick.major.pad:     0
 
 xtick.color:        red
 ytick.color:        red
@@ -36,15 +35,15 @@ ytick.labelcolor:   black
 xtick.labelsize:    12
 ytick.labelsize:    12
 
-xtick.alignment:    center
+xtick.alignment:    left
 ytick.alignment:    bottom
 
 ytick.major.size:  5
 xtick.major.size:  5
 xtick.minor.size:  3
 
-xtick.direction:    inout
-ytick.direction:    inout
+xtick.direction:    in
+ytick.direction:    in
 
 ytick.major.width: 0.5
 xtick.major.width: 0.5

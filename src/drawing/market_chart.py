@@ -1,7 +1,6 @@
 import matplotlib
 import tzlocal
 import matplotlib.font_manager as font_manager
-from src.drawing.legacy_mpf_plotted_chart import PlottedChart
 from src.drawing.mpf_plotted_chart import NewPlottedChart
 
 matplotlib.use('Agg')
@@ -20,4 +19,3 @@ class MarketChart:
 
     def create_plot(self, chart_data):
         return NewPlottedChart(self.config, self.display, self.files, chart_data)
-
