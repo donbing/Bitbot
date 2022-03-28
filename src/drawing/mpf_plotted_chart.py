@@ -44,7 +44,7 @@ class NewPlottedChart:
             returnfig=True,
             type='candle',
             # mav=(10, 20),
-            # volume=True,
+            volume=config.show_volume(),
             style=mpf_style,
             tight_layout=True,
             figsize=tuple(dim/100 for dim in display.size()),
@@ -63,8 +63,9 @@ class NewPlottedChart:
 
     # 📑 styles overide each other left to right?
     def get_default_styles(self, config, display, files):
-        small_display = self.is_small_display(display)
+        yield files.base_style
 
+        small_display = self.is_small_display(display)
         if small_display:
             yield files.small_screen_style
         yield files.default_style
