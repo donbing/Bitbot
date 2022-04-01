@@ -5,7 +5,6 @@ import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
 
-matplotlib.use('Agg')
 
 
 class NewPlottedChart:
@@ -27,7 +26,7 @@ class NewPlottedChart:
                 wick={'up': 'black', 'down': 'red'},
                 volume={'up': 'black', 'down': 'red'})
 
-        # 📏 MPF doesnt support multiple styles, so we hack them into rcparams
+        # 📏 create styles list
         style_files = list(self.get_default_styles(config, display, files))
 
         # 📏 setup MLF styling
@@ -51,7 +50,7 @@ class NewPlottedChart:
             xrotation=0,
             datetime_format=self.date_format(data_frame),
         )
-
+        self.fig.tight_layout()
         # 🪓 make axes look nicer
         for a in ax:
             a.yaxis.set_major_formatter(EngFormatter(sep=''))
@@ -61,14 +60,21 @@ class NewPlottedChart:
             _ = a.set_ylabel("")
             _ = a.set_xlabel("")
 
-    # 📑 styles overide each other left to right?
+            # if config.expand_chart():
+            #     for label in a.yaxis.get_ticklabels():
+            #         label.set_horizontalalignment('left')
+
+            #     for label in a.xaxis.get_ticklabels():
+            #         label.set_verticalalignment('bottom')
+
+    # 📑 styles overid left to right
     def get_default_styles(self, config, display, files):
         yield files.base_style
+        yield files.default_style
 
         small_display = self.is_small_display(display)
         if small_display:
             yield files.small_screen_style
-        yield files.default_style
 
         if config.expand_chart():
             yield files.expanded_style
@@ -91,6 +97,10 @@ class NewPlottedChart:
 
     # 🛶 save plot to image stream
     def write_to_stream(self, stream):
-        self.fig.savefig(stream, dpi=self.fig.dpi, pad_inches=0)
+        self.fig.savefig(
+            stream,
+            dpi=self.fig.dpi,
+            bbox_inches='tight'
+        )
         stream.seek(0)
         plt.close(self.fig)
