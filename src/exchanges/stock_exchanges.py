@@ -12,7 +12,9 @@ class Exchange():
         CandleConfig('1mo', timedelta(weeks=4*24)),
         CandleConfig('1h', timedelta(hours=40)),
         CandleConfig('1wk', timedelta(weeks=60)),
-        CandleConfig('3mo', timedelta(weeks=12*24))
+        CandleConfig('3mo', timedelta(weeks=12*24)),
+        CandleConfig('1m', timedelta(weeks=12*24)),
+        CandleConfig('5m', timedelta(weeks=12*24)),
     ]
 
     def __init__(self, config):
@@ -52,10 +54,11 @@ class Exchange():
             return candle_config
 
     def get_candle_config_matching(self, configred_candle_width):
-        candle_config, = (
-                conf for conf in self.candle_configs
-                if conf.width == configred_candle_width
-            )
+        if configred_candle_width not in self.candle_configs:
+            candle_config, = (
+                    conf for conf in self.candle_configs
+                    if conf.width == configred_candle_width
+                )
         return candle_config
 
     def get_random_candle_config(self):
