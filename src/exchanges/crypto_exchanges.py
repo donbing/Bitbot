@@ -2,17 +2,17 @@ import ccxt
 from datetime import datetime
 import random
 import collections
-import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
 import logging
 
+
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
     candle_configs = [
-        CandleConfig("5m", 60),
-        CandleConfig("1h", 24),
-        CandleConfig("1d", 60),
+        CandleConfig("5m", 40),
+        CandleConfig("1h", 40),
+        CandleConfig("1d", 40),
     ]
 
     def __init__(self, config):
