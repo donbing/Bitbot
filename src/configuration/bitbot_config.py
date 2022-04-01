@@ -2,7 +2,7 @@ import os
 import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
-import logging
+
 
 @info_log
 def load_config_ini(config_files):
@@ -48,7 +48,7 @@ class BitBotConfig():
 
     def instrument_name(self):
         return self.config["currency"]["instrument"]
-    
+
     @info_log
     def set_instrument(self, val):
         self.config["currency"]["instrument"] = val
