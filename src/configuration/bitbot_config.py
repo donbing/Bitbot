@@ -3,6 +3,7 @@ import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
 
+
 @info_log
 def load_config_ini(config_files):
     config = configparser.ConfigParser()
