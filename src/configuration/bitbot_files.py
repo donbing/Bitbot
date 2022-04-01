@@ -24,8 +24,8 @@ class BitBotFiles():
         self.logging_ini = self.existing_file_path('logging.ini')
 
         self.base_style = self.existing_file_path('base.mplstyle')
-        self.volume_style = self.existing_file_path('volume.mplstyle')
         self.default_style = self.existing_file_path('default.mplstyle')
+        self.volume_style = self.existing_file_path('volume.mplstyle')
         self.small_screen_style = self.existing_file_path('small.mplstyle')
         self.expanded_style = self.existing_file_path('default.expanded.mplstyle')
         self.small_expanded_style = self.existing_file_path('small.expanded.mplstyle')
