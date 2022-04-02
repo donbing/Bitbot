@@ -99,8 +99,7 @@ class NewPlottedChart:
     def write_to_stream(self, stream):
         self.fig.savefig(
             stream,
-            dpi=self.fig.dpi,
-            bbox_inches='tight'
+            dpi=self.fig.dpi
         )
         stream.seek(0)
         plt.close(self.fig)
