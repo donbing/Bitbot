@@ -1,10 +1,8 @@
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy
 import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
-
 
 
 class NewPlottedChart:
@@ -91,7 +89,7 @@ class NewPlottedChart:
         if(candle_time_delta <= numpy.timedelta64(1, 'h')):
             return '%H:%M'
         elif(candle_time_delta <= numpy.timedelta64(1, 'D')):
-            return '%-m/%d'
+            return '%b%d'
         elif(candle_time_delta <= numpy.timedelta64(1, 'M')):
             return '%y/%-m'
         elif(candle_time_delta <= numpy.timedelta64(3, 'M')):
