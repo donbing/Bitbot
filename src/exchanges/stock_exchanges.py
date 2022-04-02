@@ -98,7 +98,6 @@ class CandleData():
 
     def last_close(self):
         all_closes = self.select_index_if_number(self.candle_data, 4)
-
         return float(all_closes[-1])
 
     def start_price(self):
