@@ -50,7 +50,7 @@ class NewPlottedChart:
             xrotation=0,
             datetime_format=self.date_format(data_frame),
         )
-        self.fig.tight_layout()
+
         # 🪓 make axes look nicer
         for a in ax:
             a.yaxis.set_major_formatter(EngFormatter(sep=''))
