@@ -90,10 +90,10 @@ class NewPlottedChart:
             return '%H:%M'
         elif(candle_time_delta <= numpy.timedelta64(1, 'D')):
             return '%b%d'
-        elif(candle_time_delta <= numpy.timedelta64(1, 'M')):
-            return '%y/%-m'
-        elif(candle_time_delta <= numpy.timedelta64(3, 'M')):
-            return '%y/%-m'
+        elif(candle_time_delta <= numpy.timedelta64(4, 'W')):
+            return '%y/%b'
+        elif(candle_time_delta <= numpy.timedelta64(16, 'W')):
+            return '%y/%b'
         else:
             return '%b'
 
