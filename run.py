@@ -22,10 +22,12 @@ initialise_logger(config_files.logging_ini)
 config = load_config_ini(config_files)
 # 📈 create bitbot chart updater
 app = BitBot(config, config_files)
+# 🎁 oobex
+display = picker(config)
+config.on_first_run(lambda: IntroPlayer(display, config))
+
 # 👉 button handlers
 buttons = Buttons(config)
-# 🎁 oobex
-config.on_first_run(lambda: IntroPlayer(picker(config), config))
 
 
 @info_log
