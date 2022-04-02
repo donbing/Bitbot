@@ -59,11 +59,10 @@ class NewPlottedChart:
             _ = a.set_xlabel("")
 
             # if config.expand_chart():
-            #     for label in a.yaxis.get_ticklabels():
-            #         label.set_horizontalalignment('left')
-
-            #     for label in a.xaxis.get_ticklabels():
-            #         label.set_verticalalignment('bottom')
+            #     for ylabel in a.yaxis.get_ticklabels():
+            #         ylabel.set_horizontalalignment('left')
+            #     for xlabel in a.xaxis.get_ticklabels():
+            #         xlabel.set_verticalalignment('bottom')
 
     # 📑 styles overid left to right
     def get_default_styles(self, config, display, files):
@@ -101,7 +100,9 @@ class NewPlottedChart:
     def write_to_stream(self, stream):
         self.fig.savefig(
             stream,
-            dpi=self.fig.dpi
+            dpi=self.fig.dpi,
+            bbox_inches='tight',
+            pad_inches=0.0
         )
         stream.seek(0)
         plt.close(self.fig)

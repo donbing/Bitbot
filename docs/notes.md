@@ -1,13 +1,14 @@
 todo:
  - ## layout 
-   * fit candle count to screen size
+   * fix expanded mode 
+   - fit candle count to screen size
    - keep an eye on the overlay least intrusive position algo, seems to be flaky
 
  - ## multi-currency support
    - button to toggle between curencies
    - multi-plot display 
    - overlapping coloured multi-coin charts
-   
+
  - ## impression:
     - better button actions!
      - make these state-based, so photo mode behaves different to chart mode
