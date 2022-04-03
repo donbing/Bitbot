@@ -59,7 +59,7 @@ docker run --rm \
 --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false \
 --mount type=bind,source="$(pwd)",target=/code/tests/images \
 bb \
-python -m unittest discover
+python3 -m unittest discover
 ```
 
 > get linux os version
