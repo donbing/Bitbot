@@ -102,7 +102,8 @@ class NewPlottedChart:
             stream,
             dpi=self.fig.dpi,
             bbox_inches='tight',
-            pad_inches=0.0
+            pad_inches=0.0,
+            transparent=True,
         )
         stream.seek(0)
         plt.close(self.fig)
