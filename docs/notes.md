@@ -41,7 +41,7 @@ docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 bit
 # remove all containers
 docker container rm $(docker container ls -q -a)
 #' which cpus to use for the build 
---cpuset-cpus=0-3'
+# --cpuset-cpus=0-3'
 # wifi-connect docker pull balenablocks/wifi-connect:rpi
 docker run --network=host -v /run/dbus/:/run/dbus/ balenablocks/wifi-connect:rpi
 
@@ -53,6 +53,13 @@ docker run --network=host -v /run/dbus/:/run/dbus/ balenablocks/wifi-connect:rpi
 
 # test run 
 docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false  bb
+# run tests
+docker run --rm \
+--name bitbot_tests \
+--env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false \
+--mount type=bind,source="$(pwd)",target=/code/tests/images \
+bb \
+python -m unittest discover
 ```
 
 > get linux os version
