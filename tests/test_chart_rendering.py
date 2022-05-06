@@ -92,6 +92,11 @@ class TestRenderingMeta(type):
             def image_should_not_change_when(action, image_file_name):
                 # previous_image = Image.open(image_file_name)
                 action()
+                new_image = Image.open(image_file_name)
+                expected_res = output.get('resolution', '')
+                actual_res = f"{new_image.width},{new_image.height}"
+                assert expected_res == actual_res, f"expected {expected_res}, actual {actual_res}"
+
                 # new_image = Image.open(image_file_name)
                 # diff = ImageChops.difference(new_image, previous_image)
                 # if diff.getbbox():
