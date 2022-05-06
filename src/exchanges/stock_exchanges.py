@@ -35,7 +35,7 @@ class Exchange():
             start_date,
             end_date)
 
-        return CandleData(instrument, candle_width, history, ticker)
+        return CandleData(candle_width, history, ticker)
 
     @info_log
     def get_stock_history(self, ticker, candle_width, start_date, end_date):
@@ -81,8 +81,8 @@ def replace_at_index(tup, ix, val):
 
 
 class CandleData():
-    def __init__(self, instrument, candle_width, candle_data, ticker):
-        self.instrument = f'{instrument}/{ticker.info["currency"]}'
+    def __init__(self, candle_width, candle_data, ticker):
+        self.instrument = ticker.info['shortName']
         self.candle_width = candle_width
         candle_data.reset_index(level=0, inplace=True)
         self.candle_data = self.clean_candle_data(candle_data)
