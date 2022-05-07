@@ -45,6 +45,8 @@ class ChartOverlay():
 
     def overlay1(self, chartdata):
         portfolio_value = self.value_held(chartdata)
+        portfolio_entry_value = self.entry_value()
+        portfolio_delta = self.profit(chartdata)
         yield TextBlock([
             [
                 # 🎹 draw instrument name and candle width text
@@ -55,13 +57,21 @@ class ChartOverlay():
             # 🐘 large font price text
             [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
-            [DrawText.number(portfolio_value, self.title_font)
+            [
+                DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
-                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font)]
+                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
+
+                DrawText.humanised_price(portfolio_delta, self.title_font, prefix=" up " if portfolio_delta > 0 else " down ")
+                if portfolio_entry_value != 0
+                else DrawText.empty(self.title_font)
+            ]
         ], align=Align.LeastIntrusive)
 
     def overlay2(self, chartdata):
         portfolio_value = self.value_held(chartdata)
+        portfolio_entry_value = self.entry_value()
+        portfolio_delta = self.profit(chartdata)
         # 🎹 draw instrument name
         yield RotatedTextBlock(chartdata.instrument, self.medium_font)
         # 🕎 candle width
@@ -73,9 +83,15 @@ class ChartOverlay():
             # 🐘 large font price text
             [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
-            [DrawText.number(portfolio_value, self.title_font)
+            [
+                DrawText.humanised_price(portfolio_value, self.title_font)
                 if portfolio_value
-                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font)]
+                else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
+
+                DrawText.humanised_price(portfolio_delta, self.title_font, prefix=" up " if portfolio_delta > 0 else " down ")
+                if portfolio_entry_value != 0
+                else DrawText.empty(self.title_font)
+            ]
         ], align=Align.LeastIntrusive)
 
     def price_increasing(self, chartdata):
@@ -88,7 +104,19 @@ class ChartOverlay():
         return self.config.get_price_action_comments()
 
     def value_held(self, market):
-        return self.config.portfolio_size() * market.last_close()
+        return self.portfolio_size() * market.last_close()
+
+    def portfolio_size(self):
+        return self.config.portfolio_size()
+
+    def entry_price(self):
+        return self.config.entry_price()
+
+    def entry_value(self):
+        return self.entry_price() * self.portfolio_size()
+
+    def profit(self, market):
+        return self.value_held(market) - self.entry_value()
 
     def __repr__(self):
         return f'<Overlay: {self.config.overlay_type()}>'

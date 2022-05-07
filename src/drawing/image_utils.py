@@ -21,13 +21,13 @@ class DrawText:
 
     # 🏷️ human-readable price text
     @staticmethod
-    def humanised_price(price, font):
-        return DrawText(format_title_price(price), font)
+    def humanised_price(price, font, prefix=""):
+        return DrawText(prefix + format_title_price(price), font)
 
     # 🏷️ number text
     @staticmethod
-    def number(value, font):
-        return DrawText("{:,}".format(value), font, 'black')
+    def number(value, font, colour='black'):
+        return DrawText("{:+.2f}".format(value), font, colour)
 
     # 🎲 randomly selected up/down comment
     @staticmethod
@@ -35,6 +35,11 @@ class DrawText:
         direction = 'up' if up_or_down else 'down'
         comments = random.choice(options[direction].split(','))
         return DrawText(comments, font, 'red')
+
+    # empty
+    @staticmethod
+    def empty(font):
+        return DrawText("", font, 'red')
 
     def __init__(self, text, font, colour='black', align=None):
         self.text = text
