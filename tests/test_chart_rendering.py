@@ -36,21 +36,23 @@ test_params = [
     ("bitmex BTC 5m defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "5m", ""),
     ("bitmex BTC 1h defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1h", ""),
     ("bitmex BTC 1d defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1d", ""),
-
+    # BTC
     ("BTC HOLDINGS", "bitmex", "BTC/USD", "", "1", "false", "false", "1d", "100"),
     ("BTC VOLUME", "bitmex", "BTC/USD", "", "1", "false", "true", "1d", ""),
     ("BTC EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "false", "1d", ""),
     ("BTC VOLUME EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "true", "1d", ""),
     ("BTC VOLUME OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "true", "1d", ""),
     ("BTC OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "false", "1d", ""),
-
+    # ETH
     ("bitmex ETH 5m defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "5m", ""),
     ("bitmex ETH 1h defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1h", ""),
     ("bitmex ETH 1d defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1d", ""),
-
+    # CRO
     ("cryptocom CRO 5m defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "5m", ""),
     ("cryptocom CRO 1h defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1h", ""),
     ("cryptocom CRO 1d defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1d", ""),
+    # FOREX
+    ("GBPJPY", "", "", "GBPJPY=X", "1", "false", "false", "1mo", "100"),
 ]  # name, exch, token, stock, overlay, expand, volume, candle_width, holdings
 
 os.makedirs('tests/images/', exist_ok=True)
@@ -66,6 +68,7 @@ class TestRenderingMeta(type):
                 config.set('currency', 'exchange', exch)
                 config.set('currency', 'instrument', token)
                 config.set('currency', 'holdings', holdings)
+                config.set('currency', 'entry_price', "10")
                 config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
                 config.set('display', 'output', output['output'])
                 config.set('display', 'resolution', output.get('resolution', ''))
@@ -83,7 +86,7 @@ class TestRenderingMeta(type):
 
                 image_should_not_change_when(app.display_chart, image_file_name)
 
-                if config.shoud_show_image_in_vscode():
+                if True:
                     os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, image_file_name):
