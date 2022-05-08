@@ -1,30 +1,39 @@
 figure.dpi:         100
-#figure.autolayout: True
+# figure.autolayout: True
+#figure.constrained_layout.use: True
+
 savefig.pad_inches:   0
+savefig.transparent:    True
+
 font.family: sans-serif
 font.sans-serif: 04b03
 font.weight: light
-savefig.transparent:    True
+
 text.hinting_factor:1
 text.hinting:       native
 text.antialiased:   False
+
 patch.antialiased:  False
 lines.antialiased:  False
+
 figure.subplot.hspace: 0 
+figure.frameon:     False 
 
 axes.facecolor:     white
+axes.edgecolor:     red
 axes.linewidth:     0.5
 axes.spines.left:   True 
 axes.spines.bottom: True
 axes.spines.top:    False
 axes.spines.right:  False
 axes.grid:          False
+# margin between candles and axes
+axes.xmargin : 0
+axes.ymargin : 0
 
 grid.linestyle:     :
 grid.linewidth:     0.5
 grid.color:         black
-axes.edgecolor:     red
-
 
 xtick.color:        red
 ytick.color:        red
@@ -47,3 +56,5 @@ ytick.direction:    in
 
 ytick.major.width: 0.5
 xtick.major.width: 0.5
+
+xtick.major.pad: 0
