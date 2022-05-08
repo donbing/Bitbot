@@ -43,26 +43,42 @@ class NewPlottedChart:
             # mav=(10, 20),
             volume=config.show_volume(),
             style=mpf_style,
-            tight_layout=True,
+            # tight_layout=True,
             figsize=tuple(dim/100 for dim in display.size()),
             xrotation=0,
             datetime_format=self.date_format(data_frame),
         )
 
+        plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
+        # self.fig.set_tight_layout(True)
+        plt.margins(x=0)
         # 🪓 make axes look nicer
         for a in ax:
+            # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep=''))
-            a.autoscale(enable=True, axis="x", tight=True)
-            a.autoscale(enable=True, axis="y", tight=True)
+            a.autoscale(enable=True, axis="both", tight=True)
+            # margin between candles and axes
             a.margins(0.05, 0.2)
+            a.xaxis.labelpad = 0
+            a.tick_params(pad=0, axis='both')
+            a.locator_params(axis='both', tight=True)
+            # remove labels
             _ = a.set_ylabel("")
             _ = a.set_xlabel("")
-
-            # if config.expand_chart():
-            #     for ylabel in a.yaxis.get_ticklabels():
-            #         ylabel.set_horizontalalignment('left')
-            #     for xlabel in a.xaxis.get_ticklabels():
-            #         xlabel.set_verticalalignment('bottom')
+            a.autoscale_view(True)
+            a.reset_position()
+            
+            #_ = a.set_frame_on(False)
+            # a.use_sticky_edges = False
+            if config.expand_chart():
+                for ylabel in a.yaxis.get_ticklabels():
+                    ylabel.set_horizontalalignment('left')
+                for xlabel in a.xaxis.get_ticklabels():
+                    xlabel.set_verticalalignment('bottom')
+                plt.gca().set_position((0, 0, 1, 1))
+                
+        self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
+        # expand the axes!!
 
     # 📑 styles overid left to right
     def get_default_styles(self, config, display, files):
@@ -101,7 +117,7 @@ class NewPlottedChart:
         self.fig.savefig(
             stream,
             dpi=self.fig.dpi,
-            bbox_inches='tight',
+            # bbox_inches='tight',
             pad_inches=0.0,
             transparent=True,
         )
