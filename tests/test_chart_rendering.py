@@ -32,6 +32,7 @@ class screens:
 test_params = [
     ("APPLE 1mo defaults", "", "", "AAPL", "1", "false", "false", "1mo", ""),
     ("APPLE 3mo defaults", "", "", "AAPL", "1", "false", "false", "3mo", ""),
+    ("GBPJPY 1mo defaults", "", "", "GBPJPY=X", "1", "false", "false", "1mo", ""),
 
     ("bitmex BTC 5m defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "5m", ""),
     ("bitmex BTC 1h defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1h", ""),
@@ -76,14 +77,14 @@ class TestRenderingMeta(type):
                 config.set('display', 'disk_file_name', image_file_name)
                 config.set('display', 'rotation', '0')
                 config.set('display', 'show_ip', 'false')
-                config.set('display', 'timestamp', 'false')
+                config.set('display', 'timestamp', 'true')
                 config.set('comments', 'up', 'moon')
                 config.set('comments', 'down', 'doom')
                 app = BitBot(config, files)
 
                 image_should_not_change_when(app.display_chart, image_file_name)
 
-                if config.shoud_show_image_in_vscode():
+                if True:
                     os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, image_file_name):
