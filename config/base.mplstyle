@@ -40,8 +40,8 @@ ytick.color:        red
 xtick.labelcolor:   black
 ytick.labelcolor:   black
 
-xtick.labelsize:    10
-ytick.labelsize:    10
+xtick.labelsize:    11
+ytick.labelsize:    11
 
 xtick.alignment:    left
 ytick.alignment:    bottom

@@ -41,11 +41,11 @@ config_defaults = {
         'rotation': '0',
         'show_ip': 'false',
         'timestamp': 'false',
-        'comments': {
-            'up': 'moon',
-            'down': 'doom'
-        }
     },
+    'comments': {
+        'up': 'moon',
+        'down': 'doom'
+    }
 }
 
 
@@ -116,7 +116,6 @@ class TestRenderingMeta(type):
                 assert expected_res == actual_res, f"expected {expected_res}, actual {actual_res}"
 
             def assert_image_unchanged(previous_image, new_image, file_name):
-                new_image = Image.open(file_name)
                 diff = ImageChops.difference(new_image, previous_image)
                 if diff.getbbox():
                     diff.save(file_name)
