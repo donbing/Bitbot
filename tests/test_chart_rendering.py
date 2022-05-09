@@ -103,12 +103,12 @@ class TestRenderingMeta(type):
                     os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, file_name):
-                #previous_image = Image.open(file_name)
+                previous_image = Image.open(file_name)
                 action()
                 new_image = Image.open(file_name)
 
                 assert_image_matches_size(new_image)
-                #assert_image_unchanged(previous_image, new_image, file_name)
+                assert_image_unchanged(previous_image, new_image, file_name)
 
             def assert_image_matches_size(new_image):
                 expected_res = output.get('resolution', '')
