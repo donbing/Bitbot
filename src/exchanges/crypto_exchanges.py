@@ -17,6 +17,7 @@ class Exchange():
 
     def __init__(self, config):
         self.config = config
+        self.name = self.config.exchange_name()
 
     def fetch_history(self):
         configred_candle_width = self.config.candle_width()
