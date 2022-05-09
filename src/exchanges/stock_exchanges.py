@@ -19,6 +19,7 @@ class Exchange():
 
     def __init__(self, config):
         self.config = config
+        self.name = 'yahoo finance'
 
     def fetch_history(self):
         instrument = self.config.stock_symbol()

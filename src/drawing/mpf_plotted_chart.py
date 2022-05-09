@@ -33,6 +33,21 @@ class NewPlottedChart:
             base_mpl_style=style_files,
             mavcolors=['#1f77b4', '#ff7f0e', '#2ca02c'])
 
+        # 📈 settings for chart plot
+        kwargs = dict(
+            volume=config.show_volume(),
+            style=mpf_style,
+            tight_layout=True,
+            figsize=tuple(dim/100 for dim in display.size()),
+            xrotation=0,
+            datetime_format=self.date_format(data_frame),
+        )
+
+        # 🚪 add a line indicating entry price, if configured
+        entry = config.entry_price()
+        if entry != 0:
+            kwargs['hlines'] = dict(hlines=[entry], colors=['g'], linestyle='-.')
+
         # 📈 create the chart plot
         self.fig, ax = mpf.plot(
             data_frame,
@@ -41,17 +56,12 @@ class NewPlottedChart:
             returnfig=True,
             type='candle',
             # mav=(10, 20),
-            volume=config.show_volume(),
-            style=mpf_style,
-            # tight_layout=True,
-            figsize=tuple(dim/100 for dim in display.size()),
-            xrotation=0,
-            datetime_format=self.date_format(data_frame),
+            **kwargs
         )
 
         plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
-        # self.fig.set_tight_layout(True)
         plt.margins(x=0)
+
         # 🪓 make axes look nicer
         for a in ax:
             # a.set_adjustable('box')
@@ -59,26 +69,28 @@ class NewPlottedChart:
             a.autoscale(enable=True, axis="both", tight=True)
             # margin between candles and axes
             a.margins(0.05, 0.2)
-            a.xaxis.labelpad = 0
-            a.tick_params(pad=0, axis='both')
+            # a.xaxis.labelpad = 0
+            # a.tick_params(pad=0, axis='both')
             a.locator_params(axis='both', tight=True)
             # remove labels
             _ = a.set_ylabel("")
             _ = a.set_xlabel("")
             a.autoscale_view(True)
-            a.reset_position()
-            
-            #_ = a.set_frame_on(False)
+            # a.reset_position()
+
+            # _ = a.set_frame_on(False)
             # a.use_sticky_edges = False
+            # expand the axes!!
+            # TODO: this needs to deal with the volume axes :(
             if config.expand_chart():
                 for ylabel in a.yaxis.get_ticklabels():
                     ylabel.set_horizontalalignment('left')
                 for xlabel in a.xaxis.get_ticklabels():
                     xlabel.set_verticalalignment('bottom')
                 plt.gca().set_position((0, 0, 1, 1))
-                
-        self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
-        # expand the axes!!
+
+        # self.fig.set_tight_layout(True)
+        # self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
 
     # 📑 styles overid left to right
     def get_default_styles(self, config, display, files):

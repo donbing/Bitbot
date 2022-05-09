@@ -29,6 +29,11 @@ class DrawText:
     def number(value, font):
         return DrawText("{:,}".format(value), font, 'black')
 
+    # 🏷️ number text
+    @staticmethod
+    def number_5sf(value, font):
+        return DrawText("{:.5g}".format(value), font, 'black')
+
     # 🎲 randomly selected up/down comment
     @staticmethod
     def random_from_bool(options, up_or_down, font):

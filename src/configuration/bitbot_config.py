@@ -65,6 +65,9 @@ class BitBotConfig():
     def chart_since(self):
         return self.config.get('currency', 'chart_since', fallback=None)
 
+    def entry_price(self):
+        return float(self.config.get('currency', 'entry_price', fallback=0))
+
     def set_currency(self, formData):
         for key in BitBotConfig.currency_keys:
             self.config["currency"][key] = formData[key]
@@ -161,6 +164,9 @@ class BitBotConfig():
     def save(self):
         with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
+
+    def read_dict(self, dict):
+        self.config.read_dict(dict)
 
     # 🌱 intro setup
     def on_first_run(self, action):

@@ -53,7 +53,7 @@ class ChartOverlay():
                 DrawText.percentage(chartdata.percentage_change(), self.title_font),
             ],
             # 🐘 large font price text
-            [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
+            [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
@@ -71,7 +71,7 @@ class ChartOverlay():
             # ➗ draw coloured change percentage
             [DrawText.percentage(chartdata.percentage_change(), self.title_font)],
             # 🐘 large font price text
-            [DrawText.humanised_price(chartdata.last_close(), self.price_font)],
+            [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [DrawText.number(portfolio_value, self.title_font)
                 if portfolio_value
