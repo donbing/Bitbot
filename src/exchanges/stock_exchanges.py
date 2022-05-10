@@ -28,7 +28,7 @@ class Exchange():
         candle_width = candle_config.width
         chart_duration = candle_config.duration
 
-        end_date = datetime.utcnow()
+        end_date = self.config.chart_since() or datetime.utcnow()
         start_date = end_date - chart_duration
 
         history = self.get_stock_history(

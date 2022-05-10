@@ -2,7 +2,7 @@ import os
 import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
-
+from dateutil.parser import parse
 
 @info_log
 def load_config_ini(config_files):
@@ -67,7 +67,8 @@ class BitBotConfig():
         return self.config.getfloat('currency', 'entry_price', fallback=0)
 
     def chart_since(self):
-        return self.config.get('currency', 'chart_since', fallback=None)
+        date = self.config.get('currency', 'chart_since', fallback=None)
+        return parse(date) if date else None
 
     def entry_price(self):
         return float(self.config.get('currency', 'entry_price', fallback=0))
