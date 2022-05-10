@@ -82,15 +82,15 @@ test_params = [
 # test-specific config
 test_configs = {
     "APPLE 1mo defaults": {
-        'currency': {'stock_symbol': 'AAPL'},
+        'currency': {'stock_symbol': 'AAPL', 'chart_since': '2010-08-22T00:00:00Z'},
         'display': {'candle_width': '1mo'},
     },
     "APPLE 3mo defaults": {
-        'currency': {'stock_symbol': 'AAPL'},
+        'currency': {'stock_symbol': 'AAPL', 'chart_since': '2010-08-22T00:00:00Z'},
         'display': {'candle_width': '3mo'},
     },
     "GBPJPY 3mo defaults with entry": {
-        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150'},
+        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150', 'chart_since': '2010-08-22T00:00:00Z'},
         'display': {'candle_width': '3mo'},
     },
     "bitmex BTC 5m defaults": {
