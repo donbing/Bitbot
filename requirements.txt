@@ -1,4 +1,5 @@
 git+https://github.com/donbing/mplfinance.git
+pandas=1.3.5
 matplotlib==3.5.1
 tzlocal
 ccxt==1.66.90
