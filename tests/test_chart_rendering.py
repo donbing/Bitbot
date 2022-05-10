@@ -1,4 +1,4 @@
-from PIL import Image, ImageChops
+from PIL import Image, ImageChops, ImageOps
 from src.configuration.bitbot_files import use_config_dir
 from src.configuration.bitbot_config import load_config_ini
 from src.bitbot import BitBot
@@ -11,11 +11,13 @@ curdir = pathlib.Path(__file__).parent.resolve()
 files = use_config_dir(os.path.join(curdir, "../"))
 
 
+# physical screen renderers for approval testing
 class screen_output_renderers:
     wave27b = {'output': 'waveshare.epd2in7b_V2'}
     inky = {'output': 'inky'}
 
 
+# s/m/l image file renderers for automated testing
 class disk_output_renderers:
     disk_small = {'output': 'disk', 'resolution': "264,176"}
     disk_med = {'output': 'disk', 'resolution': "400,300"}
@@ -23,6 +25,7 @@ class disk_output_renderers:
     all = [disk_small, disk_med, disk_large]
 
 
+# basic config
 config_defaults = {
     'currency': {
         'stock_symbol': '',
@@ -49,6 +52,7 @@ config_defaults = {
 }
 
 
+# test-specific config
 test_configs = {
     "APPLE 1mo defaults": {
         'currency': {'stock_symbol': 'AAPL'},
@@ -72,8 +76,7 @@ test_configs = {
         'display': {'candle_width': '1d'},
     },
     "BTC HOLDINGS": {
-        'currency': {'holdings': 100},
-        'display': {'candle_width': '1d'},
+        'currency': {'holdings': "100"},
     },
     "BTC VOLUME": {
         'display': {'show_volume': 'true'},
@@ -130,15 +133,15 @@ class TestRenderingMeta(type):
                 config.set('display', 'output', output['output'])
                 config.set('display', 'resolution', output.get('resolution', ''))
 
-                image_file_name = f'tests/images/{name}.png'
-                config.set('display', 'disk_file_name', image_file_name)
+                file_name = f'tests/images/{name}.png'
+                config.set('display', 'disk_file_name', file_name)
 
                 app = BitBot(config, files)
 
-                image_should_not_change_when(app.display_chart, image_file_name)
+                image_should_not_change_when(app.display_chart, file_name)
 
                 if True:
-                    os.system(f"code '{image_file_name}'")
+                    os.system(f"code '{file_name}'")
 
             def image_should_not_change_when(action, file_name):
                 previous_image = Image.open(file_name)
@@ -151,13 +154,14 @@ class TestRenderingMeta(type):
             def assert_image_matches_size(new_image):
                 expected_res = output.get('resolution', '')
                 actual_res = f"{new_image.width},{new_image.height}"
-                assert expected_res == actual_res, f"expected {expected_res}, actual {actual_res}"
+                assert expected_res == actual_res, f"exp {expected_res}, act {actual_res}"
 
             def assert_image_unchanged(previous_image, new_image, file_name):
                 diff = ImageChops.difference(new_image, previous_image)
                 if diff.getbbox():
-                    diff.save(file_name)
-                    assert False, f"images differ '{file_name}'"
+                    diff_file_path = f'tests/images/failed_{name}.png'
+                    diff.save(diff_file_path)
+                    assert False, f"{file_name} images differ, see '{diff_file_path}'"
 
             return test
 
