@@ -171,7 +171,7 @@ class TestRenderingMeta(type):
 
                 image_should_not_change_when(app.display_chart, file_name)
 
-                if True:
+                if False:
                     os.system(f"code '{file_name}'")
 
             def image_should_not_change_when(action, file_name):
