@@ -63,7 +63,7 @@ def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
             instrument,
             candle_freq,
             limit=num_candles,
-            since=since and exchange.parse8601(since))
+            since=since and exchange.parse8601(since.strftime('%Y-%m-%dT%H:%M:%S.%f%z')))
     except BadSymbol:
         logging.warning(f'"{instrument}" is not available')
         return []
