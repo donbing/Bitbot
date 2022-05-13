@@ -63,8 +63,13 @@ test_configs = {
         'display': {'candle_width': '3mo'},
     },
     "GBPJPY 3mo defaults with entry": {
-        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150', 'chart_since': '2010-08-22T00:00:00Z'},
-        'display': {'candle_width': '3mo'},
+        'currency': {
+            'stock_symbol': 'GBPJPY=X',
+            'entry_price': '167',
+            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gethering 7 days of low-timeframe from the last 60 days
+            'holdings': '10',
+        },
+        'display': {'candle_width': '5m', },
     },
     "bitmex BTC 5m defaults": {
         'display': {'candle_width': '5m'},
@@ -114,7 +119,11 @@ test_configs = {
         'display': {'candle_width': '1h'},
     },
     "cryptocom CRO 1d defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+        'currency': {
+            'instrument': 'CRO/USDC',
+            'exchange': 'cryptocom',
+            'entry_price': '150',
+        },
         'display': {'candle_width': '1d'},
     },
 }
@@ -132,7 +141,7 @@ def assert_image_unchanged(previous_image, new_image, file_name):
     if diff.getbbox():
         diff_file_path = '.fail.png'.join(file_name.rsplit('.png'))
         diff.save(diff_file_path)
-        assert False, f"Image changes found '{file_name}' check '{diff_file_path}'"
+        assert False, f"Image diff check: '{diff_file_path}'"
 
 
 class TestRenderingMeta(type):
@@ -151,14 +160,8 @@ class TestRenderingMeta(type):
 
                 app = BitBot(config, files)
 
-                image_should_not_change_when(app.display_chart, file_name)
-
-                if False:
-                    os.system(f"code '{file_name}'")
-
-            def image_should_not_change_when(action, file_name):
                 previous_image = Image.open(file_name)
-                action()
+                app.display_chart()
                 new_image = Image.open(file_name)
 
                 assert_image_matches_size(new_image, output.get('resolution', ''))
@@ -175,23 +178,38 @@ class TestRenderingMeta(type):
         return type.__new__(mcs, name, bases, dict)
 
 
-class SmallChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_small, metaclass=TestRenderingMeta):
+class SmallChartRenderingTests(
+        unittest.TestCase,
+        output=disk_output_renderers.disk_small,
+        metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
-class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
+class MediumChartRenderingTests(
+        unittest.TestCase,
+        output=disk_output_renderers.disk_med,
+        metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
-class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
+class LargeChartRenderingTests(
+        unittest.TestCase,
+        output=disk_output_renderers.disk_large,
+        metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
 @unittest.skip("needs a waveshare display")
-class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
+class Wave27bChartRenderingTests(
+        unittest.TestCase,
+        output=screen_output_renderers.wave27b,
+        metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
 @unittest.skip("needs an inky display")
-class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
+class InkyChartRenderingTests(
+        unittest.TestCase,
+        output=screen_output_renderers.inky,
+        metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta

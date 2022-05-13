@@ -46,7 +46,7 @@ class ChartOverlay():
     def overlay1(self, chartdata):
         portfolio_value = self.value_held(chartdata)
         portfolio_entry_value = self.entry_value()
-        portfolio_delta = self.profit(chartdata)
+        portfolio_pnl = self.profit(chartdata)
         yield TextBlock([
             [
                 # 🎹 draw instrument name and candle width text
@@ -58,11 +58,11 @@ class ChartOverlay():
             [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [
-                DrawText.number(portfolio_value, self.title_font)
+                DrawText.number_5sf(portfolio_value, self.title_font)
                 if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
 
-                DrawText.humanised_price(portfolio_delta, self.title_font, prefix=" up " if portfolio_delta > 0 else " down ")
+                DrawText.pip_calc(self.entry_price(), chartdata.last_close(), self.title_font, prefix=" ")
                 if portfolio_entry_value != 0
                 else DrawText.empty(self.title_font)
             ]
@@ -88,7 +88,7 @@ class ChartOverlay():
                 if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
 
-                DrawText.humanised_price(portfolio_delta, self.title_font, prefix=" up " if portfolio_delta > 0 else " down ")
+                DrawText.humanised_price(portfolio_delta, self.title_font)
                 if portfolio_entry_value != 0
                 else DrawText.empty(self.title_font)
             ]
