@@ -66,10 +66,19 @@ test_configs = {
         'currency': {
             'stock_symbol': 'GBPJPY=X',
             'entry_price': '167',
-            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gethering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '10',
         },
         'display': {'candle_width': '5m', },
+    },
+    "AUDCAD 3mo defaults with entry": {
+        'currency': {
+            'stock_symbol': 'AUDCAD=X',
+            'entry_price': '0.89332',
+            'chart_since': '', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'holdings': '450000',
+        },
+        'display': {'candle_width': '1h', },
     },
     "bitmex BTC 5m defaults": {
         'display': {'candle_width': '5m'},
@@ -160,7 +169,7 @@ class TestRenderingMeta(type):
 
                 app = BitBot(config, files)
 
-                previous_image = Image.open(file_name)
+                previous_image = None  # Image.open(file_name)
                 app.display_chart()
                 new_image = Image.open(file_name)
 

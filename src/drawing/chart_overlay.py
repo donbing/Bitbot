@@ -58,7 +58,7 @@ class ChartOverlay():
             [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [
-                DrawText.number_5sf(portfolio_value, self.title_font)
+                DrawText.number(portfolio_pnl, self.title_font)
                 if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
 
