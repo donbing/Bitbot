@@ -10,13 +10,15 @@ class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width duration fat_duration')
     candle_configs = [
         CandleConfig('1mo', timedelta(weeks=4*24), None),
-        CandleConfig('1h', timedelta(hours=40), timedelta(days=3)),
-        CandleConfig('4h', timedelta(hours=4*40), timedelta(days=5)),
         CandleConfig('1wk', timedelta(weeks=60), None),
         CandleConfig('3mo', timedelta(weeks=12*24), None),
         CandleConfig('1m', timedelta(minutes=60), timedelta(days=4)),
+        CandleConfig('2m', timedelta(minutes=60), timedelta(days=4)),
         CandleConfig('5m', timedelta(minutes=60), timedelta(days=4)),
-        CandleConfig('15m', timedelta(minutes=15*60), timedelta(days=7)),
+        CandleConfig('15m', timedelta(minutes=15*60), timedelta(days=4)),
+        CandleConfig('30m', timedelta(minutes=30*40), timedelta(days=4)),
+        CandleConfig('1h', timedelta(hours=40), timedelta(days=3)),
+        CandleConfig('1d', timedelta(days=40), timedelta(days=3)),
     ]
 
     def __init__(self, config):
