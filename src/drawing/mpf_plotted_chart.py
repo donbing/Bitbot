@@ -37,7 +37,7 @@ class NewPlottedChart:
         kwargs = dict(
             volume=config.show_volume(),
             style=mpf_style,
-            # tight_layout=True,
+            tight_layout=True,
             figsize=tuple(dim/100 for dim in display.size()),
             xrotation=0,
             datetime_format=self.date_format(data_frame),
@@ -62,6 +62,7 @@ class NewPlottedChart:
         plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
         plt.margins(x=0)
 
+
         # 🪓 make axes look nicer
         for a in ax:
             # a.set_adjustable('box')
@@ -69,8 +70,8 @@ class NewPlottedChart:
             a.autoscale(enable=True, axis="both", tight=True)
             # margin between candles and axes
             a.margins(0.05, 0.2)
-            # a.xaxis.labelpad = 0
-            # a.tick_params(pad=0, axis='both')
+            a.xaxis.labelpad = 0
+            #a.tick_params(pad=0, axis='both')
             a.locator_params(axis='both', tight=True)
             # remove labels
             _ = a.set_ylabel("")
@@ -87,11 +88,17 @@ class NewPlottedChart:
                     ylabel.set_horizontalalignment('left')
                 for xlabel in a.xaxis.get_ticklabels():
                     xlabel.set_verticalalignment('bottom')
+        
+        if config.expand_chart():
+            if(len(ax) == 2):
+                ax[0].set_position((0, 0, 1, 1))
+                ax[1].set_position((0, 0, 1, 1))
+            if(len(ax) == 4):
                 ax[3].set_position((0, 0, 1, 0.3))
                 ax[2].set_position((0, 0, 1, 0.3))
                 ax[0].set_position((0, 0.3, 1, 0.7))
                 ax[1].set_position((0, 0.3, 1, 0.7))
-
+                
         # self.fig.set_tight_layout(True)
         # self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
 
