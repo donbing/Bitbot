@@ -87,7 +87,10 @@ class NewPlottedChart:
                     ylabel.set_horizontalalignment('left')
                 for xlabel in a.xaxis.get_ticklabels():
                     xlabel.set_verticalalignment('bottom')
-                plt.gca().set_position((0, 0, 1, 1))
+                ax[3].set_position((0, 0, 1, 0.3))
+                ax[2].set_position((0, 0, 1, 0.3))
+                ax[0].set_position((0, 0.3, 1, 0.7))
+                ax[1].set_position((0, 0.3, 1, 0.7))
 
         # self.fig.set_tight_layout(True)
         # self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
