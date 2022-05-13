@@ -32,7 +32,8 @@ config_defaults = {
         'exchange': 'bitmex',
         'instrument': 'BTC/USD',
         'holdings': '0',
-        'chart_since': '2021-08-22T00:00:00Z'
+        'chart_since': '2021-08-22T00:00:00Z',
+        'entry_price': 0,
     },
     'display': {
         'output': 'disk',
@@ -47,7 +48,7 @@ config_defaults = {
     },
     'comments': {
         'up': 'moon',
-        'down': 'doom'
+        'down': 'doom',
     }
 }
 
@@ -156,23 +157,12 @@ class TestRenderingMeta(type):
 
                 app = BitBot(config, files)
 
-<<<<<<< HEAD
-                image_should_not_change_when(app.display_chart, image_file_name)
-
-                if True:
-                    os.system(f"code '{image_file_name}'")
-
-            def image_should_not_change_when(action, file_name):
-                previous_image = Image.open(file_name)
-                action()
-=======
                 previous_image = None  # Image.open(file_name)
                 app.display_chart()
->>>>>>> profit only for specified entries
                 new_image = Image.open(file_name)
 
-                assert_image_matches_size(new_image)
-                assert_image_unchanged(previous_image, new_image, file_name)
+                assert_image_matches_size(new_image, output.get('resolution', ''))
+                # assert_image_unchanged(previous_image, new_image, file_name)
 
             def assert_image_matches_size(new_image):
                 expected_res = output.get('resolution', '')
