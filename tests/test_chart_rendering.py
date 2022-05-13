@@ -132,7 +132,6 @@ test_configs = {
         'currency': {
             'instrument': 'CRO/USDC',
             'exchange': 'cryptocom',
-            'entry_price': '150',
         },
         'display': {'candle_width': '1d'},
     },
