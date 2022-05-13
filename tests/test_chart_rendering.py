@@ -63,8 +63,23 @@ test_configs = {
         'display': {'candle_width': '3mo'},
     },
     "GBPJPY 3mo defaults with entry": {
-        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150'},
         'display': {'candle_width': '3mo'},
+        'currency': {
+            'stock_symbol': 'GBPJPY=X',
+            'entry_price': '167',
+            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'holdings': '10',
+        },
+        'display': {'candle_width': '5m', },
+    },
+    "AUDCAD 3mo defaults with entry": {
+        'currency': {
+            'stock_symbol': 'AUDCAD=X',
+            'entry_price': '0.89332',
+            'chart_since': '', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'holdings': '450000',
+        },
+        'display': {'candle_width': '1h', },
     },
     "bitmex BTC 5m defaults": {
         'display': {'candle_width': '5m'},
@@ -141,6 +156,7 @@ class TestRenderingMeta(type):
 
                 app = BitBot(config, files)
 
+<<<<<<< HEAD
                 image_should_not_change_when(app.display_chart, image_file_name)
 
                 if True:
@@ -149,6 +165,10 @@ class TestRenderingMeta(type):
             def image_should_not_change_when(action, file_name):
                 previous_image = Image.open(file_name)
                 action()
+=======
+                previous_image = None  # Image.open(file_name)
+                app.display_chart()
+>>>>>>> profit only for specified entries
                 new_image = Image.open(file_name)
 
                 assert_image_matches_size(new_image)
