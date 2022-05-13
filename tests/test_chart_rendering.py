@@ -52,45 +52,18 @@ config_defaults = {
 }
 
 
-<<<<<<< HEAD
-# load config
-test_params = [
-    ("APPLE 1mo defaults", "", "", "AAPL", "1", "false", "false", "1mo", ""),
-    ("APPLE 3mo defaults", "", "", "AAPL", "1", "false", "false", "3mo", ""),
-    ("GBPJPY 1mo defaults", "", "", "GBPJPY=X", "1", "false", "false", "1mo", ""),
-
-    ("bitmex BTC 5m defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "5m", ""),
-    ("bitmex BTC 1h defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1h", ""),
-    ("bitmex BTC 1d defaults", "bitmex", "BTC/USD", "", "1", "false", "false", "1d", ""),
-
-    ("BTC HOLDINGS", "bitmex", "BTC/USD", "", "1", "false", "false", "1d", "100"),
-    ("BTC VOLUME", "bitmex", "BTC/USD", "", "1", "false", "true", "1d", ""),
-    ("BTC EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "false", "1d", ""),
-    ("BTC VOLUME EXPANDED", "bitmex", "BTC/USD", "", "1", "true", "true", "1d", ""),
-    ("BTC VOLUME OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "true", "1d", ""),
-    ("BTC OVERLAY2", "bitmex", "BTC/USD", "", "2", "false", "false", "1d", ""),
-
-    ("bitmex ETH 5m defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "5m", ""),
-    ("bitmex ETH 1h defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1h", ""),
-    ("bitmex ETH 1d defaults", "bitmex", "ETH/USD", "", "1", "false", "false", "1d", ""),
-
-    ("cryptocom CRO 5m defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "5m", ""),
-    ("cryptocom CRO 1h defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1h", ""),
-    ("cryptocom CRO 1d defaults", "cryptocom", "CRO/USDC", "", "1", "false", "false", "1d", ""),
-]  # name, exch, token, stock, overlay, expand, volume, candle_width, holdings
-=======
 # test-specific config
 test_configs = {
     "APPLE 1mo defaults": {
-        'currency': {'stock_symbol': 'AAPL', 'chart_since': '2010-08-22T00:00:00Z'},
+        'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '1mo'},
     },
     "APPLE 3mo defaults": {
-        'currency': {'stock_symbol': 'AAPL', 'chart_since': '2010-08-22T00:00:00Z'},
+        'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '3mo'},
     },
     "GBPJPY 3mo defaults with entry": {
-        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150', 'chart_since': '2010-08-22T00:00:00Z'},
+        'currency': {'stock_symbol': 'GBPJPY=X', 'entry_price': '150'},
         'display': {'candle_width': '3mo'},
     },
     "bitmex BTC 5m defaults": {
@@ -145,7 +118,6 @@ test_configs = {
         'display': {'candle_width': '1d'},
     },
 }
->>>>>>> beef up tests
 
 os.makedirs('tests/images/', exist_ok=True)
 
@@ -164,15 +136,15 @@ class TestRenderingMeta(type):
                 config.set('display', 'output', output['output'])
                 config.set('display', 'resolution', output.get('resolution', ''))
 
-                file_name = f'tests/images/{name}.png'
-                config.set('display', 'disk_file_name', file_name)
+                image_file_name = f'tests/images/{name}.png'
+                config.set('display', 'disk_file_name', image_file_name)
 
                 app = BitBot(config, files)
 
-                image_should_not_change_when(app.display_chart, file_name)
+                image_should_not_change_when(app.display_chart, image_file_name)
 
-                if False:
-                    os.system(f"code '{file_name}'")
+                if True:
+                    os.system(f"code '{image_file_name}'")
 
             def image_should_not_change_when(action, file_name):
                 previous_image = Image.open(file_name)

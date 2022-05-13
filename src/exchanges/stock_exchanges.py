@@ -7,14 +7,14 @@ import math
 
 
 class Exchange():
-    CandleConfig = collections.namedtuple('CandleConfig', 'width duration')
+    CandleConfig = collections.namedtuple('CandleConfig', 'width duration fat_duration')
     candle_configs = [
-        CandleConfig('1mo', timedelta(weeks=4*24)),
-        CandleConfig('1h', timedelta(hours=40)),
-        CandleConfig('1wk', timedelta(weeks=60)),
-        CandleConfig('3mo', timedelta(weeks=12*24)),
-        CandleConfig('1m', timedelta(weeks=12*24)),
-        CandleConfig('5m', timedelta(weeks=12*24)),
+        CandleConfig('1mo', timedelta(weeks=4*24), None),
+        CandleConfig('1h', timedelta(hours=40), timedelta(days=3)),
+        CandleConfig('1wk', timedelta(weeks=60), None),
+        CandleConfig('3mo', timedelta(weeks=12*24), None),
+        CandleConfig('1m', timedelta(minutes=60), timedelta(days=4)),
+        CandleConfig('5m', timedelta(minutes=60), timedelta(days=4)),
     ]
 
     def __init__(self, config):
@@ -26,7 +26,7 @@ class Exchange():
         ticker = yfinance.Ticker(instrument)
         candle_config = self.select_candle_config()
         candle_width = candle_config.width
-        chart_duration = candle_config.duration
+        chart_duration = candle_config.fat_duration or candle_config.duration
 
         end_date = self.config.chart_since() or datetime.utcnow()
         start_date = end_date - chart_duration
@@ -37,14 +37,14 @@ class Exchange():
             start_date,
             end_date)
 
-        return CandleData(candle_width, history, ticker)
+        return CandleData(candle_width, history.tail(40), ticker)
 
     @info_log
     def get_stock_history(self, ticker, candle_width, start_date, end_date):
         return ticker.history(
             interval=candle_width,
-            start=start_date.strftime("%Y-%m-%d"),
-            end=end_date.strftime("%Y-%m-%d"))
+            start=start_date,
+            end=end_date)
 
     def select_candle_config(self):
         candle_width = self.config.candle_width()
