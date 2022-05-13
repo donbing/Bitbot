@@ -130,7 +130,10 @@ test_configs = {
         'display': {'candle_width': '1h'},
     },
     "cryptocom CRO 1d defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+        'currency': {
+            'instrument': 'CRO/USDC',
+            'exchange': 'cryptocom',
+        },
         'display': {'candle_width': '1d'},
     },
 }
