@@ -2,7 +2,8 @@ import os
 import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
-import logging
+from dateutil.parser import parse
+
 
 @info_log
 def load_config_ini(config_files):
@@ -17,6 +18,7 @@ class BitBotConfig():
     display_keys = ['border', 'overlay_layout', 'timestamp', 'expanded_chart',
                     'show_volume', 'show_ip', 'refresh_time_minutes',
                     'candle_width']
+
     currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings', 'instruments']
 
     def __init__(self, config, config_files):
@@ -48,7 +50,7 @@ class BitBotConfig():
 
     def instrument_name(self):
         return self.config["currency"]["instrument"]
-    
+
     @info_log
     def set_instrument(self, val):
         self.config["currency"]["instrument"] = val
@@ -58,12 +60,19 @@ class BitBotConfig():
 
     def portfolio_size(self):
         try:
-            return self.config.getfloat('currency', 'holdings', fallback=0)
-        except ValueError:
+            return self.config.getfloat('currency', 'holdings')
+        except:
             return 0
 
+    def entry_price(self):
+        return self.config.getfloat('currency', 'entry_price', fallback=0)
+
     def chart_since(self):
-        return self.config.get('currency', 'chart_since', fallback=None)
+        date = self.config.get('currency', 'chart_since')
+        try:
+            return parse(date)
+        except:
+            return None
 
     def set_currency(self, formData):
         for key in BitBotConfig.currency_keys:
@@ -161,6 +170,9 @@ class BitBotConfig():
     def save(self):
         with open(self.config_files.config_ini, 'w') as f:
             self.config.write(f)
+
+    def read_dict(self, dict):
+        self.config.read_dict(dict)
 
     # 🌱 intro setup
     def on_first_run(self, action):

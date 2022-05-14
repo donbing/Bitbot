@@ -19,6 +19,7 @@ class Disker(DisplayBase):
 
     def show(self, image):
         image = self.apply_rotation(image)
+        image = self.resize_image(image)
         image = quantise_image(image, white_black_red)
         self.save_image(self.config.output_file_name(), image)
 

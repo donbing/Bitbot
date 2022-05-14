@@ -3,6 +3,9 @@ from src.configuration.log_decorator import info_log
 
 class Buttons():
     def __init__(self, config):
+        if config.output_device_name().startswith('waveshare'):
+            return
+
         self.config = config
         # 👆 map button actions
         self.BUTTONS = {

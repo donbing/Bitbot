@@ -64,6 +64,7 @@ class DisplayBase:
         else:
             return image
 
+    @info_log
     # 🖼️ crop and rescale image if needed
     def resize_image(self, image):
         if image.size != self.size():

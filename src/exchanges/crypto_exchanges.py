@@ -2,21 +2,22 @@ import ccxt
 from datetime import datetime
 import random
 import collections
-import matplotlib.dates as mdates
 from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
 import logging
 
+
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
     candle_configs = [
-        CandleConfig("5m", 60),
-        CandleConfig("1h", 24),
-        CandleConfig("1d", 60),
+        CandleConfig("5m", 40),
+        CandleConfig("1h", 40),
+        CandleConfig("1d", 40),
     ]
 
     def __init__(self, config):
         self.config = config
+        self.name = self.config.exchange_name()
 
     def fetch_history(self):
         configred_candle_width = self.config.candle_width()
@@ -62,7 +63,7 @@ def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
             instrument,
             candle_freq,
             limit=num_candles,
-            since=since and exchange.parse8601(since))
+            since=since and exchange.parse8601(since.strftime('%Y-%m-%dT%H:%M:%S.%f%z')))
     except BadSymbol:
         logging.warning(f'"{instrument}" is not available')
         return []
@@ -81,8 +82,7 @@ def load_exchange(exchange_name):
 def make_matplotfriendly_date(element):
     datetime_field = element[0]/1000
     datetime_utc = datetime.utcfromtimestamp(datetime_field)
-    datetime_num = mdates.date2num(datetime_utc)
-    return replace_at_index(element, 0, datetime_num)
+    return replace_at_index(element, 0, datetime_utc)
 
 
 def replace_at_index(tup, ix, val):
