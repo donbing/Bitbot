@@ -13,7 +13,6 @@ class NewPlottedChart:
         data_frame = pd.DataFrame(chart_data.candle_data)
         data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
         data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
-       #  data_frame.index = pd.to_datetime(data_frame['date']) # pd.DatetimeIndex(data_frame['date'].astype('datetime64[ms]'))
         data_frame.index = pd.DatetimeIndex(data_frame['date'])
 
         # 🎨 chart colours
@@ -71,7 +70,7 @@ class NewPlottedChart:
             # margin between candles and axes
             a.margins(0.05, 0.2)
             a.xaxis.labelpad = 0
-            #a.tick_params(pad=0, axis='both')
+            # a.tick_params(pad=0, axis='both')
             a.locator_params(axis='both', tight=True)
             # remove labels
             _ = a.set_ylabel("")
@@ -88,7 +87,7 @@ class NewPlottedChart:
                     ylabel.set_horizontalalignment('left')
                 for xlabel in a.xaxis.get_ticklabels():
                     xlabel.set_verticalalignment('bottom')
-        
+
         if config.expand_chart():
             if(len(ax) == 2):
                 ax[0].set_position((0, 0, 1, 1))
@@ -98,7 +97,7 @@ class NewPlottedChart:
                 ax[2].set_position((0, 0, 1, 0.3))
                 ax[0].set_position((0, 0.3, 1, 0.7))
                 ax[1].set_position((0, 0.3, 1, 0.7))
-                
+
         # self.fig.set_tight_layout(True)
         # self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
 
