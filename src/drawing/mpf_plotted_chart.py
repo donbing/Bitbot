@@ -61,7 +61,6 @@ class NewPlottedChart:
         plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
         plt.margins(x=0)
 
-
         # 🪓 make axes look nicer
         for a in ax:
             # a.set_adjustable('box')
@@ -79,9 +78,7 @@ class NewPlottedChart:
             # a.reset_position()
 
             # _ = a.set_frame_on(False)
-            # a.use_sticky_edges = False
-            # expand the axes!!
-            # TODO: this needs to deal with the volume axes :(
+            # ✔️ align tick labels inside edges
             if config.expand_chart():
                 for ylabel in a.yaxis.get_ticklabels():
                     ylabel.set_horizontalalignment('left')
