@@ -59,15 +59,15 @@ class BitBotConfig():
 
     def portfolio_size(self):
         try:
-            return self.config.getfloat('currency', 'holdings', fallback=0)
-        except ValueError:
+            return self.config.getfloat('currency', 'holdings')
+        except:
             return 0
 
     def entry_price(self):
         return self.config.getfloat('currency', 'entry_price', fallback=0)
 
     def chart_since(self):
-        date = self.config.get('currency', 'chart_since', fallback="")
+        date = self.config.get('currency', 'chart_since')
         try:
             return parse(date)
         except:
