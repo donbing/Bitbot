@@ -15,6 +15,7 @@
 
 
 # ✨ Features
+ - ⚙️ `Config webserver` running on port **8080** allows easy configuration
  - 🏦 Capable of charting `crypto-currency` from **many different exchanges**
  - 🏛️ Supports regular `stock prices`
  - 🖼️ `Picture-frame` mode allows any image to be easily ***uploaded for display.***
@@ -26,7 +27,6 @@
  - 📊 Optional `volume chart`
  - 💬 Displays configurable `AI commentry` depending on **price action**
  - 📡 `Warns` on **connection errors**
- - ⚙️ `Config webserver` running on port **8080** allows easy configuration
  - ♻️ Display `refreshes` **after config changes** 
  - 👶 Support `2.7"` displays
  - 📺 Support `waveshare` displays
