@@ -4,9 +4,10 @@
 3. **Wait a minute** or so for it to boot up
 4. The device will display a short **intro sequence** for you to follow
 5. From another device, **connect** to the `bitbot-{nnn}` access point 
-6. Select your home **wifi access point name**
-7. Enter your **wifi password**
-8. **Wait** for the device to reboot (this may take 1-2 mins)
+6. if you are not automaticaly shown the config web page, open your browser and goto google.com. the page should then load.
+7. Select your home **wifi access point name**
+8. Enter your **wifi password**
+9. **Wait** for the device to reboot (this may take 1-2 mins)
     * Your crypto-watcher will **refresh** the screen once it has loaded up and connected to the internet.
     * The device is set up to refresh every **ten minutes**. 
     * The dispayed instrument defaults to **Bitmex BTC/USD**.
