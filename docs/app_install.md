@@ -16,7 +16,7 @@ sudo apt install -y git python3-pip python3-rpi.gpio libatlas-base-dev libopenjp
 ```sh
 git clone https://github.com/donbing/bitbot
 cd bitbot 
-pip3 install --user -r requirements.txt
+pip3 install -v --prefer-binary --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt
 ```
 3. ensure that `I2C`/`SPI` are enabled on the host pi
 ```sh
