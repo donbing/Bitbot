@@ -17,7 +17,7 @@ class BitBotConfig():
                     'show_volume', 'show_ip', 'refresh_time_minutes',
                     'candle_width']
 
-    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings', 'instruments']
+    currency_keys = ['exchange', 'instrument', 'stock_symbol', 'holdings']
 
     def __init__(self, config, config_files):
         self.config = config
