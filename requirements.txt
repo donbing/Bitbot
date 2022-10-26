@@ -1,4 +1,4 @@
-mplfinance==0.12.8b6
+mplfinance==0.12.9b1
 matplotlib==3.5.1
 tzlocal
 ccxt==1.66.90
@@ -6,6 +6,6 @@ inky==1.4.0
 watchdog==2.1.6
 numpy==1.22
 Pillow==9.0.1
-yfinance==0.1.69
+yfinance==0.1.84
 Flask==2.0.2
 git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd
