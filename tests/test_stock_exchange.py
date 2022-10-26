@@ -36,7 +36,7 @@ class TestStockExchange(unittest.TestCase):
                     }
                 }
         config = bitbot_config.BitBotConfig(mock_config, {})
-        excange = stock_exchanges.Exchange(config)
+        excange = Exchange(config)
 
         data = excange.fetch_history()
         num_candles = len(data.candle_data)

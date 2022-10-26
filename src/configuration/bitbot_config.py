@@ -67,7 +67,7 @@ class BitBotConfig():
         return self.config.getfloat('currency', 'entry_price', fallback=0)
 
     def chart_since(self):
-        date = self.config.get('currency', 'chart_since', fallback=None)
+        date = self.config.get('currency', 'chart_since')
         try:
             return parse(date)
         except:
