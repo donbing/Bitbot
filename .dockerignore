@@ -4,7 +4,6 @@
 .gitignore
 .gitmodules
 docs
-tests
 scripts
 
 docker-compose.yml

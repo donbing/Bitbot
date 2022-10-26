@@ -24,10 +24,25 @@ class DrawText:
     def humanised_price(price, font, prefix=""):
         return DrawText(prefix + format_title_price(price), font)
 
+    @staticmethod
+    def pip_calc(open, close, font, prefix=""):
+        if str(open).index('.') >= 3:  # JPY pair
+            multiplier = 0.01
+        else:
+            multiplier = 0.0001
+
+        pips = round((close - open) / multiplier)
+        return DrawText(prefix + '({:+})'.format(int(pips)), font)
+
     # 🏷️ number text
     @staticmethod
     def number(value, font, colour='black'):
         return DrawText("{:+.2f}".format(value), font, colour)
+
+    # 🏷️ number text
+    @staticmethod
+    def number_5sf(value, font):
+        return DrawText("{:.5g}".format(value), font, 'black')
 
     # 🎲 randomly selected up/down comment
     @staticmethod

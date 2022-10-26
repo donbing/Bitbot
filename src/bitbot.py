@@ -40,7 +40,8 @@ class BitBot():
         # 📡 await internet connection
         wait_for_internet_connection(self.display.draw_connection_error)
         # 📈 fetch chart data
-        chart_data = self.market_exchange().fetch_history()
+        market_exchange = self.market_exchange()
+        chart_data = market_exchange.fetch_history()
         if(any(chart_data.candle_data)):
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
@@ -52,11 +53,13 @@ class BitBot():
                 overlay.draw_on(chart_image)
                 # 📺 display the image
                 self.display.show(chart_image)
+                return chart_image
         else:
             img = Image.new('RGBA', self.display.size())
             draw = ImageDraw.Draw(img)
-            draw.text((0, 0), f'{self.config.instrument_name()} was not found on {self.config.exchange_name()}')
+            draw.text((0, 0), f'{chart_data.instrument} was not found on {market_exchange.name}')
             self.display.show(img)
+            return img
 
 
     @info_log
