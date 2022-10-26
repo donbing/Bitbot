@@ -1,7 +1,7 @@
 import matplotlib
 import tzlocal
 import matplotlib.font_manager as font_manager
-
+from src.drawing.mpf_plotted_chart import NewPlottedChart
 
 # ☝️ single instance for lifetime of app
 class MarketChart:

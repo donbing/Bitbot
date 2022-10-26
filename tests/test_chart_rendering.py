@@ -141,22 +141,32 @@ test_configs = {
 os.makedirs('tests/images/', exist_ok=True)
 
 
+def assert_image_matches_size(new_image, expected_res):
+    actual_res = f"{new_image.width},{new_image.height}"
+    assert expected_res == actual_res, f"expected {expected_res}, was {actual_res}"
+
+
+def assert_image_unchanged(previous_image, new_image, file_name):
+    diff = ImageChops.difference(new_image, previous_image)
+    if diff.getbbox():
+        diff_file_path = '.fail.png'.join(file_name.rsplit('.png'))
+        diff.save(diff_file_path)
+        assert False, f"Image diff check: '{diff_file_path}'"
+
+
 class TestRenderingMeta(type):
     def __new__(mcs, name, bases, dict, output):
-        def gen_test(name, custom_config):
+        def gen_test(generatedTestName, custom_config):
             def test(self):
-                config = load_config()
-                image_file_name = f'tests/images/{name}.png'
-                config.set('currency', 'stock_symbol', stock)
-                config.set('currency', 'exchange', exch)
-                config.set('currency', 'instrument', token)
-                config.set('currency', 'holdings', holdings)
-                config.set('currency', 'chart_since', '2021-08-22T00:00:00Z')
+                config = load_config_ini(files)
+                config.read_dict(config_defaults)
+                config.read_dict(custom_config)
+
                 config.set('display', 'output', output['output'])
                 config.set('display', 'resolution', output.get('resolution', ''))
 
-                image_file_name = f'tests/images/{name}.png'
-                config.set('display', 'disk_file_name', image_file_name)
+                file_name = f'tests/images/{generatedTestName}.png'
+                config.set('display', 'disk_file_name', file_name)
 
                 app = BitBot(config, files)
 
@@ -166,18 +176,6 @@ class TestRenderingMeta(type):
 
                 assert_image_matches_size(new_image, output.get('resolution', ''))
                 # assert_image_unchanged(previous_image, new_image, file_name)
-
-            def assert_image_matches_size(new_image):
-                expected_res = output.get('resolution', '')
-                actual_res = f"{new_image.width},{new_image.height}"
-                assert expected_res == actual_res, f"exp {expected_res}, act {actual_res}"
-
-            def assert_image_unchanged(previous_image, new_image, file_name):
-                diff = ImageChops.difference(new_image, previous_image)
-                if diff.getbbox():
-                    diff_file_path = f'tests/images/failed_{name}.png'
-                    diff.save(diff_file_path)
-                    assert False, f"{file_name} images differ, see '{diff_file_path}'"
 
             return test
 
