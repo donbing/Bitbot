@@ -30,11 +30,26 @@ class MarketChart:
 
 class PlottedChart:
     layouts = {
-        '3mo': (20, mdates.YearLocator(), mdates.YearLocator(1), mdates.DateFormatter('%Y'), local_tz),
-        '1mo': (0.01, mdates.MonthLocator(), mdates.YearLocator(1), mdates.DateFormatter('%Y'), local_tz),
-        '1d': (0.01, mdates.DayLocator(bymonthday=range(1, 31, 7)), mdates.MonthLocator(), mdates.DateFormatter('%b'), local_tz),
-        '1h': (0.005, mdates.HourLocator(byhour=range(0, 23, 4)), mdates.DayLocator(), mdates.DateFormatter('%a %d %b', local_tz)),
-        "5m": (0.0005, mdates.MinuteLocator(byminute=[0, 30]), mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p', local_tz)),
+        '3mo': (20,
+            mdates.YearLocator(), plt.NullFormatter(),
+            mdates.YearLocator(1), mdates.DateFormatter('%Y'),
+            local_tz),
+        '1mo': (0.01,
+            mdates.MonthLocator(), plt.NullFormatter(),
+            mdates.YearLocator(1), mdates.DateFormatter('%Y'),
+            local_tz),
+        '1d': (0.01,
+            mdates.DayLocator(bymonthday=range(1, 31, 7)), plt.NullFormatter(),
+            mdates.MonthLocator(), mdates.DateFormatter('%b'),
+            local_tz),
+        '1h': (0.005,
+            mdates.HourLocator(byhour=range(0, 23, 4)), mdates.DateFormatter('%-I.%p'),
+            mdates.DayLocator(), mdates.DateFormatter('%b%d'),
+            local_tz),
+        "5m": (0.0005,
+            mdates.MinuteLocator(byminute=[0, 30]), plt.NullFormatter(),
+            mdates.HourLocator(interval=1), mdates.DateFormatter('%-I.%p'),
+            local_tz),
     }
 
     def __init__(self, config, display, files, chart_data):
@@ -45,22 +60,34 @@ class PlottedChart:
         layout = self.layouts[self.candle_width]
         # ➖ locate/format x axis ticks for chosen layout
         ax[0].xaxis.set_minor_locator(layout[1])
-        ax[0].xaxis.set_minor_formatter(plt.NullFormatter())
-        ax[0].xaxis.set_major_locator(layout[2])
-        ax[0].xaxis.set_major_formatter(layout[3])
+        ax[0].xaxis.set_minor_formatter(layout[2])
+        ax[0].xaxis.set_major_locator(layout[3])
+        ax[0].xaxis.set_major_formatter(layout[4])
         # 💲currency amount uses custom formatting
         ax[0].yaxis.set_major_formatter(price_formatter)
 
-        self.plot_chart(config, layout, ax, chart_data.candle_data)
+        self.plot_chart(config, layout[0], ax, chart_data.candle_data)
 
-    def plot_chart(self, config, layout, ax, candle_data):
+    def plot_chart(self, config, candle_width, ax, candle_data):
         # ✒️ draw candles to MPL plot
-        candlestick_ohlc(ax[0], candle_data, colorup='green', colordown='red', width=layout[0])
+        candlestick_ohlc(
+            ax[0],
+            candle_data,
+            colorup='green',
+            colordown='red',
+            width=candle_width)
         # ✒️ draw volumes to MPL plot
         if config.show_volume():
             ax[1].yaxis.set_major_formatter(price_formatter)
             _, opens, _, _, closes, volumes = list(zip(*candle_data))
-            volume_overlay(ax[1], opens, closes, volumes, colorup='white', colordown='red', width=1)
+            volume_overlay(
+                ax[1],
+                opens,
+                closes,
+                volumes,
+                colorup='white',
+                colordown='red',
+                width=1)
             self.fig.subplots_adjust(bottom=0.01)
 
     # 📑 styles overide each other left to right?
