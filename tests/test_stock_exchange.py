@@ -3,7 +3,7 @@ from src.exchanges import stock_exchanges
 from src.configuration import bitbot_config
 
 # 🪳 ''1h',' <- fails on weekends due to short chart duration
-test_params = []  # ["1mo", '1h', '1wk', 'random']
+test_params = ['1mo', '1h', '1wk', 'random']
 
 
 class TestStockExchange(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestStockExchange(unittest.TestCase):
                         "disk_file_name": "last_display.png"
                     }
                 }
-        config = bitbot_config.BitBotConfig(mock_config)
+        config = bitbot_config.BitBotConfig(mock_config, {})
         excange = stock_exchanges.Exchange(config)
         data = excange.fetch_history()
         num_candles = len(data.candle_data)
