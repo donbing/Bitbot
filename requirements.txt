@@ -7,5 +7,5 @@ watchdog==2.1.6
 numpy==1.22
 Pillow==9.2.0
 yfinance==0.1.84
-Flask==2.0.2
+Flask==2.2.5
 git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd
