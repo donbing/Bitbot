@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9.2
+    - name: Set up Python python-3.11.3
       uses: actions/setup-python@v2
       with:
-        python-version: "3.9.2"
+        python-version: "python-3.11.3"
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
