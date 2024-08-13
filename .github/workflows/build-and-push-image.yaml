@@ -46,7 +46,7 @@ jobs:
           load: true
           file: Dockerfile
           tags:  ${{ env.TEST_TAG }}
-          platforms: linux/arm/v7,linux/arm64
+          platform: linux/arm64
 
       - name: Run test image
         run: |
