@@ -1,4 +1,4 @@
-FROM navikey/raspbian-bullseye:latest as base-image
+FROM navikey/raspbian-bullseye:2022-05-08 AS base-image
 
 RUN apt update && \
     apt upgrade -y \
