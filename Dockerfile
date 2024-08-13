@@ -1,8 +1,8 @@
 FROM navikey/raspbian-bullseye:2022-05-08 AS base-image
 
-RUN apt update && \
-    apt upgrade -y \
-    apt install -y \
+RUN apt update 
+RUN apt upgrade 
+RUN apt install -y \
     --no-install-recommends \
     python3 python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/* 
