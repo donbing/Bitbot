@@ -1,26 +1,28 @@
 FROM navikey/raspbian-bullseye:latest as base-image
+    ARG DEBIAN_FRONTEND=noninteractive
+    RUN apt-get update -q && \
+        apt-get upgrade --assume-yes --quiet
 
-RUN apt update && \
-    apt upgrade -y
-
-RUN apt install -y \
-    --no-install-recommends \
-    python3 python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev \
-    && rm -rf /var/lib/apt/lists/* 
+    RUN apt-get install --assume-yes \
+        --no-install-recommends \
+        --quiet \
+        python3 python3-rpi.gpio libatlas-base-dev libtiff5 libopenjp2-7 libfreetype6-dev
 
 FROM base-image AS build-image
-RUN apt update && apt install -y \
-    --no-install-recommends \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/* 
-
-RUN pip install --upgrade pip
-COPY requirements.txt .
-RUN pip install -v --prefer-binary --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt 
+    ARG DEBIAN_FRONTEND=noninteractive
+    RUN apt-get install \
+        --assume-yes \
+        --quiet \
+        --no-install-recommends \
+        python3-pip \
+        && rm -rf /var/lib/apt/lists/* 
+    RUN pip install --upgrade pip
+    COPY requirements.txt .
+    RUN pip install -v --prefer-binary --extra-index-url https://www.piwheels.org/simple --user -r requirements.txt 
 
 FROM base-image AS release-image
-COPY --from=build-image /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
-WORKDIR /app
-COPY . .
-CMD [ "python3", "server.py" ]
+    COPY --from=build-image /root/.local /root/.local
+    ENV PATH=/root/.local/bin:$PATH
+    WORKDIR /app
+    COPY . .
+    CMD [ "python3", "server.py" ]
