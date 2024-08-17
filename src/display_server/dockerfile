@@ -6,7 +6,7 @@ FROM navikey/raspbian-bullseye:latest AS base-image
     RUN apt-get install --assume-yes \
         --no-install-recommends \
         --quiet \
-        libatlas-base-dev libtiff5 libopenjp2-7 libfreetype6-dev
+        python3 libatlas-base-dev libtiff5 libopenjp2-7 libfreetype6-dev
 
 FROM base-image AS build-image
     ARG DEBIAN_FRONTEND=noninteractive
