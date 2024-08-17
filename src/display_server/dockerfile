@@ -5,7 +5,7 @@ FROM navikey/raspbian-bullseye:latest AS base-image
     RUN apt-get install --assume-yes \ 
         --no-install-recommends \
         --quiet \
-        python3 python3-rpi.gpio libtiff5 libopenjp2-7 
+        python3 python3-rpi.gpio libatlas-base-dev libtiff5 libopenjp2-7 
 
 FROM base-image AS build-image
     ARG DEBIAN_FRONTEND=noninteractive
