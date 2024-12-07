@@ -91,7 +91,7 @@ def replace_at_index(tup, ix, val):
 
 class CandleData():
     def __init__(self, candle_width, candle_data, ticker):
-        self.instrument = ticker.info['shortName']
+        self.instrument = ticker.ticker # info['shortName']
         self.candle_width = candle_width
         candle_data.reset_index(level=0, inplace=True)
         self.candle_data = self.clean_candle_data(candle_data)
