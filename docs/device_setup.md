@@ -1,15 +1,17 @@
 # 📈 How to configure your new crypto-watcher
-1. Optionally, remove the screen protoector that is covering the e-paper display (there is a red tab at the bottom-left)
-2. **Connect a micro-usb** cable to the raspberry pi board on your crypto-watcher
-3. **Wait a minute** or so for it to boot up
-4. The device will display a short **intro sequence** for you to follow
+1. Remove the screen protector that is covering the e-paper display (there is a red tab at the bottom-left)
+2. **Connect a micro-usb** cable 🔌 to the raspberry pi board on your crypto-watcher
+3. **Wait a minute** ⌚ or so for it to boot up
+4. The device will display a short **intro sequence** 📺 for you to follow
 5. From another device, **connect** to the `bitbot-{nnn}` access point 
+    - ⚠️ on mobile decives, you may need to disable mobile data here
 6. if you are not automaticaly shown the config web page, open your browser and goto google.com. the page should then load.
-7. Select your home **wifi access point name**
-8. Enter your **wifi password**
-9. **Wait** for the device to reboot (this may take 1-2 mins)
-    * Your crypto-watcher will **refresh** the screen once it has loaded up and connected to the internet.
-    * The device is set up to refresh every **ten minutes**. 
+7. Select your home **wifi access point name** 🛜
+8. Enter your **wifi password** 🙈
+9. **Wait** for the device to reboot ♻️ (this may take 1-2 mins)
+    * you many need to go **back to #5, or restart** the device if there's no action within **5 minutes** 
+    * Your crypto-watcher will **refresh** the screen once it has **loaded up and connected** to the internet.
+    * The device is set up to **refresh** every **ten minutes**. 
     * The dispayed instrument defaults to **Bitmex BTC/USD**.
 
 > More detailed [instructions with screenshots can be found here](wifi_setup.md)
