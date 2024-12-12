@@ -1,7 +1,7 @@
 mplfinance==0.12.9b1
 matplotlib
 tzlocal
-ccxt==1.66.1
+ccxt==4.4.37
 inky==1.4.0
 watchdog==2.1.6
 numpy==1.22
