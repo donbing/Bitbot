@@ -1,6 +1,6 @@
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileModifiedEvent
-from src.configuration.log_decorator import info_log
+from .log_decorator import info_log
 import hashlib
 
 
