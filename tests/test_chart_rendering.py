@@ -30,7 +30,7 @@ config_defaults = {
     'currency': {
         'stock_symbol': '',
         'exchange': 'bitmex',
-        'instrument': 'BTC/USD',
+        'instrument': 'BTC/USDT',
         'holdings': '0',
         'chart_since': '2021-08-22T00:00:00Z',
         'entry_price': 0,
@@ -87,6 +87,10 @@ test_configs = {
     },
     "bitmex BTC 1h defaults": {
         'display': {'candle_width': '1h'},
+    },
+    "bitmex BTC 1h 100K": {
+        'display': {'candle_width': '1h'},
+        'currency': {'chart_since': '2024-12-10T00:00:00Z'},
     },
     "bitmex BTC 1d defaults": {
         'display': {'candle_width': '1d'},
@@ -170,7 +174,8 @@ class TestRenderingMeta(type):
 
                 file_name = f'tests/images/{generatedTestName}.png'
                 config.set('display', 'disk_file_name', file_name)
-                previous_image = Image.open(file_name)
+                
+                previous_image = Image.open(file_name) if os.path.isfile(file_name) else None
 
                 app = BitBot(config, files)
                 app.display_chart()
