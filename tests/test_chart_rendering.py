@@ -151,6 +151,8 @@ def assert_image_matches_size(new_image, expected_res):
 
 
 def image_changes(previous_image, new_image, file_name):
+    if previous_image is None:
+        return new_image, "no previous image"
     diff = ImageChops.difference(new_image.convert('RGB'), previous_image.convert('RGB'))
     differenceImageBounds = diff.getbbox()
     if differenceImageBounds:
