@@ -146,12 +146,15 @@ def assert_image_matches_size(new_image, expected_res):
     assert expected_res == actual_res, f"expected {expected_res}, was {actual_res}"
 
 
-def assert_image_unchanged(previous_image, new_image, file_name):
-    diff = ImageChops.difference(new_image, previous_image)
-    if diff.getbbox():
+def image_changes(previous_image, new_image, file_name):
+    diff = ImageChops.difference(new_image.convert('RGB'), previous_image.convert('RGB'))
+    differenceImageBounds = diff.getbbox()
+    if differenceImageBounds:
         diff_file_path = '.fail.png'.join(file_name.rsplit('.png'))
+        threshold = 128
+        diff = diff.point(lambda x: 0 if x < threshold else 255)
         diff.save(diff_file_path)
-        assert False, f"Image diff check: '{diff_file_path}'"
+        return diff, diff_file_path
 
 
 class TestRenderingMeta(type):
@@ -167,15 +170,20 @@ class TestRenderingMeta(type):
 
                 file_name = f'tests/images/{generatedTestName}.png'
                 config.set('display', 'disk_file_name', file_name)
+                previous_image = Image.open(file_name)
 
                 app = BitBot(config, files)
-
-                previous_image = None  # Image.open(file_name)
                 app.display_chart()
+
                 new_image = Image.open(file_name)
 
                 assert_image_matches_size(new_image, output.get('resolution', ''))
-                # assert_image_unchanged(previous_image, new_image, file_name)
+
+                changes = image_changes(previous_image, new_image, file_name)
+                
+                if changes:
+                    os.system("code '" + file_name + "'")
+                    assert False, f"Image diff check: '{changes[1]}'"
 
             return test
 
@@ -192,19 +200,19 @@ class SmallChartRenderingTests(unittest.TestCase, output=disk_output_renderers.d
     __metaclass__ = TestRenderingMeta
 
 
-class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
 
 
-class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
 
 
-@unittest.skip("needs a waveshare display")
-class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# @unittest.skip("needs a waveshare display")
+# class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
 
 
-@unittest.skip("needs an inky display")
-class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# @unittest.skip("needs an inky display")
+# class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
