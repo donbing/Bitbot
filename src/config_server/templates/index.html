@@ -18,27 +18,27 @@
             .editableFiles {
                 list-style-type: none;
                 margin-left: 0;
-                padding-left: 0;
             }
             .editableFiles li { 
                 margin: 10px 0;
                 padding-left: 1em;
                 text-indent: -1em;
+                margin: 0;
             }
             .editableFiles li:before {
-                content: "📝";
-                padding-right: 5px;
+                content: "┣📝";
+                padding-right: 0px;
             }
         </style>
     </head>
-    <body>  
-        
+    <body>   
         <h1>🤖 BitBot Config</h1>
         <section>
             <h2>⚙️ Application Config</h2>
             <hr/>
+            <a onclick="return editFile(this)" href="/configure">🙂 Easy Config</a>
+            <dialog closed></dialog>
             <p>Edit 'config.ini' to set the exchange, currency, screen refresh, overlay and layout options</p>
-            
             <ul class="editableFiles">
             {% for file in ini_files %}
                 <li>
@@ -46,44 +46,55 @@
                     <dialog closed></dialog>
                 </li>
             {% endfor %}
-                <li>
-                    <a onclick="return editFile(this)" href="/configure">Friendly!</a>
-                    <dialog closed></dialog>
-                </li>
             </ul>
         </section>
-        <section>
-            <h2 class="collapser">📸 Picture Mode</h2>
-            <hr/>
-            <p>Have Bitbot diplay a picture of your choice</p>
-            <form enctype='multipart/form-data' method='post' action="/modes/picture">
-                <label for="enable_picture_mode">Enabled:</label>
-                <input type="checkbox" id="enable_picture_mode" name="enable_picture_mode" value="true" {{"checked" if config.photo_mode_enabled() else ""}}></imput>
-                <label for="cycle_pictures">Cycle:</label>
-                <input type="checkbox" id="cycle_pictures" name="cycle_pictures" value="true" {{"checked" if config.cycle_pictures_enabled() else ""}}></imput>
-                <input type="file" id="img" name="image_file" accept="image/*" />
-                <input type="submit"/>
-            </form>
-        </section>
-        <section>
-            <h2>📈 Chart Styles</h2>
-            <hr/>
-            <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
-            <ul class="editableFiles">
-            {% for file in style_files %}
-                <li>
-                    <a onclick="return editFile(this)" href="/file/{{file}}">{{file}}</a>
-                    <dialog closed></dialog>
-                </li>
-            {% endfor %}
-            </ul>
-        </section>
-        <section>
-            <h2>🌳 Logs</h2>
-            <hr/>
-            <p>Check here if something isn't working!</p>
-            <textarea rows="10" id="log_output" readonly spellcheck="false" data-source="{{ url_for('logs') }}"></textarea>
-        </section>
-        <script src="/static/config_editor.js"></script>
+    <section>    
+    </section>
+    <section>
+        <h2 class="collapser">📸 Picture Mode</h2>
+        <hr/>
+        <form enctype='multipart/form-data' method='post' action="/modes/picture">
+            <p>
+                <input 
+                    type="checkbox" 
+                    id="enable_picture_mode" 
+                    name="enable_picture_mode" 
+                    value="true" 
+                    {{"checked" if config.photo_mode_enabled() else ""}}></imput>
+                <label for="enable_picture_mode">Have Bitbot diplay a picture of your choice</label>
+            </p>
+            <p>
+                <input 
+                    type="checkbox" 
+                    id="cycle_pictures"
+                     name="cycle_pictures" 
+                     value="true" 
+                     {{"checked" if config.cycle_pictures_enabled() else ""}}></imput>
+                <label for="cycle_pictures">Cycle through existing pictures</label>
+            </p>
+            <input type="file" id="img" name="image_file" accept="image/*" />
+            <input type="submit"/>
+        </form>
+    </section>
+    <section>
+        <h2>📈 Chart Styles</h2>
+        <hr/>
+        <p>These files manage the colours and layout of the chart plot, they are matplolib style files and follow the <a href="https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file">example defined here</a></p>
+        <ul class="editableFiles">
+        {% for file in style_files %}
+            <li>
+                <a onclick="return editFile(this)" href="/file/{{file}}">{{file}}</a>
+                <dialog closed></dialog>
+            </li>
+        {% endfor %}
+        </ul>
+    </section>
+    <section>
+        <h2>🌳 Logs</h2>
+        <hr/>
+        <p>Check here if something isn't working!</p>
+        <textarea rows="10" id="log_output" readonly spellcheck="false" data-source="{{ url_for('logs') }}"></textarea>
+    </section>
+    <script src="/static/config_editor.js"></script>
     </body>
 </html>
