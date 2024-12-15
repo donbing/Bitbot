@@ -114,28 +114,28 @@ test_configs = {
         'display': {'overlay_layout': '2'},
     },
     "bitmex ETH 5m defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '5m'},
     },
     "bitmex ETH 1h defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1h'},
     },
     "bitmex ETH 1d defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1d'},
     },
     "cryptocom CRO 5m defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+        'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '5m'},
     },
     "cryptocom CRO 1h defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+        'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '1h'},
     },
     "cryptocom CRO 1d defaults": {
         'currency': {
-            'instrument': 'CRO/USDC',
+            'instrument': 'CRO/BTC',
             'exchange': 'cryptocom',
         },
         'display': {'candle_width': '1d'},
