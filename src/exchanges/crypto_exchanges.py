@@ -100,7 +100,7 @@ class CandleData():
     def percentage_change(self):
         current_price = self.last_close()
         start_price = self.start_price()
-        return ((current_price - start_price) / current_price) * 100
+        return ((current_price - start_price) / current_price) * 100 if start_price is not None else 0
 
     def last_close(self):
         return self.candle_data[-1][4]
