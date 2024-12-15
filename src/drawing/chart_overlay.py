@@ -6,6 +6,7 @@ from src.drawing.image_utils import Align
 from src.drawing.image_utils import DrawText, RotatedTextBlock
 from src.drawing.image_utils import TextBlock, Border
 from src.configuration.network_utils import get_ip
+from src.drawing.price_humaniser import human_format
 
 
 class ChartOverlay():
@@ -55,7 +56,7 @@ class ChartOverlay():
                 DrawText.percentage(chartdata.percentage_change(), self.title_font),
             ],
             # 🐘 large font price text
-            [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
+            [DrawText.draw_string(human_format(chartdata.last_close()), self.price_font)],
             # 💬 draw holdings or comment
             [
                 DrawText.number(portfolio_pnl, self.title_font)
@@ -81,7 +82,7 @@ class ChartOverlay():
             # ➗ draw coloured change percentage
             [DrawText.percentage(chartdata.percentage_change(), self.title_font)],
             # 🐘 large font price text
-            [DrawText.number_5sf(chartdata.last_close(), self.price_font)],
+            [DrawText.number_6sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [
                 DrawText.humanised_price(portfolio_value, self.title_font)

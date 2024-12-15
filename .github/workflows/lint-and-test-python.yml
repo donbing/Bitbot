@@ -12,10 +12,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python python-3.11.0
+    - name: Set up Python python-3.10.12
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11.3"
+        python-version: "3.10.12"
     - name: Install dependencies
       run: |
         sudo apt install gcc
@@ -31,8 +31,8 @@ jobs:
     - name: Test with unittest
       run: |
         python3 -m unittest discover -s tests -v
-    - name: Commit & Push changes
-      uses: actions-js/push@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+    # - name: Commit & Push changes
+    #   uses: actions-js/push@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: ${{ github.ref }}

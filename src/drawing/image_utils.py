@@ -41,9 +41,14 @@ class DrawText:
 
     # 🏷️ number text
     @staticmethod
-    def number_5sf(value, font):
+    def number_6sf(value, font):
         return DrawText("{:.5g}".format(value), font, 'black')
 
+    # 🏷️ any text
+    @staticmethod
+    def draw_string(value, font):
+        return DrawText(value, font, 'black')
+    
     # 🎲 randomly selected up/down comment
     @staticmethod
     def random_from_bool(options, up_or_down, font):
@@ -60,7 +65,7 @@ class DrawText:
         self.text = text
         self.font = font
         self.colour = colour
-        self.size = font.getsize(text)
+        self.size = font.getbbox(text)[-2:]
         self.align = align
 
     def draw_on(self, draw, pos=(0, 0)):
@@ -118,7 +123,7 @@ class RotatedTextBlock:
         return self.font.get_size(self.text)
 
     def draw_on(self, draw, pos=(0, 0)):
-        text_width, text_height = draw.textsize(self.text, self.font)
+        *_, text_width, text_height = self.font.getbbox(self.text)
         text_image = Image.new('RGBA', (text_width, text_height), transparent)
         text_image_draw = ImageDraw.Draw(text_image)
         text_image_draw.text((0, 0), self.text, 'black', self.font)
@@ -133,7 +138,8 @@ class RotatedTextBlock:
 
 def centered_text(draw, text, font, container_size, pos='centre', border=False):
     # 🌌 calculate space needed for message
-    message_size = draw.textsize(text, font)
+    message_size = max(font.getbbox(line)[-2:] for line in text.split('\n'))
+
     # 📏 where to position the message
     if pos == 'centre':
         message_x, message_y = Align.Centre(container_size, message_size)
@@ -141,6 +147,7 @@ def centered_text(draw, text, font, container_size, pos='centre', border=False):
         message_x, message_y = Align.TopRight(container_size, message_size)
     elif pos == 'topleft':
         message_x, message_y = Align.TopLeft(container_size, message_size)
+
     # 🖊️ draw the message at position
     draw.multiline_text(
         (message_x, message_y),
@@ -148,6 +155,7 @@ def centered_text(draw, text, font, container_size, pos='centre', border=False):
         fill='black',
         font=font,
         align="left")
+    
     # 📏 measure border box
     if border:
         x0, y0 = (message_x - padding, message_y - padding)

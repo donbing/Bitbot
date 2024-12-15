@@ -19,9 +19,9 @@ class screen_output_renderers:
 
 # s/m/l image file renderers for automated testing
 class disk_output_renderers:
-    disk_small = {'output': 'disk', 'resolution': "264,176"}
-    disk_med = {'output': 'disk', 'resolution': "400,300"}
-    disk_large = {'output': 'disk', 'resolution': "640,448"}
+    disk_small = {'output': 'disk', 'resolution': "264x176"}
+    disk_med = {'output': 'disk', 'resolution': "400x300"}
+    disk_large = {'output': 'disk', 'resolution': "640x448"}
     all = [disk_small, disk_med, disk_large]
 
 
@@ -30,9 +30,9 @@ config_defaults = {
     'currency': {
         'stock_symbol': '',
         'exchange': 'bitmex',
-        'instrument': 'BTC/USD',
+        'instrument': 'BTC/USDT',
         'holdings': '0',
-        'chart_since': '2021-08-22T00:00:00Z',
+        'chart_since': '2022-11-22T00:00:00Z',
         'entry_price': 0,
     },
     'display': {
@@ -55,83 +55,87 @@ config_defaults = {
 
 # test-specific config
 test_configs = {
-    "APPLE 1mo defaults": {
+    "APPLE_1mo_defaults": {
         'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '1mo'},
     },
-    "APPLE 3mo defaults": {
-        'currency': {'stock_symbol': 'AAPL'},
+    "APPLE_3mo_defaults": {
+        'currency': {'stock_symbol': 'TSLA'},
         'display': {'candle_width': '3mo'},
     },
-    "GBPJPY 3mo defaults with entry": {
+    "TSLA_3mo_defaults_with_entry": {
         'display': {'candle_width': '3mo'},
         'currency': {
-            'stock_symbol': 'GBPJPY=X',
+            'stock_symbol': 'TSLA',
             'entry_price': '167',
-            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            #'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '10',
         },
-        'display': {'candle_width': '5m', },
     },
-    "AUDCAD 3mo defaults with entry": {
+    "AUDCAD_3mo_defaults_with_entry": {
         'currency': {
             'stock_symbol': 'AUDCAD=X',
             'entry_price': '0.89332',
-            'chart_since': '', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '450000',
         },
         'display': {'candle_width': '1h', },
     },
-    "bitmex BTC 5m defaults": {
+    "bitmex_BTC_5m_defaults": {
         'display': {'candle_width': '5m'},
     },
-    "bitmex BTC 1h defaults": {
+    "bitmex_BTC_1h_defaults": {
         'display': {'candle_width': '1h'},
     },
-    "bitmex BTC 1d defaults": {
-        'display': {'candle_width': '1d'},
+    "bitmex_BTC_1h_100K": {
+        'display': {'candle_width': '1h'},
+        'currency': {'chart_since': '2024-12-10T00:00:00Z'},
     },
-    "BTC HOLDINGS": {
+    "bitmex_BTC_1d_defaults": {
+        'display': {'candle_width': '1d'},
+        'currency': {'chart_since': '2023-12-10T00:00:00Z'},
+    },
+    "BTC_HOLDINGS": {
         'currency': {'holdings': "100"},
     },
-    "BTC VOLUME": {
+    "BTC_VOLUME": {
         'display': {'show_volume': 'true'},
     },
-    "BTC EXPANDED": {
+    "BTC_EXPANDED": {
         'display': {'expanded_chart': 'true'},
     },
-    "BTC VOLUME EXPANDED": {
+    "BTC_VOLUME_EXPANDED": {
         'display': {'show_volume': 'true', 'expanded_chart': 'true'},
     },
-    "BTC VOLUME OVERLAY2": {
+    "BTC_VOLUME_OVERLAY2": {
         'display': {'overlay_layout': '2', 'show_volume': 'true'},
     },
-    "BTC OVERLAY2": {
+    "BTC_OVERLAY2": {
         'display': {'overlay_layout': '2'},
     },
-    "bitmex ETH 5m defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+    "bitmex_ETH_5m_defaults": {
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '5m'},
     },
-    "bitmex ETH 1h defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+    "bitmex_ETH_1h_defaults": {
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1h'},
     },
-    "bitmex ETH 1d defaults": {
-        'currency': {'instrument': 'ETH/USD'},
+    "bitmex_ETH_1d_defaults": {
+        'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1d'},
     },
-    "cryptocom CRO 5m defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+    "cryptocom_CRO_5m_defaults": {
+        'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '5m'},
     },
-    "cryptocom CRO 1h defaults": {
-        'currency': {'instrument': 'CRO/USDC', 'exchange': 'cryptocom'},
+    "cryptocom_CRO_1h_defaults": {
+        'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '1h'},
     },
-    "cryptocom CRO 1d defaults": {
+    "cryptocom_CRO_1d_defaults": {
         'currency': {
-            'instrument': 'CRO/USDC',
+            'instrument': 'CRO/BTC',
             'exchange': 'cryptocom',
         },
         'display': {'candle_width': '1d'},
@@ -142,16 +146,21 @@ os.makedirs('tests/images/', exist_ok=True)
 
 
 def assert_image_matches_size(new_image, expected_res):
-    actual_res = f"{new_image.width},{new_image.height}"
+    actual_res = f"{new_image.width}x{new_image.height}"
     assert expected_res == actual_res, f"expected {expected_res}, was {actual_res}"
 
 
-def assert_image_unchanged(previous_image, new_image, file_name):
-    diff = ImageChops.difference(new_image, previous_image)
-    if diff.getbbox():
+def image_changes(previous_image, new_image, file_name):
+    if previous_image is None:
+        return new_image
+    diff = ImageChops.difference(new_image.convert('RGB'), previous_image.convert('RGB'))
+    differenceImageBounds = diff.getbbox()
+    if differenceImageBounds:
         diff_file_path = '.fail.png'.join(file_name.rsplit('.png'))
+        threshold = 128
+        diff = diff.point(lambda x: 0 if x < threshold else 255)
         diff.save(diff_file_path)
-        assert False, f"Image diff check: '{diff_file_path}'"
+        return diff, diff_file_path
 
 
 class TestRenderingMeta(type):
@@ -167,15 +176,23 @@ class TestRenderingMeta(type):
 
                 file_name = f'tests/images/{generatedTestName}.png'
                 config.set('display', 'disk_file_name', file_name)
+                
+                previous_image = Image.open(file_name) if os.path.isfile(file_name) else None
 
                 app = BitBot(config, files)
-
-                previous_image = None  # Image.open(file_name)
                 app.display_chart()
+
                 new_image = Image.open(file_name)
 
                 assert_image_matches_size(new_image, output.get('resolution', ''))
-                # assert_image_unchanged(previous_image, new_image, file_name)
+
+                changes = image_changes(previous_image, new_image, file_name)
+                
+                if changes:
+                    # os.system("code '" + file_name + "'")
+                    # if changes[1] is not None:
+                    #     os.system("code '" + changes[1] + "'")
+                    assert False, f"Image diff check: '{changes[1]}'"
 
             return test
 
@@ -200,11 +217,11 @@ class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.d
     __metaclass__ = TestRenderingMeta
 
 
-@unittest.skip("needs a waveshare display")
-class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# @unittest.skip("needs a waveshare display")
+# class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
 
 
-@unittest.skip("needs an inky display")
-class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
-    __metaclass__ = TestRenderingMeta
+# @unittest.skip("needs an inky display")
+# class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
+#     __metaclass__ = TestRenderingMeta
