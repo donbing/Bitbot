@@ -15,7 +15,9 @@ class Cartographer():
 
     @info_log
     def draw_to(self, chart_data, file_stream):
-        self.market.create_plot(chart_data).write_to_stream(file_stream)
+        self.market
+            .create_plot(chart_data)
+            .write_to_stream(file_stream)
 
     def __repr__(self):
         return '<Cartographer>'
