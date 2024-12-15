@@ -19,9 +19,9 @@ class screen_output_renderers:
 
 # s/m/l image file renderers for automated testing
 class disk_output_renderers:
-    disk_small = {'output': 'disk', 'resolution': "264,176"}
-    disk_med = {'output': 'disk', 'resolution': "400,300"}
-    disk_large = {'output': 'disk', 'resolution': "640,448"}
+    disk_small = {'output': 'disk', 'resolution': "264x176"}
+    disk_med = {'output': 'disk', 'resolution': "400x300"}
+    disk_large = {'output': 'disk', 'resolution': "640x448"}
     all = [disk_small, disk_med, disk_large]
 
 
@@ -32,7 +32,7 @@ config_defaults = {
         'exchange': 'bitmex',
         'instrument': 'BTC/USDT',
         'holdings': '0',
-        'chart_since': '2021-08-22T00:00:00Z',
+        'chart_since': '2022-11-22T00:00:00Z',
         'entry_price': 0,
     },
     'display': {
@@ -55,15 +55,15 @@ config_defaults = {
 
 # test-specific config
 test_configs = {
-    "APPLE 1mo defaults": {
+    "APPLE_1mo_defaults": {
         'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '1mo'},
     },
-    "APPLE 3mo defaults": {
+    "APPLE_3mo_defaults": {
         'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '3mo'},
     },
-    "GBPJPY 3mo defaults with entry": {
+    "GBPJPY_3mo_defaults_with_entry": {
         'display': {'candle_width': '3mo'},
         'currency': {
             'stock_symbol': 'GBPJPY=X',
@@ -73,7 +73,7 @@ test_configs = {
         },
         'display': {'candle_width': '5m', },
     },
-    "AUDCAD 3mo defaults with entry": {
+    "AUDCAD_3mo_defaults_with_entry": {
         'currency': {
             'stock_symbol': 'AUDCAD=X',
             'entry_price': '0.89332',
@@ -82,58 +82,59 @@ test_configs = {
         },
         'display': {'candle_width': '1h', },
     },
-    "bitmex BTC 5m defaults": {
+    "bitmex_BTC_5m_defaults": {
         'display': {'candle_width': '5m'},
     },
-    "bitmex BTC 1h defaults": {
+    "bitmex_BTC_1h_defaults": {
         'display': {'candle_width': '1h'},
     },
-    "bitmex BTC 1h 100K": {
+    "bitmex_BTC_1h_100K": {
         'display': {'candle_width': '1h'},
         'currency': {'chart_since': '2024-12-10T00:00:00Z'},
     },
-    "bitmex BTC 1d defaults": {
+    "bitmex_BTC_1d_defaults": {
         'display': {'candle_width': '1d'},
+        'currency': {'chart_since': '2024-12-10T00:00:00Z'},
     },
-    "BTC HOLDINGS": {
+    "BTC_HOLDINGS": {
         'currency': {'holdings': "100"},
     },
-    "BTC VOLUME": {
+    "BTC_VOLUME": {
         'display': {'show_volume': 'true'},
     },
-    "BTC EXPANDED": {
+    "BTC_EXPANDED": {
         'display': {'expanded_chart': 'true'},
     },
-    "BTC VOLUME EXPANDED": {
+    "BTC_VOLUME_EXPANDED": {
         'display': {'show_volume': 'true', 'expanded_chart': 'true'},
     },
-    "BTC VOLUME OVERLAY2": {
+    "BTC_VOLUME_OVERLAY2": {
         'display': {'overlay_layout': '2', 'show_volume': 'true'},
     },
-    "BTC OVERLAY2": {
+    "BTC_OVERLAY2": {
         'display': {'overlay_layout': '2'},
     },
-    "bitmex ETH 5m defaults": {
+    "bitmex_ETH_5m_defaults": {
         'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '5m'},
     },
-    "bitmex ETH 1h defaults": {
+    "bitmex_ETH_1h_defaults": {
         'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1h'},
     },
-    "bitmex ETH 1d defaults": {
+    "bitmex_ETH_1d_defaults": {
         'currency': {'instrument': 'ETH/USD:BTC'},
         'display': {'candle_width': '1d'},
     },
-    "cryptocom CRO 5m defaults": {
+    "cryptocom_CRO_5m_defaults": {
         'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '5m'},
     },
-    "cryptocom CRO 1h defaults": {
+    "cryptocom_CRO_1h_defaults": {
         'currency': {'instrument': 'CRO/BTC', 'exchange': 'cryptocom'},
         'display': {'candle_width': '1h'},
     },
-    "cryptocom CRO 1d defaults": {
+    "cryptocom_CRO_1d_defaults": {
         'currency': {
             'instrument': 'CRO/BTC',
             'exchange': 'cryptocom',
@@ -146,13 +147,13 @@ os.makedirs('tests/images/', exist_ok=True)
 
 
 def assert_image_matches_size(new_image, expected_res):
-    actual_res = f"{new_image.width},{new_image.height}"
+    actual_res = f"{new_image.width}x{new_image.height}"
     assert expected_res == actual_res, f"expected {expected_res}, was {actual_res}"
 
 
 def image_changes(previous_image, new_image, file_name):
     if previous_image is None:
-        return new_image, "no previous image"
+        return new_image
     diff = ImageChops.difference(new_image.convert('RGB'), previous_image.convert('RGB'))
     differenceImageBounds = diff.getbbox()
     if differenceImageBounds:
@@ -190,6 +191,8 @@ class TestRenderingMeta(type):
                 
                 if changes:
                     os.system("code '" + file_name + "'")
+                    if changes[1]:
+                        os.system("code '" + changes[1] + "'")
                     assert False, f"Image diff check: '{changes[1]}'"
 
             return test
