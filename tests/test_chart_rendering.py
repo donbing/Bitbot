@@ -60,18 +60,17 @@ test_configs = {
         'display': {'candle_width': '1mo'},
     },
     "APPLE_3mo_defaults": {
-        'currency': {'stock_symbol': 'AAPL'},
+        'currency': {'stock_symbol': 'TSLA'},
         'display': {'candle_width': '3mo'},
     },
-    "GBPJPY_3mo_defaults_with_entry": {
+    "TSLA_3mo_defaults_with_entry": {
         'display': {'candle_width': '3mo'},
         'currency': {
-            'stock_symbol': 'GBPJPY=X',
+            'stock_symbol': 'TSLA',
             'entry_price': '167',
-            'chart_since': '2022-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            #'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '10',
         },
-        'display': {'candle_width': '5m', },
     },
     "AUDCAD_3mo_defaults_with_entry": {
         'currency': {
@@ -190,9 +189,9 @@ class TestRenderingMeta(type):
                 changes = image_changes(previous_image, new_image, file_name)
                 
                 if changes:
-                    os.system("code '" + file_name + "'")
-                    if changes[1]:
-                        os.system("code '" + changes[1] + "'")
+                    # os.system("code '" + file_name + "'")
+                    # if changes[1] is not None:
+                    #     os.system("code '" + changes[1] + "'")
                     assert False, f"Image diff check: '{changes[1]}'"
 
             return test
