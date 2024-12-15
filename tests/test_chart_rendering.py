@@ -76,7 +76,7 @@ test_configs = {
         'currency': {
             'stock_symbol': 'AUDCAD=X',
             'entry_price': '0.89332',
-            'chart_since': '', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '450000',
         },
         'display': {'candle_width': '1h', },
