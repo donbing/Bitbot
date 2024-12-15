@@ -20,6 +20,7 @@ def unsupported_media_type(handler, content_type_header):
     handler.end_headers()
 
 
+# 🤔 gets json describing the currently connected display
 def get_json(handler):
     inky_display = auto()
     handler.send_response(200)
@@ -33,7 +34,7 @@ def get_json(handler):
     })
     handler.wfile.write(json_str.encode(encoding='utf_8'))
 
-
+# 🖼️ gets an html form to upload images for display
 def get_html(handler):
     html = '''
         <form method='post' enctype='multipart/form-data'>
@@ -47,7 +48,7 @@ def get_html(handler):
     handler.end_headers()
     handler.wfile.write(bytes(html, "utf8"))
 
-
+# 📺 Shows the uploaded image on whatever display is being used
 def display_uploaded_image(handler):
     content_type, pdict = cgi.parse_header(handler.headers['content-type'])
 
