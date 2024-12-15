@@ -1,7 +1,7 @@
 import yfinance
 import collections
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from src.configuration.log_decorator import info_log
 import math
 
@@ -35,8 +35,11 @@ class Exchange():
         candle_width = candle_config.width
         chart_duration = candle_config.fat_duration or candle_config.duration
 
-        end_date = self.config.chart_since() or datetime.utcnow()
-        start_date = end_date - chart_duration
+        start_date = self.config.chart_since() 
+        if start_date is None or (start_date + chart_duration) > datetime.now(timezone.utc):
+            start_date = datetime.utcnow() - chart_duration
+
+        end_date = start_date + chart_duration
 
         history = self.get_stock_history(
             ticker,
