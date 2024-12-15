@@ -36,4 +36,4 @@
  - [💾 **Config** Options](docs/config_options.md)
  - [📒 Dev **Notes**](docs/development.md)
  - [🐋 **Docker** Setup](docs/docker_installation.md)
- - [📈 Current charting examples](docs/test_results.md)
+ - [📈 Current charting examples](/tests/images/)

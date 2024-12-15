@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
 import time
-from .image_utils import centered_text
+from .image_utils.CenteredText import centered_text
 from ..configuration.network_utils import wait_for_internet_connection
 page1 = '''Hi, I'm your new Bitbot.
 

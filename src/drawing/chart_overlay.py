@@ -2,9 +2,11 @@
 from datetime import datetime
 from PIL import ImageDraw
 from src.configuration.log_decorator import info_log
-from src.drawing.image_utils import Align
-from src.drawing.image_utils import DrawText, RotatedTextBlock
-from src.drawing.image_utils import TextBlock, Border
+from src.drawing.image_utils.DrawText import DrawText
+from src.drawing.image_utils.TextBlock import TextBlock
+from src.drawing.image_utils.Align import Align
+from src.drawing.image_utils.RotatedTextBlock import RotatedTextBlock
+from src.drawing.image_utils.Border import Border
 from src.configuration.network_utils import get_ip
 from src.drawing.price_humaniser import human_format
 
