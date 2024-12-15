@@ -2,15 +2,11 @@
 > A Raspberry Pi powered e-ink price chart and photo display
 <div>
     <img height="100" src="docs/images/last_display.png">
-    <img height="100" src="docs/images/bit-bot.jpg">
-    <img height="100" src="docs/images/bitbot-v2.png">
     <img height="100" src="docs/images/kilobitbot-v2.jpg">
-    <img height="100" src="docs/images/bitbots.jpg">
 </div>
 
 ![lint and test](https://github.com/donbing/bitbot/actions/workflows/lint-and-test-python.yml/badge.svg)
 ![docker image](https://github.com/donbing/bitbot/actions/workflows/build-and-push-image.yaml/badge.svg)
-
 
 # ✨ Features
  - ⚙️ `Config webserver` running on port **8080** allows easy configuration
@@ -29,7 +25,7 @@
  - 📺 Support `waveshare` displays
  - 👆 **Inky Impression** `buttons` (cycle currency, change view, show volume, toggle photo-mode)
  
-# 💡 Requested Features
+# 💡 Queued Features
  - 💸 Display **Transaction fees**
  - 👆 `Configurable` and/or `state based` **button actions**
 
