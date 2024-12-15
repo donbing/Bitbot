@@ -1,5 +1,6 @@
 from PIL import ImageFont, Image, ImageDraw, ImageChops
-from src.drawing.image_utils import DrawText, TextBlock
+from src.drawing.image_utils.DrawText import DrawText
+from src.drawing.image_utils.TextBlock import TextBlock
 from src.configuration.bitbot_files import use_config_dir
 import unittest
 import os
