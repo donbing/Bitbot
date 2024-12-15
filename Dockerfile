@@ -1,4 +1,5 @@
-FROM debian:bullseye-slim AS base-image
+FROM navikey/raspbian-bullseye:2022-05-08 AS base-image
+
 RUN apt update -y
 RUN apt upgrade -y
 RUN apt install -y \
