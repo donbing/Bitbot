@@ -209,12 +209,12 @@ class SmallChartRenderingTests(unittest.TestCase, output=disk_output_renderers.d
     __metaclass__ = TestRenderingMeta
 
 
-# class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
 
 
-# class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
 
 
 # @unittest.skip("needs a waveshare display")
