@@ -33,6 +33,7 @@ class TestTextBlocks(unittest.TestCase):
         image_drawing = ImageDraw.Draw(image)
 
         block.draw_on(image_drawing)
+        image.save(image_file_name)
 
         previous_image = Image.open(image_file_name) if os.path.isfile(image_file_name) else None
         if previous_image is None:
