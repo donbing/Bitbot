@@ -8,10 +8,10 @@ transparent = (0, 0, 0, 0)
 
 class DrawText:
     @staticmethod
-    def width(text): return text.size[0]
+    def width(text): return text.size[2]
 
     @staticmethod
-    def height(text): return text.size[1]
+    def height(text): return text.size[3]
 
     # 🔀 coloured percentage change text
     @staticmethod
@@ -65,7 +65,7 @@ class DrawText:
         self.text = text
         self.font = font
         self.colour = colour
-        self.size = font.getsize(text)
+        self.size = font.getbbox(text)
         self.align = align
 
     def draw_on(self, draw, pos=(0, 0)):
@@ -138,7 +138,8 @@ class RotatedTextBlock:
 
 def centered_text(draw, text, font, container_size, pos='centre', border=False):
     # 🌌 calculate space needed for message
-    message_size = draw.textsize(text, font)
+    message_size = max(draw.textlength(line, font=font) for line in text.split('\n'))
+
     # 📏 where to position the message
     if pos == 'centre':
         message_x, message_y = Align.Centre(container_size, message_size)
@@ -146,6 +147,7 @@ def centered_text(draw, text, font, container_size, pos='centre', border=False):
         message_x, message_y = Align.TopRight(container_size, message_size)
     elif pos == 'topleft':
         message_x, message_y = Align.TopLeft(container_size, message_size)
+
     # 🖊️ draw the message at position
     draw.multiline_text(
         (message_x, message_y),
@@ -153,6 +155,7 @@ def centered_text(draw, text, font, container_size, pos='centre', border=False):
         fill='black',
         font=font,
         align="left")
+    
     # 📏 measure border box
     if border:
         x0, y0 = (message_x - padding, message_y - padding)

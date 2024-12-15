@@ -1,16 +1,15 @@
 mplfinance==0.12.9b1
 matplotlib
 tzlocal
-ccxt==4.4.37
-inky==1.4.0
-watchdog==2.1.6
-numpy==1.22
-Pillow==9.3.0
-yfinance==0.1.84
+ccxt==4.4.40
+inky==2.0.0
+watchdog==6.0.0
+Pillow==11.0.0
+yfinance==0.2.50
+numpy==1.21.0
 Flask==3.1.0
 git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd
-aiohttp>=3.10.2 # not directly required, pinned by Snyk to avoid a vulnerability
-requests>=2.32.2 # not directly required, pinned by Snyk to avoid a vulnerability
-setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
-urllib3>=2.2.2 # not directly required, pinned by Snyk to avoid a vulnerability
-zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+requests>=2.32.3 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools>=75.6.0 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3>=2.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
+zipp>=3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
