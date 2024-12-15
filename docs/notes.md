@@ -26,10 +26,10 @@ todo:
     - moving averages
     - indicators
 
-
-> Build arm6 on x86
+# Docker
+Build arm6 on x86
 ```bash
- docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
+docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
 # build container atrm6
 docker buildx build --platform linux/arm/v6 . -t bitbot --progress string
 # run it, have to specify which chip QEMU should emulate
@@ -37,22 +37,27 @@ docker run -e QEMU_CPU=arm1176 --privileged --rm -t --platform linux/arm/v6 navi
 
 docker buildx build --platform linux/arm/v6 . -t bitbot -f scripts/docker/dockerfile --progress string
 docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 bitbot
+```
 
+# Hackery
+```bash
 # remove all containers
 docker container rm $(docker container ls -q -a)
 #' which cpus to use for the build 
 # --cpuset-cpus=0-3'
-# wifi-connect docker pull balenablocks/wifi-connect:rpi
-docker run --network=host -v /run/dbus/:/run/dbus/ balenablocks/wifi-connect:rpi
 
 # error: failed to solve: failed to solve with frontend dockerfile.v0: failed to create LLB definition: rpc error: code = Unknown desc = error getting credentials - err: exit status 255, out: ``
 = In ~/.docker/config.json `change credsStore to credStore`
 
 # error exec "--env" "executable file not found in $PATH: unknown"
 = badly ordered docker args, envs must come before image name
+```
 
+# Testing
+```bash
 # test run 
 docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false  bb
+
 # run tests
 docker run --rm \
 --name bitbot_tests \
@@ -62,17 +67,24 @@ bb \
 python3 -m unittest discover
 ```
 
-> get linux os version
+# PiOS
+Get linux os version
 ```sh
 cat /etc/os-release
 ```
 
-> enable vnc raspiconfig
+Enable vnc raspiconfig
 ```sh
 sudo raspi-config nonint do_vnc 0
 ```
 
-> setup my git
+Check cpu arch 
+```sh
+dpkg --print-architecture
+```
+
+# Git
+Setup my git
 ```sh
 # setup user
 git config --global user.email ccbing@gmail.com
@@ -87,38 +99,9 @@ git config --global --unset user.password
  git config --global alias.ci commit
  git config --global alias.st status
 ```
-> check cpu arch 
-```sh
-dpkg --print-architecture
-```
 
-
-## fonts
-> place in `~/.fonts` or `/usr/local/share/fonts` for system wide access
-    mkdir ~/.fonts && cp ~/bitbot/src/resources/04B_03__.TTF ~/.fonts/04B_03__.TTF
-
-> manually rebuild the font cache with `fc-cache -f -v`
-
-> list fonts with `fc-list`
-
-
-
-# balena
-```
-# install gbalena cli
-wget https://github.com/balena-io/balena-cli/releases/download/v13.3.0/balena-cli-v13.3.0-linux-x64-standalone.zip
-unzip balena-cli-v13.3.0-linux-x64-standalone.zip
-# balena cli
-balena login
-balena push gh_donbing/teste
-# git
-# add pud key to balena
-balena key add Main ~/.ssh/id_rsa.pub
-# list keys
-balena keys
-# push to balena
-git remote add balena gh_donbing@git.balena-cloud.com:gh_donbing/teste.git
-# push our main branch to balena master branch
-git push balena main:master
-```
-
+# Fonts
+- place in `~/.fonts` or `/usr/local/share/fonts` for system wide access  
+- `mkdir ~/.fonts && cp ~/bitbot/src/resources/04B_03__.TTF ~/.fonts/04B_03__.TTF`
+- manually rebuild the font cache with `fc-cache -f -v`
+- list fonts with `fc-list`
