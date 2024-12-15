@@ -21,7 +21,7 @@ class TestTextBlocks(unittest.TestCase):
     def test_text_block(self):
         block = TextBlock([
             [
-                DrawText('balls' + ' (' + 'arse' + ') ', self.title_font, colour=white),
+                DrawText('GBP' + ' (' + 'Sterling' + ') ', self.title_font, colour=white),
                 DrawText.percentage(-50, self.title_font),
             ],
             [
@@ -30,16 +30,18 @@ class TestTextBlocks(unittest.TestCase):
         ])
 
         image = Image.new('RGBA', block.size(), transparent)
-        draw = ImageDraw.Draw(image)
+        image_drawing = ImageDraw.Draw(image)
 
-        block.draw_on(draw)
+        block.draw_on(image_drawing)
 
-        previous_image = Image.open(image_file_name)
+        previous_image = Image.open(image_file_name) if os.path.isfile(image_file_name) else None
+        if previous_image is None:
+            assert False, f"New image result, re-run the test to accept: '{image_file_name}'"
+
         diff = ImageChops.difference(image, previous_image)
 
         if diff.getbbox():
-            diff.save('diff.png')
-            assert False, "images were different, see 'diff.png'"
+            file_name = f'tests/images/overlay_diff.png'
+            diff.save(file_name)
+            assert False, f"images were different, see '{file_name}'"
             # os.system(f"code 'diff.png'")
-
-        # image.save(image_file_name)
