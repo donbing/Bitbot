@@ -138,7 +138,7 @@ class RotatedTextBlock:
 
 def centered_text(draw, text, font, container_size, pos='centre', border=False):
     # 🌌 calculate space needed for message
-    *_, message_size = max(draw.textlength(line, font=font) for line in text.split('\n'))
+    message_size = max(font.getbbox(line)[-2:] for line in text.split('\n'))
 
     # 📏 where to position the message
     if pos == 'centre':
