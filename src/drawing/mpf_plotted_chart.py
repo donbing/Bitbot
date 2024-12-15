@@ -64,7 +64,7 @@ class NewPlottedChart:
         # 🪓 make axes look nicer
         for a in ax:
             # a.set_adjustable('box')
-            a.yaxis.set_major_formatter(EngFormatter(sep=''))
+            a.yaxis.set_major_formatter(EngFormatter(sep='',places=1))
             a.autoscale(enable=True, axis="both", tight=True)
             # margin between candles and axes
             a.margins(0.05, 0.2)
