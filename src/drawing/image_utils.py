@@ -8,10 +8,10 @@ transparent = (0, 0, 0, 0)
 
 class DrawText:
     @staticmethod
-    def width(text): return text.size[2]
+    def width(text): return text.size[0]
 
     @staticmethod
-    def height(text): return text.size[3]
+    def height(text): return text.size[1]
 
     # 🔀 coloured percentage change text
     @staticmethod
@@ -65,7 +65,7 @@ class DrawText:
         self.text = text
         self.font = font
         self.colour = colour
-        self.size = font.getbbox(text)
+        self.size = font.getbbox(text)[-2:]
         self.align = align
 
     def draw_on(self, draw, pos=(0, 0)):
@@ -123,7 +123,7 @@ class RotatedTextBlock:
         return self.font.get_size(self.text)
 
     def draw_on(self, draw, pos=(0, 0)):
-        text_width, text_height = draw.textsize(self.text, self.font)
+        *_, text_width, text_height = self.font.getbbox(self.text)
         text_image = Image.new('RGBA', (text_width, text_height), transparent)
         text_image_draw = ImageDraw.Draw(text_image)
         text_image_draw.text((0, 0), self.text, 'black', self.font)
@@ -138,7 +138,7 @@ class RotatedTextBlock:
 
 def centered_text(draw, text, font, container_size, pos='centre', border=False):
     # 🌌 calculate space needed for message
-    message_size = max(draw.textlength(line, font=font) for line in text.split('\n'))
+    *_, message_size = max(draw.textlength(line, font=font) for line in text.split('\n'))
 
     # 📏 where to position the message
     if pos == 'centre':
