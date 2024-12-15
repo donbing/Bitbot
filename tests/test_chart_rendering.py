@@ -93,7 +93,7 @@ test_configs = {
     },
     "bitmex_BTC_1d_defaults": {
         'display': {'candle_width': '1d'},
-        'currency': {'chart_since': '2024-12-10T00:00:00Z'},
+        'currency': {'chart_since': '2023-12-10T00:00:00Z'},
     },
     "BTC_HOLDINGS": {
         'currency': {'holdings': "100"},
