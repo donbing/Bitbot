@@ -35,5 +35,4 @@
  - [⚙️ Device **Setup**](docs/device_setup.md)
  - [💾 **Config** Options](docs/config_options.md)
  - [📒 Dev **Notes**](docs/development.md)
- - [🐋 **Docker** Setup](docs/docker_installation.md)
  - [📈 Chart examples](/tests/images/)
