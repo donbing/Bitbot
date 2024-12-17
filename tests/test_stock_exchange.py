@@ -11,7 +11,7 @@ import pathlib
 test_params = ['1mo', '1h', '1wk', 'random']
 
 curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(os.path.join(curdir, "../"))
+files = use_config_dir(os.path.join(curdir, ".."))
 config_ini = load_config_ini(files)
 
 # 🪳 ''1h',' <- fails on weekends due to short chart duration
