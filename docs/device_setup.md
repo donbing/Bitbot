@@ -24,7 +24,7 @@
  - A list of **supported crypto-exchanges** can be found [here](https://github.com/ccxt/ccxt/wiki/Exchange-Markets)  
    - Please see your selected exchange for the ***instruments that it supports***
 
-### Bitbot uses [Style Files](../config/base.mplstyle) to control the chart layout. 
+### Bitbot uses [Style Files](../config/mpl_styles/base.mplstyle) to control the chart layout. 
  - If you're feeling experimental.. you can edit these! Examples of the ***styling*** options can be [found here](https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-default-matplotlibrc-file)
 
 ### Inky Impression **Button** support
