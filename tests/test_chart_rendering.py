@@ -63,12 +63,12 @@ test_configs = {
         'currency': {'stock_symbol': 'TSLA'},
         'display': {'candle_width': '3mo'},
     },
-    "TSLA_3mo_defaults_with_entry": {
+    "MSFT_3mo_defaults_with_entry": {
         'display': {'candle_width': '3mo'},
         'currency': {
-            'stock_symbol': 'TSLA',
+            'stock_symbol': 'MSFT',
             'entry_price': '167',
-            #'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2016-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '10',
         },
     },
