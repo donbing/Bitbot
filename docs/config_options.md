@@ -22,6 +22,15 @@ Config options can be found in [config/config.ini](config/config.ini), there are
  
 ## `[picture_frame_mode]`
  - `enabled`: enable or disable picture mode.
+ 
+## `[youtube_subs]`
+ - `enabled`: enable or disable youtube subscriber count mode.
+ - `account_id`: account Id
+ - `key`: google developers API key with TY enabled
+
+## `[tide_times_mode]`
+ - `enabled`: enable or disable tide times mode.
+ - `location_id`: id of the location to be trackes
 
 ## `[comments]`
  - `up`: comma separated list of `up` comments, will be chosen from randomly.

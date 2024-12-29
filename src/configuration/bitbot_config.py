@@ -134,12 +134,12 @@ class BitBotConfig():
         self.save()
 
     # 🖼️ picture frame mode
-    def photo_mode_enabled(self):
-        return self.config['picture_frame_mode']["enabled"] == 'true'
-    
     def toggle_photo_mode(self, enabled_state, cycle_state):
         self.config['picture_frame_mode']["enabled"] = enabled_state
         self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
+
+    def photo_mode_enabled(self):
+        return self.config['picture_frame_mode']["enabled"] == 'true'
 
     def cycle_pictures_enabled(self):
         return self.config['picture_frame_mode']["cycle"] == 'true'
@@ -188,8 +188,8 @@ class BitBotConfig():
             self.config_files.resource_folder,
             self.config['first_run']['intro_background_image']
         )
-    
-    # 📺 youtube setup
+
+    # 📺 youtube subs setup 
     def youtube_subs_enabled(self):
         return self.config['youtube_subs']["enabled"] == 'true'
 
@@ -198,3 +198,10 @@ class BitBotConfig():
 
     def youtube_key():
         return "AIzaSyCFJ6-vHN9KgOE3a6mjdqBcG-pYlwcRGj4"
+
+    # 🏄‍♂️ tide times setup
+    def tide_times_enabled(self):
+        return self.config['tide_times']["enabled"] == 'true'
+
+    def tide_location_id(self):
+        return self.config['tide_times']["location_id"]
