@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from PIL import Image
 
-def get_tide_data():
+def get_tide_data(station_id):
     # Using NOAA Tides & Currents API
-    station_id = '9414290'  # Example station ID for San Francisco
+    # station_id = '9414290'  # Example station ID for San Francisco
     url = f'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&application=NOS.COOPS.TAC.WL&begin_date={datetime.now().strftime("%Y%m%d")}&range=168&datum=MLLW&station={station_id}&time_zone=lst_ldt&units=metric&interval=h&format=json'
     
     try:
@@ -26,8 +26,8 @@ def get_tide_data():
         print(f"Error fetching tide data: {e}")
         return []
 
-def save_tide_data():
-    tide_data = get_tide_data()
+def save_tide_data(location_id):
+    tide_data = get_tide_data(location_id)
     
     from datetime import datetime
     dates = [datetime.strptime(d['date'], '%Y-%m-%d %H:%M') for d in tide_data]
@@ -46,7 +46,7 @@ def save_tide_data():
     plt.gca().set_xlim(dates[0], dates[-1])
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(7))  # Exactly 7 labels
     
-    # Find daily min and max only for days with full 24 hours of data
+    # Find daily min and max 
     daily_min_max = {}
     day_counts = {}
     for date, height in zip(dates, heights):
