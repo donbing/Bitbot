@@ -23,9 +23,10 @@ class YouTubeSubscriberCount:
     def play(self):
         http_response = requests.get(url)
         response_json = json.loads(http_response.text)
+        text_to_draw = "Subscribers" + response_json['items'][0]['statistics']['subscriberCount']
         img = Image.new("RGBA", self.display_size.size, transparent)
         draw = ImageDraw.Draw(img)
-        centered_text(draw, "Subscribers" + response_json['items'][0]['statistics']['subscriberCount'], self.font, img.size, 'centre')
+        centered_text(draw, text_to_draw, self.font, self.display_size, 'centre')
         return img
 
     def no_op(self):
