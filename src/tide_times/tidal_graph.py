@@ -4,6 +4,7 @@ import inky
 import requests
 import matplotlib.pyplot as plt
 from datetime import datetime
+from PIL import Image
 
 def get_tide_data():
     # Using NOAA Tides & Currents API
