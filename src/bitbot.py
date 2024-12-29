@@ -8,6 +8,7 @@ from src.drawing.chart_overlay import ChartOverlay
 from src.display.picker import picker as display_picker
 from src.configuration.network_utils import wait_for_internet_connection
 from src.youtube_stats.subscriber_counter import YouTubeSubscriberCount
+from src.tide_times.tidal_graph import save_tide_data
 
 
 class Cartographer():
@@ -76,11 +77,8 @@ class BitBot():
         
     @info_log
     def display_tide_times(self):
-        img = Image.new('RGBA', self.display.size())
-        draw = ImageDraw.Draw(img)
-        draw.text((0, 0), f'tide times for {self.config.tide_location_id()}')
+        img = save_tide_data(self.config.tide_location_id())
         self.display.show(img)
-        return img
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
