@@ -30,7 +30,7 @@ todo:
 Build arm6 on x86
 ```bash
 docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
-# build container atrm6
+# build container arm6
 docker buildx build --platform linux/arm/v6 . -t bitbot --progress string
 # run it, have to specify which chip QEMU should emulate
 docker run -e QEMU_CPU=arm1176 --privileged --rm -t --platform linux/arm/v6 navikey/raspbian-buster:latest bash
