@@ -59,8 +59,11 @@ test_configs = {
         'currency': {'stock_symbol': 'AAPL'},
         'display': {'candle_width': '1mo'},
     },
-    "APPLE_3mo_defaults": {
-        'currency': {'stock_symbol': 'TSLA'},
+    "TSLA_3mo_defaults": {
+        'currency': {
+            'chart_since': '2016-04-22T00:00:00Z',
+            'stock_symbol': 'TSLA'
+        },        
         'display': {'candle_width': '3mo'},
     },
     "MSFT_3mo_defaults_with_entry": {
@@ -217,11 +220,11 @@ class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.d
     __metaclass__ = TestRenderingMeta
 
 
-# @unittest.skip("needs a waveshare display")
-# class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+@unittest.skip("needs a waveshare display")
+class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
 
 
-# @unittest.skip("needs an inky display")
-# class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+@unittest.skip("needs an inky display")
+class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
