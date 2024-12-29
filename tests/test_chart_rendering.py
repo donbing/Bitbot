@@ -195,7 +195,7 @@ class TestRenderingMeta(type):
                     # os.system("code '" + file_name + "'")
                     # if changes[1] is not None:
                     #     os.system("code '" + changes[1] + "'")
-                    assert False, f"Image diff check: '{changes[1]}'"
+                    assert False, f"Image diff check: '{changes}'"
 
             return test
 
