@@ -36,11 +36,13 @@ def refresh_display(sc, reason):
     if config.photo_mode_enabled():
         if reason != "scheduled":
             app.display_photo()
-    else:
-        app.display_chart()
+    elif app.display_chart():
         # 🪳 show image in vscode for debug
         if config.shoud_show_image_in_vscode():
             os.system("code last_display.png")
+    elif app.youtube_subs_enabled():
+        app.display_youtube_subs()
+
 
     # ⌛ dont reschedule if testing
     if not config.is_test_run():
