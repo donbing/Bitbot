@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
@@ -7,6 +7,7 @@ from src.configuration.log_decorator import info_log
 from src.drawing.chart_overlay import ChartOverlay
 from src.display.picker import picker as display_picker
 from src.configuration.network_utils import wait_for_internet_connection
+from src.youtube_stats.subscriber_counter import YouTubeSubscriberCount
 
 
 class Cartographer():
@@ -67,6 +68,11 @@ class BitBot():
         image_path = self.config.photo_image_file()
         if(exists(image_path)):
             self.display.show(Image.open(image_path))
+
+    @info_log
+    def display_youtube_subs(self):
+        subscriber_display = YouTubeSubscriberCount(self.display.size(), self.display.title_font, self.config)
+        subscriber_display.play()
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
