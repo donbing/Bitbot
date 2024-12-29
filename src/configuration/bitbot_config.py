@@ -140,6 +140,9 @@ class BitBotConfig():
 
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
+    
+    def youtube_subs_enabled(self):
+        return self.config['youtube_subs']["enabled"] == 'true'
 
     def cycle_pictures_enabled(self):
         return self.config['picture_frame_mode']["cycle"] == 'true'
