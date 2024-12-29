@@ -73,7 +73,7 @@ def save_tide_data(location_id, img_buf):
         plt.annotate(
             f"{values['min'][0].strftime('%-I:%p')}",
             xy=(values['min'][0], values['min'][1]),
-            xytext=(0, -8),
+            xytext=(-15, 0),
             textcoords='offset points',
             ha='center',
             fontsize=8,
@@ -83,7 +83,7 @@ def save_tide_data(location_id, img_buf):
         plt.annotate(
             f"{values['max'][0].strftime('%-I:%p')}",
             xy=(values['max'][0], values['max'][1]),
-            xytext=(0, 5),
+            xytext=(14, 0),
             textcoords='offset points',
             ha='center',
             fontsize=8,
