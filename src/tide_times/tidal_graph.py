@@ -1,6 +1,5 @@
 
 import io
-import inky
 import requests
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -28,8 +27,6 @@ def get_tide_data():
         return []
 
 def save_tide_data():
-
-    inky_display = inky.auto()    
     tide_data = get_tide_data()
     
     from datetime import datetime
@@ -94,23 +91,16 @@ def save_tide_data():
         )
 
     plt.tight_layout()
-    plt.savefig('/workspace/tide_plot.png', dpi=100, bbox_inches='tight')
 
     img_buf = io.BytesIO()
-    plt.savefig(img_buf, format='png')
+    plt.savefig(img_buf, format='png', dpi=100, bbox_inches='tight')
 
-    im = Image.open(img_buf)
-    im.show(title="My Image")
-
-    inky_display.set_image(img)
-    inky_display.show()
+    img = Image.open(img_buf)
     img_buf.close()
-
     plt.close()
 
+    return img
 
-if __name__ == '__main__':
-    save_tide_data()
 
 
 
