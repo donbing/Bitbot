@@ -77,8 +77,10 @@ class BitBot():
         
     @info_log
     def display_tide_times(self):
-        img = save_tide_data(self.config.tide_location_id())
+        img_buf = io.BytesIO()
+        img = save_tide_data(self.config.tide_location_id(), img_buf)
         self.display.show(img)
+        img_buf.close()
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
