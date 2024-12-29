@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
@@ -73,6 +73,14 @@ class BitBot():
     def display_youtube_subs(self):
         subscriber_display = YouTubeSubscriberCount(self.display.size(), self.display.title_font, self.config)
         subscriber_display.play()
+        
+    @info_log
+    def display_tide_times(self):
+        img = Image.new('RGBA', self.display.size())
+        draw = ImageDraw.Draw(img)
+        draw.text((0, 0), f'tide times for {self.config.tide_location_id()}')
+        self.display.show(img)
+        return img
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
