@@ -14,6 +14,7 @@ class DisplaySize():
     def __init__(self, size):
         self.size = size
 
+@unittest.skip("needs youtube api key")
 class YouTubeSubsTests(unittest.TestCase):
     display_size = DisplaySize((400, 300))
 
