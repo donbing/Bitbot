@@ -26,7 +26,7 @@ def get_tide_data(station_id):
         print(f"Error fetching tide data: {e}")
         return []
 
-def save_tide_data(location_id):
+def save_tide_data(location_id, img_buf):
     tide_data = get_tide_data(location_id)
     
     from datetime import datetime
@@ -92,12 +92,10 @@ def save_tide_data(location_id):
 
     plt.tight_layout()
 
-    img_buf = io.BytesIO()
     plt.savefig(img_buf, format='png', dpi=100, bbox_inches='tight')
+    plt.close()
 
     img = Image.open(img_buf)
-    img_buf.close()
-    plt.close()
 
     return img
 
