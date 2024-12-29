@@ -134,15 +134,12 @@ class BitBotConfig():
         self.save()
 
     # 🖼️ picture frame mode
-    def toggle_photo_mode(self, enabled_state, cycle_state):
-        self.config['picture_frame_mode']["enabled"] = enabled_state
-        self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
-
     def photo_mode_enabled(self):
         return self.config['picture_frame_mode']["enabled"] == 'true'
     
-    def youtube_subs_enabled(self):
-        return self.config['youtube_subs']["enabled"] == 'true'
+    def toggle_photo_mode(self, enabled_state, cycle_state):
+        self.config['picture_frame_mode']["enabled"] = enabled_state
+        self.config['picture_frame_mode']["cycle_pictures"] = cycle_state
 
     def cycle_pictures_enabled(self):
         return self.config['picture_frame_mode']["cycle"] == 'true'
@@ -191,3 +188,13 @@ class BitBotConfig():
             self.config_files.resource_folder,
             self.config['first_run']['intro_background_image']
         )
+    
+    # 📺 youtube setup
+    def youtube_subs_enabled(self):
+        return self.config['youtube_subs']["enabled"] == 'true'
+
+    def youtube_channelid():
+        return "UCAotflAHrgfuhK9Rw-C_-Ug"
+
+    def youtube_key():
+        return "AIzaSyCFJ6-vHN9KgOE3a6mjdqBcG-pYlwcRGj4"
