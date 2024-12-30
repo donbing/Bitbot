@@ -25,6 +25,3 @@ class YouTubeSubscriberCount:
         draw = ImageDraw.Draw(img)
         centered_text(draw, text_to_draw, self.font, self.display_size, 'centre')
         return img
-
-    def no_op(self):
-        pass
