@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from PIL import Image
 
-def get_tide_data(station_id):
+def get_noaa_tide_data(station_id):
     # Using NOAA Tides & Currents API
     # station_id = '9414290'  # Example station ID for San Francisco
     url = f'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&application=NOS.COOPS.TAC.WL&begin_date={datetime.now().strftime("%Y%m%d")}&range=168&datum=MLLW&station={station_id}&time_zone=lst_ldt&units=metric&interval=h&format=json'
@@ -26,8 +26,8 @@ def get_tide_data(station_id):
         print(f"Error fetching tide data: {e}")
         return []
 
-def save_tide_data(location_id, img_buf):
-    tide_data = get_tide_data(location_id)
+def render_tide_chart(location_id, img_buf):
+    tide_data = get_noaa_tide_data(location_id)
     
     from datetime import datetime
     dates = [datetime.strptime(d['date'], '%Y-%m-%d %H:%M') for d in tide_data]
@@ -36,8 +36,7 @@ def save_tide_data(location_id, img_buf):
     plt.figure(figsize=(4, 3))
     plt.plot(dates, heights)
     plt.title('Next 7 Days')
-    
-    # plt.grid(True)
+    plt.grid(True)
     
     # Rotate and space out date labels
     import matplotlib.dates as mdates
