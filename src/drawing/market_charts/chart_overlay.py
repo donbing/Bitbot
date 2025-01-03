@@ -8,7 +8,7 @@ from src.drawing.image_utils.Align import Align
 from src.drawing.image_utils.RotatedTextBlock import RotatedTextBlock
 from src.drawing.image_utils.Border import Border
 from src.configuration.network_utils import get_ip
-from src.drawing.price_humaniser import human_format
+from src.drawing.market_charts.price_humaniser import human_format
 
 
 class ChartOverlay():
@@ -87,11 +87,11 @@ class ChartOverlay():
             [DrawText.number_6sf(chartdata.last_close(), self.price_font)],
             # 💬 draw holdings or comment
             [
-                DrawText.humanised_price(portfolio_value, self.title_font)
+                DrawText.draw_string(human_format(portfolio_value), self.title_font)
                 if portfolio_value
                 else DrawText.random_from_bool(self.ai_comments(), self.price_increasing(chartdata), self.title_font),
 
-                DrawText.humanised_price(portfolio_delta, self.title_font)
+                DrawText.draw_string(human_format(portfolio_delta), self.title_font)
                 if portfolio_entry_value != 0
                 else DrawText.empty(self.title_font)
             ]

@@ -2,13 +2,14 @@ from PIL import Image, ImageDraw, ImageFont
 from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
-from src.drawing.market_chart import MarketChart
 from src.configuration.log_decorator import info_log
-from src.drawing.chart_overlay import ChartOverlay
-from src.display.picker import picker as display_picker
 from src.configuration.network_utils import wait_for_internet_connection
-from src.youtube_stats.subscriber_counter import YouTubeSubscriberCount
-from src.tide_times.tidal_graph import render_tide_chart
+from src.display.picker import picker as display_picker
+from src.drawing.market_charts.chart_overlay import ChartOverlay
+from src.drawing.market_charts.market_chart import MarketChart
+from src.drawing.youtube_stats.subscriber_counter import YouTubeSubscriberCount
+from src.drawing.tide_times.tidal_graph import render_tide_chart
+from src.drawing.image_utils.CenteredText import centered_text
 
 
 class Cartographer():
@@ -40,7 +41,7 @@ class BitBot():
     @info_log
     def display_chart(self):
         # 📡 await internet connection
-        wait_for_internet_connection(self.display.draw_connection_error)
+        wait_for_internet_connection(self.display_connection_error)
         # 📈 fetch chart data
         market_exchange = self.market_exchange()
         chart_data = market_exchange.fetch_history()
@@ -80,6 +81,22 @@ class BitBot():
         with io.BytesIO() as img_buf:
             img = render_tide_chart(self.config.tide_location_id(), img_buf)
             self.display.show(img)
+
+    @info_log
+    def display_connection_error(self):
+        connection_message = """
+        NO INTERNET CONNECTION
+        ----------------------------
+        Please check your WIFI
+        ----------------------------
+        To configure WiFi access,
+        connect to 'bitbot-<nnn>' WiFi AP
+        and follow the instructions"""
+
+        img = Image.new("P", self.size())
+        draw = ImageDraw.Draw(img)
+        centered_text(draw, connection_message, self.display.title_font, self.size(), border=True)
+        self.display.show(img)
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
