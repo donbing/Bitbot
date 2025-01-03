@@ -1,6 +1,6 @@
 import unittest
 from src.display import title_font
-from src.youtube_stats import subscriber_counter
+from src.drawing.youtube_stats import subscriber_counter
 from os.path import join as pjoin
 import pathlib
 from src.configuration.bitbot_files import use_config_dir

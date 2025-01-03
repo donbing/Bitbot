@@ -1,4 +1,4 @@
-from src.drawing.image_utils.DrawText import DrawText
+from .DrawText import DrawText
 
 
 class TextBlock:
