@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
-from ..drawing.image_utils.CenteredText import centered_text
-from ..configuration.network_utils import wait_for_internet_connection
+from ..image_utils.CenteredText import centered_text
+from ...configuration.network_utils import wait_for_internet_connection
 import json
 import requests
 

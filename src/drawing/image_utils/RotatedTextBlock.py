@@ -1,4 +1,4 @@
-from src.drawing.image_utils import transparent
+from . import transparent
 from PIL import Image, ImageDraw
 
 

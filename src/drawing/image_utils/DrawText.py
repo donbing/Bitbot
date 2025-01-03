@@ -1,7 +1,6 @@
-from src.drawing.price_humaniser import format_title_price
 import random
 
-
+# 🚂 somewhat deferred text display engine
 class DrawText:
     @staticmethod
     def width(text): return text.size[0]
@@ -14,11 +13,6 @@ class DrawText:
     def percentage(percentage, font):
         text_color = 'red' if percentage < 0 else 'black'
         return DrawText('{:+.2f}'.format(percentage) + '%', font, text_color)
-
-    # 🏷️ human-readable price text
-    @staticmethod
-    def humanised_price(price, font, prefix=""):
-        return DrawText(prefix + format_title_price(price), font)
 
     @staticmethod
     def pip_calc(open, close, font, prefix=""):
