@@ -29,6 +29,9 @@ class DisplayBase:
         rotation = self.config.display_rotation()
         return size if rotation % 180 == 0 else size[::-1]
 
+    def dpi(self):
+        return self.config.display_dpi()
+        
     def set_fonts(self):
         if(self.size()[0] < 300):
             self.price_font = medium_font

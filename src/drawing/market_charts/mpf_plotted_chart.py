@@ -8,7 +8,6 @@ from matplotlib.ticker import EngFormatter
 class NewPlottedChart:
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
-
         # 🖼️ prep chart data frame
         data_frame = pd.DataFrame(chart_data.candle_data)
         data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
@@ -24,7 +23,7 @@ class NewPlottedChart:
                 volume={'up': 'black', 'down': 'red'})
 
         # 📏 create styles list
-        style_files = list(self.get_default_styles(config, display, files))
+        style_files = list(self.get_default_styles(config, display.size(), files))
 
         # 📏 setup MLF styling
         mpf_style = mpf.make_mpf_style(
@@ -37,7 +36,8 @@ class NewPlottedChart:
             volume=config.show_volume(),
             style=mpf_style,
             tight_layout=True,
-            figsize=tuple(dim/100 for dim in display.size()),
+            figsize=tuple(dim/display.dpi() for dim in display.size()),
+            dpi=display.dpi(),
             xrotation=0,
             datetime_format=self.date_format(data_frame),
         )
