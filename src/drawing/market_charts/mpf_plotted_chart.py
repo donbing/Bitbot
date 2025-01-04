@@ -4,15 +4,18 @@ import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
 
+def parse_to_dataframe(candle_data):
+    data_frame = pd.DataFrame(candle_data)
+    data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
+    data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+    data_frame.index = pd.DatetimeIndex(data_frame['date'])
+    return data_frame
 
 class NewPlottedChart:
     def __init__(self, config, display, files, chart_data):
         self.candle_width = chart_data.candle_width
         # 🖼️ prep chart data frame
-        data_frame = pd.DataFrame(chart_data.candle_data)
-        data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
-        data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
-        data_frame.index = pd.DatetimeIndex(data_frame['date'])
+        data_frame = parse_to_dataframe(chart_data.candle_data)
 
         # 🎨 chart colours
         mpf_colours = mpf.make_marketcolors(
@@ -38,7 +41,7 @@ class NewPlottedChart:
             tight_layout=True,
             figsize=tuple(dim/display.dpi() for dim in display.size()),
             xrotation=0,
-            datetime_format=self.date_format(data_frame),
+            datetime_format=self.date_format(data_frame), # fix this.
         )
 
         # 🚪 add a line indicating entry price, if configured
@@ -56,11 +59,10 @@ class NewPlottedChart:
             # mav=(10, 20),
             **kwargs
         )
-        
-        # plt.rcParams['figure.figsize'] = [8.0, 8.0]
-        plt.rcParams['savefig.dpi'] = display.dpi()
-        plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
-        plt.margins(x=0)
+        #plt.rcParams['figure.figsize'] = [8.0, 8.0]
+        #plt.rcParams['savefig.dpi'] = display.dpi()
+        #plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
+        #plt.margins(x=0)
 
         # 🪓 make axes look nicer
         for a in ax:
@@ -96,8 +98,8 @@ class NewPlottedChart:
                 ax[0].set_position((0, 0.3, 1, 0.7))
                 ax[1].set_position((0, 0.3, 1, 0.7))
 
-        # self.fig.set_tight_layout(True)
-        # self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
+        self.fig.set_tight_layout(True)
+        self.fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
 
     # 📑 styles overid left to right
     def get_default_styles(self, config, display, files):
