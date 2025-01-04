@@ -120,7 +120,7 @@ class BitBotConfig():
         return self.config.getint('display', 'rotation', fallback=0)
     
     def display_dpi(self):
-        return self.config.getint(self.config['display']['dpi'], fallback=100)
+        return self.config.getint('display', 'dpi', fallback=100)
 
     def output_file_name(self):
         return self.config['display']['disk_file_name']

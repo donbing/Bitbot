@@ -23,7 +23,7 @@ class NewPlottedChart:
                 volume={'up': 'black', 'down': 'red'})
 
         # 📏 create styles list
-        style_files = list(self.get_default_styles(config, display.size(), files))
+        style_files = list(self.get_default_styles(config, display, files))
 
         # 📏 setup MLF styling
         mpf_style = mpf.make_mpf_style(
@@ -37,7 +37,6 @@ class NewPlottedChart:
             style=mpf_style,
             tight_layout=True,
             figsize=tuple(dim/display.dpi() for dim in display.size()),
-            dpi=display.dpi(),
             xrotation=0,
             datetime_format=self.date_format(data_frame),
         )
@@ -57,7 +56,9 @@ class NewPlottedChart:
             # mav=(10, 20),
             **kwargs
         )
-
+        
+        # plt.rcParams['figure.figsize'] = [8.0, 8.0]
+        plt.rcParams['savefig.dpi'] = display.dpi()
         plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
         plt.margins(x=0)
 
