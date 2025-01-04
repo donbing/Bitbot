@@ -19,6 +19,7 @@ Config options can be found in [config/config.ini](config/config.ini), there are
  - `show_volume`: adds trading volume cars to the bottom of the chart.
  - `candle_width`: manually specify the chanrt timeframe, supports `random`, `5m`, `15m`, `1h`, `4h` etc.
  - `show_ip`: shows small ip address in the bottom left.
+ - `dpi`: dpi of the display
  
 ## `[picture_frame_mode]`
  - `enabled`: enable or disable picture mode.
