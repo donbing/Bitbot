@@ -15,7 +15,7 @@ class Inker(DisplayBase):
 
     def _size(self):
         return self.display.resolution
-
+    
     @info_log
     def show(self, image):
         # 🌀 rotate/resize the image
