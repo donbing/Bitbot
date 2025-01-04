@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from os.path import exists
 import io
 from src.exchanges import crypto_exchanges, stock_exchanges
@@ -12,31 +12,17 @@ from src.drawing.tide_times.tidal_graph import render_tide_chart
 from src.drawing.image_utils.CenteredText import centered_text
 
 
-class Cartographer():
-    def __init__(self, config, display, files):
-        self.market = MarketChart(config, display, files)
-
-    @info_log
-    def draw_to(self, chart_data, file_stream):
-        self.market.create_plot(chart_data).write_to_stream(file_stream)
-
-    def __repr__(self):
-        return '<Cartographer>'
-
-
 class BitBot():
     def __init__(self, config, files):
         self.config = config
         self.files = files
         self.display = display_picker(config)
-        self.plot = Cartographer(self.config, self.display, self.files)
+        self.plot = MarketChart(self.config, self.display, self.files)
 
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
-        if self.config.stock_symbol():
-            return stock_exchanges.Exchange(self.config)
-        else:
-            return crypto_exchanges.Exchange(self.config)
+        exchange_factory = stock_exchanges if self.config.stock_symbol() else crypto_exchanges
+        return exchange_factory.Exchange(self.config)
 
     @info_log
     def display_chart(self):
@@ -49,7 +35,7 @@ class BitBot():
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
                 # 🖊️ draw chart plot to image
-                self.plot.draw_to(chart_data, file_stream)
+                self.plot.create_plot(chart_data).write_to_stream(file_stream)
                 chart_image = Image.open(file_stream)
                 # 🖊️ draw overlay on image
                 overlay = ChartOverlay(self.config, self.display, chart_data)
