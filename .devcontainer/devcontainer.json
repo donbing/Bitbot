@@ -14,7 +14,13 @@
 			"NODE_VERSION": "lts/*"
 		}
 	},
-
+	"features": {
+		"docker-in-docker": {
+			"version": "latest",
+			"moby": true,
+			"dockerDashComposeVersion": "v1"
+		}
+	},
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
