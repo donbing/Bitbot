@@ -22,6 +22,7 @@ class disk_output_renderers:
     disk_small = {'output': 'disk', 'resolution': "264x176"}
     disk_med = {'output': 'disk', 'resolution': "400x300"}
     disk_large = {'output': 'disk', 'resolution': "640x448"}
+    disk_extra_large = {'output': 'disk', 'resolution': "800x480"}
     all = [disk_small, disk_med, disk_large]
 
 
@@ -82,7 +83,7 @@ test_configs = {
             'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '450000',
         },
-        'display': {'candle_width': '1h', },
+        'display': {'candle_width': '1mo', },
     },
     "bitmex_BTC_5m_defaults": {
         'display': {'candle_width': '5m'},
@@ -173,11 +174,14 @@ class TestRenderingMeta(type):
                 config = load_config_ini(files)
                 config.read_dict(config_defaults)
                 config.read_dict(custom_config)
-
+                display_resolution = output.get('resolution', '')
                 config.set('display', 'output', output['output'])
-                config.set('display', 'resolution', output.get('resolution', ''))
+                config.set('display', 'resolution', display_resolution)
 
-                file_name = f'tests/images/{generatedTestName}.png'
+                file_path = f'tests/images/{display_resolution}/'
+                os.makedirs(file_path, exist_ok=True)
+                file_name = f'{file_path}/{generatedTestName}.png'
+
                 config.set('display', 'disk_file_name', file_name)
                 
                 previous_image = Image.open(file_name) if os.path.isfile(file_name) else None
@@ -190,7 +194,6 @@ class TestRenderingMeta(type):
                 assert_image_matches_size(new_image, output.get('resolution', ''))
 
                 changes = image_changes(previous_image, new_image, file_name)
-                
                 if changes:
                     # os.system("code '" + file_name + "'")
                     # if changes[1] is not None:
@@ -217,6 +220,10 @@ class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.
 
 
 class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
+
+
+class ExtraLargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_extra_large, metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
