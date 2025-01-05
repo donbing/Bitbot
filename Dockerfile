@@ -3,7 +3,7 @@ RUN apt update -y
 RUN apt upgrade -y
 RUN apt install -y \
     --no-install-recommends \
-    python3 python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev \
+    python3 libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/* 
 
 FROM base-image AS build-image
