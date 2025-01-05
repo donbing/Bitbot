@@ -51,14 +51,20 @@ Test the app
 python3 -m run
 ```
 
-Add cron jobs to start the [app](/run.py) and [config-server](/src/config_webserver.py) after reboot
+Add cron jobs to start the [app](/run.py) and [config-server](/src/configuration/config_webserver.py) after reboot
 ```sh
 (crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 run.py") | crontab -
-(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/config_webserver.py") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 30 && cd /home/pi/bitbot && python3 src/configuration/config_webserver.py") | crontab -
 ```
 
 # 🐳 **C**. Run in docker
 > Requires hardware interfaces to be enabled on the host
+
+1. install docker
+```sh
+curl -sSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+```
 
 2. run the container
 ```sh

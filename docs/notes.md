@@ -29,19 +29,17 @@ todo:
 # Docker
 Build arm6 on x86
 ```bash
-# install docker
-curl -sSL https://get.docker.com | sh
-sudo usermod -aG docker $USER
-
-# Build arm6 on x86
-docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
+# install QEMU and register the executable types on the host
+docker run --privileged --rm tonistiigi/binfmt --install all
+# Build arm7 on x86
+docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v7 balenalib/raspberry-pi:buster bash
 # build container arm6
-docker buildx build --platform linux/arm/v6 . -t bitbot --progress string
+docker buildx build --platform linux/arm64 . -t bitbot --progress string
 # run it, have to specify which chip QEMU should emulate
-docker run -e QEMU_CPU=arm1176 --privileged --rm -t --platform linux/arm/v6 navikey/raspbian-buster:latest bash
+docker run -e QEMU_CPU=arm1176 --privileged --rm -t --platform linux/arm/v navikey/raspbian-buster:latest bash
 
-docker buildx build --platform linux/arm/v6 . -t bitbot -f scripts/docker/dockerfile --progress string
-docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 bitbot
+docker buildx build --platform linux/arm/v7 . -t bitbot -f scripts/docker/dockerfile --progress string
+docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v7 bitbot
 ```
 
 # Hackery
@@ -73,18 +71,12 @@ python3 -m unittest discover
 ```
 
 # PiOS
-Get linux os version
 ```sh
+# Get linux os version
 cat /etc/os-release
-```
-
-Enable vnc raspiconfig
-```sh
+# Enable vnc raspiconfig
 sudo raspi-config nonint do_vnc 0
-```
-
-Check cpu arch 
-```sh
+# Check cpu arch 
 dpkg --print-architecture
 ```
 
