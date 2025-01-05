@@ -29,6 +29,11 @@ todo:
 # Docker
 Build arm6 on x86
 ```bash
+# install docker
+curl -sSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+# Build arm6 on x86
 docker run -e QEMU_CPU=arm1176 --privileged --rm -it --platform linux/arm/v6 balenalib/raspberry-pi:buster bash
 # build container arm6
 docker buildx build --platform linux/arm/v6 . -t bitbot --progress string
