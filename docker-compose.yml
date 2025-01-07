@@ -2,6 +2,8 @@ version: "2.1"
 
 volumes:
     app_config: 
+    app_logs:
+    app_pictures: 
 
 services:
 
@@ -14,10 +16,12 @@ services:
             context: .
         volumes:
             - app_config:/code/config:rw
+            - app_logs:/code/logs:rw
+            - app_pictures:/code/pictures:rw
         environment:
             - BITBOT_TESTRUN=true 
             - BITBOT_OUTPUT=disk
-
+    
     config-editor:
         platform: linux/arm64/v7
         restart: unless-stopped
@@ -26,5 +30,7 @@ services:
             context: .
         volumes:
             - app_config:/code/config:rw
+            - app_logs:/code/logs:rw
+            - app_pictures:/code/pictures:rw
         ports:
             - 8077:8080
