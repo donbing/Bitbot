@@ -22,7 +22,7 @@ sudo comitup-cli
 ```
 
 ## 🌳Logging 
-BitBot will log to the `config web-ui` `syslog`, `StdOut` and a rolling `debug.log` file, configured in [📁logging.ini](/logging.ini)  
+BitBot will log to the `config web-ui` `syslog`, `StdOut` and a rolling `logs/debug.log` file, configured in [📁logging.ini](/logging.ini)  
 Log level is **defaulted to `INFO`**, but there is some ***limited debug level logging*** if you wish to get more info.  
 Cron jobs were configured to output to syslog. 😞
 ```sh

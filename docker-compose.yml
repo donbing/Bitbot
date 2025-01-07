@@ -1,11 +1,30 @@
 version: "2.1"
 
+volumes:
+    app_config: 
+
 services:
 
-    bit-bot:
-        image: ghcr.io/donbing/bitbot:main
+    bitbot:
+        platform: linux/arm64/v7
         privileged: true
         restart: unless-stopped
+        build: 
+            dockerfile: bitbot.dockerfile
+            context: .
+        volumes:
+            - app_config:/code/config:rw
+        environment:
+            - BITBOT_TESTRUN=true 
+            - BITBOT_OUTPUT=disk
 
-    # config-editor:
-    #     build: ./docker/config-editor.dockerfile
+    config-editor:
+        platform: linux/arm64/v7
+        restart: unless-stopped
+        build:  
+            dockerfile: config-server.dockerfile
+            context: .
+        volumes:
+            - app_config:/code/config:rw
+        ports:
+            - 8077:8080

@@ -1,2 +1,5 @@
-flask==2.0.2
-werkzeug>=3.0.6 # not directly required, pinned by Snyk to avoid a vulnerability
+cryptography==42.0.8
+flask==3.1.0
+pillow
+ccxt==4.4.40
+yfinance==0.2.51
