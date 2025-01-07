@@ -12,7 +12,7 @@ class BitBotFiles():
 
     def __init__(self, base_path):
         self.base_path = base_path
-        self.log_file_path = pjoin(base_path, 'debug.log')
+        self.log_file_path = pjoin(base_path, 'logs/debug.log')
 
         self.config_folder = pjoin(base_path, 'config/')
         self.resource_folder = pjoin(base_path, 'src/resources')

@@ -2,7 +2,7 @@ import os
 import configparser
 from .log_decorator import info_log
 from os.path import join as pjoin
-from dateutil.parser import parse
+from datetime import datetime
 
 @info_log
 def load_config_ini(config_files):
@@ -69,7 +69,7 @@ class BitBotConfig():
     def chart_since(self):
         date = self.config.get('currency', 'chart_since')
         try:
-            return parse(date)
+            return datetime.strptime(date, "%Y-%m-%dT%H:%M")
         except:
             return None
 
