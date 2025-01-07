@@ -32,7 +32,7 @@ class TestStockExchange(unittest.TestCase):
                     },
                     "display": {
                         "candle_width": candle_width,
-                        "disk_file_name": "last_display.png"
+                        "disk_file_name": "pictures/last_display.png"
                     }
                 }
         config = bitbot_config.BitBotConfig(mock_config, {})

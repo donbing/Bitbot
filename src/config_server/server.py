@@ -1,11 +1,12 @@
 import io
+import mimetypes
 import os
 import pathlib
 import time
 import uuid
 from src.configuration.bitbot_files import BitBotFiles
 from src.configuration.bitbot_config import load_config_ini
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for
 from PIL import Image
 import ccxt
 
@@ -30,6 +31,13 @@ def index():
         ini_files=ini_files,
         config=app_config)
 
+@app.route('/pictures/<filename>', methods=['GET'])
+def last_image(filename):
+    png_path = os.path.join('pictures', filename)
+    if not os.path.exists(png_path):
+        return 404
+
+    return send_from_directory(base_dir, png_path, mimetype="imagee/png")
 
 # ⚙️ user-friendly config.ini editor
 @app.route('/configure', methods=['POST', 'GET'])

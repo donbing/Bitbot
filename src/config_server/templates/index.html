@@ -34,6 +34,10 @@
     <body>   
         <h1>🤖 BitBot Config</h1>
         <section>
+            <h2>🖼️ Last refresh</h2>
+            <img src="pictures/last_display.png" />
+        </section>
+        <section>
             <h2>⚙️ Application Config</h2>
             <hr/>
             <a onclick="return editFile(this)" href="/configure">🙂 Easy Config</a>
@@ -61,7 +65,7 @@
                     name="enable_picture_mode" 
                     value="true" 
                     {{"checked" if config.photo_mode_enabled() else ""}}></imput>
-                <label for="enable_picture_mode">Have Bitbot diplay a picture of your choice</label>
+                <label for="enable_picture_mode">Diplay a picture of your choice</label>
             </p>
             <p>
                 <input 

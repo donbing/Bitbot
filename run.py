@@ -44,7 +44,7 @@ def refresh_display(sc, reason):
         app.display_chart()
         # 🪳 show image in vscode for debug
         if config.shoud_show_image_in_vscode():
-            os.system("code last_display.png")
+            os.system("code pictures/last_display.png")
 
    # ⌛ dont reschedule if testing
     if not config.is_test_run():
