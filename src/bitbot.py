@@ -52,6 +52,11 @@ class BitBot():
 
 
     @info_log
+    def cycle_chart(self):  
+        self.config.cycle_instrument()
+        self.display_chart()
+
+    @info_log
     def display_photo(self):
         image_path = self.config.photo_image_file()
         if(exists(image_path)):

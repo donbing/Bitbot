@@ -23,32 +23,40 @@ class BitBotConfig():
     def __init__(self, config, config_files):
         self.config = config
         self.config_files = config_files
+        self.instrument_index = 0
 
     # 🏦 currency options
     def exchange_name(self):
         return self.config["currency"]["exchange"]
 
     def get_instruments(self):
-        line = self.config.get("currency", "instruments", fallback='').split(',')
-        return [x.strip() for x in line if x]
+        instruments = self.config.get("currency", "instruments", fallback='').split(',')
+        instrument = self.config.get("currency", "instrument", fallback=None)
+        if instrument is not None:
+            instruments.insert(0, instrument)
 
+        return set([instrument.strip() for instrument in instruments if instrument])
+
+    def multiple_instruments(self):
+        instruments = self.get_instruments()
+        return len(instruments) > 1
+    
     def set_instruments(self, instruments):
         self.config["currency"]["instruments"] = ','.join(instruments)
 
-    def cycle_currency(self):
-        # take old currency and add to end of currency list
-        instruments = self.get_instruments()
-        old_instrument = self.instrument_name()
-        next_instrument = next(iter(instruments), old_instrument)
-
-        if next_instrument != old_instrument:
-            instruments.remove(next_instrument)
-            instruments.append(old_instrument)
-            self.set_instrument(next_instrument)
-            self.set_instruments(instruments)
+    def cycle_instrument(self):
+        self.instrument_index += 1
 
     def instrument_name(self):
-        return self.config["currency"]["instrument"]
+        instruments = list(self.get_instruments())
+        
+        try:
+            next_instrument = instruments[self.instrument_index]
+        except IndexError:
+            self.instrument_index = 0
+            next_instrument = instruments[0]
+
+        return next_instrument
 
     @info_log
     def set_instrument(self, val):
