@@ -4,8 +4,7 @@
 .gitignore
 .gitmodules
 docs
-scripts
-
+tests
 docker-compose.yml
 readme.md
 __pycache__
