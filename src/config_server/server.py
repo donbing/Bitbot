@@ -33,11 +33,7 @@ def index():
 
 @app.route('/pictures/<filename>', methods=['GET'])
 def last_image(filename):
-    png_path = os.path.join('pictures', filename)
-    if not os.path.exists(png_path):
-        return 404
-
-    return send_from_directory(base_dir, png_path, mimetype="imagee/png")
+    return send_from_directory(os.path.join(base_dir, 'pictures'), filename, mimetype="imagee/png")
 
 # ⚙️ user-friendly config.ini editor
 @app.route('/configure', methods=['POST', 'GET'])

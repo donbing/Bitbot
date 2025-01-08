@@ -1,3 +1,4 @@
+from datetime import timedelta
 import pathlib
 import logging
 import logging.config
@@ -16,12 +17,17 @@ from src.display.picker import picker
 
 # 🗂️ declare config files
 config_files = use_config_dir(pathlib.Path(__file__).parent.resolve())
+
 # 🪵 load logging config
 initialise_logger(config_files.logging_ini)
+logging.info(f"app: start")
+
 # ⚙️ load app config
 config = load_config_ini(config_files)
+
 # 📈 create bitbot chart updater
 app = BitBot(config, config_files)
+
 # 🎁 oobex
 display = picker(config)
 config.on_first_run(lambda: IntroPlayer(display, config))
@@ -40,21 +46,23 @@ def refresh_display(sc, reason):
         app.display_youtube_subs()
     elif config.tide_times_enabled():
         app.display_tide_times()
+    elif config.multiple_instruments():
+        app.cycle_chart()
     else:
         app.display_chart()
-        # 🪳 show image in vscode for debug
-        if config.shoud_show_image_in_vscode():
-            os.system("code pictures/last_display.png")
+        
+    # 🪳 show image in vscode for debug
+    if config.shoud_show_image_in_vscode():
+        os.system("code pictures/last_display.png")
 
    # ⌛ dont reschedule if testing
     if not config.is_test_run():
-        refresh_minutes = config.refresh_rate_minutes()
-        logging.info("Next refresh in: " + str(refresh_minutes) + " mins")
-        sc.enter(
-            refresh_minutes * 60,
-            1,
-            lambda s: refresh_display(s, "scheduled"),
-            (sc,))
+        re_schedule(timedelta(minutes=config.refresh_rate_minutes()), sc)
+
+
+@info_log
+def re_schedule(refresh_intervale, sc):
+    sc.enter(refresh_intervale.seconds, 1, lambda s: refresh_display(s, "scheduled"), (sc,))
 
 
 @info_log

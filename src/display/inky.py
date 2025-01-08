@@ -33,6 +33,8 @@ class Inker(DisplayBase):
             self.display.show()
         finally:
             self.lock.release()
+            
+        image.save(self.config.output_file_name())
 
     def __repr__(self):
         return f'<Inky {self.display.colour}: @{self.size()}>'
