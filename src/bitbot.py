@@ -54,6 +54,13 @@ class BitBot():
 
 
     @info_log
+    def display_message(self, message):  
+        img = Image.new("P", self.size())
+        draw = ImageDraw.Draw(img)
+        centered_text(draw, message, self.display.title_font, self.size(), border=True)
+        self.display.show(img)
+
+    @info_log
     def cycle_chart(self):  
         self.config.cycle_instrument()
         self.display_chart()
@@ -77,19 +84,14 @@ class BitBot():
 
     @info_log
     def display_connection_error(self):
-        connection_message = """
+        self.display_message("""
         NO INTERNET CONNECTION
         ----------------------------
         Please check your WIFI
         ----------------------------
         To configure WiFi access,
         connect to 'bitbot-<nnn>' WiFi AP
-        and follow the instructions"""
-
-        img = Image.new("P", self.size())
-        draw = ImageDraw.Draw(img)
-        centered_text(draw, connection_message, self.display.title_font, self.size(), border=True)
-        self.display.show(img)
+        and follow the instructions""")
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
