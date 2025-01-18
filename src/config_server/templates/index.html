@@ -6,12 +6,16 @@
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/css/autoComplete.02.min.css">
-
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.css" 
+            integrity="sha512-J2+1q+RsZuJXabBfH1q/fgRr6jMy9By5SwVLk7bScEW7NFJkMUXxfeOyyxtDe6fsaJ4jsciexSlGrPYn9YbBIg==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer" />
         
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.css" integrity="sha512-J2+1q+RsZuJXabBfH1q/fgRr6jMy9By5SwVLk7bScEW7NFJkMUXxfeOyyxtDe6fsaJ4jsciexSlGrPYn9YbBIg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.js" integrity="sha512-qUIG93zKzcLBVD5RGRbx2PBmbVRu+tJIl+EPLTus0z8I1AMru9sQYdlf6cBacSzYmZVncB9rcc8rYBnazqgrxA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.js" 
+            integrity="sha512-qUIG93zKzcLBVD5RGRbx2PBmbVRu+tJIl+EPLTus0z8I1AMru9sQYdlf6cBacSzYmZVncB9rcc8rYBnazqgrxA=="
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
         
         <style>
@@ -29,8 +33,11 @@
                 content: "┣📝";
                 padding-right: 0px;
             }
-            .image_server input{
+            .image_server input, label{
                 display: inline;
+            }
+            .loading {
+                background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,rgb(238, 195, 45) 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
             }
         </style>
     </head>
@@ -43,10 +50,12 @@
         <section>
             <h2>⚙️ Application Config</h2>
             <hr/>
-            <a onclick="return editFile(this)" href="/configure">🙂 Easy Config</a>
-            <dialog closed></dialog>
             <p>Edit 'config.ini' to set the exchange, currency, screen refresh, overlay and layout options</p>
             <ul class="editableFiles">
+                <li>
+                    <a onclick="return editFile(this)" href="/configure">Simple Config 🙂</a>
+                    <dialog closed></dialog>
+                </li>
             {% for file in ini_files %}
                 <li>
                     <a onclick="return editFile(this)" href="/file/{{file}}">{{file}}</a>

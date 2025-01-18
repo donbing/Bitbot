@@ -1,12 +1,14 @@
 from PIL import Image, ImageDraw
 from os.path import exists
 import io
+
+from matplotlib import font_manager
+from src.drawing.market_charts.mpf_plotted_chart import MplFinanceChart
 from src.exchanges import crypto_exchanges, stock_exchanges
 from src.configuration.log_decorator import info_log
 from src.configuration.network_utils import wait_for_internet_connection
 from src.display.picker import picker as display_picker
 from src.drawing.market_charts.chart_overlay import ChartOverlay
-from src.drawing.market_charts.market_chart import MarketChart
 from src.drawing.youtube_stats.subscriber_counter import YouTubeSubscriberCount
 from src.drawing.tide_times.tidal_graph import render_tide_chart
 from src.drawing.image_utils.CenteredText import centered_text
@@ -17,7 +19,7 @@ class BitBot():
         self.config = config
         self.files = files
         self.display = display_picker(config)
-        self.plot = MarketChart(self.config, self.display, self.files)
+        self.chart = MplFinanceChart(self.config, self.display, self.files)
 
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
@@ -35,11 +37,11 @@ class BitBot():
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
                 # 🖊️ draw chart plot to image
-                self.plot.create_plot(chart_data).write_to_stream(file_stream)
+                self.chart.write_to_stream(file_stream, chart_data)
                 chart_image = Image.open(file_stream)
                 # 🖊️ draw overlay on image
-                overlay = ChartOverlay(self.config, self.display, chart_data)
-                overlay.draw_on(chart_image)
+                #overlay = ChartOverlay(self.config, self.display, chart_data)
+                #overlay.draw_on(chart_image)
                 # 📺 display the image
                 self.display.show(chart_image)
                 return chart_image

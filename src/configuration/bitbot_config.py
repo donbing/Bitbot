@@ -33,7 +33,7 @@ class BitBotConfig():
         instruments = self.config.get("currency", "instruments", fallback='').split(',')
         instrument = self.config.get("currency", "instrument", fallback=None)
         if instrument is not None:
-            instruments.insert(0, instrument)
+            instruments.insert(0, instrument.strip())
 
         return set([instrument.strip() for instrument in instruments if instrument])
 

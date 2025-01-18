@@ -135,13 +135,23 @@ document.querySelectorAll('dialog').forEach(dialog => {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", form.action);
         xhr.send(new FormData(form));
+        document.body.classList.add('loading');
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4)
                 dialog.close();
+            document.body.classList.remove('loading');
         };
     });
 });
 
+// 🔃 global loading indicator for fetches
+var oldFetch = fetch;  
+fetch = function(url, options) {
+    var promise = oldFetch(url, options);
+    document.body.classList.add('loading');
+    promise.then(() => { document.body.classList.remove('loading'); });
+    return promise;
+};
 
 (() => {
     fetch('/logs')
