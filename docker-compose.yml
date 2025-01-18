@@ -18,7 +18,7 @@ services:
             - app_logs:/code/logs:rw
             - app_pictures:/code/pictures:rw
         environment:
-            #- BITBOT_OUTPUT=disk
+            - BITBOT_OUTPUT=disk
     
     config-editor:
         platform: linux/arm64/v7

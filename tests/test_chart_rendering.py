@@ -93,7 +93,7 @@ test_configs = {
     },
     "bitmex_BTC_1h_100K": {
         'display': {'candle_width': '1h'},
-        'currency': {'chart_since': '2024-12-10T00:00:00Z'},
+        'currency': {'chart_since': '2023-11-10T00:00:00Z'},
     },
     "bitmex_BTC_1d_defaults": {
         'display': {'candle_width': '1d'},
@@ -195,7 +195,7 @@ class TestRenderingMeta(type):
 
                 changes = image_changes(previous_image, new_image, file_name)
                 if changes:
-                    # os.system("code '" + file_name + "'")
+                    os.system("code '" + file_name + "'")
                     # if changes[1] is not None:
                     #     os.system("code '" + changes[1] + "'")
                     assert False, f"Image diff check: '{changes}'"
