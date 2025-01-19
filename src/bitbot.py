@@ -15,6 +15,10 @@ from src.drawing.image_utils.CenteredText import centered_text
 
 
 class BitBot():
+    def __init__(self, config, display):
+        self.config = config
+        self.display = display
+
     def __init__(self, config, files):
         self.config = config
         self.files = files
@@ -40,18 +44,13 @@ class BitBot():
                 self.chart.write_to_stream(file_stream, chart_data)
                 chart_image = Image.open(file_stream)
                 # 🖊️ draw overlay on image
-                #overlay = ChartOverlay(self.config, self.display, chart_data)
-                #overlay.draw_on(chart_image)
+                overlay = ChartOverlay(self.config, self.display, chart_data)
+                overlay.draw_on(chart_image)
                 # 📺 display the image
                 self.display.show(chart_image)
                 return chart_image
         else:
-            img = Image.new('RGBA', self.display.size())
-            draw = ImageDraw.Draw(img)
-            draw.text((0, 0), f'{chart_data.instrument} was not found on {market_exchange.name}')
-            self.display.show(img)
-            return img
-
+            return self.display_message(f'{chart_data.instrument} ({chart_data.candle_width}) was not found on {market_exchange.name}')
 
     @info_log
     def display_message(self, message):  
@@ -59,6 +58,7 @@ class BitBot():
         draw = ImageDraw.Draw(img)
         centered_text(draw, message, self.display.title_font, self.size(), border=True)
         self.display.show(img)
+        return img
 
     @info_log
     def cycle_chart(self):  
