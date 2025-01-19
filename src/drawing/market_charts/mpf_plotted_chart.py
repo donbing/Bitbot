@@ -59,7 +59,7 @@ class MplFinanceChart:
         plot_args = dict(
             volume=self.config.show_volume(),
             style=mpf_style,
-            tight_layout=True,
+            # tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
             xrotation=0
         )
@@ -77,6 +77,7 @@ class MplFinanceChart:
             scale_width_adjustment=dict(volume=0.9, candle=0.7, lines=0.05),
             update_width_config=dict(candle_linewidth=0.6),
             returnfig=True,
+            show_nontrading=True,
             type='candle',
             # mav=(10, 20),
             **plot_args
@@ -91,13 +92,14 @@ class MplFinanceChart:
             # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
             a.xaxis.set_major_locator(AutoDateLocator(minticks = 2, maxticks = 3))
+            a.xaxis.set_major_formatter(ConciseDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3)))
             
-            a.autoscale(enable=True, axis="both", tight=True)
+            #a.autoscale(enable=True, axis="both", tight=True)
             # margin between candles and axes
             a.margins(0.05, 0.2)
-            a.xaxis.labelpad = 0
+            #a.xaxis.labelpad = 0
             # a.tick_params(pad=0, axis='both')
-            a.locator_params(axis='both', tight=True)
+            #a.locator_params(axis='both', tight=True)
             # remove labels
             _ = a.set_ylabel("")
             _ = a.set_xlabel("")
@@ -121,14 +123,14 @@ class MplFinanceChart:
                 ax[0].set_position((0, 0.3, 1, 0.7))
                 ax[1].set_position((0, 0.3, 1, 0.7))
 
-        fig.set_tight_layout(True)
-        fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
+        #fig.set_tight_layout(True)
+        #fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
 
         fig.savefig(
             stream,
             dpi=fig.dpi,
             # bbox_inches='tight',
-            pad_inches=0.0,
+            # pad_inches=0.0,
             transparent=True,
         )
         stream.seek(0)
