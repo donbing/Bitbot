@@ -6,16 +6,6 @@ import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
 
-def parse_to_dataframe(candle_data):
-    data_frame = pd.DataFrame(candle_data)
-    data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
-    data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
-    # data_frame.index = pd.DatetimeIndex(data_frame['date'])
-    #data_frame["date"] = data_frame.date.map(lambda s: datetime.datetime.utcfromtimestamp(s))
-    data_frame.set_index(data_frame["date"], inplace=True)
-    data_frame.index = pd.DatetimeIndex(data_frame['date'], dtype='datetime64[ms]')
-    return data_frame
-
 class MplFinanceChart:
     def __init__(self, config, display, files):
         self.config = config
@@ -78,7 +68,7 @@ class MplFinanceChart:
         if entry != 0:
             plot_args['hlines'] = dict(hlines=[entry], colors=['g'], linestyle='-.')
         # 🖼️ prep chart data frame
-        data_frame = parse_to_dataframe(chart_data.candle_data)
+        data_frame = chart_data.candle_data
 
         # 📈 create the chart plot
         fig, ax = mpf.plot(

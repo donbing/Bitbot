@@ -77,7 +77,7 @@ class BitBotConfig():
     def chart_since(self):
         date = self.config.get('currency', 'chart_since')
         try:
-            return datetime.strptime(date, "%Y-%m-%dT%H:%M")
+            return datetime.strptime(date, "%Y-%m-%dT%H:%M%z")
         except:
             return None
 
