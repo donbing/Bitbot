@@ -6,6 +6,7 @@ import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
 
+
 class MplFinanceChart:
     def __init__(self, config, display, files):
         self.config = config
@@ -88,7 +89,7 @@ class MplFinanceChart:
         # 🪓 make axes look nicer
         for a in ax:
             # a.set_adjustable('box')
-            a.yaxis.set_major_formatter(EngFormatter(sep='',places=1))
+            a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
             a.xaxis.set_major_locator(AutoDateLocator(minticks = 2, maxticks = 3))
             
             a.autoscale(enable=True, axis="both", tight=True)

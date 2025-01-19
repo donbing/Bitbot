@@ -1,16 +1,13 @@
 import ccxt
-from datetime import datetime
 import random
 import collections
-
 import pandas as pd
+import logging
 from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
-import logging
-
 from src.exchanges.CandleData import CandleData
 
-
+# 🪙 CCXT based crypto exchange client
 class Exchange():
     CandleConfig = collections.namedtuple('CandleConfig', 'width count')
     candle_configs = [
