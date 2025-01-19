@@ -25,18 +25,17 @@ candle_configs = [
 # 🏦 yFinance based stocks api client
 class Exchange():
 
-    def __init__(self, config):
-        self.config = config
+    def __init__(self):
         self.name = 'yahoo finance'
 
-    def fetch_history(self):
-        instrument = self.config.stock_symbol()
+    def fetch_history(self, config):
+        instrument = config.stock_symbol()
         ticker = yfinance.Ticker(instrument)
-        candle_config = self.select_candle_config()
+        candle_config = self.select_candle_config(config)
         candle_width = candle_config.width
         chart_duration = candle_config.fat_duration or candle_config.duration
 
-        start_date = self.config.chart_since() 
+        start_date = config.chart_since() 
         if start_date is None or (start_date + chart_duration) > datetime.now(timezone.utc):
             start_date = datetime.utcnow() - chart_duration
 
@@ -62,8 +61,8 @@ class Exchange():
             start=start_date,
             end=end_date)
 
-    def select_candle_config(self):
-        candle_width = self.config.candle_width()
+    def select_candle_config(self, config):
+        candle_width = config.candle_width()
         if(candle_width == "random"):
             return self.get_random_candle_config()
         else:
