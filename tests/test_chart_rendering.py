@@ -30,10 +30,10 @@ class disk_output_renderers:
 config_defaults = {
     'currency': {
         'stock_symbol': '',
-        'exchange': 'bitmex',
-        'instrument': 'BTC/USDT',
+        'exchange': 'coinbase',
+        'instrument': 'BTC/USD',
         'holdings': '0',
-        'chart_since': '2022-11-22T00:00:00Z',
+        'chart_since': '2022-11-22T00:00Z',
         'entry_price': 0,
     },
     'display': {
@@ -118,15 +118,15 @@ test_configs = {
         'display': {'overlay_layout': '2'},
     },
     "bitmex_ETH_5m_defaults": {
-        'currency': {'instrument': 'ETH/USD:BTC'},
+        'currency': {'instrument': 'ETH/USD'},
         'display': {'candle_width': '5m'},
     },
     "bitmex_ETH_1h_defaults": {
-        'currency': {'instrument': 'ETH/USD:BTC'},
+        'currency': {'instrument': 'ETH/USD'},
         'display': {'candle_width': '1h'},
     },
     "bitmex_ETH_1d_defaults": {
-        'currency': {'instrument': 'ETH/USD:BTC'},
+        'currency': {'instrument': 'ETH/USD'},
         'display': {'candle_width': '1d'},
     },
     "cryptocom_CRO_5m_defaults": {
@@ -174,6 +174,7 @@ class TestRenderingMeta(type):
                 config = load_config_ini(files)
                 config.read_dict(config_defaults)
                 config.read_dict(custom_config)
+                
                 display_resolution = output.get('resolution', '')
                 config.set('display', 'output', output['output'])
                 config.set('display', 'resolution', display_resolution)

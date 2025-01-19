@@ -16,14 +16,8 @@ class Exchange():
         CandleConfig("1d", 40),
     ]
 
-    def __init__(self, config):
-        self.config = config
-        self.name = self.config.exchange_name()
-
-    def fetch_history(self):
-        configred_candle_width = self.config.candle_width()
-        instrument = self.config.instrument_name()
-
+    def fetch_history(self, config):
+        configred_candle_width = config.candle_width()
         if(configred_candle_width == "random"):
             random_index = random.randrange(len(self.candle_configs))
             candle_config = self.candle_configs[random_index]
@@ -32,13 +26,20 @@ class Exchange():
                 conf for conf in self.candle_configs
                 if conf.width == configred_candle_width)
 
-        candle_data = fetch_OHLCV(
+        instrument = config.instrument_name()
+        chart_start = config.chart_since()
+
+        exchange = load_exchange(config.exchange_name())
+
+        dirty_chart_data = fetch_market_data(
+            exchange,
+            instrument,
             candle_config.width,
             candle_config.count,
-            self.config.exchange_name(),
-            self.config.instrument_name(),
-            self.config.chart_since()
-        )
+            chart_start)
+        
+        candle_data = parse_to_dataframe(dirty_chart_data)
+
         return CandleData(instrument, candle_config.width, candle_data)
 
     def __repr__(self):
@@ -50,16 +51,6 @@ def parse_to_dataframe(candle_data):
     data_frame.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
     data_frame.index = pd.DatetimeIndex(data_frame['Date'], dtype="datetime64[ms]")
     return data_frame
-
-def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
-    exchange = load_exchange(exchange_name)
-    dirty_chart_data = fetch_market_data(
-        exchange,
-        instrument,
-        candle_freq,
-        num_candles,
-        since)
-    return parse_to_dataframe(dirty_chart_data)
 
 @info_log
 def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
