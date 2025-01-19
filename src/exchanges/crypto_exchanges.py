@@ -2,9 +2,13 @@ import ccxt
 from datetime import datetime
 import random
 import collections
+
+import pandas as pd
 from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
 import logging
+
+from src.exchanges.CandleData import CandleData
 
 
 class Exchange():
@@ -44,6 +48,12 @@ class Exchange():
         return '<ccxt crypto exchange>'
 
 
+def parse_to_dataframe(candle_data):
+    data_frame = pd.DataFrame(candle_data)
+    data_frame.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+    data_frame.index = pd.DatetimeIndex(data_frame['Date'], dtype="datetime64[ms]")
+    return data_frame
+
 def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
     exchange = load_exchange(exchange_name)
     dirty_chart_data = fetch_market_data(
@@ -52,9 +62,7 @@ def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
         candle_freq,
         num_candles,
         since)
-    clean_chart_data = map(make_matplotfriendly_date, dirty_chart_data)
-    return list(clean_chart_data)
-
+    return parse_to_dataframe(dirty_chart_data)
 
 @info_log
 def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
@@ -77,36 +85,3 @@ def load_exchange(exchange_name):
     })
     exchange.loadMarkets()
     return exchange
-
-
-def make_matplotfriendly_date(element):
-    datetime_field = element[0]/1000
-    datetime_utc = datetime.utcfromtimestamp(datetime_field)
-    return replace_at_index(element, 0, datetime_utc)
-
-
-def replace_at_index(tup, ix, val):
-    lst = list(tup)
-    lst[ix] = val
-    return tuple(lst)
-
-
-class CandleData():
-    def __init__(self, instrument, candle_width, candle_data):
-        self.instrument = instrument
-        self.candle_width = candle_width
-        self.candle_data = candle_data
-
-    def percentage_change(self):
-        current_price = self.last_close()
-        start_price = self.start_price()
-        return ((current_price - start_price) / current_price) * 100 if start_price is not None else 0
-
-    def last_close(self):
-        return self.candle_data[-1][4]
-
-    def start_price(self):
-        return self.candle_data[0][4]
-
-    def __repr__(self):
-        return f'<{self.instrument} {self.candle_width} candle data>'

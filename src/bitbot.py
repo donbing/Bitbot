@@ -37,7 +37,7 @@ class BitBot():
         # 📈 fetch chart data
         market_exchange = self.market_exchange()
         chart_data = market_exchange.fetch_history()
-        if(any(chart_data.candle_data)):
+        if(chart_data.candle_data.empty is False):
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
                 # 🖊️ draw chart plot to image
