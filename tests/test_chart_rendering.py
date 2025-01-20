@@ -62,7 +62,7 @@ test_configs = {
     },
     "TSLA_3mo_defaults": {
         'currency': {
-            'chart_since': '2016-04-22T00:00:00Z',
+            'chart_since': '2016-04-22T00:00Z',
             'stock_symbol': 'TSLA'
         },        
         'display': {'candle_width': '3mo'},
@@ -72,7 +72,7 @@ test_configs = {
         'currency': {
             'stock_symbol': 'MSFT',
             'entry_price': '167',
-            'chart_since': '2016-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2016-04-22T00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '10',
         },
     },
@@ -80,24 +80,24 @@ test_configs = {
         'currency': {
             'stock_symbol': 'AUDCAD=X',
             'entry_price': '0.89332',
-            'chart_since': '2020-04-22T00:00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
+            'chart_since': '2020-04-22T00:00Z', # yfinance limits to gathering 7 days of low-timeframe from the last 60 days
             'holdings': '450000',
         },
         'display': {'candle_width': '1mo', },
     },
-    "bitmex_BTC_5m_defaults": {
+    "BTC_5m_defaults": {
         'display': {'candle_width': '5m'},
     },
-    "bitmex_BTC_1h_defaults": {
+    "BTC_1h_defaults": {
         'display': {'candle_width': '1h'},
     },
-    "bitmex_BTC_1h_100K": {
+    "BTC_1h_100K": {
         'display': {'candle_width': '1h'},
-        'currency': {'chart_since': '2023-11-10T00:00:00Z'},
+        'currency': {'chart_since': '2023-11-10T00:00Z'},
     },
-    "bitmex_BTC_1d_defaults": {
+    "BTC_1d_defaults": {
         'display': {'candle_width': '1d'},
-        'currency': {'chart_since': '2023-12-10T00:00:00Z'},
+        'currency': {'chart_since': '2023-10-01T00:00Z'},
     },
     "BTC_HOLDINGS": {
         'currency': {'holdings': "100"},
