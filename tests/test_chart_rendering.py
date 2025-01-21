@@ -162,9 +162,9 @@ def image_changes(previous_image, new_image, file_name):
     if differenceImageBounds:
         dir, name, = os.path.split(file_name)
         fails_folder = os.path.join(dir, 'fail')
-        os.makedirs(fails_folder)
+        os.makedirs(fails_folder, exist_ok=True)
         diff_file_path = os.path.join(fails_folder, name)
-        
+
         threshold = 128
         diff = diff.point(lambda x: 0 if x < threshold else 255)
         diff.save(diff_file_path)

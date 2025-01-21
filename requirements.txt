@@ -1,7 +1,7 @@
 cryptography==42.0.8
 Pillow==11.1.0
 numpy==1.26.4
-pandas==2.2.3
+pandas==2.1.1
 contourpy==1.2.1
 matplotlib==3.10.0
 mplfinance>=0.12.10b0
