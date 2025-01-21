@@ -54,9 +54,9 @@ class BitBot():
 
     @info_log
     def display_message(self, message):  
-        img = Image.new("P", self.size())
+        img = Image.new("P", self.display.size())
         draw = ImageDraw.Draw(img)
-        centered_text(draw, message, self.display.title_font, self.size(), border=True)
+        centered_text(draw, message, self.display.title_font, self.display.size(), border=True)
         self.display.show(img)
         return img
 
