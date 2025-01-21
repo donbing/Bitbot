@@ -1,5 +1,5 @@
 from datetime import timedelta
-import datetime
+from datetime import datetime
 import pathlib
 import logging
 import logging.config

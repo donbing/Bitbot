@@ -219,7 +219,7 @@ class BitBotConfig():
     
     # timed meaages
     def today_has_special_message(self, datetime):
-        return self.special_message(datetime) == None
+        return self.special_message(datetime) != None
     
     def special_message(self, datetime):
-        return self.config.get('special_messages', datetime.strftime("%YYYY-%MM-%DD"), defauilt=None)
+        return self.config.get('special_messages', datetime.strftime("%YYYY-%MM-%DD"), fallback=None)
