@@ -18,6 +18,13 @@ class Inker(DisplayBase):
     
     @info_log
     def show(self, image):
+        if self.config.display_border_colour():
+            match self.config.display_border_colour():
+                case "white":              
+                    self.display.set_border(self.display.WHITE)  
+                case "black":      
+                    self.display.set_border(self.display.BLACK)
+            
         # 🌀 rotate/resize the image
         image = self.apply_rotation(image)
         image = self.resize_image(image)

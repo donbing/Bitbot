@@ -102,6 +102,9 @@ class BitBotConfig():
 
     def border_type(self):
         return self.config["display"]["border"]
+    
+    def display_border_colour(self):
+        return self.config["display"]["border_colour"]
 
     def overlay_type(self):
         return self.config["display"]["overlay_layout"]

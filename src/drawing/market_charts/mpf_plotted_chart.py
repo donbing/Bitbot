@@ -1,11 +1,49 @@
 import datetime
 from matplotlib import font_manager
-from matplotlib.dates import AutoDateLocator, ConciseDateFormatter, DayLocator
+from matplotlib.dates import AutoDateFormatter, AutoDateLocator, ConciseDateFormatter, DateFormatter, DayLocator, HourLocator, MinuteLocator
 import matplotlib.pyplot as plt
 import mplfinance as mpf
 import pandas as pd
 from matplotlib.ticker import EngFormatter
 
+setup = {
+    "1m": (
+        MinuteLocator(interval=5),
+        AutoDateFormatter(MinuteLocator(interval=5))
+    ),
+    "5m": (
+        HourLocator(interval=1),
+        DateFormatter(fmt="%H:%m")
+    ),
+    "15m": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "1h": (
+        HourLocator(interval=12),
+        AutoDateFormatter(HourLocator(interval=6))
+    ),
+    "2m": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "6h": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "1d": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "1mo": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "3mo": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+}
 
 class MplFinanceChart:
     def __init__(self, config, display, files):
@@ -59,21 +97,18 @@ class MplFinanceChart:
         plot_args = dict(
             volume=self.config.show_volume(),
             style=mpf_style,
-            # tight_layout=True,
+            tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
             xrotation=0
         )
-
+        plt.margins(0.015, tight=True)
         # 🚪 add a line indicating entry price, if configured
         entry = self.config.entry_price()
         if entry != 0:
             plot_args['hlines'] = dict(hlines=[entry], colors=['g'], linestyle='-.')
-        # 🖼️ prep chart data frame
-        data_frame = chart_data.candle_data
-
         # 📈 create the chart plot
         fig, ax = mpf.plot(
-            data_frame,
+            chart_data.candle_data,
             scale_width_adjustment=dict(volume=0.9, candle=0.7, lines=0.05),
             update_width_config=dict(candle_linewidth=0.6),
             returnfig=True,
@@ -82,56 +117,39 @@ class MplFinanceChart:
             # mav=(10, 20),
             **plot_args
         )
-        #plt.rcParams['figure.figsize'] = [8.0, 8.0]
-        #plt.rcParams['savefig.dpi'] = display.dpi()
-        #plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
-        #plt.margins(x=0)
+
+        x_formatting = setup[chart_data.candle_width]
 
         # 🪓 make axes look nicer
         for a in ax:
+            # remove labels
+            a.yaxis.label.set_visible(False)
             # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
-            a.xaxis.set_major_locator(AutoDateLocator(minticks = 2, maxticks = 3))
-            a.xaxis.set_major_formatter(ConciseDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3)))
-            
+            a.xaxis.set_major_locator(x_formatting[0])
+            #a.xaxis.set_major_formatter(x_formatting[1])
+            # x scale fits value range instead of padding to centre graph
             #a.autoscale(enable=True, axis="both", tight=True)
-            # margin between candles and axes
-            a.margins(0.05, 0.2)
-            #a.xaxis.labelpad = 0
-            # a.tick_params(pad=0, axis='both')
-            #a.locator_params(axis='both', tight=True)
-            # remove labels
-            _ = a.set_ylabel("")
-            _ = a.set_xlabel("")
-            a.autoscale_view(True)
-            # a.reset_position()
-            # _ = a.set_frame_on(False)
             # ✔️ align tick labels inside edges
-            if self.config.expand_chart():
-                for ylabel in a.yaxis.get_ticklabels():
-                    ylabel.set_horizontalalignment('left')
-                for xlabel in a.xaxis.get_ticklabels():
-                    xlabel.set_verticalalignment('bottom')
+            # if self.config.expand_chart():
+            #     for ylabel in a.yaxis.get_ticklabels():
+            #         ylabel.set_horizontalalignment('left')
+            #     for xlabel in a.xaxis.get_ticklabels():
+            #         xlabel.set_verticalalignment('bottom')
 
-        if self.config.expand_chart():
-            if(len(ax) == 2):
-                ax[0].set_position((0, 0, 1, 1))
-                ax[1].set_position((0, 0, 1, 1))
-            if(len(ax) == 4):
-                ax[3].set_position((0, 0, 1, 0.3))
-                ax[2].set_position((0, 0, 1, 0.3))
-                ax[0].set_position((0, 0.3, 1, 0.7))
-                ax[1].set_position((0, 0.3, 1, 0.7))
-
-        #fig.set_tight_layout(True)
-        #fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
-
+        # if self.config.expand_chart():
+        #     if(len(ax) == 2):
+        #         ax[0].set_position((0, 0, 1, 1))
+        #         ax[1].set_position((0, 0, 1, 1))
+        #     if(len(ax) == 4):
+        #         ax[3].set_position((0, 0, 1, 0.3))
+        #         ax[2].set_position((0, 0, 1, 0.3))
+        #         ax[0].set_position((0, 0.3, 1, 0.7))
+        #         ax[1].set_position((0, 0.3, 1, 0.7))
+                
         fig.savefig(
             stream,
-            dpi=fig.dpi,
-            # bbox_inches='tight',
-            # pad_inches=0.0,
-            transparent=True,
+            transparent=True
         )
         stream.seek(0)
         plt.close(fig)

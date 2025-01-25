@@ -3,11 +3,7 @@ axes.spines.bottom: False
 axes.spines.top:    False
 axes.spines.right:  False
 
-axes.autolimit_mode: data
-xtick.major.size:   5
-ytick.major.size:   5
-xtick.direction:    in
-ytick.direction:    in
+# axes.autolimit_mode: data
 
 ytick.minor.visible: False
 xtick.major.pad:     -15
@@ -17,4 +13,3 @@ figure.subplot.left:   0
 figure.subplot.right:  1    
 figure.subplot.bottom: 0   
 figure.subplot.top:    1   
-
