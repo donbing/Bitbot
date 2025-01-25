@@ -43,12 +43,18 @@ UML diagram of broad [package interactions](http://www.plantuml.com/plantuml/svg
 ## 🐳 Docker 
 **Github actions** builds and tests and publishes a **container image** on each commit to `main` and `release`  
 
-🐳 Build on `x86` is way faster than on the Pi.
+🐳 `x86` faster than the Pi.
 ```sh
-# remove the `--platform` args if building on a pi
-docker buildx build --platform linux/arm/v6  . -t bitbot -f scripts/docker/dockerfile --progress string
+# use an arm emulator to set platform for testing
+docker run -e --privileged --rm -it --platform linux/arm/v7 --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk bitbot
+# remove the `--platform` args if building on a pi 
+docker buildx build --platform linux/arm/v7 . -t bitbot -f bitbot.dockerfile
 ```
 🐳 Run **Priviledged access** is needed for `GPIO`, this looks to be fixable thru bind mounts.
 ```sh
-docker run --privileged --platform linux/arm/v6 bitbot
+docker run --privileged --platform linux/arm/v7 bitbot
+```
+🎼 Docker compose 
+```sh
+docker compose up -d --build
 ```
