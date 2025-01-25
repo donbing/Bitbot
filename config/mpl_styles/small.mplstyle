@@ -9,3 +9,4 @@ ytick.labelsize:    6
 axes.xmargin:       0.15
 axes.ymargin:       0.15
 axes.zmargin:       0.1
+xtick.alignment:     center
