@@ -28,7 +28,7 @@ class BitBot():
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
         exchange_factory = stock_exchanges if self.config.stock_symbol() else crypto_exchanges
-        return exchange_factory.Exchange()
+        return exchange_factory.Exchange(self.config.exchange_name())
 
     @info_log
     def display_chart(self):
@@ -36,7 +36,11 @@ class BitBot():
         wait_for_internet_connection(self.display_connection_error)
         # 📈 fetch chart data
         market_exchange = self.market_exchange()
-        chart_data = market_exchange.fetch_history(self.config)
+        chart_data = market_exchange.fetch_history(
+            self.config.candle_width(),
+            self.config.instrument_name(),
+            self.config.chart_since())
+        
         if(chart_data.candle_data.empty is False):
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
