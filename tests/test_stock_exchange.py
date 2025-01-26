@@ -8,21 +8,17 @@ import pathlib
 
 
 # 🪳 ''1h',' <- fails on weekends due to short chart duration
-test_params = ['1mo', '1h', '1wk', 'random']
+test_params = ['1m', '5m', '30m', '1h', '1d', '1wk', '1mo', '3mo']
 
 curdir = pathlib.Path(__file__).parent.resolve()
 files = use_config_dir(os.path.join(curdir, ".."))
 config_ini = load_config_ini(files)
 
-# 🪳 ''1h',' <- fails on weekends due to short chart duration
-test_params = candle_configs
-
-
 class TestStockExchange(unittest.TestCase):
     def test_fetching_history(self):
         for candle_spec in test_params:
-            with self.subTest(msg=candle_spec.width):
-                self.run_test(candle_spec.width)
+            with self.subTest(msg=candle_spec):
+                self.run_test(candle_spec)
 
     def run_test(self, candle_width):
         stock = "TSLA"
@@ -35,10 +31,10 @@ class TestStockExchange(unittest.TestCase):
                         "disk_file_name": "pictures/last_display.png"
                     }
                 }
-        config = bitbot_config.BitBotConfig(mock_config, {})
-        excange = Exchange(config)
+        exchange = Exchange()
 
-        data = excange.fetch_history()
+        config = bitbot_config.BitBotConfig(mock_config, {})
+        data = exchange.fetch_history(config)
         num_candles = len(data.candle_data)
 
         we_got_candles = num_candles > 0

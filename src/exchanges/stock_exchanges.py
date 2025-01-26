@@ -1,4 +1,3 @@
-import pandas as pd
 import yfinance
 import collections
 import random

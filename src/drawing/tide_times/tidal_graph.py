@@ -1,13 +1,18 @@
-
-import io
 import requests
 import matplotlib.pyplot as plt
 from datetime import datetime
 from PIL import Image
 
 def get_noaa_tide_data(station_id):
-    # Using NOAA Tides & Currents API
-    # station_id = '9414290'  # Example station ID for San Francisco
+#     date = datetime.date.today().strftime("%Y-%m-%d")
+
+#     # Using NOAA Tides & Currents API
+#     # station_id = '9414290'  # Example station ID for San Francisco
+#     api_url = f"https://environment.data.gov.uk/flood-monitoring/id/stations/{station_id}/readings?_sorted&date={date}"
+# response = requests.get(api_url)
+#         response.raise_for_status()  # Raise an exception for bad status codes
+#         data = response.json()
+
     url = f'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=predictions&application=NOS.COOPS.TAC.WL&begin_date={datetime.now().strftime("%Y%m%d")}&range=168&datum=MLLW&station={station_id}&time_zone=lst_ldt&units=metric&interval=h&format=json'
     
     try:
