@@ -4,7 +4,7 @@ figure.dpi:         100
 savefig.transparent:    True
 
 font.family: sans-serif
-# font.sans-serif: basis33
+font.sans-serif: basis33
 
 text.hinting_factor:1
 text.hinting:       native

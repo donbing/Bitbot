@@ -19,11 +19,19 @@ setup = {
         AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
+    "30m": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
     "1h": (
         HourLocator(interval=12),
-        AutoDateFormatter(HourLocator(interval=6))
+        DateFormatter(fmt="%H:%m")
     ),
-    "2m": (
+    "2h": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "4h": (
         AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
@@ -32,6 +40,18 @@ setup = {
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
     "1d": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "12h": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "1w": (
+        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+    ),
+    "2w": (
         AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
@@ -97,15 +117,16 @@ class MplFinanceChart:
         plot_args = dict(
             volume=self.config.show_volume(),
             style=mpf_style,
-            tight_layout=True,
+            # tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
             xrotation=0
         )
-        plt.margins(0.015, tight=True)
+
         # 🚪 add a line indicating entry price, if configured
         entry = self.config.entry_price()
         if entry != 0:
             plot_args['hlines'] = dict(hlines=[entry], colors=['g'], linestyle='-.')
+
         # 📈 create the chart plot
         fig, ax = mpf.plot(
             chart_data.candle_data,
@@ -127,25 +148,25 @@ class MplFinanceChart:
             # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
             a.xaxis.set_major_locator(x_formatting[0])
-            #a.xaxis.set_major_formatter(x_formatting[1])
+            a.xaxis.set_major_formatter(x_formatting[1])
             # x scale fits value range instead of padding to centre graph
             #a.autoscale(enable=True, axis="both", tight=True)
             # ✔️ align tick labels inside edges
-            # if self.config.expand_chart():
-            #     for ylabel in a.yaxis.get_ticklabels():
-            #         ylabel.set_horizontalalignment('left')
-            #     for xlabel in a.xaxis.get_ticklabels():
-            #         xlabel.set_verticalalignment('bottom')
+            if self.config.expand_chart():
+                for ylabel in a.yaxis.get_ticklabels():
+                    ylabel.set_horizontalalignment('left')
+                for xlabel in a.xaxis.get_ticklabels():
+                    xlabel.set_verticalalignment('bottom')
 
-        # if self.config.expand_chart():
-        #     if(len(ax) == 2):
-        #         ax[0].set_position((0, 0, 1, 1))
-        #         ax[1].set_position((0, 0, 1, 1))
-        #     if(len(ax) == 4):
-        #         ax[3].set_position((0, 0, 1, 0.3))
-        #         ax[2].set_position((0, 0, 1, 0.3))
-        #         ax[0].set_position((0, 0.3, 1, 0.7))
-        #         ax[1].set_position((0, 0.3, 1, 0.7))
+        if self.config.expand_chart():
+            if(len(ax) == 2):
+                ax[0].set_position((0, 0, 1, 1))
+                ax[1].set_position((0, 0, 1, 1))
+            if(len(ax) == 4):
+                ax[3].set_position((0, 0, 1, 0.3))
+                ax[2].set_position((0, 0, 1, 0.3))
+                ax[0].set_position((0, 0.3, 1, 0.7))
+                ax[1].set_position((0, 0.3, 1, 0.7))
                 
         fig.savefig(
             stream,

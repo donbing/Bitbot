@@ -1,6 +1,5 @@
 import ccxt
 import random
-import collections
 import pandas as pd
 import logging
 from src.configuration.log_decorator import info_log
@@ -9,38 +8,24 @@ from src.exchanges.CandleData import CandleData
 
 # 🪙 CCXT based crypto exchange client
 class Exchange():
-    CandleConfig = collections.namedtuple('CandleConfig', 'width count')
-    candle_configs = [
-        CandleConfig("5m", 40),
-        CandleConfig("1h", 40),
-        CandleConfig("1d", 40),
-    ]
-
-    def fetch_history(self, config):
-        configred_candle_width = config.candle_width()
-        if(configred_candle_width == "random"):
-            random_index = random.randrange(len(self.candle_configs))
-            candle_config = self.candle_configs[random_index]
-        else:
-            candle_config, = (
-                conf for conf in self.candle_configs
-                if conf.width == configred_candle_width)
-
-        instrument = config.instrument_name()
-        chart_start = config.chart_since()
-
-        exchange = load_exchange(config.exchange_name())
-
-        dirty_chart_data = fetch_market_data(
-            exchange,
-            instrument,
-            candle_config.width,
-            candle_config.count,
-            chart_start)
+    def __init__(self, exchange_name):
+        self.exchange = load_exchange(exchange_name)
         
-        candle_data = parse_to_dataframe(dirty_chart_data)
+    def fetch_history(self, candle_width, instrument, chart_since=None, max_candles=40):
+        if(candle_width == "random"):
+            random_index = random.randrange(len(self.exchange.timeframes))
+            candle_width = self.exchange.timeframes[random_index]
 
-        return CandleData(instrument, candle_config.width, candle_data)
+        dirty_price_data = fetch_market_data(
+            self.exchange,
+            instrument,
+            candle_width,
+            max_candles,
+            chart_since)
+        
+        candle_data = parse_to_dataframe(dirty_price_data)
+
+        return CandleData(instrument, candle_width, candle_data)
 
     def __repr__(self):
         return '<ccxt crypto exchange>'
@@ -52,17 +37,19 @@ def parse_to_dataframe(candle_data):
     data_frame.index = pd.DatetimeIndex(data_frame['Date'], dtype="datetime64[ms]")
     return data_frame
 
+
 @info_log
-def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
+def fetch_market_data(exchange, instrument, candle_width, num_candles, since):
     try:
         return exchange.fetchOHLCV(
             instrument,
-            candle_freq,
+            candle_width,
             limit=num_candles,
             since=since and exchange.parse8601(since.strftime('%Y-%m-%dT%H:%M:%S.%f%z')))
     except BadSymbol:
         logging.warning(f'"{instrument}" is not available')
         return []
+
 
 @info_log
 def load_exchange(exchange_name):
