@@ -1,7 +1,7 @@
 figure.dpi:         100
 
 # savefig.pad_inches:   0
-savefig.transparent:    True
+# savefig.transparent:    True
 
 font.family: sans-serif
 font.sans-serif: basis33
