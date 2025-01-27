@@ -33,12 +33,13 @@ class TestFetcingPriceHistory(unittest.TestCase):
 
 def check_price_history(candle_width, exchange, instrument):
     # ⬇️ fetch data from selected exchange
-    expected_candle_count = 50
+    expected_candle_count = 40
+    start_time = datetime.datetime.strptime('2023-11-10T00:00', '%Y-%m-%dT%H:%M')
     data = exchange.fetch_history(
         candle_width, 
         instrument, 
-        datetime.datetime.strptime('2023-11-10T00:00', '%Y-%m-%dT%H:%M'),
-        expected_candle_count)
+        start_time,
+        max_candles=expected_candle_count)
     
     # 💾 save the data for other tests
     instrument_name = instrument.replace("/", "_")
