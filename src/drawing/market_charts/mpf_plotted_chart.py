@@ -8,8 +8,10 @@ from matplotlib.ticker import EngFormatter
 
 setup = {
     "1m": (
-        MinuteLocator(interval=5),
-        AutoDateFormatter(MinuteLocator(interval=5))
+        HourLocator(interval=1),
+        DateFormatter(fmt="%H:%m")
+        # MinuteLocator(interval=5),
+        # AutoDateFormatter(MinuteLocator(interval=5))
     ),
     "5m": (
         HourLocator(interval=1),
@@ -147,8 +149,8 @@ class MplFinanceChart:
             a.yaxis.label.set_visible(False)
             # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
-            a.xaxis.set_major_locator(x_formatting[0])
-            a.xaxis.set_major_formatter(x_formatting[1])
+            # a.xaxis.set_major_locator(x_formatting[0])
+            # a.xaxis.set_major_formatter(x_formatting[1])
             # x scale fits value range instead of padding to centre graph
             #a.autoscale(enable=True, axis="both", tight=True)
             # ✔️ align tick labels inside edges
@@ -169,8 +171,7 @@ class MplFinanceChart:
                 ax[1].set_position((0, 0.3, 1, 0.7))
                 
         fig.savefig(
-            stream,
-            transparent=True
+            stream
         )
         stream.seek(0)
         plt.close(fig)
