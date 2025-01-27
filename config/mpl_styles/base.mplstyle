@@ -61,3 +61,5 @@ xtick.major.pad: 2
 axes.axisbelow: False
 # space between label and axis
 axes.labelpad: 0
+
+# axes.autolimit_mode:    round_numbers 
