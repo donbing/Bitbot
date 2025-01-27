@@ -21,4 +21,8 @@ xtick.direction:    in
 figure.subplot.left:   0  
 figure.subplot.right:  1    
 figure.subplot.bottom: 0   
-figure.subplot.top:    1   
+figure.subplot.top:    1  
+
+# margin between subplots
+figure.subplot.wspace: 0
+figure.subplot.hspace: 0.2
