@@ -3,6 +3,7 @@ todo:
    * fix expanded mode 
    - fit candle count to screen size
    - keep an eye on the overlay least intrusive position algo, seems to be flaky
+    - is flaky, whitespace check needs to be improved
 
  - ## multi-currency support
    - button to toggle between curencies
@@ -18,13 +19,13 @@ todo:
     - config volume colours
 
  - ## config server
-    - use friendly config forms
     - allow selecting style in config
 
  - ## general
     - on-screen assembly instructions
     - moving averages
     - indicators
+    - multi instrument graphs
 
 # Docker
 Build arm6 on x86

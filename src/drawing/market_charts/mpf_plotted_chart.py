@@ -8,9 +8,9 @@ from matplotlib.ticker import EngFormatter
 
 setup = {
     "1m": (
-        HourLocator(interval=1),
-        DateFormatter(fmt="%H:%m")
-        # MinuteLocator(interval=5),
+        #MinuteLocator(interval=15, byminute=[15, 30, 45]),
+        MinuteLocator(interval=15),
+        DateFormatter(fmt="%H:%m"),
         # AutoDateFormatter(MinuteLocator(interval=5))
     ),
     "5m": (
@@ -38,11 +38,11 @@ setup = {
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
     "6h": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
+        AutoDateLocator(minticks = 3, maxticks = 3, interval_multiples=True),
+        AutoDateFormatter(AutoDateLocator(minticks = 3, maxticks = 3))
     ),
     "1d": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
+        AutoDateLocator(minticks = 3, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
         AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
     ),
     "12h": (
@@ -80,7 +80,6 @@ class MplFinanceChart:
     # 📑 styles overlaid left to right
     def get_default_styles(self, config, display, files):
         yield files.base_style
-        yield files.default_style
 
         small_display = self.is_small_display(display)
         if small_display:
@@ -121,7 +120,7 @@ class MplFinanceChart:
             style=mpf_style,
             # tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
-            xrotation=0
+            xrotation=0,
         )
 
         # 🚪 add a line indicating entry price, if configured
@@ -137,10 +136,11 @@ class MplFinanceChart:
             returnfig=True,
             show_nontrading=True,
             type='candle',
+            # axisoff=True,
             # mav=(10, 20),
             **plot_args
         )
-
+      
         x_formatting = setup[chart_data.candle_width]
 
         # 🪓 make axes look nicer
@@ -149,8 +149,8 @@ class MplFinanceChart:
             a.yaxis.label.set_visible(False)
             # a.set_adjustable('box')
             a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
-            # a.xaxis.set_major_locator(x_formatting[0])
-            # a.xaxis.set_major_formatter(x_formatting[1])
+            #a.xaxis.set_major_locator(x_formatting[0])
+            a.xaxis.set_major_formatter(x_formatting[1])
             # x scale fits value range instead of padding to centre graph
             #a.autoscale(enable=True, axis="both", tight=True)
             # ✔️ align tick labels inside edges
