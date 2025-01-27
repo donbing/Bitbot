@@ -10,56 +10,79 @@ import unittest
 from src.drawing.market_charts.mpf_plotted_chart import MplFinanceChart
 from src.exchanges.CandleData import CandleData
 
-# check config files
-curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(os.path.join(curdir, "../"))
-
-
-# physical screen renderers for approval testing
-class screen_output_renderers:
-    wave27b = {'output': 'waveshare.epd2in7b_V2'}
-    inky = {'output': 'inky'}
-
-
 exchange_name = "coinbase"
-test_currencies = ["ETH/USD", "BTC/USD"]
-display_sizes = ["264x176", "400x300", "640x448", "800x480"]
-
-# s/m/l image file renderers for automated testing
-class disk_output_renderers:
-    disk_small = {'output': 'disk', 'resolution': "264x176"}
-    disk_med = {'output': 'disk', 'resolution': "400x300"}
-    disk_large = {'output': 'disk', 'resolution': "640x448"}
-    disk_extra_large = {'output': 'disk', 'resolution': "800x480"}
-    all = [disk_small, disk_med, disk_large]
-
 
 # basic config
 config_defaults = {
-    'currency': {
-        'stock_symbol': '',
-        'exchange': 'coinbase',
-        'instrument': 'BTC/USD',
-        'holdings': '0',
-        'chart_since': '2022-11-22T00:00Z',
-        'entry_price': 0,
-    },
     'display': {
-        'output': 'disk',
-        'resolution': '400x300',
-        'overlay_layout': '1',
         'expanded_chart': 'false',
-        'show_volume': 'falsae',
-        'candle_width': '1h',
-        'rotation': '0',
-        'show_ip': 'false',
-        'timestamp': 'false',
-    },
-    'comments': {
-        'up': 'moon',
-        'down': 'doom',
+        'show_volume': 'false',
     }
 }
+
+class TestDisplay():
+    def __init__(self, size, dpi):
+        self.size1 = size
+        self.dpi1 = dpi
+
+    def size(self):
+        return self.size1
+    
+    def dpi(self):
+        return self.dpi1
+
+test_data_path = "tests/data"
+test_images_path = "tests/images"
+
+class TestRenderingMeta(type):
+    def __new__(mcs, name, bases, dict, chart_size):
+        chart = configure_chart(chart_size)
+
+        def gen_test(generatedTestName, data_file_name, this_tests_images_path):
+            def test(self):
+                test_image_file_path = f"{this_tests_images_path}/{generatedTestName}.png"
+                chart_data = get_chart_data(data_file_name)
+
+                previous_image = Image.open(test_image_file_path) if os.path.exists(test_image_file_path) else None
+
+                with io.BytesIO() as file_stream:
+                    chart.write_to_stream(file_stream, chart_data)
+                    new_image = Image.open(file_stream)
+
+                    assert_image_matches_size(new_image, chart_size)
+
+                    changes = image_changes(previous_image, new_image, test_image_file_path)
+                    new_image.save(test_image_file_path)
+                    if changes:
+                        os.system("code '" + test_image_file_path + "'")
+                        assert False, f"Image diff check: '{changes}'"
+
+            return test
+
+        for file_name in os.listdir(test_data_path):
+            test_name = f"test_{file_name}".replace(".pkl","")
+            this_tests_images_path=os.path.join(test_images_path, chart_size)
+            os.makedirs(this_tests_images_path, exist_ok=True)
+            dict[test_name] = gen_test(test_name, file_name, this_tests_images_path)
+
+        return type.__new__(mcs, name, bases, dict)
+
+def configure_chart(chart_size):
+    curdir = pathlib.Path(__file__).parent.resolve()
+    files = use_config_dir(os.path.join(curdir, "../"))
+    config = load_config_ini(files)
+    config.read_dict(config_defaults)
+    config.config["display"]["resolution"] = chart_size
+    chart = MplFinanceChart(config, TestDisplay(tuple(map(int, chart_size.split("x"))), 100), files)
+    return chart
+
+
+def get_chart_data(test_data_file_name):
+    # yes, maybe pkl metadata somehow?
+    source, dest, candle_width = test_data_file_name.replace(".pkl", "").split("_")
+    price_history = pd.read_pickle(f"{test_data_path}/{test_data_file_name}")
+
+    return CandleData(f"{source}/{dest}", candle_width, price_history)
 
 
 def assert_image_matches_size(new_image, expected_res):
@@ -70,6 +93,7 @@ def assert_image_matches_size(new_image, expected_res):
 def image_changes(previous_image, new_image, file_name):
     if previous_image is None:
         return new_image
+    
     diff = ImageChops.difference(new_image.convert('RGB'), previous_image.convert('RGB'))
 
     differenceImageBounds = diff.getbbox()
@@ -85,83 +109,18 @@ def image_changes(previous_image, new_image, file_name):
 
         return diff, diff_file_path
 
-class TestDisplay():
-    def size(self):
-        return (400,300)
-    
-    def dpi(self):
-        return 100
 
-class TestRenderingMeta(type):
-    def __new__(mcs, name, bases, dict, output):
-
-        def gen_test(generatedTestName, config, data_file_name):
-            def test(self):
-                # arrangement
-                price_history = pd.read_pickle(f"tests/data/{data_file_name}")
-                source, dest, candle_width = data_file_name.replace(".pkl", "").split("_")
-                
-                chart_data = CandleData(f"{source}/{dest}", candle_width, price_history)
-
-                test_image_file_path = f"tests/images/{generatedTestName}.png"
-
-                previous_image = Image.open(test_image_file_path) if os.path.exists(test_image_file_path) else None
-
-                # action
-                chart = MplFinanceChart(
-                    config, 
-                    TestDisplay(), 
-                    files)
-
-                with io.BytesIO() as file_stream:
-                    chart.write_to_stream(file_stream, chart_data)
-                    chart_image = Image.open(file_stream)
-                    chart_image.save(test_image_file_path)
-                    
-                    # assertion
-                    assert_image_matches_size(chart_image, "400x300")
-
-                    changes = image_changes(previous_image, chart_image, file_name)
-                    if changes:
-                        os.system("code '" + test_image_file_path + "'")
-                        # if changes[1] is not None:
-                        #     os.system("code '" + changes[1] + "'")
-                        assert False, f"Image diff check: '{changes}'"
-
-            return test
-
-        os.makedirs('tests/images/', exist_ok=True)
-
-        config = load_config_ini(files)
-        config.read_dict(config_defaults)
-        for file_name in os.listdir("tests/data/"):
-            test_name = f"test_{file_name}".replace(".pkl","")
-            dict[test_name] = gen_test(test_name, config, file_name)
-
-        return type.__new__(mcs, name, bases, dict)
-
-
-class SmallChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_small, metaclass=TestRenderingMeta):
+class SmallChartRenderingTests(unittest.TestCase, chart_size="264x176", metaclass=TestRenderingMeta):
     __metaclass__ = TestRenderingMeta
 
 
-# class MediumChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_med, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+class MediumChartRenderingTests(unittest.TestCase, chart_size="400x300", metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
 
 
-# class LargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_large, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+class LargeChartRenderingTests(unittest.TestCase, chart_size="640x448", metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
 
 
-# class ExtraLargeChartRenderingTests(unittest.TestCase, output=disk_output_renderers.disk_extra_large, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
-
-
-# @unittest.skip("needs a waveshare display")
-# class Wave27bChartRenderingTests(unittest.TestCase, output=screen_output_renderers.wave27b, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
-
-
-# @unittest.skip("needs an inky display")
-# class InkyChartRenderingTests(unittest.TestCase, output=screen_output_renderers.inky, metaclass=TestRenderingMeta):
-#     __metaclass__ = TestRenderingMeta
+class ExtraLargeChartRenderingTests(unittest.TestCase, chart_size="800x480", metaclass=TestRenderingMeta):
+    __metaclass__ = TestRenderingMeta
