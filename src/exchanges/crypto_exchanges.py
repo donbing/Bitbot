@@ -14,7 +14,7 @@ class Exchange():
     def fetch_history(self, candle_width, instrument, chart_since=None, max_candles=40):
         if(candle_width == "random"):
             random_index = random.randrange(len(self.exchange.timeframes))
-            candle_width = self.exchange.timeframes[random_index]
+            candle_width = list(self.exchange.timeframes.keys())[random_index]
 
         dirty_price_data = fetch_market_data(
             self.exchange,
