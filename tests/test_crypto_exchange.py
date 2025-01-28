@@ -29,6 +29,11 @@ class TestFetcingPriceHistory(unittest.TestCase):
         for candle_spec in self.cryptocom.exchange.timeframes:
             with self.subTest(msg=candle_spec):
                 check_price_history(candle_spec, self.cryptocom, "CRO/BTC")
+    
+    
+    def test_cryptocom_cro_random_timeframe(self):
+        with self.subTest(msg="random"):
+            check_price_history("random", self.cryptocom, "CRO/BTC")
 
 
 def check_price_history(candle_width, exchange, instrument):
