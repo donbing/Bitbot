@@ -68,5 +68,5 @@ axes.axisbelow: False
 axes.labelpad: 0
 
 # try to pick sensible tick dates
-axes.autolimit_mode:    round_numbers 
-#date.interval_multiples:         True
+# axes.autolimit_mode:    round_numbers 
+# date.interval_multiples:         True
