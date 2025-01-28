@@ -1,71 +1,8 @@
-import datetime
 from matplotlib import font_manager
-from matplotlib.dates import AutoDateFormatter, AutoDateLocator, ConciseDateFormatter, DateFormatter, DayLocator, HourLocator, MinuteLocator
+from matplotlib.dates import AutoDateFormatter, AutoDateLocator, ConciseDateFormatter
 import matplotlib.pyplot as plt
 import mplfinance as mpf
-import pandas as pd
-from matplotlib.ticker import EngFormatter
-
-setup = {
-    "1m": (
-        #MinuteLocator(interval=15, byminute=[15, 30, 45]),
-        MinuteLocator(interval=15),
-        DateFormatter(fmt="%H:%m"),
-        # AutoDateFormatter(MinuteLocator(interval=5))
-    ),
-    "5m": (
-        HourLocator(interval=1),
-        DateFormatter(fmt="%H:%m")
-    ),
-    "15m": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "30m": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "1h": (
-        HourLocator(interval=12),
-        DateFormatter(fmt="%H:%m")
-    ),
-    "2h": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "4h": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "6h": (
-        AutoDateLocator(minticks = 3, maxticks = 3, interval_multiples=True),
-        AutoDateFormatter(AutoDateLocator(minticks = 3, maxticks = 3))
-    ),
-    "1d": (
-        AutoDateLocator(minticks = 3, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "12h": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "1w": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "2w": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "1mo": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-    "3mo": (
-        AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo),
-        AutoDateFormatter(AutoDateLocator(minticks = 2, maxticks = 3, tz=datetime.datetime.now().astimezone().tzinfo))
-    ),
-}
+from matplotlib.ticker import EngFormatter, FuncFormatter
 
 class MplFinanceChart:
     def __init__(self, config, display, files):
@@ -121,6 +58,8 @@ class MplFinanceChart:
             # tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
             xrotation=0,
+            xlabel="",
+            ylabel=""
         )
 
         # 🚪 add a line indicating entry price, if configured
@@ -141,18 +80,14 @@ class MplFinanceChart:
             **plot_args
         )
       
-        x_formatting = setup[chart_data.candle_width]
-
         # 🪓 make axes look nicer
         for a in ax:
-            # remove labels
-            a.yaxis.label.set_visible(False)
-            # a.set_adjustable('box')
-            a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
-            #a.xaxis.set_major_locator(x_formatting[0])
-            a.xaxis.set_major_formatter(x_formatting[1])
+            #a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
+            #a.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f"{x:+.1%}"))
+            a.xaxis.set_major_locator(AutoDateLocator(minticks=3, maxticks=5))
+            a.xaxis.set_major_formatter(ConciseDateFormatter(a.xaxis.get_major_locator()))
             # x scale fits value range instead of padding to centre graph
-            #a.autoscale(enable=True, axis="both", tight=True)
+            a.autoscale(enable=True, axis="both", tight=True)
             # ✔️ align tick labels inside edges
             if self.config.expand_chart():
                 for ylabel in a.yaxis.get_ticklabels():
