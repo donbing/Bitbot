@@ -30,13 +30,13 @@ class TestFetcingPriceHistory(unittest.TestCase):
             with self.subTest(msg=candle_spec):
                 check_price_history(candle_spec, self.cryptocom, "CRO/BTC")
     
-    
-    def test_cryptocom_cro_random_timeframe(self):
+    # dont write randomised data files to disk, the rendering tests get confused
+    def test_random_timeframe(self):
         with self.subTest(msg="random"):
-            check_price_history("random", self.cryptocom, "CRO/BTC")
+            check_price_history("random", self.cryptocom, "CRO/BTC", store_candle_data=False)
 
 
-def check_price_history(candle_width, exchange, instrument):
+def check_price_history(candle_width, exchange, instrument, store_candle_data=True):
     # ⬇️ fetch data from selected exchange
     expected_candle_count = 40
     start_time = datetime.datetime.strptime('2023-11-10T00:00', '%Y-%m-%dT%H:%M')
@@ -47,8 +47,9 @@ def check_price_history(candle_width, exchange, instrument):
         max_candles=expected_candle_count)
     
     # 💾 save the data for other tests
-    instrument_name = instrument.replace("/", "_")
-    data.candle_data.to_pickle(f"tests/data/{instrument_name}_{candle_width}.pkl")
+    if store_candle_data:
+        instrument_name = instrument.replace("/", "_")
+        data.candle_data.to_pickle(f"tests/data/{instrument_name}_{candle_width}.pkl")
 
     # 💪 assert we got the default number of candles
     num_candles = len(data.candle_data)
