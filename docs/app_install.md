@@ -36,7 +36,7 @@ docker run --privileged --restart unless-stopped -d ghcr.io/donbing/bitbot:relea
 ```sh
 # make sure python, pip, git and other dependancies are installed
 sudo apt update -y
-sudo apt install -y git python3-pip python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff5 libxcb1 libfreetype6-dev libopenblas-dev
+sudo apt install -y git python3-pip python3-rpi.gpio libatlas-base-dev libopenjp2-7 libtiff6 libxcb1 libfreetype6-dev libopenblas-dev
 python -m pip install --upgrade pip
 ```  
 
