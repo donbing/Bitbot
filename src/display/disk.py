@@ -13,6 +13,7 @@ class Disker(DisplayBase):
     def _size(self):
         return (self.width, self.height)
 
+    @info_log
     def show(self, image):
         image = self.apply_rotation(image)
         image = self.resize_image(image)
