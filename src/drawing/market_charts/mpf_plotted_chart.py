@@ -82,7 +82,7 @@ class MplFinanceChart:
       
         # 🪓 make axes look nicer
         for a in ax:
-            #a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
+            a.yaxis.set_major_formatter(EngFormatter(sep='', places=1))
             #a.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f"{x:+.1%}"))
             a.xaxis.set_major_locator(AutoDateLocator(minticks=3, maxticks=5))
             a.xaxis.set_major_formatter(ConciseDateFormatter(a.xaxis.get_major_locator()))

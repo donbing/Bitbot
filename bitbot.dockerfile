@@ -17,19 +17,19 @@ ENV PATH="/opt/venv/bin:$PATH"
 # update pip
 RUN python3 -m pip install --upgrade pip --no-cache-dir
 
-# install python reqs
+# download python reqs
 COPY requirements.txt .
 RUN python3 -m pip download \
     -r requirements.txt \
     --extra-index-url https://www.piwheels.org/simple 
 
+# install python reqs
 RUN python3 -m pip install -v \
     --prefer-binary \
     -r requirements.txt \
     --extra-index-url https://www.piwheels.org/simple 
 
-
-# prep app code
+# app code
 WORKDIR /code
 COPY . .
 CMD ["python", "run.py"]
