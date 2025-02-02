@@ -54,7 +54,7 @@ class TestRenderingMeta(type):
                     changes = image_changes(previous_image, new_image, test_image_file_path)
                     new_image.save(test_image_file_path)
                     if changes:
-                        os.system("code '" + test_image_file_path + "'")
+                        # os.system("code '" + test_image_file_path + "'")
                         assert False, f"Image diff check: '{changes}'"
 
             return test
