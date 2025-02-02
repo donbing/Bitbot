@@ -1,4 +1,8 @@
 todo:
+ - ## formatters
+  y axis eng formatter precision needs to be calculated (fixed 2dp atm)
+
+
  - ## layout 
    * fix expanded mode 
    - fit candle count to screen size
