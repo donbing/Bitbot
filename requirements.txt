@@ -33,3 +33,4 @@ python-dateutil
 # urllib3>=2.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
 # zipp>=3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
 # aiohttp>=3.10.11 # not directly required, pinned by Snyk to avoid a vulnerability   
+fonttools>=4.43.0 # not directly required, pinned by Snyk to avoid a vulnerability
