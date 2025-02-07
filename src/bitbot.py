@@ -15,6 +15,10 @@ from src.drawing.image_utils.CenteredText import centered_text
 
 
 class BitBot():
+    def __init__(self, config, display):
+        self.config = config
+        self.display = display
+
     def __init__(self, config, files):
         self.config = config
         self.files = files
@@ -24,7 +28,7 @@ class BitBot():
     # 🏛️ stock or crypto exchange
     def market_exchange(self):
         exchange_factory = stock_exchanges if self.config.stock_symbol() else crypto_exchanges
-        return exchange_factory.Exchange(self.config)
+        return exchange_factory.Exchange(self.config.exchange_name())
 
     @info_log
     def display_chart(self):
@@ -32,26 +36,33 @@ class BitBot():
         wait_for_internet_connection(self.display_connection_error)
         # 📈 fetch chart data
         market_exchange = self.market_exchange()
-        chart_data = market_exchange.fetch_history()
-        if(any(chart_data.candle_data)):
+        chart_data = market_exchange.fetch_history(
+            self.config.candle_width(),
+            self.config.instrument_name(),
+            self.config.chart_since())
+        
+        if(chart_data.candle_data.empty is False):
             # 🖊️ draw the chart on the display
             with io.BytesIO() as file_stream:
                 # 🖊️ draw chart plot to image
                 self.chart.write_to_stream(file_stream, chart_data)
                 chart_image = Image.open(file_stream)
                 # 🖊️ draw overlay on image
-                #overlay = ChartOverlay(self.config, self.display, chart_data)
-                #overlay.draw_on(chart_image)
+                overlay = ChartOverlay(self.config, self.display, chart_data)
+                overlay.draw_on(chart_image)
                 # 📺 display the image
                 self.display.show(chart_image)
                 return chart_image
         else:
-            img = Image.new('RGBA', self.display.size())
-            draw = ImageDraw.Draw(img)
-            draw.text((0, 0), f'{chart_data.instrument} was not found on {market_exchange.name}')
-            self.display.show(img)
-            return img
+            return self.display_message(f'{chart_data.instrument} ({chart_data.candle_width}) was not found on {market_exchange.name}')
 
+    @info_log
+    def display_message(self, message):  
+        img = Image.new("P", self.display.size())
+        draw = ImageDraw.Draw(img)
+        centered_text(draw, message, self.display.title_font, self.display.size(), border=True)
+        self.display.show(img)
+        return img
 
     @info_log
     def cycle_chart(self):  
@@ -77,19 +88,14 @@ class BitBot():
 
     @info_log
     def display_connection_error(self):
-        connection_message = """
+        self.display_message("""
         NO INTERNET CONNECTION
         ----------------------------
         Please check your WIFI
         ----------------------------
         To configure WiFi access,
         connect to 'bitbot-<nnn>' WiFi AP
-        and follow the instructions"""
-
-        img = Image.new("P", self.size())
-        draw = ImageDraw.Draw(img)
-        centered_text(draw, connection_message, self.display.title_font, self.size(), border=True)
-        self.display.show(img)
+        and follow the instructions""")
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'

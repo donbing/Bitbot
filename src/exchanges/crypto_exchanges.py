@@ -1,72 +1,55 @@
 import ccxt
-from datetime import datetime
 import random
-import collections
+import pandas as pd
+import logging
 from src.configuration.log_decorator import info_log
 from ccxt.base.errors import BadSymbol
-import logging
+from src.exchanges.CandleData import CandleData
 
-
+# 🪙 CCXT based crypto exchange client
 class Exchange():
-    CandleConfig = collections.namedtuple('CandleConfig', 'width count')
-    candle_configs = [
-        CandleConfig("5m", 40),
-        CandleConfig("1h", 40),
-        CandleConfig("1d", 40),
-    ]
+    def __init__(self, exchange_name):
+        self.exchange = load_exchange(exchange_name)
+        
+    def fetch_history(self, candle_width, instrument, chart_since=None, max_candles=40):
+        if(candle_width == "random"):
+            random_index = random.randrange(len(self.exchange.timeframes))
+            candle_width = list(self.exchange.timeframes.keys())[random_index]
 
-    def __init__(self, config):
-        self.config = config
-        self.name = self.config.exchange_name()
+        dirty_price_data = fetch_market_data(
+            self.exchange,
+            instrument,
+            candle_width,
+            max_candles,
+            chart_since)
+        
+        candle_data = parse_to_dataframe(dirty_price_data)
 
-    def fetch_history(self):
-        configred_candle_width = self.config.candle_width()
-        instrument = self.config.instrument_name()
-
-        if(configred_candle_width == "random"):
-            random_index = random.randrange(len(self.candle_configs))
-            candle_config = self.candle_configs[random_index]
-        else:
-            candle_config, = (
-                conf for conf in self.candle_configs
-                if conf.width == configred_candle_width)
-
-        candle_data = fetch_OHLCV(
-            candle_config.width,
-            candle_config.count,
-            self.config.exchange_name(),
-            self.config.instrument_name(),
-            self.config.chart_since()
-        )
-        return CandleData(instrument, candle_config.width, candle_data)
+        return CandleData(instrument, candle_width, candle_data)
 
     def __repr__(self):
         return '<ccxt crypto exchange>'
 
 
-def fetch_OHLCV(candle_freq, num_candles, exchange_name, instrument, since):
-    exchange = load_exchange(exchange_name)
-    dirty_chart_data = fetch_market_data(
-        exchange,
-        instrument,
-        candle_freq,
-        num_candles,
-        since)
-    clean_chart_data = map(make_matplotfriendly_date, dirty_chart_data)
-    return list(clean_chart_data)
+def parse_to_dataframe(candle_data):
+    data_frame = pd.DataFrame(candle_data)
+    data_frame.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume']
+    data_frame.index = pd.DatetimeIndex(data_frame['Date'], dtype="datetime64[ms]")
+    return data_frame
 
 
 @info_log
-def fetch_market_data(exchange, instrument, candle_freq, num_candles, since):
+def fetch_market_data(exchange, instrument, candle_width, num_candles, since):
     try:
         return exchange.fetchOHLCV(
             instrument,
-            candle_freq,
+            candle_width,
             limit=num_candles,
             since=since and exchange.parse8601(since.strftime('%Y-%m-%dT%H:%M:%S.%f%z')))
     except BadSymbol:
         logging.warning(f'"{instrument}" is not available')
         return []
+
 
 @info_log
 def load_exchange(exchange_name):
@@ -77,36 +60,3 @@ def load_exchange(exchange_name):
     })
     exchange.loadMarkets()
     return exchange
-
-
-def make_matplotfriendly_date(element):
-    datetime_field = element[0]/1000
-    datetime_utc = datetime.utcfromtimestamp(datetime_field)
-    return replace_at_index(element, 0, datetime_utc)
-
-
-def replace_at_index(tup, ix, val):
-    lst = list(tup)
-    lst[ix] = val
-    return tuple(lst)
-
-
-class CandleData():
-    def __init__(self, instrument, candle_width, candle_data):
-        self.instrument = instrument
-        self.candle_width = candle_width
-        self.candle_data = candle_data
-
-    def percentage_change(self):
-        current_price = self.last_close()
-        start_price = self.start_price()
-        return ((current_price - start_price) / current_price) * 100 if start_price is not None else 0
-
-    def last_close(self):
-        return self.candle_data[-1][4]
-
-    def start_price(self):
-        return self.candle_data[0][4]
-
-    def __repr__(self):
-        return f'<{self.instrument} {self.candle_width} candle data>'

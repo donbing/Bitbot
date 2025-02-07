@@ -77,7 +77,7 @@ class BitBotConfig():
     def chart_since(self):
         date = self.config.get('currency', 'chart_since')
         try:
-            return datetime.strptime(date, "%Y-%m-%dT%H:%M")
+            return datetime.strptime(date, "%Y-%m-%dT%H:%M%z")
         except:
             return None
 
@@ -102,6 +102,9 @@ class BitBotConfig():
 
     def border_type(self):
         return self.config["display"]["border"]
+    
+    def display_border_colour(self):
+        return self.config.get("display", "border_colour", fallback=None)
 
     def overlay_type(self):
         return self.config["display"]["overlay_layout"]
@@ -216,3 +219,10 @@ class BitBotConfig():
 
     def tide_location_id(self):
         return self.config['tide_times']["location_id"]
+    
+    # timed meaages
+    def today_has_special_message(self, datetime):
+        return self.special_message(datetime) != None
+    
+    def special_message(self, datetime):
+        return self.config.get('special_messages', datetime.strftime("%YYYY-%MM-%DD"), fallback=None)

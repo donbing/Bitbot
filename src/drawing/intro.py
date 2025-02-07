@@ -2,12 +2,12 @@ from PIL import Image, ImageDraw
 import time
 from .image_utils.CenteredText import centered_text
 from ..configuration.network_utils import wait_for_internet_connection
-page1 = '''Hi, I'm your new Bitbot.
+page1 = '''I'm Bitbot.
 
 I can chart crypto and stock markets.
 
 If you fancy a change,
-I can also display pictures.
+I can also display pictures and other stuff.
 
 I'll guide you through setup in a moment.'''
 

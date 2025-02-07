@@ -15,8 +15,8 @@ class Align:
         return (0 + padding + 1, 0 + padding + 1)
 
     def Centre(display, message_size):
-        message_y = (display.size[1] - message_size[1]) / 2
-        message_x = (display.size[0] - message_size[0]) / 2
+        message_y = (display.size[1][1] - message_size[1]) / 2
+        message_x = (display.size[1][0] - message_size[0]) / 2
         return (message_y, message_x)
 
     # 🏳️ select image area with the most white pixels
@@ -40,7 +40,7 @@ class Align:
             possiblePositions,
             key=lambda item: (
                 count_white_pixels(*item, block_height, block_width, rgb_im),
-                item[0])
+                (item[0],-item[1])) # order by pos, for top-right
             )
         if len(ordredByAveColour) > 0:
             return ordredByAveColour[-1]

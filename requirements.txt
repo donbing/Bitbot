@@ -1,7 +1,7 @@
 cryptography==43.0.1
 Pillow==11.1.0
 numpy==1.26.4
-pandas==2.2.3
+pandas==2.1.1
 contourpy==1.2.1
 matplotlib==3.10.0
 mplfinance>=0.12.10b0
@@ -12,28 +12,16 @@ yfinance==0.2.51
 tzlocal
 python-dateutil
 
-# mplfinance==0.12.9b1
-# matplotlib
-# tzlocal
-# ccxt==4.4.40
-# inky==2.0.0
-# watchdog==6.0.0
-# Pillow==11.0.0
-# yfinance==0.2.50
-# numpy==1.26.4
-# Flask==3.1.0
-# python-dateutil
-
 # Flask==3.1.0
 
 # #RPi.GPIO==0.7.1
-# #waveshare-epaper
-# requests>=2.32.3 # not directly required, pinned by Snyk to avoid a vulnerability
-# setuptools>=75.6.0 # not directly required, pinned by Snyk to avoid a vulnerability
-# urllib3>=2.2.3 # not directly required, pinned by Snyk to avoid a vulnerability
-# zipp>=3.21.0 # not directly required, pinned by Snyk to avoid a vulnerability
-# aiohttp>=3.10.11 # not directly required, pinned by Snyk to avoid a vulnerability   
+# waveshare-epaper
+
+# gpiozero
+# git+https://github.com/waveshare/e-Paper.git#subdirectory=RaspberryPi_JetsonNano/python&egg=waveshare-epd
+
 aiohttp>=3.10.11 # not directly required, pinned by Snyk to avoid a vulnerability
 requests>=2.32.2 # not directly required, pinned by Snyk to avoid a vulnerability
 urllib3>=2.2.2 # not directly required, pinned by Snyk to avoid a vulnerability
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+fonttools>=4.43.0 # not directly required, pinned by Snyk to avoid a vulnerability

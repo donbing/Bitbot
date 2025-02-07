@@ -1,4 +1,5 @@
 from datetime import timedelta
+from datetime import datetime
 import pathlib
 import logging
 import logging.config
@@ -38,6 +39,7 @@ buttons = Buttons(config)
 
 @info_log
 def refresh_display(sc, reason):
+    now = datetime.now()
     # 🖼️ in picture frame mode, do not refresh on schedule
     if config.photo_mode_enabled():
         if reason != "scheduled":
@@ -48,6 +50,8 @@ def refresh_display(sc, reason):
         app.display_tide_times()
     elif config.multiple_instruments():
         app.cycle_chart()
+    elif config.today_has_special_message(now):
+        app.display_message(config.special_message(now))
     else:
         app.display_chart()
         

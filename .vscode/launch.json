@@ -5,8 +5,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-              "name": "Python: Module",
-            "type": "python",
+            "name": "Python: Module",
+            "type": "debugpy",
             "request": "launch",
             "module": "run",
             "env" : {

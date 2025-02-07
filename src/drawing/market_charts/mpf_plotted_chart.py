@@ -1,20 +1,8 @@
-import datetime
 from matplotlib import font_manager
-from matplotlib.dates import AutoDateLocator, ConciseDateFormatter, DayLocator
+from matplotlib.dates import AutoDateFormatter, AutoDateLocator, ConciseDateFormatter
 import matplotlib.pyplot as plt
 import mplfinance as mpf
-import pandas as pd
-from matplotlib.ticker import EngFormatter
-
-def parse_to_dataframe(candle_data):
-    data_frame = pd.DataFrame(candle_data)
-    data_frame = data_frame.drop([6, 7], axis=1, errors='ignore')
-    data_frame.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
-    # data_frame.index = pd.DatetimeIndex(data_frame['date'])
-    #data_frame["date"] = data_frame.date.map(lambda s: datetime.datetime.utcfromtimestamp(s))
-    data_frame.set_index(data_frame["date"], inplace=True)
-    data_frame.index = pd.DatetimeIndex(data_frame['date'], dtype='datetime64[ms]')
-    return data_frame
+from matplotlib.ticker import EngFormatter, FuncFormatter
 
 class MplFinanceChart:
     def __init__(self, config, display, files):
@@ -29,7 +17,6 @@ class MplFinanceChart:
     # 📑 styles overlaid left to right
     def get_default_styles(self, config, display, files):
         yield files.base_style
-        yield files.default_style
 
         small_display = self.is_small_display(display)
         if small_display:
@@ -68,51 +55,39 @@ class MplFinanceChart:
         plot_args = dict(
             volume=self.config.show_volume(),
             style=mpf_style,
-            tight_layout=True,
+            # tight_layout=True,
             figsize=tuple(dim/self.display.dpi() for dim in self.display.size()),
-            xrotation=0
+            xrotation=0,
+            xlabel="",
+            ylabel=""
         )
 
         # 🚪 add a line indicating entry price, if configured
         entry = self.config.entry_price()
         if entry != 0:
             plot_args['hlines'] = dict(hlines=[entry], colors=['g'], linestyle='-.')
-        # 🖼️ prep chart data frame
-        data_frame = parse_to_dataframe(chart_data.candle_data)
 
         # 📈 create the chart plot
         fig, ax = mpf.plot(
-            data_frame,
+            chart_data.candle_data,
             scale_width_adjustment=dict(volume=0.9, candle=0.7, lines=0.05),
             update_width_config=dict(candle_linewidth=0.6),
             returnfig=True,
+            show_nontrading=True,
             type='candle',
+            # axisoff=True,
             # mav=(10, 20),
             **plot_args
         )
-        #plt.rcParams['figure.figsize'] = [8.0, 8.0]
-        #plt.rcParams['savefig.dpi'] = display.dpi()
-        #plt.subplots_adjust(left=0.0, bottom=0.0, right=1, top=1, wspace=0.1, hspace=0.0)
-        #plt.margins(x=0)
-
+      
         # 🪓 make axes look nicer
         for a in ax:
-            # a.set_adjustable('box')
-            a.yaxis.set_major_formatter(EngFormatter(sep='',places=1))
-            a.xaxis.set_major_locator(AutoDateLocator(minticks = 2, maxticks = 3))
-            
+            a.yaxis.set_major_formatter(EngFormatter(sep='', places=2))
+            #a.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f"{x:+.1%}"))
+            a.xaxis.set_major_locator(AutoDateLocator(minticks=3, maxticks=5))
+            a.xaxis.set_major_formatter(ConciseDateFormatter(a.xaxis.get_major_locator()))
+            # x scale fits value range instead of padding to centre graph
             a.autoscale(enable=True, axis="both", tight=True)
-            # margin between candles and axes
-            a.margins(0.05, 0.2)
-            a.xaxis.labelpad = 0
-            # a.tick_params(pad=0, axis='both')
-            a.locator_params(axis='both', tight=True)
-            # remove labels
-            _ = a.set_ylabel("")
-            _ = a.set_xlabel("")
-            a.autoscale_view(True)
-            # a.reset_position()
-            # _ = a.set_frame_on(False)
             # ✔️ align tick labels inside edges
             if self.config.expand_chart():
                 for ylabel in a.yaxis.get_ticklabels():
@@ -129,16 +104,7 @@ class MplFinanceChart:
                 ax[2].set_position((0, 0, 1, 0.3))
                 ax[0].set_position((0, 0.3, 1, 0.7))
                 ax[1].set_position((0, 0.3, 1, 0.7))
-
-        fig.set_tight_layout(True)
-        fig.set_constrained_layout_pads(w_pad=0, h_pad=0)
-
-        fig.savefig(
-            stream,
-            dpi=fig.dpi,
-            # bbox_inches='tight',
-            pad_inches=0.0,
-            transparent=True,
-        )
+                
+        fig.savefig(stream)
         stream.seek(0)
         plt.close(fig)

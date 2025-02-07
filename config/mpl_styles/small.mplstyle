@@ -1,11 +1,13 @@
 
 font.family: sans-serif
-font.sans-serif: 04b03
-font.weight: light
+font.sans-serif: Minecraftia
+# font.weight: light
 
 xtick.labelsize:    6
 ytick.labelsize:    6
 
-axes.xmargin:       0.15
-axes.ymargin:       0.15
-axes.zmargin:       0.1
+axes.xmargin:       0.05
+axes.ymargin:       0.1
+xtick.alignment:     left
+# date.autoformatter.day:         %Y-%m
+# date.converter: concise

@@ -33,11 +33,14 @@ class ChartOverlay():
         # 🕒 add the time if configured
         if self.config.show_timestamp() == 'true':
             yield DrawText(self.format_time(), self.tiny_font, align=Align.BottomRight)
+            
         # 📡 add the ip address if configured
         if self.config.show_ip() == 'true':
             yield DrawText(get_ip(), self.tiny_font, align=Align.BottomLeft)
+
         # 🔲 add a border if configured
         yield Border(self.config.border_type())
+
         # 🖊️ add configured overlay
         if self.config.overlay_type() == "2":
             for element in self.overlay2(self.chart_data):
@@ -58,7 +61,7 @@ class ChartOverlay():
                 DrawText.percentage(chartdata.percentage_change(), self.title_font),
             ],
             # 🐘 large font price text
-            [DrawText.draw_string(human_format(chartdata.last_close()), self.price_font)],
+            [DrawText.draw_string(human_format(chartdata.last_close(), ndigits=3), self.price_font)],
             # 💬 draw holdings or comment
             [
                 DrawText.number(portfolio_pnl, self.title_font)
@@ -84,7 +87,7 @@ class ChartOverlay():
             # ➗ draw coloured change percentage
             [DrawText.percentage(chartdata.percentage_change(), self.title_font)],
             # 🐘 large font price text
-            [DrawText.number_6sf(chartdata.last_close(), self.price_font)],
+            [DrawText.draw_string(human_format(chartdata.last_close(), ndigits=3), self.price_font)],
             # 💬 draw holdings or comment
             [
                 DrawText.draw_string(human_format(portfolio_value), self.title_font)
