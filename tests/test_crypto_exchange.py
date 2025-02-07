@@ -33,10 +33,10 @@ class TestFetcingPriceHistory(unittest.TestCase):
     # dont write randomised data files to disk, the rendering tests get confused
     def test_random_timeframe(self):
         with self.subTest(msg="random"):
-            check_price_history("random", self.cryptocom, "CRO/BTC", store_candle_data=False)
+            check_price_history("random", self.cryptocom, "CRO/BTC")
 
 
-def check_price_history(candle_width, exchange, instrument, store_candle_data=True):
+def check_price_history(candle_width, exchange, instrument, store_candle_data=False):
     # ⬇️ fetch data from selected exchange
     expected_candle_count = 40
     start_time = datetime.datetime.strptime('2023-11-10T00:00', '%Y-%m-%dT%H:%M')
