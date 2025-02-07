@@ -10,6 +10,7 @@ services:
         platform: linux/arm64/v7
         privileged: true
         restart: unless-stopped
+        network_mode: "host" # alows us to show IP address
         build: 
             dockerfile: bitbot.dockerfile
             context: .
@@ -17,6 +18,7 @@ services:
             - app_config:/code/config:rw
             - app_logs:/code/logs:rw
             - app_pictures:/code/pictures:rw
+            - /etc/localtime:/etc/localtime:ro # share timezone with the pi
         #environment:
         #    - BITBOT_OUTPUT=disk, waveshare.epd2in7b_V2, inky
     

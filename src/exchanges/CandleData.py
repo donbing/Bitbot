@@ -16,6 +16,9 @@ class CandleData():
     def start_price(self):
         firstClose = self.candle_data.at[self.candle_data.index[0], 'Close']
         return float(firstClose)
+    
+    def price_change(self):
+        return abs(self.start_price() - self.last_close())
 
     def __repr__(self):
         return f'<{self.instrument} {self.candle_width} candle data>'
