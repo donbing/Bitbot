@@ -1,5 +1,4 @@
-cryptography==43.0.1
-cryptography==43.0.1
+cryptography==42.0.8 # ssl issue prevents upgrade
 Pillow==11.1.0
 numpy==1.26.4
 pandas==2.1.1
