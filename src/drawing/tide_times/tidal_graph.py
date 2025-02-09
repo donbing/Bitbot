@@ -89,7 +89,7 @@ def render_tide_chart(location_id, img_buf):
             xytext=(-15, 0),
             textcoords='offset points',
             ha='center',
-            fontsize=8,
+            fontsize=11,
             color='red'
         )
         # Label for maximum
@@ -99,7 +99,7 @@ def render_tide_chart(location_id, img_buf):
             xytext=(14, 0),
             textcoords='offset points',
             ha='center',
-            fontsize=8,
+            fontsize=11,
             color='blue'
         )
 
