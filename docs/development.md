@@ -41,7 +41,7 @@ UML diagram of broad [package interactions](http://www.plantuml.com/plantuml/svg
  - [`Pillow`](https://github.com/python-pillow/Pillow) draws **drawing overlay** text onto the graph
 
 ## 🐳 Docker 
-**Github actions** builds and tests and publishes a **container image** on each commit to `main` and `release`  
+**Github actions** builds and tests and publishes a **container image** on each commit to `develop` and `release`  
 
 🐳 `x86` faster than the Pi.
 ```sh
