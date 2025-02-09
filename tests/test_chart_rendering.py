@@ -6,6 +6,7 @@ from src.configuration.bitbot_config import load_config_ini
 import os
 import pathlib
 import unittest
+import glob
 
 from src.drawing.market_charts.mpf_plotted_chart import MplFinanceChart
 from src.exchanges.CandleData import CandleData
@@ -59,7 +60,8 @@ class TestRenderingMeta(type):
 
             return test
 
-        for file_name in os.listdir(test_data_path):
+        for file_path in glob.glob(f"{test_data_path}/*.pkl"):
+            file_name = os.path.basename(file_path)
             test_name = f"test_{file_name}".replace(".pkl","")
             this_tests_images_path=os.path.join(test_images_path, chart_size)
             os.makedirs(this_tests_images_path, exist_ok=True)
