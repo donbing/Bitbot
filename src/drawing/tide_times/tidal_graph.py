@@ -2,6 +2,7 @@ import requests
 import matplotlib.pyplot as plt
 from datetime import datetime
 from PIL import Image
+import matplotlib as mpl
 
 def get_tide_data(station_id):
 
@@ -37,6 +38,16 @@ def render_tide_chart(location_id, img_buf):
     dates = [datetime.strptime(d['date'], '%Y-%m-%d %H:%M') for d in tide_data]
     heights = [d['height'] for d in tide_data]
     
+    
+    mpl.rcParams["text.hinting_factor"] = "1"
+    mpl.rcParams["text.hinting"] = "native"
+    mpl.rcParams["text.antialiased"] = "False"
+    mpl.rcParams["patch.antialiased"] = "False"
+    mpl.rcParams["lines.antialiased"] = "False"
+    mpl.rcParams["font.family"] = "sans-serif"
+    mpl.rcParams["font.sans-serif"] = "basis33"
+    mpl.rcParams["font.size"] = "11"
+
     plt.figure(figsize=(4, 3))
     plt.plot(dates, heights)
     plt.title('Next 7 Days')
