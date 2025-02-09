@@ -48,6 +48,9 @@ def render_tide_chart(location_id, img_buf):
     mpl.rcParams["font.sans-serif"] = "basis33"
     mpl.rcParams["font.size"] = "11"
     mpl.rcParams["axes.linewidth"] = "0.5"
+    mpl.rcParams["grid.linestyle"] = "--"
+    mpl.rcParams["grid.linewidth"] = "0.5"
+    mpl.rcParams["grid.color"] = "red"
 
     plt.figure(figsize=(4, 3))
     plt.plot(dates, heights)
@@ -87,20 +90,20 @@ def render_tide_chart(location_id, img_buf):
         plt.annotate(
             f"{values['min'][0].strftime('%-I:%p')}",
             xy=(values['min'][0], values['min'][1]),
-            xytext=(-15, 0),
+            xytext=(-15, -5),
             textcoords='offset points',
             ha='center',
-            fontsize=16,
+            fontsize=11,
             color='red'
         )
         # Label for maximum
         plt.annotate(
             f"{values['max'][0].strftime('%-I:%p')}",
             xy=(values['max'][0], values['max'][1]),
-            xytext=(14, 0),
+            xytext=(14, 5),
             textcoords='offset points',
             ha='center',
-            fontsize=16,
+            fontsize=11,
             color='blue'
         )
 
