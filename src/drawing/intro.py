@@ -2,6 +2,9 @@ from PIL import Image, ImageDraw
 import time
 from .image_utils.CenteredText import centered_text
 from ..configuration.network_utils import wait_for_internet_connection
+
+from src.configuration.network_utils import get_ip
+
 page1 = '''I'm Bitbot.
 
 I can chart crypto and stock markets.
@@ -20,10 +23,10 @@ and follow the instructions on-screen.
 Once I have internet access,
 I will load the next page...'''
 
-page3 = '''Good job! I'm connected :D
+page3 = f'''Good job! I'm connected :D
 
 To change my config,
-visit 'http://bitbot:8080'
+visit 'http://{get_ip()}:8080'
 from any device in your network.
 
 In 30 seconds time,

@@ -4,16 +4,14 @@ from datetime import datetime
 from PIL import Image
 import matplotlib as mpl
 
+easytide_base_url = "https://easytide.admiralty.co.uk/Home/GetPredictionData"
+
 def get_tide_data(station_id):
-
-    base_url = "https://easytide.admiralty.co.uk/Home/GetPredictionData"
-
-    
     params = {
         'stationId': station_id,
     }
 
-    response = requests.get(base_url, params=params)
+    response = requests.get(easytide_base_url, params=params)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch data: HTTP {response.status_code}")
 
@@ -24,7 +22,6 @@ def get_tide_data(station_id):
     
     tide_data = []
     for entry in data["tidalEventList"]:
-        # Convert timestamp to a readable format
         date = datetime.strptime(entry['dateTime'], "%Y-%m-%dT%H:%M:%S").strftime('%Y-%m-%d %H:%M')
         height = entry['height']
         tide_data.append({'date': date, 'height': height})
@@ -37,7 +34,6 @@ def render_tide_chart(location_id, img_buf):
     from datetime import datetime
     dates = [datetime.strptime(d['date'], '%Y-%m-%d %H:%M') for d in tide_data]
     heights = [d['height'] for d in tide_data]
-    
     
     mpl.rcParams["text.hinting_factor"] = "1"
     mpl.rcParams["text.hinting"] = "native"
