@@ -47,6 +47,7 @@ def render_tide_chart(location_id, img_buf):
     mpl.rcParams["font.family"] = "sans-serif"
     mpl.rcParams["font.sans-serif"] = "basis33"
     mpl.rcParams["font.size"] = "11"
+    mpl.rcParams["axes.linewidth"] = "0.5"
 
     plt.figure(figsize=(4, 3))
     plt.plot(dates, heights)
