@@ -85,13 +85,13 @@ class BitBot():
     @info_log
     def display_connection_error(self):
         self.display_message("""
-        NO INTERNET CONNECTION
-        ----------------------------
-        Please check your WIFI
-        ----------------------------
-        To configure WiFi access,
-        connect to 'bitbot-<nnn>' WiFi AP
-        and follow the instructions""")
+NO INTERNET CONNECTION
+----------------------------
+Please check your WIFI
+----------------------------
+To configure WiFi access,
+connect to 'bitbot-<nnn>' WiFi AP
+and follow the instructions""")
 
     def __repr__(self):
         return f'<BitBot output: {str(self.config.output_device_name())}>'
