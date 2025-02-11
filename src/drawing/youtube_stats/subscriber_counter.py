@@ -23,5 +23,5 @@ class YouTubeSubscriberCount:
         text_to_draw = f"{subscriber_count} Subscribers"
         img = Image.new("RGBA", self.display_size.size, transparent)
         draw = ImageDraw.Draw(img)
-        centered_text(draw, text_to_draw, self.font, self.display_size, 'centre')
+        centered_text(draw, text_to_draw, self.font, self.display_size.size, 'centre')
         return img
