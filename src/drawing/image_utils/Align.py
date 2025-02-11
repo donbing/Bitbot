@@ -3,13 +3,13 @@ from . import padding
 
 class Align:
     def TopRight(display, message_size):
-        return (display.size[0] - message_size[0] - padding - 1, padding)
+        return (display[0] - message_size[0] - padding - 1, padding)
 
     def BottomRight(display, message_size):
-        return (display.size[0] - message_size[0], display.size[1] - message_size[1])
+        return (display[0] - message_size[0], display[1] - message_size[1])
 
     def BottomLeft(display, message_size):
-        return (0, display.size[1] - message_size[1])
+        return (0, display[1] - message_size[1])
 
     def TopLeft(display, message_size):
         return (0 + padding + 1, 0 + padding + 1)
