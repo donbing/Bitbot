@@ -1,6 +1,7 @@
 from PIL import ImageFont, Image, ImageDraw, ImageChops
 from src.drawing.image_utils.DrawText import DrawText
 from src.drawing.image_utils.TextBlock import TextBlock
+from src.drawing.image_utils.CenteredText import centered_text
 from src.configuration.bitbot_files import use_config_dir
 import unittest
 import os
@@ -44,6 +45,27 @@ class TestTextBlocks(unittest.TestCase):
 
         if diff.getbbox():
             file_name = f'tests/images/overlay_diff.png'
+            diff.save(file_name)
+            assert False, f"images were different, see '{file_name}'"
+            # os.system(f"code 'diff.png'")
+
+            
+    def test_centered(self):
+        image_file_name = 'tests/images/test_centered.png'
+        img = Image.new("RGBA", (400, 300), transparent)
+        draw = ImageDraw.Draw(img)
+        centered_text(draw, "test", self.price_font, img.size, 'centre')
+
+        img.save(image_file_name)
+
+        previous_image = Image.open(image_file_name) if os.path.isfile(image_file_name) else None
+        if previous_image is None:
+            assert False, f"New image result, re-run the test to accept: '{image_file_name}'"
+
+        diff = ImageChops.difference(img, previous_image)
+
+        if diff.getbbox():
+            file_name = f'tests/images/test_centered.png'
             diff.save(file_name)
             assert False, f"images were different, see '{file_name}'"
             # os.system(f"code 'diff.png'")
