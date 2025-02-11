@@ -104,7 +104,7 @@ class ChartOverlay():
         return chartdata.start_price() < chartdata.last_close()
 
     def format_time(self):
-        return datetime.now().strftime("%-H:%M%b%-d")
+        return datetime.now().strftime("%-H:%M %b%-d")
 
     def ai_comments(self):
         return self.config.get_price_action_comments()
