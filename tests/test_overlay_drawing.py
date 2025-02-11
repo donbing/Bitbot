@@ -7,12 +7,11 @@ import unittest
 import os
 import pathlib
 
-curdir = pathlib.Path(__file__).parent.resolve()
-files = use_config_dir(os.path.join(curdir, "../"))
+current_directory = pathlib.Path(__file__).parent.resolve()
+files = use_config_dir(os.path.join(current_directory, "../"))
 
 transparent = (0, 0, 0, 0)
 white = (255, 255, 255)
-image_file_name = 'tests/images/title_block.png'
 
 
 class TestTextBlocks(unittest.TestCase):
@@ -21,6 +20,7 @@ class TestTextBlocks(unittest.TestCase):
     price_font = ImageFont.truetype(fontPath, 32)
 
     def test_text_block(self):
+        image_file_name = 'tests/images/title_block.png'
         block = TextBlock([
             [
                 DrawText('GBP' + ' (' + 'Sterling' + ') ', self.title_font, colour=white),
@@ -33,16 +33,14 @@ class TestTextBlocks(unittest.TestCase):
 
         image = Image.new('RGBA', block.size(), transparent)
         image_drawing = ImageDraw.Draw(image)
-
         block.draw_on(image_drawing)
-        image.save(image_file_name)
 
         previous_image = Image.open(image_file_name) if os.path.isfile(image_file_name) else None
         if previous_image is None:
             assert False, f"New image result, re-run the test to accept: '{image_file_name}'"
 
+        image.save(image_file_name)
         diff = ImageChops.difference(image, previous_image)
-
         if diff.getbbox():
             file_name = f'tests/images/overlay_diff.png'
             diff.save(file_name)
@@ -52,20 +50,18 @@ class TestTextBlocks(unittest.TestCase):
             
     def test_centered(self):
         image_file_name = 'tests/images/test_centered.png'
-        img = Image.new("RGBA", (400, 300), transparent)
-        draw = ImageDraw.Draw(img)
-        centered_text(draw, "test", self.price_font, img.size, 'centre')
-
-        img.save(image_file_name)
+        image = Image.new("RGBA", (400, 300), transparent)
+        draw = ImageDraw.Draw(image)
+        centered_text(draw, "test", self.price_font, image.size, 'centre', border=True)
 
         previous_image = Image.open(image_file_name) if os.path.isfile(image_file_name) else None
         if previous_image is None:
             assert False, f"New image result, re-run the test to accept: '{image_file_name}'"
 
-        diff = ImageChops.difference(img, previous_image)
-
+        image.save(image_file_name)
+        diff = ImageChops.difference(image, previous_image)
         if diff.getbbox():
-            file_name = f'tests/images/test_centered.png'
+            file_name = f'tests/images/test_centered_diff.png'
             diff.save(file_name)
-            assert False, f"images were different, see '{file_name}'"
-            # os.system(f"code 'diff.png'")
+            assert False, f"images were different, see '{image_file_name}'"
+            # os.system(f"code '{image_file_name}'")

@@ -14,9 +14,9 @@ class Align:
     def TopLeft(display, message_size):
         return (0 + padding + 1, 0 + padding + 1)
 
-    def Centre(display_size, message_size):
-        message_y = (display_size[1] - message_size[1]) / 2
-        message_x = (display_size[0] - message_size[0]) / 2
+    def Centre(display, message_size):
+        message_y = (display[0] - message_size[0]) / 2
+        message_x = (display[1] - message_size[1]) / 2
         return (message_y, message_x)
 
     # 🏳️ select image area with the most white pixels
