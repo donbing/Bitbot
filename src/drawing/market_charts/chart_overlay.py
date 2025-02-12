@@ -14,12 +14,11 @@ from src.drawing.market_charts.price_humaniser import human_format
 class ChartOverlay():
     def __init__(self, config, display, chart_data):
         self.config = config
-        self.display = display
         self.chart_data = chart_data
-        self.title_font = self.display.title_font
-        self.price_font = self.display.price_font
-        self.medium_font = self.display.medium_font
-        self.tiny_font = self.display.tiny_font
+        self.title_font = display.title_font
+        self.price_font = display.price_font
+        self.medium_font = display.medium_font
+        self.tiny_font = display.tiny_font
 
     @info_log
     def draw_on(self, chart_image):

@@ -1,6 +1,6 @@
 from .DrawText import DrawText
 
-
+# texts is array of drawtext
 class TextBlock:
     def __init__(self, texts, align=None):
         self.texts = texts
@@ -26,5 +26,5 @@ class TextBlock:
 
     def draw_text_row(self, draw, x_pos, y_pos, row):
         for text in row:
-            text.draw_on(draw, (x_pos, y_pos))
+            text.draw_on(draw, pos=(x_pos, y_pos))
             x_pos += DrawText.width(text)

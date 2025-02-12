@@ -2,21 +2,24 @@ from . import padding
 
 
 class Align:
-    def TopRight(display, message_size):
-        return (display[0] - message_size[0] - padding - 1, padding)
+    def TopRight(display_size, message_size):
+        return (display_size[0] - message_size[0] - padding - 1, padding)
 
-    def BottomRight(display, message_size):
-        return (display[0] - message_size[0], display[1] - message_size[1])
+    def BottomRight(display_size, message_size):
+        display_width_minus_text_width = display_size[0] - message_size[0]
+        display_height_minus_text_height = display_size[1] - message_size[1]
+        
+        return (display_width_minus_text_width, display_height_minus_text_height)
 
-    def BottomLeft(display, message_size):
-        return (0, display[1] - message_size[1])
+    def BottomLeft(display_size, message_size):
+        return (0, display_size[1] - message_size[1])
 
-    def TopLeft(display, message_size):
+    def TopLeft(display_size, message_size):
         return (0 + padding + 1, 0 + padding + 1)
 
-    def Centre(display, message_size):
-        message_y = (display[0] - message_size[0]) / 2
-        message_x = (display[1] - message_size[1]) / 2
+    def Centre(display_size, message_size):
+        message_y = (display_size[0] - message_size[0]) / 2
+        message_x = (display_size[1] - message_size[1]) / 2
         return (message_y, message_x)
 
     # 🏳️ select image area with the most white pixels
