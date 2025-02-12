@@ -59,5 +59,5 @@ class DrawText:
         self.align = align
 
     def draw_on(self, draw, pos=(0, 0)):
-        pos = self.align(draw.im, self.size) if self.align else pos
+        pos = self.align(draw.im.size, self.size) if self.align else pos
         draw.text(pos, self.text, self.colour, self.font)

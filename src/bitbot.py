@@ -2,7 +2,6 @@ from PIL import Image, ImageDraw
 from os.path import exists
 import io
 
-from matplotlib import font_manager
 from src.drawing.market_charts.mpf_plotted_chart import MplFinanceChart
 from src.exchanges import crypto_exchanges, stock_exchanges
 from src.configuration.log_decorator import info_log
@@ -90,7 +89,7 @@ NO INTERNET CONNECTION
 Please check your WIFI
 ----------------------------
 To configure WiFi access,
-connect to 'bitbot-<nnn>' WiFi AP
+connect to 'comitup-<nnn>' WiFi AP
 and follow the instructions""")
 
     def __repr__(self):
