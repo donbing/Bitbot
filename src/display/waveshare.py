@@ -48,8 +48,8 @@ class Waver(DisplayBase):
             time.sleep(1)
             epd.display(epd.getbuffer(black_image), epd.getbuffer(color_image))
             epd.sleep()
-        except TypeError:
-            epd.display(epd.getbuffer(color_image))
+        except TypeError: # hax to deal with waveshare epd diver API variation
+            epd.display(epd.getbuffer(image))
             epd.sleep()
         finally:
             self.lock.release()
