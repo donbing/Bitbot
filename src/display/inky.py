@@ -24,6 +24,8 @@ class Inker(DisplayBase):
                     self.display.set_border(self.display.WHITE)  
                 case "black":      
                     self.display.set_border(self.display.BLACK)
+                case "red":
+                    self.display.set_border(self.display.RED)
             
         # 🌀 rotate/resize the image
         image = self.apply_rotation(image)
