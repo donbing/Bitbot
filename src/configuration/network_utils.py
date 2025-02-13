@@ -1,5 +1,6 @@
-from .log_decorator import info_log
 import socket
+from .log_decorator import info_log
+import http.client as httplib
 import time
 
 
@@ -17,15 +18,16 @@ def get_ip():
     return ip
 
 
-def network_connected(hostname="google.com"):
+def network_connected(hostname="8.8.8.8") -> bool:
     # 📡 test if internet is available
+    conn = httplib.HTTPSConnection(hostname, timeout=5)
     try:
-        host = socket.gethostbyname(hostname)
-        socket.create_connection((host, 80), 2).close()
+        conn.request("HEAD", "/")
         return True
     except Exception:
-        time.sleep(1)
-    return False
+        return False
+    finally:
+        conn.close()
 
 
 @info_log
