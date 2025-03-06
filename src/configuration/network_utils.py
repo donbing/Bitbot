@@ -25,11 +25,14 @@ def network_connected(hostname="8.8.8.8") -> bool:
         conn.request("HEAD", "/")
         return True
     except Exception:
-        return False
+        return network_error(e)
     finally:
         conn.close()
 
-
+@info_log
+def network_error(exception):
+    return False
+    
 @info_log
 def wait_for_internet_connection(action):
     connection_error_shown = False
