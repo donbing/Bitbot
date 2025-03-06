@@ -7,7 +7,7 @@ volumes:
 services:
 
     bitbot:
-        platform: linux/arm64/v7
+        #platform: linux/arm64/v7
         privileged: true
         restart: unless-stopped
         network_mode: "host" # alows us to show IP address
@@ -23,7 +23,7 @@ services:
         #    - BITBOT_OUTPUT=disk, waveshare.epd2in7b_V2, inky
     
     config-editor:
-        platform: linux/arm64/v7
+        #platform: linux/arm64/v7
         restart: unless-stopped
         build:  
             dockerfile: config-server.dockerfile
