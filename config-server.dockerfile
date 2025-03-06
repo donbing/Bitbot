@@ -28,4 +28,4 @@ RUN python3 -m pip install -v \
 # prep app code
 WORKDIR /code
 COPY . .
-CMD ["python3", "config_webserver.py"]
+CMD ["python3", "src/config_webserver.py"]
