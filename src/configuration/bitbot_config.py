@@ -192,7 +192,7 @@ class BitBotConfig():
 
     # 🌱 intro setup
     def on_first_run(self, action):
-        if self.config["first_run"]['enabled'] == "true":
+        if self.config.get('first_run', 'enabled', fallback=None) == "true":
             action()
             self.set('first_run', 'enabled', "false")
             self.save()
@@ -205,7 +205,7 @@ class BitBotConfig():
 
     # 📺 youtube subs setup 
     def youtube_subs_enabled(self):
-        return self.config['youtube_subs']["enabled"] == 'true'
+        return self.config.get('youtube_subs', 'enabled', fallback=None) == 'true'
 
     def youtube_channelid():
         return "UCAotflAHrgfuhK9Rw-C_-Ug"
