@@ -4,8 +4,8 @@ import os
 import pathlib
 import time
 import uuid
-from src.configuration.bitbot_files import BitBotFiles
-from src.configuration.bitbot_config import load_config_ini
+from configuration.bitbot_files import BitBotFiles
+from configuration.bitbot_config import load_config_ini
 from flask import Flask, jsonify, render_template, request, redirect, send_from_directory, url_for
 from PIL import Image
 import ccxt
