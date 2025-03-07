@@ -24,7 +24,7 @@ def network_connected(hostname="8.8.8.8") -> bool:
     try:
         conn.request("HEAD", "/")
         return True
-    except Exception:
+    except Exception as e:
         return network_error(e)
     finally:
         conn.close()
