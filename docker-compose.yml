@@ -27,7 +27,7 @@ services:
             - app_logs:/code/logs:rw
             - app_pictures:/code/pictures:rw
         ports:
-            - "8080:8080"
+            - "8080:8081"
             
     # display-driver:
     #     platform: linux/arm64/v7
