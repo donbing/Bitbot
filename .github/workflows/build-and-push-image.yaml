@@ -12,6 +12,14 @@ env:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: bitbot.dockerfile
+            image: ghcr.io/donbing/bitbot
+          - dockerfile: config-server.dockerfile
+            image: ghcr.io/donbing/bitbot-config-server
     permissions:
       contents: read
       packages: write
@@ -37,37 +45,47 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build test image and load into Docker
-        uses: docker/build-push-action@v6
+          images: ${{ matrix.image }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          load: true
-          file: bitbot.dockerfile
-          tags:  ${{ env.TEST_TAG }}
           platforms: linux/arm/v7
-
-      - name: Run test image
-        run: |
-          docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false ${{ env.TEST_TAG }} 
-
-      - name: Build and push bitbot docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: bitbot.dockerfile
-          platforms: linux/arm/v7
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push config server docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: config-server.dockerfile
-          platforms: linux/arm/v7
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      # - name: Build test image and load into Docker
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     load: true
+      #     file: bitbot.dockerfile
+      #     tags:  ${{ env.TEST_TAG }}
+      #     platforms: linux/arm/v7
+
+      # - name: Run test image
+      #   run: |
+      #     docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false ${{ env.TEST_TAG }} 
+
+      # - name: Build and push bitbot docker image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     file: bitbot.dockerfile
+      #     platforms: linux/arm/v7
+      #     push: true
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
+
+      # - name: Build and push config server docker image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     file: config-server.dockerfile
+      #     platforms: linux/arm/v7
+      #     push: true
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
