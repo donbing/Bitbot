@@ -52,11 +52,21 @@ jobs:
         run: |
           docker run --rm --env BITBOT_TESTRUN=true --env BITBOT_OUTPUT=disk --env BITBOT_SHOWIMAGE=false ${{ env.TEST_TAG }} 
 
-      - name: Build and push real Docker image
+      - name: Build and push bitbot docker image
         uses: docker/build-push-action@v6
         with:
           context: .
           file: bitbot.dockerfile
+          platforms: linux/arm/v7
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push config server docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: config-server.dockerfile
           platforms: linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}
