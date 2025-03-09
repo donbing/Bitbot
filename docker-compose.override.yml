@@ -1,0 +1,14 @@
+services:
+
+    bitbot:
+        build: 
+            dockerfile: bitbot.dockerfile
+            context: .
+        environment:
+           - BITBOT_OUTPUT=disk #, waveshare.epd2in7b_V2, inky
+    
+    config-editor:
+        build:  
+            dockerfile: config-server.dockerfile
+            context: .
+            

@@ -7,13 +7,10 @@ volumes:
 services:
 
     bitbot:
-        #platform: linux/arm64/v7
+        image: ghcr.io/donbing/bitbot:latest
         privileged: true
         restart: unless-stopped
         network_mode: "host" # alows us to show IP address
-        build: 
-            dockerfile: bitbot.dockerfile
-            context: .
         volumes:
             - app_config:/code/config:rw
             - app_logs:/code/logs:rw
@@ -23,11 +20,8 @@ services:
         #    - BITBOT_OUTPUT=disk, waveshare.epd2in7b_V2, inky
     
     config-editor:
-        #platform: linux/arm64/v7
+        image: ghcr.io/donbing/bitbot-config-server:latest
         restart: unless-stopped
-        build:  
-            dockerfile: config-server.dockerfile
-            context: .
         volumes:
             - app_config:/code/config:rw
             - app_logs:/code/logs:rw
