@@ -8,7 +8,7 @@ mplfinance>=0.12.10b0
 watchdog==6.0.0
 ccxt==4.4.40
 inky==2.0.0
-yfinance==0.2.51               
+yfinance==0.2.54
 tzlocal
 python-dateutil
 
