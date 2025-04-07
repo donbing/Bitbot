@@ -22,8 +22,10 @@ class Exchange():
             candle_width,
             max_candles,
             chart_since)
-        
-        candle_data = parse_to_dataframe(dirty_price_data)
+        if(len(dirty_price_data) > 0):
+            candle_data = parse_to_dataframe(dirty_price_data)
+        else:
+            candle_data = pd.DataFrame()
 
         return CandleData(instrument, candle_width, candle_data)
 
