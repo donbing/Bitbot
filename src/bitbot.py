@@ -55,7 +55,7 @@ class BitBot():
     def display_message(self, message):  
         img = Image.new("RGBA", self.display.size(), (255, 255, 255, 0))
         draw = ImageDraw.Draw(img)
-        centered_text(draw, message, self.display.title_font, img.size, border=True, pos="centre")
+        centered_text(draw, message, self.display.title_font, img.size, border=False, pos="centre")
         self.display.show(img)
         return img
 
