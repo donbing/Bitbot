@@ -9,6 +9,7 @@ from src.exchanges.CandleData import CandleData
 # 🪙 CCXT based crypto exchange client
 class Exchange():
     def __init__(self, exchange_name):
+        self.name = exchange_name
         self.exchange = load_exchange(exchange_name)
         
     def fetch_history(self, candle_width, instrument, chart_since=None, max_candles=40):
