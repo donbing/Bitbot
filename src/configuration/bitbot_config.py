@@ -226,4 +226,10 @@ class BitBotConfig():
     
     def special_message(self, datetime):
         return self.config.get('special_messages', datetime.strftime("%YYYY-%MM-%DD"), fallback=None)
+    
+    def text_message(self):
+        return self.config.get('special_messages', 'static_message', fallback=None)
+    
+    def text_message_enabled(self):
+        return self.config.get('special_messages', 'static_enabled', fallback=False) == "true"
 

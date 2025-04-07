@@ -52,6 +52,8 @@ def refresh_display(sc, reason):
         app.cycle_chart()
     elif config.today_has_special_message(now):
         app.display_message(config.special_message(now))
+    elif config.text_message_enabled():
+        app.display_message(config.text_message())
     else:
         app.display_chart()
         
