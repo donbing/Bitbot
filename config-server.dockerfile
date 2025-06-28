@@ -20,9 +20,10 @@ RUN apt-get update -y && \
 # install python reqs
 COPY src/config_server/requirements.txt .
 RUN python3 -m pip install -v \
-    --prefer-binary \
+    --only-binary :all: \
     --no-cache-dir \
     -r requirements.txt \
+    --index-url https://pypi.org/simple \
     --extra-index-url https://www.piwheels.org/simple 
 
 # prep app code

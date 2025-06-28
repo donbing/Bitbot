@@ -15,8 +15,9 @@ RUN python3 -m pip install --upgrade pip --no-cache-dir
 COPY requirements.txt .
 
 RUN python3 -m pip install -v \
-    --prefer-binary \
+    --only-binary :all: \
     -r requirements.txt \
+    --index-url https://pypi.org/simple \
     --extra-index-url https://www.piwheels.org/simple \
     --no-cache-dir
 
