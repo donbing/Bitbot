@@ -1,3 +1,5 @@
 # Directory for output image and mount point
 output/
 mnt/
+pi-gen/
+stage-bitbot/files/bitbot/

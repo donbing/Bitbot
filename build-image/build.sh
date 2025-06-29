@@ -18,7 +18,7 @@ rsync -a --exclude 'build-image' --exclude '.git' ../../ stage-bitbot/files/bitb
 
 # Ensure pi-gen config exists
 if [ ! -f pi-gen/config ]; then
-  cp pi-gen/config.example pi-gen/config
+  echo "IMG_NAME='bitbot-pi'" > pi-gen/config
 fi
 
 # Add custom stage to build config if not present
