@@ -16,8 +16,13 @@ rm -rf stage-bitbot/files/bitbot
 mkdir -p stage-bitbot/files/bitbot
 rsync -a --exclude 'build-image' --exclude '.git' ../../ stage-bitbot/files/bitbot/
 
-# Add custom stage to build config
-if ! grep -q '^STAGE_LIST=.*stage-bitbot' pi-gen/config; then
+# Ensure pi-gen config exists
+if [ ! -f pi-gen/config ]; then
+  cp pi-gen/config.example pi-gen/config
+fi
+
+# Add custom stage to build config if not present
+if ! grep -q 'stage-bitbot' pi-gen/config; then
   sed -i 's/^STAGE_LIST=.*/& stage-bitbot/' pi-gen/config
 fi
 
