@@ -1,0 +1,38 @@
+# This workflow builds a Raspberry Pi image with Docker and Bitbot pre-installed
+# and uploads the bootable image as an artifact.
+
+name: Build Raspberry Pi Image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-pi-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coreutils kpartx qemu-user-static debootstrap dosfstools rsync parted wget git
+
+      - name: Build Raspberry Pi image
+        run: |
+          cd build-image
+          sudo bash build.sh
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bitbot-pi-image
+          path: build-image/output/bitbot-pi.img
