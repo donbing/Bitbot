@@ -1,5 +1,5 @@
 #!/bin/bash
-# build.sh: Use pi-gen to build a custom Raspberry Pi OS image with Docker and Bitbot
+# build.sh: Use pi-gen (Docker) to build a custom Raspberry Pi OS image with Docker and Bitbot
 set -e
 
 # Clone pi-gen if not present
@@ -23,12 +23,12 @@ fi
 
 # Add custom stage to build config if not present
 if ! grep -q 'stage-bitbot' pi-gen/config; then
-  sed -i 's/^STAGE_LIST=.*/& stage-bitbot/' pi-gen/config
+  echo "STAGE_LIST='stage0 stage1 stage2 stage-bitbot'" >> pi-gen/config
 fi
 
-# Build the image
+# Build the image using Docker
 cd pi-gen
-sudo ./build.sh
+./build-docker.sh
 
 # Move the final image to output directory
 cd ..
