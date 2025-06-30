@@ -3,10 +3,11 @@
 
 name: Build Bitbot Pi Image
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
+on: [push]
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches: [ main ]
 
 jobs:
   build-pi-image:
