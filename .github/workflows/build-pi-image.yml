@@ -24,7 +24,7 @@ jobs:
         with:
           image-name: bitbot-pi
           hostname: bitbot
-          stage-list: stage0 stage1 stage2 build-image\stage-bitbot
+          stage-list: stage0 stage1 stage2 stage-bitbot
           release: bookworm
 
       - name: Upload image artifact
