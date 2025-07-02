@@ -52,9 +52,11 @@ jobs:
 
       - name: Build Raspberry Pi image with pi-gen-action
         uses: usimd/pi-gen-action@v1
+        id: build
         with:
           image-name: bitbot-pi
           hostname: bitbot
+          enable-ssh: true
           stage-list: stage0 stage1 stage2 test-stage
           release: bookworm
           # increase-runner-disk-size: true
@@ -63,4 +65,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bitbot-pi-image
-          path: pi-gen/deploy/*.img
+          path: ${{ steps.build.outputs.image-path }}
