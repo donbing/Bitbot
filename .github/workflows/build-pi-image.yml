@@ -59,6 +59,7 @@ jobs:
           enable-ssh: 1
           stage-list: stage0 stage1 stage2 test-stage
           release: bookworm
+          compression: zip
           # increase-runner-disk-size: true
 
       - name: Upload image artifact
