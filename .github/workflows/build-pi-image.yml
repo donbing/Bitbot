@@ -56,7 +56,7 @@ jobs:
         with:
           image-name: bitbot-pi
           hostname: bitbot
-          enable-ssh: true
+          enable-ssh: 1
           stage-list: stage0 stage1 stage2 test-stage
           release: bookworm
           # increase-runner-disk-size: true
