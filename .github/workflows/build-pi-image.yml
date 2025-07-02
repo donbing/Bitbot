@@ -18,14 +18,37 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+      # Create a stage 'test-stage' instructing to add Nodesource repo and install nodejs as dependency
+
+      - run: |
+          mkdir -p test-stage/package-test &&
+          {
+          cat > test-stage/package-test/00-run-chroot.sh <<-EOF
+          #!/bin/bash
+          apt-get install -y curl
+          curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+          EOF
+          } &&
+          chmod +x test-stage/package-test/00-run-chroot.sh &&
+          echo "nodejs" > test-stage/package-test/01-packages &&
+          {
+          cat > test-stage/prerun.sh <<-EOF
+          #!/bin/bash -e
+          if [ ! -d "\${ROOTFS_DIR}" ]; then
+            copy_previous
+          fi
+          EOF
+          } &&
+          chmod +x test-stage/prerun.sh
 
       - name: Build Raspberry Pi image with pi-gen-action
         uses: usimd/pi-gen-action@v1
         with:
           image-name: bitbot-pi
           hostname: bitbot
-          stage-list: stage0 stage1 stage2 stage-bitbot
+          stage-list: stage0 stage1 stage2 test-stage
           release: bookworm
+          # increase-runner-disk-size: true
 
       - name: Upload image artifact
         uses: actions/upload-artifact@v4
