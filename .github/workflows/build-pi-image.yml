@@ -34,6 +34,9 @@ jobs:
           chmod +x ${ROOTFS_DIR}/home/pi/docker-compose.yml
           EOF
           chmod +x docker-stage/00-run-chroot.d/02-copy-compose.sh
+          # c) Add empty 00-run.sh to ensure rootfs is created
+          touch docker-stage/00-run.sh
+          chmod +x docker-stage/00-run.sh
 
       - name: Build Raspberry Pi image with pi-gen-action
         uses: usimd/pi-gen-action@v1
