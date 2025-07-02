@@ -25,16 +25,25 @@ jobs:
           {
           cat > test-stage/package-test/00-run-chroot.sh <<-EOF
           #!/bin/bash
-          apt-get install -y curl
-          curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+          apt-get update
+          apt-get install -y \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+          mkdir -p /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+          echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable\" > /etc/apt/sources.list.d/docker.list
+          apt-get update
+          apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
           EOF
           } &&
           chmod +x test-stage/package-test/00-run-chroot.sh &&
-          echo "nodejs" > test-stage/package-test/01-packages &&
+          echo "docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin" > test-stage/package-test/01-packages &&
           {
           cat > test-stage/prerun.sh <<-EOF
           #!/bin/bash -e
-          if [ ! -d "\${ROOTFS_DIR}" ]; then
+          if [ ! -d "${ROOTFS_DIR}" ]; then
             copy_previous
           fi
           EOF
