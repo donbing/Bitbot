@@ -23,7 +23,7 @@ jobs:
       - name: Create custom stage for Docker
         run: |
           mkdir -p docker-stage/{00-packages,00-run-chroot.d}
-          echo docker.io > docker-stage/00-packages/01-packages
+          echo curl > docker-stage/00-packages/01-packages
           cat > docker-stage/00-run-chroot.d/02-copy-compose.sh << 'EOF'
           #!/bin/bash
           install -Dm644 $GITHUB_WORKSPACE/docker-compose.yml \
