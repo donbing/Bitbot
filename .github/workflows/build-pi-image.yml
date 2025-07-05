@@ -50,6 +50,7 @@ jobs:
           stage-list: stage0 stage1 stage2 docker-stage
           release: bookworm
           compression: zip
+          verbose-output: true
           # increase-runner-disk-size: true
 
       - name: Upload image artifact
