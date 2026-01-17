@@ -97,7 +97,6 @@ tmp/
 temp/
 
 # Logs
-*.log
 logs/
 
 # Environment files with secrets
@@ -108,4 +107,3 @@ logs/
 # Backup files
 *.bak
 *.backup
-*~
