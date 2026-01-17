@@ -53,7 +53,7 @@ This repository includes:
          "args": [
            "-y",
            "@modelcontextprotocol/server-filesystem",
-           "/absolute/path/to/Bitbot"
+           "/REPLACE/WITH/ABSOLUTE/PATH/TO/Bitbot"
          ]
        }
      }
