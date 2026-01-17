@@ -1,3 +1,8 @@
 **/__pycache__
 **.log*
 /.vs
+
+# MCP server cache and temporary files
+.mcp/cache/
+.mcp/*.log
+.mcp/tmp/

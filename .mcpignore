@@ -1,0 +1,111 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing and coverage
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.dockerfile.bak
+docker-compose.override.yml
+
+# Images and binary files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.ico
+*.svg
+*.pdf
+pictures/
+docs/images/
+tests/images/
+
+# Large data files
+*.json.gz
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+
+# Minified files
+*.min.js
+*.min.css
+*.map
+
+# Node modules (if any)
+node_modules/
+
+# Git
+.git/
+.gitignore.bak
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Logs
+*.log
+logs/
+
+# Environment files with secrets
+.env
+.env.local
+.env.*.local
+
+# Backup files
+*.bak
+*.backup
+*~

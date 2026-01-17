@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+    "bitbot-code-review": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/runner/work/Bitbot/Bitbot"
+      ],
+      "env": {},
+      "settings": {
+        "rateLimit": {
+          "enabled": true,
+          "maxRequestsPerMinute": 30,
+          "maxConcurrentRequests": 3
+        },
+        "contextWindow": {
+          "maxTokens": 100000,
+          "chunkSize": 10000,
+          "overlapTokens": 500
+        },
+        "fileFiltering": {
+          "respectGitignore": true,
+          "respectMcpignore": true,
+          "maxFileSize": 1048576,
+          "excludePatterns": [
+            "**/__pycache__/**",
+            "**/node_modules/**",
+            "**/.git/**",
+            "**/*.pyc",
+            "**/*.pyo",
+            "**/*.pyd",
+            "**/.Python",
+            "**/pip-log.txt",
+            "**/pip-delete-this-directory.txt",
+            "**/.pytest_cache/**",
+            "**/.coverage",
+            "**/htmlcov/**",
+            "**/*.egg-info/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/*.so",
+            "**/*.dylib",
+            "**/*.jpg",
+            "**/*.jpeg",
+            "**/*.png",
+            "**/*.gif",
+            "**/*.bmp",
+            "**/*.ico",
+            "**/*.svg",
+            "**/*.pdf",
+            "**/*.zip",
+            "**/*.tar.gz",
+            "**/*.tar",
+            "**/*.min.js",
+            "**/*.min.css",
+            "**/*.map"
+          ]
+        },
+        "caching": {
+          "enabled": true,
+          "ttl": 3600,
+          "maxCacheSize": 52428800
+        }
+      }
+    }
+  }
+}
