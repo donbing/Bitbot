@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bitbot": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/REPLACE/WITH/ABSOLUTE/PATH/TO/Bitbot"
+      ]
+    }
+  }
+}
